@@ -1,0 +1,239 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "section_homepage_banner_axCqDn": {
+      "type": "section-homepage-banner",
+      "blocks": {
+        "usp_Rqd3gk": {
+          "type": "usp",
+          "settings": {
+            "icon": "discount",
+            "heading": "Free UK Deivery",
+            "usp_link": "",
+            "klaviyo_form_id": ""
+          }
+        },
+        "usp_WtBGVM": {
+          "type": "usp",
+          "settings": {
+            "icon": "discount",
+            "heading": "Lifetime Frame Warranty",
+            "usp_link": "",
+            "klaviyo_form_id": ""
+          }
+        },
+        "usp_RpQfAp": {
+          "type": "usp",
+          "settings": {
+            "icon": "none",
+            "heading": "Commercial Quality. Designed for your Home",
+            "usp_link": "",
+            "klaviyo_form_id": ""
+          }
+        }
+      },
+      "block_order": [
+        "usp_Rqd3gk",
+        "usp_WtBGVM",
+        "usp_RpQfAp"
+      ],
+      "name": "Homepage Banner",
+      "settings": {
+        "background_image": "shopify://shop_images/racks_and_rigs.png",
+        "background_image_mobile": "shopify://shop_images/racks_and_rigs_4.png",
+        "desktop_background_alignment": "object-center",
+        "mobile_background_alignment": "object-bottom",
+        "heading": "Squat Racks & Rigs",
+        "paragraph": "Build your Foundation. Train without Limits with our range of Power Racks & Rigs.",
+        "button_one_link": "shopify://collections/squat-power-racks-rigs-accessories",
+        "button_one_text": "Configure your Rack",
+        "button_two_link": "",
+        "button_two_text": ""
+      }
+    },
+    "section_heading_and_text_CLDPiY": {
+      "type": "section-heading-and-text",
+      "name": "Heading & Text",
+      "settings": {
+        "metaobject_content": "",
+        "heading": "<h2><strong>Why Choose </strong>a Rack or Rig?</h2>",
+        "paragraph": "<p>Whether you're building your first home gym or upgrading a commercial facility, a quality <a href=\"/collections/squat-power-racks-rigs-accessories\" title=\"Squat Racks & Accessories\"><strong>squat rack</strong> </a>or rig forms the backbone of your strength training and <a href=\"/collections/weight-lifting\" title=\"Weight Lifting\">weight lifting</a>.</p><p>Northern's <em>Racks & Rigs</em> deliver exceptional strength, versatility, and safety — without the premium price tag you'd expect from commercial-grade equipment.</p><p>Our collection includes<strong> </strong>power racks for maximum enclosed safety and <a href=\"/products/half-rack-olympic-20kg-bar-100kg-bumper-plate-set-adjustable-bench-package\" title=\"Half Rack Package with Barbell, Plates & Bench\"><strong>half racks</strong></a> for space-efficient setups. Both deliver the same uncompromising build quality and extensive customisation options that serious lifters demand.</p>"
+      }
+    },
+    "section_repeater_blocks_MepVCk": {
+      "type": "section-repeater-blocks",
+      "blocks": {
+        "custom_8aRBqK": {
+          "type": "custom",
+          "settings": {
+            "heading": "Commercial Quality. Home Gym Pricing",
+            "content": "Exceptional Build Quality. Built with commercial-grade 75x75mm steel tubing—the same specification used in professional training facilities. Our 11-gauge construction provides rock-solid stability during heavy lifts, with weight capacities exceeding 500kg. Every weld is precision-engineered, every hole spacing (50mm increments) is exact, and every powder coat finish is built to withstand years of intensive use",
+            "block_image": "shopify://shop_images/Northern_Half_Rack_with_Spotter_Arms_and_Weight_Storage_Poles.jpg"
+          }
+        },
+        "custom_RRXnQC": {
+          "type": "custom",
+          "settings": {
+            "heading": "Unbeatable Value",
+            "content": "We believe premium equipment shouldn't require a premium budget. By designing in the UK and optimizing our supply chain, we deliver commercial-quality racks at prices typically reserved for entry-level equipment. You're getting the same materials, construction methods, and weight capacities as racks costing £500-£1000 more — backed by our lifetime frame warranty",
+            "block_image": "shopify://shop_images/Power_Rack_with_Barbell_and_Weights_Features_50mm_Hole_Spacing.jpg"
+          }
+        },
+        "custom_A4nizn": {
+          "type": "custom",
+          "settings": {
+            "heading": "Designed for Lifters, By Lifters",
+            "content": "We're not just selling equipment—we're part of the lifting community. Every design decision is informed by real training experience. That means practical features like Westside hole spacing through the benching area for precise J-cup positioning, numbered uprights for quick adjustments, multi-grip pull-up bars, and compatibility with over 100+ attachments. Our racks grow with your training goals.",
+            "block_image": "shopify://shop_images/Northern_Power_Rack_with_Bar_and_Weights.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "custom_8aRBqK",
+        "custom_RRXnQC",
+        "custom_A4nizn"
+      ],
+      "name": "Repeater Blocks",
+      "settings": {}
+    },
+    "instant_g_aah_l_icjr_qk_wlod_c_rMUD6J": {
+      "type": "instant-gAahLIcjrQkWlodC",
+      "name": "NOR : Build Rack",
+      "settings": {
+        "text_oj9hh1ewnlVJJHPE": "<h2>Choose a rack to start building the perfect setup.</h2>",
+        "text_YrgamzveuyEbhYpi": "<p>Select your chosen Rack or Rig</p>",
+        "text_VnR9ww7uDGYeYb0G": "<p>Choose your Accessories</p>",
+        "text_QHACx0zk0Anv57Fj": "<p>Add a Bar & Weights</p>",
+        "text_6Gm9j02pvEK9p3fa": "<p>Add a Bench</p>",
+        "text_72zprKIeWGUkYKcl": "<p>Place your Order.</p>",
+        "url_WIXFSkSNlLTT8x4y": "shopify://collections/squat-power-racks-rigs-accessories",
+        "image_NUSdVE1PjRqcnPEd": "shopify://shop_images/Northern_Power_Rack_with_Spotter_Arms_and_Weight_Storage_Poles.jpg",
+        "url_As6nyy5Dy5nCLbxM": "shopify://collections/squat-power-racks-rigs-accessories",
+        "text_OUryDvxXPmzeZDVA": "<p>Start with a Full Rack</p>",
+        "url_Aa6001U9mKat92y7": "shopify://collections/squat-power-racks-rigs-accessories",
+        "image_TUfb4SCQBLvjtSGG": "shopify://shop_images/Northern_Half_Rack_Package_Including_Spotter_Arms_and_Weight_Storage_Poles.jpg",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "instant_gx587_olz_hwp3_s_pb_z_MW4L4b": {
+      "type": "instant-gx587OlzHWP3SPbZ",
+      "custom_css": [],
+      "name": "NOR : Rack USP",
+      "settings": {
+        "text_1dQTmXMHpM7hisUd": "<p>Heavy-Duty Steel Construction</p>",
+        "text_QsqCFwb9q1c3RMeS": "<p>450kg Load Weight Capacity</p>",
+        "text_ALf2x55iYn9yFyV1": "<p>Wide Range of Accessories</p>",
+        "text_oUWP6LJ5jyz92PML": "<p>Designed in the UK</p>",
+        "text_u7F0EYwDEhiZB4az": "<p>Easily Assembled</p>",
+        "text_1F46ec4Ps1M2OzWR": "<p>Next Day Delivery Available</p>",
+        "padding_top": 8,
+        "padding_bottom": 8
+      }
+    },
+    "instant_ytk_td_hdt4_tz_zzq_jc_Cn4ADH": {
+      "type": "instant-YtkTdHdt4TZZzqJc",
+      "name": "NOR : Rack Features",
+      "settings": {
+        "text_xgf2oACTnjEwRVsl": "<h2>What makes our Racks stand up to the pressure?</h2>",
+        "url_hLqzvgq9MPrtKqzV": "shopify://collections/squat-power-racks-rigs-accessories",
+        "text_FPqqFkw2Y3GbjuL4": "<p>Shop Racks & Rigs</p>",
+        "text_fCw8tO6Mao60bJbF": "<p>Something about the features and function</p>",
+        "image_pq5B1poILN8uGoz4": "shopify://shop_images/Northern_Power_Rack_Barbells_Weights_and_Attachments.jpg",
+        "text_WvuYe0FTbphIgqNE": "<p>Construction</p>",
+        "text_VIdyBG9AGfUtQmdj": "<ul><li><strong>Frame</strong>: 60x60mm box section high-grade steel tubing (11-gauge/3mm wall thickness)</li><li><strong>Hole Spacing</strong>: 50mm standard spacing; 25mm Westside spacing through bench press zone</li><li><strong>Finish</strong>: Durable powder coat in [available colors]</li><li><strong>Hardware</strong>: Heavy-duty bolted connections with numbered uprights every 50mm</li><li><strong>Warranty</strong>: Lifetime frame warranty</li></ul>",
+        "text_EczgE1De6XDDb7rV": "<p>Capacity & Dimensions</p>",
+        "text_ORrBeCWpfYTxf8ir": "<ul><li><em><strong>Half Rack</strong></em></li><li><strong>Assembly Size:</strong> 110 x 120.2 x 222.6cm</li><li><strong>Wooden Box Size:</strong> 225 × 39 × 34 cm</li><li><strong>Net Weight / Gross Weight:</strong> 97kg / 123kg</li><li><strong>Maximum Load:</strong> 450kg</li><li><strong>Pull-up Bar Rating</strong>: 150kg</li><li><em><strong>Power Rack</strong></em></li><li><strong>Assembly Size:</strong> 155 x 120.2 x 222.6cm</li><li><strong>Wooden Box Size:</strong> 225 × 39 × 34 cm</li><li><strong>Net Weight / Gross Weight:</strong> 104kg / 131kg</li><li><strong>Maximum Load:</strong> 450kg</li><li><strong>Pull-up Bar Rating</strong>: 150kg</li></ul>",
+        "text_M3KJZ5vlwedPE1OM": "<p>Safety Features</p>",
+        "text_JGyc7xYPKR1MkbJo": "<ul><li>Adjustable J-cups with UHMW plastic lining (protects barbell knurling)</li><li>Height-adjustable safety spotter arms/bars in 28+ positions</li><li>Numbered hole markings for quick, accurate adjustments</li><li>Non-slip rubber feet for stability (bolt-down optional)</li></ul>",
+        "text_r7aY5gyC8t8EXwBx": "<p>Included Accessories</p>",
+        "text_Pja1fQDGNqSEI0Dj": "<ul><li>Pair of J-cups with protective liners</li><li>All mounting hardware and assembly instructions</li></ul>",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "instant_vb_ilz_zp_q3_b_bfx_iyv_CXMQyJ": {
+      "type": "instant-VbIlzZpQ3BBfxIYV",
+      "name": "NOR : Rack Comparison ",
+      "settings": {
+        "text_geDZStQw9blkD8aI": "<h3><strong>Choose a </strong><span style=\"text-decoration:underline\"><strong>Power</strong></span><strong> Rack</strong></h3><h3><strong>If You:</strong></h3>",
+        "text_WK0EVbhJ5NyXCKzt": "<p><strong>Ideal For : </strong></p>",
+        "text_pFoqcZEKMzBm4FCy": "<p>Home gyms with dedicated space, powerlifters, solo trainers prioritising safety, progressive overload training</p>",
+        "url_ugREKWEhLP5vSzjQ": "shopify://collections/squat-power-racks-rigs-accessories",
+        "text_OHng7eXVpIACB4kT": "<p>Build a Power Rack</p>",
+        "text_KJXIdxhoOuGdzOFo": "<p><strong>Train solo frequently</strong></p>",
+        "text_qLWB2ckfEx4aZ5S5": "<p>Four-post enclosed design with integrated safety spotters means you can push to failure safely, even without a training partner</p>",
+        "text_XVM2fqsIMQrF5g1Q": "<p><strong>Perform heavy compound lifts</strong></p>",
+        "text_OOsdRaqsYUunc5rQ": "<p>Squats, bench press, overhead press with maximal loads require maximum safety infrastructure</p>",
+        "text_hDa2XTDntS5dpYMt": "<p><strong>Want all-in-one functionality</strong></p>",
+        "text_EHAexW9V5KXZrD8M": "<p>Full enclosure allows exercises inside the rack, with safety bars preventing barbell drops from hitting the floor</p>",
+        "text_uZoMQ9V8JhiWS5gK": "<p><strong>Need integrated storage</strong></p>",
+        "text_LiwEYfvYOhoAIlV9": "<p>Six-post design includes rear plate storage horns, keeping your training area organised and weights within arm's reach</p>",
+        "text_4xxQPdOd3gpOwLcz": "<p><strong>Value maximum safety</strong></p>",
+        "text_jUs6NlJoUEJzYibw": "<p>Safety bars on all four sides provide protection regardless of lift direction or failure point</p>",
+        "text_9t8XXaolOKdo6hVo": "<h3><strong>Choose a </strong><span style=\"text-decoration:underline\"><strong>Half</strong></span><strong> Rack</strong></h3><h3><strong>If You:</strong></h3>",
+        "text_B5OWle0XA46ACNkB": "<p><strong>Ideal For : </strong></p>",
+        "text_z6P4pku8pzAIVA2Q": "<p>Garage gyms, PT studios, CrossFit-style training, budget-conscious serious lifters, versatile training programs</p>",
+        "url_ARJBuXDFQxta6rBq": "shopify://products/northern-half-rack",
+        "text_hKd6CnegZNzZceaK": "<p>Build a Half Rack</p>",
+        "text_m4Y9VpUIFirklrSp": "<p><strong>Have limited space</strong></p>",
+        "text_Vi0EajTQuquogSoZ": "<p>Compact footprint with open front design maximises training area efficiency</p>",
+        "text_24EtomTeso4HYLt1": "<p><strong>Prefer open movement</strong></p>",
+        "text_lHFEtOyZS5DVy31M": "<p>No front posts means unrestricted entry/exit and less claustrophobic feel during lifts</p>",
+        "text_qOB959cL6RdNX7jo": "<p><strong>Want versatility</strong></p>",
+        "text_2vq9pk4h7if7mIqM": "<p>Easy to work around the rack for accessory movements, plyometrics, and dynamic training</p>",
+        "text_O6IAgypXIN9BOpp9": "<p><strong>Train multiple people</strong></p>",
+        "text_7dn9iZdTXsIZUzQq": "<p>Open design allows easier equipment sharing and spotter positioning</p>",
+        "text_PmGlZcTkuv2O0u9a": "<p><strong>Need budget efficiency</strong></p>",
+        "text_RuQVJ1Lf6YfmqJuX": "<p>Lower material costs translate to savings without sacrificing structural integrity or weight capacity</p>",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "section_image_carousel_d7TAjA": {
+      "type": "section-image-carousel",
+      "blocks": {
+        "image_3B8LDf": {
+          "type": "image",
+          "settings": {
+            "main_image": "shopify://shop_images/Power_Rack_Specification.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_3B8LDf"
+      ],
+      "name": "Image Carousel",
+      "settings": {
+        "heading": "",
+        "heading_is_h1": false,
+        "heading_style": "default",
+        "paragraph": ""
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    }
+  },
+  "order": [
+    "section_homepage_banner_axCqDn",
+    "section_heading_and_text_CLDPiY",
+    "section_repeater_blocks_MepVCk",
+    "instant_g_aah_l_icjr_qk_wlod_c_rMUD6J",
+    "instant_gx587_olz_hwp3_s_pb_z_MW4L4b",
+    "instant_ytk_td_hdt4_tz_zzq_jc_Cn4ADH",
+    "instant_vb_ilz_zp_q3_b_bfx_iyv_CXMQyJ",
+    "section_image_carousel_d7TAjA",
+    "main"
+  ]
+}

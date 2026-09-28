@@ -1,0 +1,213 @@
+<div 
+   class="absolute lg:hidden h-screen w-screen left-0 top-0 duration-500 ease-in-out bg-white z-1 pt-17" 
+   x-cloak
+   :class="showMenu ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'"
+   x-data="{
+      activeLink: 0
+   }"
+>
+   <a href="/account" class="bg-silver flex gap-2 justify-center pt-3 pb-2 link">
+      <span>
+         {% render 'icons', icon: 'account', class: 'w-4.5' %}
+      </span>
+      <span>
+         Login To Your Account Here
+      </span>
+   </a>
+   <div class="container h-full">
+      <div class="w-full h-full overflow-scroll flex flex-col gap-14 py-3">
+         <ul>
+            {% for link in menu.links %}
+               <li class="border-b border-silver body-01">
+                  <a href="{{ link.url }}" {% if link.links != blank %}@click.prevent="activeLink === {{ forloop.index }} ? activeLink = 0 : activeLink = {{ forloop.index }}"{% endif %} class="flex justify-between items-center gap-6 hover:text-yellow pt-5 pb-4 text-24 font-bold w-full">
+                     <span class="">
+                        {{ link.title }}
+                     </span>
+                     {% if link.links != blank %}
+                        <span class="pb-2">
+                           <span class="duration-500 block" :class="activeLink === {{ forloop.index }} ? 'rotate-180' : 'rotate-0'">
+                              {% render 'icons', icon: 'chevron', class: 'w-5' %}
+                           </span>
+                        </span>
+                     {% endif %}
+                  </a>
+                  {% if link.links != blank %}
+                     <div class="flex flex-col gap-12 overflow-hidden duration-500" :class="activeLink === {{ forloop.index }} ? 'flex' : 'hidden'">
+                        <ul class="flex flex-col gap-4 mobile-nav-links">
+                           {% for sub_link in link.links %}
+                              <li>
+                                 <a href="{{ sub_link.url }}" class="font-normal hover:text-yellow">
+                                    {{ sub_link.title | downcase | capitalize }}
+                                 </a>
+                              </li>
+                              {% for sub_sub_link in sub_link.links %}
+                                 <li>
+                                    <a href="{{ sub_sub_link.url }}" class="hover:text-yellow">
+                                       {{ sub_sub_link.title }}
+                                    </a>
+                                 </li>
+                              {% endfor %}
+                           {% endfor %}
+                        </ul>
+                        <a href="{{ link.url }}" class="link mb-14">
+                           View All Products
+                        </a>
+                     </div>
+                  {% endif %}
+               </li>
+            {% endfor %}
+         </ul>
+         <ul class="flex flex-col gap-4 font-bold mb-50">
+            {% for link in top_menu.links %}
+               {% if link.url == '/account' %}
+                  {% continue %}
+               {% endif %}
+               <li>
+                  <a href="{{ link.url }}" class="flex gap-2 hover:text-yellow">
+                     {{ link.title }}
+                  </a>
+               </li>
+            {% endfor %}
+         </ul>
+      </div>
+   </div>
+
+
+
+
+   {% if false %}
+      {% comment %}
+         <div class="container py-4 h-full">
+            <div class="flex flex-col justify-between h-full">
+               <div class="flex justify-between gap-4 border-b border-current pb-4">
+                  <ul class="flex body-01 uppercase gap-x-5">
+                     {% for block in section.blocks %}
+                        {% assign block_heading = block.settings.heading | default: 'Item' %}
+                        {% assign block_link = block.settings.heading_link %}
+                        
+                        <li>
+                           <button 
+                              @click="
+                                 activeGrandparent = {{ forloop.index }};
+                                 {{ forloop.index }} === 3 ? activeParent = 1 : activeParent = 0;
+                                 activeChild = 1;
+                              "
+                              class="uppercase underline-offset-2"
+                              :class="activeGrandparent === {{ forloop.index }} ? 'underline' : 'no-underline'"
+                           >
+                              {{ block_heading }}
+                           </button>
+                        </li>
+                     {% endfor %}
+                  </ul>
+                  <div class="flex gap-x-5 items-center">
+                     <a href="#" class="hover:text-gold">
+                        <span>
+                           {% render 'icons', icon: 'search', class: 'w-5' %}
+                        </span>
+                        <span class="sr-only md:not-sr-only">
+                           Search
+                        </span>
+                     </a>
+                     <button @click="$dispatch('toggle-menu');" type="button" class="hover:text-gold">
+                        <span>
+                           {% render 'icons', icon: 'cross', class: 'w-5' %}
+                        </span>
+                        <span class="sr-only md:not-sr-only">
+                           Close Mobile Menu
+                        </span>
+                     </button>
+                  </div>
+               </div>
+               <div class="mobile-menu__parent h-full relative overflow-x-hidden overflow-y-scroll">
+                  {% for block in section.blocks %}
+                     {% assign block_menu = block.settings.menu %}
+                     {% assign section_count = block_menu.links | size %}
+      
+                     <ul 
+                        class="body-01 uppercase flex flex-col mobile-menu__parent-heading" 
+                        :class="[
+                           activeParent !== 0 ? 'mobile-menu__parent-heading--hide' : '',
+                           activeGrandparent === {{ forloop.index }} ? 'flex' : 'hidden',
+                        ]"
+                     >
+                        {% for parent_link in block_menu.links %}
+                           <li class="border-t first:border-t-0 border-current">
+                              
+                              {% capture parent_button_content %}
+                                 <span>
+                                    {{ parent_link.title }}
+                                 </span>
+                                 <span>
+                                    {% render 'icons', icon: 'chevron-thin', class: 'w-3' %}
+                                 </span>
+                              {% endcapture %}
+      
+                              {% if parent_link.links != blank %}
+                                 <button class="mobile-menu__parent-link" :class="{{ section_count }} === 1 ? 'opacity-0' : 'opacity-100'" @click="activeParent = {{ forloop.index }}">
+                                    {{ parent_button_content }}
+                                 </button>
+                              {% else %}
+                                 <a href="{{ parent_link.url }}" class="mobile-menu__parent-link">
+                                    {{ parent_button_content }}
+                                 </a>
+                              {% endif %}
+                              {% if parent_link.links != blank %}
+                                 <div class="absolute top-0 left-0 w-full h-full duration-500 mobile-menu__child" :class="activeParent === {{ forloop.index }} ? 'translate-x-0' : 'translate-x-full'">
+                                    <div class="flex flex-col gap-4">
+                                       <button @click="activeParent = 0" class="flex gap-2 items-center pt-4">
+                                          <span class="-scale-x-100 block">
+                                             {% render 'icons', icon: 'chevron-thin', class: 'w-2.5' %}
+                                          </span>
+                                          <span class="body uppercase">
+                                             Back
+                                          </span>
+                                       </button>
+                                       <p class="heading w-full pb-4">
+                                          {{ parent_link.title }}
+                                       </p>
+                                    </div>
+                                    <ul class="normal-case pb-20">
+                                       {% for child_link in parent_link.links %}
+                                          <li class="border-t border-current body-01 overflow-hidden">
+                                             <button @click="activeChild === {{ forloop.index }} ? activeChild = 0 : activeChild = {{ forloop.index }}" class="py-4 flex justify-between w-full items-center">
+                                                <span>
+                                                   {{ child_link.title }}
+                                                </span>
+                                                <span class="duration-500" :class="activeChild === {{ forloop.index }} ? 'rotate-180' : 'rotate-0'">
+                                                   {% render 'icons', icon: 'chevron-thin-down', class: 'w-5' %}
+                                                </span>
+                                             </button>
+                                             {% if child_link.links != blank %}
+                                                <ul class="duration-500 uppercase overflow-hidden mobile-menu__grandchild" :class="activeChild === {{ forloop.index }} ? 'max-h-[400px]' : 'max-h-0'">
+                                                   {% for grandchild_link in child_link.links %}
+                                                      <li class="last:mb-8">
+                                                         <a href="{{ grandchild_link.url }}" class="py-2 block">
+                                                            {{ grandchild_link.title }}
+                                                         </a>
+                                                      </li>
+                                                   {% endfor %}
+                                                   {% unless child_link.title == 'Browse' %}
+                                                      <li class="last:mb-8 body">
+                                                         <a href="{{ child_link.url }}" class="py-2 block">
+                                                            View All
+                                                         </a>
+                                                      </li>
+                                                   {% endunless %}
+                                                </ul>
+                                             {% endif %}
+                                          </li>
+                                       {% endfor %}
+                                    </ul>
+                                 </div>
+                              {% endif %}
+                           </li>
+                        {% endfor %}
+                     </ul>
+                  {% endfor %}
+               </div>
+            </div>
+         </div>
+      {% endcomment %}
+   {% endif %}
+</div>

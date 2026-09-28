@@ -1,0 +1,27 @@
+{% assign colours = 'bg-white, bg-black, bg-grey, bg-yellow, bg-red, bg-silver, bg-charcoal' | split: ', ' %}
+
+<div class="vertical-spacing">
+   <div class="container">
+      {% render 'heading-and-text', heading: 'Colours', body: 'All the colours that are accessible on the site.' %}
+      <div class="flex flex-wrap -mx-4">
+         {% for colour in colours %}
+            {% assign colorName = colour | remove: 'bg-' | remove: '-iw' | replace: '-', ' ' | capitalize  %}
+
+            <div class="flex w-full items-center sm:w-1/2 md:w-1/3 lg:w-1/5 p-4">
+               <div class="rounded-full border border-silver w-20 h-20 {{ colour }}"></div>
+               <p class="pl-4 body">
+                  {{ colorName }}
+               </p>
+            </div>
+         {% endfor %}
+      </div>
+   </div>
+</div>
+
+<div class="bg-white"></div>
+<div class="bg-black"></div>
+<div class="bg-grey"></div>
+<div class="bg-yellow"></div>
+<div class="bg-red"></div>
+<div class="bg-silver"></div>
+<div class="bg-charcoal"></div>

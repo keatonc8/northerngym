@@ -1,0 +1,48 @@
+{% assign heading = section.settings.heading %}
+{% assign paragraph = section.settings.paragraph %}
+
+<div class="vertical-spacing">
+   <div class="container">
+      {% if heading != blank or paragraph != blank %}
+         {% render 'heading-and-text',
+            heading: heading,
+            body: paragraph
+         %}
+      {% endif %}
+   </div>
+</div>
+
+{%- comment -%}
+
+{% schema %}
+{
+   "name": "Temp: Section Template",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Settings"
+      },
+      {
+         "type": "header",
+         "content": "Content"
+      },
+      {
+         "type": "text",
+         "id": "heading",
+         "label": "Heading"
+      },
+      {
+         "type": "textarea",
+         "id": "paragraph",
+         "label": "Paragraph"
+      }
+   ],
+   "blocks": [],
+   "presets": [{
+      "name": "Temp: Section Template",
+      "blocks": []
+   }]
+}
+{% endschema %}
+
+{%- endcomment -%}

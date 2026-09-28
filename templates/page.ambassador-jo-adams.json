@@ -1,0 +1,149 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "Based In Kent,UK",
+            "image": "shopify://shop_images/IMG_4856.jpg",
+            "title": "Bio",
+            "text": "<p>I'm a strength coach, HYROX athlete and menopause coach. My fitness journey didn't begin until my 40s, proving it's never too late to discover what you're capable of. After almost 30 years as a school teacher, I found strength training—and it completely changed my confidence, mindset and outlook on life.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_7WcBXp": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/High_Res-00482.jpg",
+            "title": "",
+            "text": "<p>Since then I've gone on to compete in multiple HYROX events, obstacle races and fitness competitions, while helping hundreds of women discover that strength is about so much more than how you look.<br/><br/></p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_WGq8f8": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/High_Res-00034.jpg",
+            "title": "",
+            "text": "<p>As a coach, my approach combines functional strength, hybrid training and sustainable fitness. Whether I'm coaching clients, running classes or training for my next HYROX event, I'm passionate about helping people become stronger, move better and build confidence that lasts far beyond the gym.<br/><br/></p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_wgaqTH": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/jo.jpg",
+            "title": "",
+            "text": "<p>I believe everyone deserves to feel capable in their own body, and that great equipment should support that journey. For me, training is about consistency, challenging yourself and enjoying the process not chasing perfection.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ",
+        "item_7WcBXp",
+        "item_WGq8f8",
+        "item_wgaqTH"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Jo Adams",
+        "text": "<p><strong>Hybrid Strength | Functional Fitness | HYROX | Strength Coaching</strong></p><p>Building strong, capable bodies through functional strength training, hybrid fitness and movement that supports performance both in the gym and everyday life.</p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_QUBYg8": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_LebtEX": {
+          "type": "card",
+          "settings": {
+            "title": "Favourite Northern Product",
+            "image": "shopify://shop_images/OLYMPIC_BAR_15KG_1_b4d829a2-77b7-4fb3-8eb1-ca69e1383a22.jpg",
+            "text": "<p>Olympic Barbell - <em>\"My Northern Olympic bar is probably the piece of equipment I use more than anything else. It's incredibly solid, fantastic value for money and has become the centrepiece of both my own training and the sessions I coach every week.\"</em></p>",
+            "button_label": "Shop Now",
+            "button_link": "https://northerngymequipment.com/products/northern-olympic-barbell-15kg"
+          }
+        },
+        "card_cEmc7P": {
+          "type": "card",
+          "settings": {
+            "title": "What does being part of Northern mean to you?",
+            "image": "shopify://shop_images/jo_1.jpg",
+            "text": "<p>Being part of Northern means representing a brand that shares my passion for quality training and making strength accessible to everyone. As both a coach and an athlete, I only recommend equipment that I genuinely use and trust, so becoming an ambassador feels like a natural fit. </p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "card_mNhWg4": {
+          "type": "card",
+          "settings": {
+            "title": "Follow Jo's Journey",
+            "image": "shopify://shop_images/High_Res-00034-2.jpg",
+            "text": "<p>Check out Jo's social here.</p><p><em>\"I didn't find strength training until my 40s, and now in my 50s I'm stronger than I've ever been. That's the message I hope to share that it's never too late to become stronger.\"</em></p>",
+            "button_label": "Follow",
+            "button_link": "https://www.instagram.com/joadams_coaching/"
+          }
+        }
+      },
+      "block_order": [
+        "card_LebtEX",
+        "card_cEmc7P",
+        "card_mNhWg4"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_QUBYg8"
+  ]
+}

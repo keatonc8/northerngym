@@ -1,0 +1,21 @@
+{% assign icons = 'tiktok, facebook, instagram, twitter, x-twitter, youtube, linkedin, search, account, basket, arrow, chevron, cross, logo, discount, heart, returns, card, minus, plus, calendar, diamond, quote, bin, foot, muscle, dumbbell, northern-arrow' | split: ", " %}
+
+<div class="vertical-spacing">
+   <div class="container">
+      <div class="px-6 py-10 bg-amazon rounded-2xl">
+         {% render 'heading-and-text', heading: 'Icons' %}
+         <div class="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-4">
+            {% for icon in icons %}
+               <div class="flex flex-col gap-2">
+                  <div class="flex justify-center items-center w-12 h-12 mx-auto">
+                     {% render 'icons', icon: icon, class: 'w-full h-full duration-300 hover:text-yellow' %}
+                  </div>
+                  <p class="body-03 text-center">
+                     {{ icon }}
+                  </p>
+               </div>
+            {% endfor %}
+         </div>
+      </div>
+   </div>
+</div>

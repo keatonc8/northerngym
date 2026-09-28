@@ -1,0 +1,75 @@
+{% render 'abu-styles' %}
+<div class="abu-scope">
+  <div class="abu-container abu-rhythm">
+    {% if section.settings.eyebrow != blank %}
+      <span class="abu-meta">{{ section.settings.eyebrow }}</span>
+    {% endif %}
+    <h2 class="abu-h02" style="margin-top:0.5rem;">{{ section.settings.heading }}</h2>
+    <div style="margin-top:2.5rem;">
+      {% for block in section.blocks %}
+        <div class="abu-value-row" {{ block.shopify_attributes }}>
+          <span class="abu-meta">{{ forloop.index | prepend: '00' | slice: -2, 2 }}</span>
+          <div>
+            <h3 class="abu-h04">{{ block.settings.title }}</h3>
+            {% if block.settings.kicker != blank %}
+              <p class="abu-value-kicker">{{ block.settings.kicker }}</p>
+            {% endif %}
+          </div>
+          <div class="abu-prose" style="max-width:44ch;">{{ block.settings.body }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Block - About Values",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow label", "default": "What We Stand For" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Our Brand Values" }
+  ],
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Value",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "text", "id": "kicker", "label": "Kicker line" },
+        { "type": "richtext", "id": "body", "label": "Body copy" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Block - About Values",
+      "blocks": [
+        {
+          "type": "value",
+          "settings": {
+            "title": "Walk the Talk",
+            "kicker": "We know our community best by keeping our feet on the gym floor.",
+            "body": "<p>Fitness is part of who we are. We train, we listen, and we stay connected to the people we build for. By working closely with our community and ambassadors, we create products and experiences that genuinely support real training.</p>"
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "title": "Sweat the Small Stuff",
+            "kicker": "The difference is in the details; we find them so you don't have to.",
+            "body": "<p>The smallest details make the biggest difference. From product design to customer service, we pay attention to what others overlook, so our customers can focus on their training with confidence.</p>"
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "title": "Do the Work",
+            "kicker": "When it all comes down to it, nothing outworks hard work.",
+            "body": "<p>We believe results come from showing up and putting in the effort. That's why we work hard to deliver quality products, honest advice, and dependable service, so our customers can focus on doing the work. No piece of equipment can do the work for you, but the right equipment should help you do your best work.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

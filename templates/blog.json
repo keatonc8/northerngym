@@ -1,0 +1,67 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "settings": {
+        "heading": "Northern Strength Stories"
+      }
+    },
+    "section_image_block_repeater_WUfqGM": {
+      "type": "section-image-block-repeater",
+      "blocks": {
+        "collection_83iBix": {
+          "type": "collection",
+          "settings": {
+            "collection": "dumbbells"
+          }
+        },
+        "collection_J6BNfr": {
+          "type": "collection",
+          "settings": {
+            "collection": "kettlebells"
+          }
+        },
+        "collection_3UW3y4": {
+          "type": "collection",
+          "settings": {
+            "collection": "weight-plates"
+          }
+        },
+        "collection_RwmwxW": {
+          "type": "collection",
+          "settings": {
+            "collection": "packages-sets"
+          }
+        }
+      },
+      "block_order": [
+        "collection_83iBix",
+        "collection_J6BNfr",
+        "collection_3UW3y4",
+        "collection_RwmwxW"
+      ],
+      "settings": {
+        "heading": "Shop now",
+        "heading_is_h1": false,
+        "heading_style": "default",
+        "paragraph": "",
+        "image_ratios": "portrait",
+        "carousel_behaviour": "mobile_only",
+        "overlay_text": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "section_image_block_repeater_WUfqGM"
+  ]
+}

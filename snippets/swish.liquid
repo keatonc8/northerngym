@@ -1,0 +1,508 @@
+{% comment %}
+  ============================================================================
+  swish.liquid — Swish SDK snippet with full SwishOptions defaults
+  ----------------------------------------------------------------------------
+  Usage in theme.liquid:
+
+    {%- comment -%} Init: before {{ content_for_header }} {%- endcomment -%}
+    {%- render 'swish' -%}
+
+    {%- comment -%} Render elements wherever needed {%- endcomment -%}
+    {%- render 'swish', component: 'save', context: 'pdp' -%}
+    {%- render 'swish', component: 'save', context: 'product-card' -%}
+    {%- render 'swish', component: 'drawer', view: 'home' -%}
+
+  Notes:
+  - The app embed sets `storefront`, `context`, `auth.tokenUrl` and `ui.baseUrl`
+    automatically. They are omitted here (leave them to the embed). Only add
+    them for headless / self-hosted setups.
+  - Every option below is set to its documented default. Delete what you don't
+    need and change only what you want to override — omitted keys keep defaults.
+  - Design tokens reference the base theme.css values; `var(--swish-theme-*)`
+    tokens resolve from other tokens (resolved value shown in comments).
+  ============================================================================
+{% endcomment %}
+
+{{ 'swish-theme.css' | asset_url | stylesheet_tag: preload: true }}
+
+{% capture swish_icon %}
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 12" fill="none">
+    <path d="M1.55078 1.74121C2.82601 0.418525 4.70947 0.418466 5.99512 1.74902L5.99805 1.75195L6.43555 2.19922C6.57634 2.3431 6.7694 2.42448 6.9707 2.4248C7.17209 2.42507 7.3656 2.34376 7.50684 2.2002L7.8252 1.87695L7.8291 1.87305C9.07534 0.584735 11.2091 0.427984 12.4121 1.57129C13.5834 2.6847 13.5732 4.65056 12.0732 6.19434L7.01562 11.2285L2.17969 6.43262L2.14551 6.40137L1.99121 6.26074C1.24251 5.55 0.851887 4.75694 0.767578 4.01172C0.679115 3.22933 0.919449 2.43413 1.55078 1.74121Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+  </svg>
+{% endcapture %}
+
+{% capture swish_save_component %}
+  <swish-save context="{{ context | default: 'pdp' }}">
+    <button class="swish-save-button">
+      <span class="swish-save-icon">{{ swish_icon }}</span>
+      <span class="swish-save-label" data-swish-when="unsaved">Save</span>
+      <span class="swish-save-label" data-swish-when="saved,saving" hidden>Saved</span>
+    </button>
+  </swish-save>
+{% endcapture %}
+
+{% capture swish_drawer_component %}
+  <swish-drawer view="{{ view | default: 'home' }}">
+    <button class="swish-drawer-button">
+      <span class="swish-drawer-icon">{{ swish_icon }}</span>
+      <span class="swish-drawer-badge" data-swish-bind="count" data-swish-when="has-saves" hidden>0</span>
+    </button>
+  </swish-drawer>
+{% endcapture %}
+
+{% capture swish_init %}
+  <script>
+    window.SwishOptions = {
+      // =====================================================================
+      // Auth — app embed sets this on themes; only needed headless/self-hosted
+      // =====================================================================
+      // auth: {
+      //   tokenUrl: "/apps/wishlist/api/profiles/token",
+      // },
+
+      // =====================================================================
+      // Metafields — declare only what you use (each adds a storefront field)
+      // =====================================================================
+      metafields: {
+        product: [],
+        productVariant: [],
+      },
+
+      // =====================================================================
+      // Transforms — undefined = default behaviour. Provide a function to
+      // override. NOTE: addToCartButton defaults to hiding all cart buttons.
+      // =====================================================================
+      transforms: {
+        productTitle: undefined,
+        productDescription: undefined,
+        productBadges: undefined,
+        productPrice: undefined,
+        addToCartButton: undefined,
+        linkToProductPage: undefined,
+        variantTitle: undefined,
+        optionValues: undefined,
+        combinedListingParent: undefined,
+        hideOption: undefined,
+        recommendations: undefined,
+      },
+
+      // =====================================================================
+      // Intents (behaviour)
+      // =====================================================================
+      intents: {
+        saveProduct: {
+          promptVariantIfMissing: true,
+          promptVariantIfPresent: false,
+          saveBeforeVariantPrompt: true,
+          showFeedback: true,
+        },
+        unsaveProduct: {
+          selectList: true,
+          confirm: true,
+          showFeedback: true,
+        },
+        editSavedProduct: {
+          promptVariantChange: true,
+          showFeedback: true,
+        },
+        initiateQuickBuy: {
+          promptVariantIfPresent: true,
+        },
+        createCartLine: {
+          afterComplete: undefined,
+        },
+        removeCartLine: {
+          saveCartLine: true,
+        },
+        saveCartLine: {
+          confirm: false,
+          showFeedback: true,
+          destination: "saved-from-cart", // or "wishlist"
+          afterComplete: undefined,
+        },
+      },
+
+      // =====================================================================
+      // Placements — declare upfront to auto-mount at init
+      // =====================================================================
+      placements: [],
+
+      // =====================================================================
+      // UI
+      // =====================================================================
+      ui: {
+        // baseUrl set by the app embed; only override when self-hosting assets.
+        // baseUrl: "https://swish.app/cdn",
+        css: [],
+        images: { baseTint: true },
+        toasts: { autoHideDuration: 5000 }, // ms; 0 disables auto-dismiss
+
+        wishlist: {
+          experience: "drawer",   // "drawer" | "classic-page"
+          multipleLists: true,
+        },
+
+        defaultView: "home", // "home"|"saves"|"lists"|"notifications"|"orders"|"profile"
+
+        // -----------------------------------------------------------------
+        // Design tokens — defaults from theme.css
+        // -----------------------------------------------------------------
+        design: {
+          sizes: {
+            buttonHeight: "48px",
+            iconButtonSize: "32px",
+            formInputHeight: "48px",
+            iconSize: "20px",
+            imageCardAspectRatio: "2 / 3",
+            imageSliderAspectRatio: "4 / 5",
+            thumbnailAspectRatio: "1 / 1",
+          },
+
+          rounding: {
+            borderRadiusScale: 1,
+            badgeBorderRadius: "calc(var(--swish-theme-border-radius-scale) * 5px)",
+            buttonBorderRadius: "calc(var(--swish-theme-border-radius-scale) * 15px)",
+            iconButtonBorderRadius: "calc(var(--swish-theme-border-radius-scale) * 50px)",
+            dialogBorderRadius: "calc(var(--swish-theme-border-radius-scale) * 24px)",
+            formInputBorderRadius: "calc(var(--swish-theme-border-radius-scale) * 15px)",
+            imageCardBorderRadius: "calc(var(--swish-theme-border-radius-scale) * 10px)",
+            imageSliderBorderRadius: "calc(var(--swish-theme-border-radius-scale) * 16px)",
+            thumbnailBorderRadius: "calc(var(--swish-theme-border-radius-scale) * 10px)",
+          },
+
+          // RGB values are space-separated, e.g. "255 255 255"
+          colors: {
+            backgroundRgb: "255 255 255",
+            textColorRgb: "0 0 0",
+            textColorDangerRgb: "240 64 64",
+            headingColorRgb: "0 0 0",
+            primaryButtonBackgroundRgb: "0 0 0",
+            primaryButtonColorRgb: "255 255 255",
+            neutralButtonBackgroundRgb: "242 244 245",
+            neutralButtonColorRgb: "0 0 0",
+            dangerButtonColorRgb: "255 255 255",
+            statusDotBackgroundRgb: "240 64 64",
+            badgeBackgroundRgb: "0 0 0",
+            badgeColorRgb: "255 255 255",
+            overlayBackground: "rgba(0, 0, 0, 0.4)",
+            savedIconColor: "#ffffff",
+          },
+
+          typography: {
+            // Headings
+            headingFontFamily: "inherit",
+            headingTextTransform: "none",
+            headingFontSize: "20px",
+            headingLetterSpacing: "normal",
+            headingLineHeight: 1.2,
+            headingFontWeight: 600,
+
+            // Body text
+            textFontFamily: "inherit",
+            textFontSize: "16px",
+            textLetterSpacing: "normal",
+            textLineHeight: 1.2,
+            textLineHeightParagraph: 1.4,
+            textFontWeight: 400,
+
+            // Buttons
+            buttonFontFamily: "inherit",
+            buttonTextTransform: "none",
+            buttonFontSize: "16px",
+            buttonLetterSpacing: "normal",
+            buttonLineHeight: 1,
+            buttonFontWeight: 500,
+
+            // Badges
+            badgeFontFamily: "inherit",
+            badgeTextTransform: "none",
+            badgeFontSize: "12px",
+            badgeLetterSpacing: "normal",
+            badgeLineHeight: 1,
+            badgeFontWeight: 500,
+          },
+
+          productCard: {
+            productCardTitleFontSize: "12px",
+            productCardTitleFontWeight: 500,
+            productCardTitleColor: "var(--swish-theme-text-color)", // rgb(0 0 0)
+          },
+
+          // Drawer footer bar
+          navigation: {
+            navHeight: "62px",
+            navBackground: "rgba(246, 246, 246, 1)",
+            navShadow: "0px 0px 21px 0px rgba(0, 0, 0, 0.11)",
+            navLabelFontSize: "10px",
+            navLabelTextTransform: "none",
+            navLabelLetterSpacing: "normal",
+            navActiveIndicatorColor: "var(--swish-theme-text-color)", // rgb(0 0 0)
+          },
+
+          // Variant selectors
+          optionPill: {
+            optionPillHeight: "40px",
+            optionPillBorderRadius: "calc(var(--swish-theme-border-radius-scale) * var(--swish-theme-option-pill-height) / 2)", // 20px
+            optionPillBackground: "var(--swish-theme-neutral-button-background)", // rgb(242 244 245)
+            optionPillBorderColor: "transparent",
+            optionPillFontSize: "inherit",
+            optionPillPadding: "calc(var(--swish-theme-spacing) * 2)", // 8px
+            optionPillSelectedBackground: "var(--swish-theme-option-pill-background)",
+            optionPillSelectedColor: "var(--swish-theme-neutral-button-color)", // rgb(0 0 0)
+            optionPillSelectedBorderColor: "var(--swish-theme-neutral-button-color)",
+          },
+
+          drawer: {
+            drawerWidth: "480px",
+            drawerMobileTopOffset: "48px",
+          },
+
+          imageSlider: {
+            imageSliderDotColorSelected: "rgb(var(--swish-theme-background-rgb) / 1)", // rgb(255 255 255)
+          },
+        },
+
+        // -----------------------------------------------------------------
+        // Icons — override any key with a custom SVG string; "" keeps default
+        // -----------------------------------------------------------------
+        icons: {
+          "arrow-left": "",         // ArrowLeftIcon
+          "arrow-right": "",        // ArrowRightIcon
+          back: "",                 // BackIcon
+          bookmark: "",             // BookmarkIcon
+          cart: "",                 // CartIcon
+          "check-circle": "",       // CheckCircleIcon
+          check: "",                // CheckIcon
+          "chevron-down": "",       // ChevronDownIcon
+          "chevron-left": "",       // ChevronLeftIcon
+          "chevron-right": "",      // ChevronRightIcon
+          "chevron-up": "",         // ChevronUpIcon
+          clipboard: "",            // ClipboardIcon
+          delete: "",               // DeleteIcon
+          edit: "",                 // EditIcon
+          external: "",             // ExternalIcon
+          heart: "",                // HeartIcon (save button)
+          "alert-circle": "",       // AlertIcon
+          "menu-horizontal": "",    // MenuHorizontalIcon
+          minus: "",                // MinusIcon
+          notification: "",         // NotificationIcon
+          person: "",               // PersonIcon
+          "plus-circle": "",        // PlusCircleIcon
+          plus: "",                 // PlusIcon
+          private: "",              // LockIcon
+          public: "",               // PublicIcon
+          select: "",               // SelectIcon
+          share: "",                // ShareIcon
+          x: "",                    // XIcon (close)
+
+          // Large icons (drawer footer navigation)
+          "large-chat": "",         // LargeChatIcon
+          "large-heart": "",        // LargeHeartIcon (saves tab)
+          "large-home": "",         // LargeHomeIcon
+          "large-list": "",         // LargeListIcon
+          "large-notification": "", // LargeNotificationIcon
+          "large-order": "",        // LargeOrderIcon
+          "large-profile": "",      // LargeProfileIcon
+        },
+
+        // =================================================================
+        // Views — a `sections` array replaces that view's defaults entirely
+        // =================================================================
+        drawer: {
+          sections: [
+            {
+              type: "drawer-header",
+              hidden: false,
+              options: {
+                title: "",
+                logo: { url: "", altText: "" },
+                useCloseButton: false,
+                accountButton: true,
+                notificationButton: true,
+              },
+            },
+            {
+              type: "drawer-footer",
+              hidden: false,
+              options: {
+                displayType: "docked",
+                showIcons: false,
+                showText: true,
+                items: [
+                  { id: "home", enabled: true, intent: "view:home" },
+                  { id: "saves", enabled: true, intent: "view:saves" },
+                  { id: "lists", enabled: false, intent: "view:lists" },
+                  { id: "notifications", enabled: true, intent: "view:notifications" },
+                  { id: "orders", enabled: true, intent: "view:orders" },
+                  { id: "profile", enabled: true, intent: "view:profile" },
+                ],
+              },
+            },
+          ],
+        },
+
+        home: {
+          sections: [
+            { type: "sign-in", hidden: false },
+            { type: "notifications", hidden: false },
+            { type: "recently-viewed", hidden: false },
+            { type: "saved-from-cart", hidden: false },
+            { type: "saved-items", hidden: false },
+            { type: "lists", hidden: false },
+            {
+              type: "mini-menu",
+              hidden: true,
+              items: [
+                { title: "t:drawer.home.miniMenu.shipping", url: "/policies/shipping-policy" },
+                { title: "t:drawer.home.miniMenu.returns", url: "/policies/refund-policy" },
+                { title: "t:drawer.home.miniMenu.contactUs", url: "/pages/contact" },
+              ],
+            },
+          ],
+        },
+
+        saves: {
+          sections: [
+            {
+              type: "lists-section",
+              hidden: false,
+              options: { display: "myLists", layout: "slider" },
+            },
+            {
+              type: "lists-section",
+              hidden: false,
+              options: { display: "forYouLists", layout: "slider" },
+            },
+            {
+              type: "all-items-grid",
+              hidden: false,
+              options: {
+                showSaveButton: true,
+                showQuickBuyButton: true,
+                showBuyButton: false,
+                showVariantTitle: true,
+                enableVariantChange: false,
+                showVariantOptionNames: true,
+                hideCompareAtPrice: false,
+                linkToProductPage: false,
+              },
+            },
+          ],
+        },
+
+        lists: {
+          sections: [
+            {
+              type: "lists-grid",
+              hidden: false,
+              options: { displayType: "slider" },
+            },
+          ],
+        },
+
+        listDetail: {
+          sections: [
+            {
+              type: "list-items-grid",
+              hidden: false,
+              options: {
+                showBuyButton: false,
+                showVariantTitle: true,
+                showVariantOptionNames: false,
+                enableVariantChange: false,
+                hideCompareAtPrice: false,
+                linkToProductPage: false,
+              },
+            },
+          ],
+        },
+
+        orders: {
+          sections: [{ type: "orders-list", hidden: false }],
+        },
+
+        orderDetail: {
+          sections: [
+            { type: "order-info", hidden: false },
+            { type: "order-items", hidden: false },
+            { type: "order-actions", hidden: false },
+          ],
+        },
+
+        productDetail: {
+          sections: [
+            {
+              type: "image-slider",
+              hidden: false,
+              options: { flush: true, loop: false },
+            },
+            {
+              type: "product-info",
+              hidden: false,
+              options: {
+                descriptionMaxLines: 4,
+                variantSelectDisplayType: "pills",
+                hideSingleValueOptions: true,
+                images: { baseTint: true },
+              },
+            },
+            {
+              type: "buy-buttons",
+              hidden: false,
+              options: { shopPay: false },
+            },
+            { type: "complementary-products", hidden: false },
+            { type: "related-products", hidden: false },
+          ],
+        },
+
+        profile: {
+          sections: [{ type: "profile-form", hidden: false }],
+        },
+
+        notifications: {
+          sections: [{ type: "notifications-list", hidden: false }],
+        },
+
+        // Standalone full-page list detail (outside the drawer)
+        listDetailPage: {
+          sections: [
+            {
+              type: "list-items-grid",
+              hidden: false,
+              options: {
+                desktopColumns: 4,
+                showBuyButton: true,
+                showVariantTitle: true,
+                showVariantOptionNames: false,
+                enableVariantChange: true,
+                hideCompareAtPrice: false,
+                linkToProductPage: true,
+              },
+            },
+          ],
+        },
+      },
+
+      // =====================================================================
+      // Translations — override UI strings per language code
+      // =====================================================================
+      // translations: {
+      //   en: {
+      //     "saveButton.save": "Add to Wishlist",
+      //     "saveButton.saved": "Saved",
+      //   },
+      // },
+    };
+  </script>
+  {{ 'swish-theme.css' | asset_url | stylesheet_tag: preload: true }}
+{% endcapture %}
+
+{% case component %}
+  {% when 'save' %}
+    {{ swish_save_component }}
+  {% when 'drawer' %}
+    {{ swish_drawer_component }}
+  {% else %}
+    {{ swish_init }}
+{% endcase %}

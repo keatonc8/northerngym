@@ -1,0 +1,259 @@
+{% for block in section.blocks %}
+   {% case block.type %}
+      {% when 'related_collections' %}
+         {% comment %}Related Collections{% endcomment %}
+         {% assign related_collections = collection.metafields.northerngym.smart_collections.value %}
+         {% if related_collections != blank %}
+            {% assign heading = block.settings.collections_heading %}
+            {% assign paragraph = block.settings.collections_paragraph %}
+            {% assign heading_is_h1 = block.settings.heading_is_h1 | default: false %}
+            {% assign carousel_behaviour = block.settings.carousel_behaviour | default: 'never' %}
+            
+            {% render 'image-block-repeater'
+               heading: heading,
+               paragraph: paragraph,
+               paragraph_is_richtext: true,
+               collections_list: related_collections,
+               heading_is_h1: heading_is_h1,
+               carousel_behaviour: carousel_behaviour,
+               image_ratios: 'square',
+               overlay_text: true,
+               reduce_padding: true
+            %}
+         {% else %}
+            {% if block.settings.show_fallback %}
+               {% render 'collection-header' %}
+            {% endif %}
+         {% endif %}
+
+      {% when 'heading_text' %}
+         {% comment %}Heading & Text{% endcomment %}
+         {% assign heading_text_object = collection.metafields.northerngym.smart_heading_text.value %}
+         {% if heading_text_object != blank %}
+            {% assign heading_text_heading = heading_text_object.heading | metafield_tag %}
+            {% assign heading_text_paragraph = heading_text_object.paragraph | metafield_tag %}
+            
+            {% render 'heading-text-item'
+               heading: heading_text_heading,
+               paragraph: heading_text_paragraph
+            %}
+         {% endif %}
+
+      {% when 'recommended_products' %}
+         {% comment %}Product Preview{% endcomment %}
+         {% assign product_handles = '' %}
+         {% assign product_list = false %}
+
+         {% for product in collection.products limit: 4 %}
+            {% assign product_handles = product_handles | append: product.handle %}
+            {% unless forloop.last %}
+               {% assign product_handles = product_handles | append: ',' %}
+            {% endunless %}
+         {% endfor %}
+
+         {% assign product_override_list = collection.metafields.northerngym.smart_products_override.value %}
+         {% if product_override_list != blank %}
+            {% assign product_list = product_override_list %}
+         {% endif %}
+
+         {% if product_list != blank or product_handles != '' %}
+            {% assign recommended_products_heading = block.settings.products_heading | default: 'Product Recommendations' %}
+            {% render 'product-preview' 
+               heading: recommended_products_heading,
+               product_list: product_list,
+               product_handles: product_handles
+            %}
+         {% endif %}
+
+      {% when 'image_gallery' %}
+         {% comment %}Image Gallery{% endcomment %}
+         {% assign image_gallery_items = collection.metafields.northerngym.smart_image_carousel.value %}
+         {% if image_gallery_items != blank %}
+            {% render 'image-carousel', carousel_items: image_gallery_items %}
+         {% endif %}
+
+      {% when 'faqs_section' %}
+         {% comment %}FAQs{% endcomment %}
+         {% assign faq_items = collection.metafields.northerngym.smart_faqs.value %}
+         {% if faq_items != blank %}
+            {% assign faq_heading_default = collection.title | append: " FAQ's" %}
+            {% assign faq_heading = block.settings.faqs_heading | default: faq_heading_default %}
+            {% render 'faqs-section'
+               heading: faq_heading,
+               faq_items: faq_items
+            %}
+         {% endif %}
+
+      {% when 'blog_articles' %}
+         {% comment %}Blog Preview{% endcomment %}
+         {% assign blog_article_handles = collection.metafields.northerngym.smart_blog_articles.value %}
+         {% if blog_article_handles != blank %}
+            {% assign blog_heading = block.settings.blog_heading | default: "Blog" %}
+            {% render 'blog-preview'
+               heading: blog_heading,
+               blog_article_handles: blog_article_handles
+            %}
+         {% endif %}
+
+      {% when '@app' %}
+         {% render block %}
+   {% endcase %}
+{% endfor %}
+
+{% schema %}
+{
+   "name": "Collection Smart Content",
+   "settings": [
+      {
+         "type": "paragraph",
+         "content": "This section displays dynamic content based on the collection's metafield values. You can reorder the blocks to control their display sequence. Changes apply to all collections using this template, so there's no need to remove blocks— they'll automatically show or hide based on each collection's metafield setup."
+      }
+   ],
+   "blocks": [
+      {
+         "type": "related_collections",
+         "name": "Related Collections",
+         "settings": [
+            {
+               "type": "paragraph",
+               "content": "Collection Metafield: 'Smart - Collections'"
+            },
+            {
+               "type": "paragraph",
+               "content": "The heading and paragraph content for this section is determined by the Collection Title and Description accorrdingly"
+            },
+            {
+               "type": "header",
+               "content": "Settings"
+            },
+            {
+               "type": "checkbox",
+               "id": "show_fallback",
+               "label": "Show Fallback",
+               "default": false,
+               "info": "Set to true to show the default collection header if no collections are set."
+            },
+            {
+               "type": "checkbox",
+               "id": "heading_is_h1",
+               "label": "Set heading as H1",
+               "info": "Set to true if the heading needs to be a <h1> element. Note: Ensure you only have one <h1> element on the page.",
+               "default": false
+            },
+            {
+               "type": "select",
+               "id": "carousel_behaviour",
+               "label": "Carousel Behaviour",
+               "options": [
+                  {
+                     "value": "never",
+                     "label": "Never"
+                  },
+                  {
+                     "value": "mobile_only",
+                     "label": "Mobile Only"
+                  },
+                  {
+                     "value": "always",
+                     "label": "Always"
+                  }
+               ],
+               "default": "mobile_only",
+               "info": "Select when you would like the section to convert to a carousel."
+            },
+            {
+               "type": "header",
+               "content": "Content"
+            },
+            {
+               "type": "text",
+               "id": "collections_heading",
+               "label": "Collections Heading"
+            },
+            {
+               "type": "richtext",
+               "id": "collections_paragraph",
+               "label": "Collections Paragraph"
+            }
+         ]
+      },
+      {
+         "type": "heading_text",
+         "name": "Heading & Text",
+         "settings": [
+            {
+               "type": "paragraph",
+               "content": "Collection Metafield: 'Smart - Heading & Text'"
+            }
+         ]
+      },
+      {
+         "type": "recommended_products",
+         "name": "Recommended Products",
+         "settings": [
+            {
+               "type": "paragraph",
+               "content": "By default, this will return the first 4 products from the collection. To override these products though you can use the collection metafield: 'Smart - Products'"
+            },
+            {
+               "type": "text",
+               "id": "products_heading",
+               "label": "Product List Heading",
+               "default": "Product Recommendations"
+            }
+         ]
+      },
+      {
+         "type": "image_gallery",
+         "name": "Image Gallery",
+         "settings": [
+            {
+               "type": "paragraph",
+               "content": "Collection Metafield: 'Smart - Image Carousel'"
+            }
+         ]
+      },
+      {
+         "type": "faqs_section",
+         "name": "FAQs",
+         "settings": [
+            {
+               "type": "paragraph",
+               "content": "Collection Metafield: 'Smart - FAQs'"
+            },
+            {
+               "type": "text",
+               "id": "faqs_heading",
+               "label": "FAQs Heading",
+               "default": "FAQ's"
+            }
+         ]
+      },
+      {
+         "type": "blog_articles",
+         "name": "Blog Articles",
+         "settings": [
+            {
+               "type": "paragraph",
+               "content": "Collection Metafield: 'Smart - Blog Articles'"
+            },
+            {
+               "type": "text",
+               "id": "blog_heading",
+               "label": "Blog Heading",
+               "default": "Blog"
+            }
+         ]
+      },
+      {
+         "type": "@app"
+      }
+   ],
+   "presets": [
+      {
+         "name": "Collection - Smart Content",
+         "blocks": []
+      }
+   ]
+}
+{% endschema %}

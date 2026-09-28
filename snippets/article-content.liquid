@@ -1,0 +1,88 @@
+{% comment %}
+***************************************
+********* Youtube Video Embed *********
+***************************************
+{% endcomment %}
+{% assign youtube_video_trigger = '[youtube_embed]' %}
+{% assign youtube_video_trigger_tagged = '<p>[youtube_embed]</p>' %}
+{% assign youtube_video_embed_id = article.metafields.northerngym.youtube_video_embed_id %}
+
+{% capture youtube_video_content %}
+   <div class="aspect-w-16 aspect-h-9 my-12">
+      <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ youtube_video_embed_id }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+   </div>
+{% endcapture %}
+
+{% if article_content contains youtube_video_trigger_tagged %}
+   {% assign article_content = article_content | replace: youtube_video_trigger_tagged, youtube_video_content %}
+{% endif %}
+{% if article_content contains youtube_video_trigger %}
+   {% assign article_content = article_content | replace: youtube_video_trigger, youtube_video_content %}
+{% endif %}
+
+{% comment %}
+***************************************
+************* Quote Block *************
+***************************************
+{% endcomment %}
+{% assign quote_block_trigger = '[quote_block]' %}
+{% assign quote_block_trigger_trigger_tagged = '<p>[quote_block]</p>' %}
+{% assign quote_block_quote = article.metafields.northerngym.quote_quote %}
+{% assign quote_block_name = article.metafields.northerngym.quote_name %}
+{% assign quote_block_job_title = article.metafields.northerngym.quote_job_title %}
+
+{% capture quote_block_content %}
+   <div class="bg-black text-white py-24 md:py-32 relative overflow-hidden my-12 prevent-prose">
+      {% render 'quote-block-item', quote: quote_block_quote, name: quote_block_name, job_title: quote_block_job_title %}
+      {% render 'quote-block-accents' %}
+   </div>
+{% endcapture %}
+
+{% if article_content contains quote_block_trigger_tagged %}
+   {% assign article_content = article_content | replace: quote_block_trigger_tagged, quote_block_content %}
+{% endif %}
+{% if article_content contains quote_block_trigger %}
+   {% assign article_content = article_content | replace: quote_block_trigger, quote_block_content %}
+{% endif %}
+
+{% comment %}
+***************************************
+*********** Product Listing ***********
+***************************************
+{% endcomment %}
+{% assign product_listing_trigger = '[product_listing]' %}
+{% assign product_listing_trigger_tagged = '<p>[product_listing]</p>' %}
+{% assign product_listing_products = article.metafields.northerngym.associated_products.value %}
+
+{% capture product_listing_content %}
+   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 prevent-prose my-12">
+      {% for product_listing_product in product_listing_products %}
+         <div>
+            {% render 'product-item',
+               product_item: product_listing_product,
+               index: forloop.index,
+               inside_prose: true
+            %}
+         </div>
+      {% endfor %}
+   </div>
+{% endcapture %}
+
+{% if article_content contains product_listing_trigger_tagged %}
+   {% assign article_content = article_content | replace: product_listing_trigger_tagged, product_listing_content %}
+{% endif %}
+{% if article_content contains product_listing_trigger %}
+   {% assign article_content = article_content | replace: product_listing_trigger, product_listing_content %}
+{% endif %}
+
+
+
+
+{% comment %}
+***************************************
+************* Final Output ************
+***************************************
+{% endcomment %}
+<div class="prose prose--blog">
+   {{ article_content }}
+</div>

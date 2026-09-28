@@ -1,0 +1,476 @@
+{% if request.page_type == 'product' %}
+  {% assign show_reviews = product.metafields.custom.add_global_reviews.value %}
+{% elsif request.page_type == 'collection' %}
+  {% assign show_reviews = collection.metafields.custom.add_global_reviews.value %}
+{% else %}
+  {% assign show_reviews = true %}
+{% endif %}
+
+{% if show_reviews %}
+
+{{ 'splide.min.css' | asset_url | stylesheet_tag }}
+
+<style>
+  /* ==============================
+  Section styles + controls
+  ============================== */
+  .{{ section.id }} {
+    {% comment %}
+      SECTION BG (color + opacity)
+    {% endcomment %}
+    {% assign sbg = section.settings.section_bg_color %}
+    {% assign sa  = section.settings.section_bg_opacity | divided_by: 100.0 %}
+    {% assign sr = sbg | color_extract: 'red' %}
+    {% assign sg = sbg | color_extract: 'green' %}
+    {% assign sb = sbg | color_extract: 'blue' %}
+    --section-bg: rgba({{ sr }}, {{ sg }}, {{ sb }}, {{ sa }});
+    background-color: var(--section-bg);
+
+    {% comment %}
+      SECTION TEXT COLOR
+    {% endcomment %}
+    color: {{ section.settings.section_text_color }};
+
+    {% comment %}
+      SPACING
+    {% endcomment %}
+    margin-top: {{ section.settings.margin_top }}px;
+    margin-bottom: {{ section.settings.margin_bottom }}px;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+
+    {% if section.settings.background_image != blank %}
+      background-image: url('{{ section.settings.background_image | image_url: width: 2000 }}');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    {% endif %}
+
+    {% comment %}
+      REVIEW CARD BG (color + opacity) + TEXT
+    {% endcomment %}
+    {% assign cbg = section.settings.card_bg_color %}
+    {% assign ca  = section.settings.card_bg_opacity | divided_by: 100.0 %}
+    {% assign cr = cbg | color_extract: 'red' %}
+    {% assign cg = cbg | color_extract: 'green' %}
+    {% assign cb = cbg | color_extract: 'blue' %}
+    --review-card-bg: rgba({{ cr }}, {{ cg }}, {{ cb }}, {{ ca }});
+    --review-card-text: {{ section.settings.card_text_color }};
+  }
+
+  @media only screen and (max-width: 841px) {
+    .{{ section.id }} {
+      {% if section.settings.mobile_background_image != blank %}
+        background-image: url('{{ section.settings.mobile_background_image | image_url: width: 800 }}');
+      {% elsif section.settings.background_image != blank %}
+        background-image: url('{{ section.settings.background_image | image_url: width: 1000 }}');
+      {% endif %}
+    }
+  }
+
+  /* Apply card variables */
+  .{{ section.id }} .review-card {
+    background-color: var(--review-card-bg);
+    color: var(--review-card-text);
+  }
+  .{{ section.id }} .review-card .review-muted {
+    opacity: 0.75; /* keeps hierarchy but inherits your chosen text color */
+  }
+
+  /* ==============================
+  Splide Styles
+  ============================== */
+  .{{ section.id }} .splide__slide { height: 100%; }
+
+  .{{ section.id }} .splide__pagination{
+    background-color: white;
+    border-radius: 120px;
+    padding: 0.7rem 1rem !important;
+  }
+
+  .{{ section.id }} .splide__pagination__page {
+    border-radius: 30px !important;
+    transition: all .3s ease !important;
+    width: calc(var(--spacing) * 2) !important;
+    height: calc(var(--spacing) * 2) !important;
+    background-color: var(--color-zinc-300) !important;
+    opacity: 1 !important;
+  }
+
+  .{{ section.id }} .splide__pagination__page.is-active {
+    width: calc(var(--spacing) * 10) !important;
+    height: calc(var(--spacing) * 2) !important;
+    background-color: var(--color-zinc-800) !important;
+    transform: scale(1) !important;
+    transition: all .3s ease !important;
+    opacity: 1 !important;
+  }
+
+  .{{ section.id }} .splide__arrow {
+    position: static !important;
+    background-color: white !important;
+    opacity: 1 !important;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    transform: translateY(0) !important;
+  }
+</style>
+
+<section class="{{ section.id }} block-revierws overflow-hidden bg-cover bg-no-repeat bg-center">
+  <div class="container-limited px-6 mx-auto">
+    {% if section.settings.heading != blank %}
+      <h2 class="text-4xl font-extrabold uppercase tracking-tight sm:text-6xl lg:text-7xl mb-8 max-w-5xl">
+        {{ section.settings.heading }}
+      </h2>
+    {% endif %}
+
+    <div class="flex flex-wrap gap-3 mono-font">
+      {% if section.settings.pill_1_text != blank %}
+        <span class="inline-flex items-center gap-2 rounded-full bg-black/30 px-4 py-2 lg:px-6 lg:py-4 text-base font-medium text-white/90 ring-1 ring-white/15 backdrop-blur-md">
+          {% if section.settings.pill_1_icon != blank %}
+            <span class="h-5 w-5 flex-shrink-0">
+              {{
+                section.settings.pill_1_icon
+                | image_url: width: 80
+                | image_tag:
+                  alt: section.settings.pill_1_text,
+                  loading: 'lazy',
+                  widths: '40, 80, 120',
+                  sizes: '20px',
+                  class: 'w-full h-full object-contain'
+              }}
+            </span>
+          {% endif %}
+          <span>{{ section.settings.pill_1_text }}</span>
+        </span>
+      {% endif %}
+
+      {% if section.settings.pill_2_text != blank %}
+        <span class="inline-flex items-center gap-2 rounded-full bg-black/30 px-4 py-2 lg:px-6 lg:py-4 text-base font-medium text-white/90 ring-1 ring-white/15 backdrop-blur-md">
+          {% if section.settings.pill_2_icon != blank %}
+            <span class="h-5 w-5 flex-shrink-0">
+              {{
+                section.settings.pill_2_icon
+                | image_url: width: 80
+                | image_tag:
+                  alt: section.settings.pill_2_text,
+                  loading: 'lazy',
+                  widths: '40, 80, 120',
+                  sizes: '20px',
+                  class: 'w-full h-full object-contain'
+              }}
+            </span>
+          {% endif %}
+          <span>{{ section.settings.pill_2_text }}</span>
+        </span>
+      {% endif %}
+
+      {% if section.settings.pill_3_text != blank %}
+        <span class="inline-flex items-center gap-2 rounded-full bg-black/30 px-4 py-2 lg:px-6 lg:py-4 text-base font-medium text-white/90 ring-1 ring-white/15 backdrop-blur-md">
+          {% if section.settings.pill_3_icon != blank %}
+            <span class="h-5 w-5 flex-shrink-0">
+              {{
+                section.settings.pill_3_icon
+                | image_url: width: 80
+                | image_tag:
+                  alt: section.settings.pill_3_text,
+                  loading: 'lazy',
+                  widths: '40, 80, 120',
+                  sizes: '20px',
+                  class: 'w-full h-full object-contain'
+              }}
+            </span>
+          {% endif %}
+          <span>{{ section.settings.pill_3_text }}</span>
+        </span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="mx-auto">
+    <section class="relative overflow-hidden pt-16">
+      <div class="relative">
+        <div id="{{ section.id }}reviewsSplide" class="splide pb-25" aria-label="Customer reviews">
+          <div class="splide__track">
+            <ul class="splide__list">
+              {% for block in section.blocks %}
+                <li class="splide__slide review-card rounded-2xl px-6 sm:px-10 py-8 backdrop-blur-md">
+                  <div class="flex items-center gap-4 mb-3">
+                    <div class="flex items-center gap-1 text-base leading-none"
+                      aria-label="{{ block.settings.rating }} out of 5 stars">
+                      {% for i in (1..block.settings.rating) %}
+                        <span aria-hidden="true">★</span>
+                      {% endfor %}
+                    </div>
+                    <p class="text-base font-medium">{{ block.settings.author }}</p>
+                  </div>
+
+                  <p class="text-xl font-medium mb-4">{{ block.settings.title }}</p>
+                  <p class="review-muted text-base leading-relaxed">{{ block.settings.body }}</p>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+
+          <div class="container-limited pointer-events-none absolute inset-x-0 bottom-4 z-10 flex items-center justify-between px-6 mx-auto">
+            <ul class="splide__pagination pointer-events-auto !static !justify-start"></ul>
+            <div class="splide__arrows pointer-events-auto !static flex gap-3"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="{{ 'splide.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'splide-extension-auto-scroll.min.js' | asset_url }}" defer></script>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const splide = new Splide('#{{ section.id }}reviewsSplide', {
+      type: 'loop',
+      drag: 'free',
+      focus: 'center',
+      perPage: 3,
+      gap: '28px',
+      padding: '10rem',
+      pagination: true,
+      arrows: true,
+      breakpoints: {
+        1300: { perPage: 3, padding: '6rem' },
+        1100: { perPage: 2, padding: '6rem' },
+        720:  { perPage: 1, padding: '2.25rem' }
+      },
+      autoScroll: {
+        speed: .6,
+        pauseOnHover: true,
+        pauseOnFocus: true
+      }
+    });
+
+    splide.mount(window.splide.Extensions);
+
+    updatePills();
+    splide.on('moved', updatePills);
+    splide.on('updated', updatePills);
+  });
+</script>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "Block - Reviews",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "section_bg_opacity",
+      "label": "Background Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "section_text_color",
+      "label": "Section Text Color",
+      "default": "#FFFFFF"
+    },
+
+    {
+      "type": "header",
+      "content": "Background Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_background_image",
+      "label": "Background Image (Mobile)"
+    },
+
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 240,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 240,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+
+    {
+      "type": "header",
+      "content": "USP Settings"
+    },
+    {
+      "type": "text",
+      "id": "pill_1_text",
+      "label": "Pill 1 Text",
+      "default": "365 Day Free Returns"
+    },
+    {
+      "type": "image_picker",
+      "id": "pill_1_icon",
+      "label": "Pill 1 Icon"
+    },
+    {
+      "type": "text",
+      "id": "pill_2_text",
+      "label": "Pill 2 Text",
+      "default": "Free Shipping"
+    },
+    {
+      "type": "image_picker",
+      "id": "pill_2_icon",
+      "label": "Pill 2 Icon"
+    },
+    {
+      "type": "text",
+      "id": "pill_3_text",
+      "label": "Pill 3 Text",
+      "default": "Secure Checkout"
+    },
+    {
+      "type": "image_picker",
+      "id": "pill_3_icon",
+      "label": "Pill 3 Icon"
+    },
+
+    {
+      "type": "header",
+      "content": "Review Cards"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "card_bg_opacity",
+      "label": "Card Background Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card Text Color",
+      "default": "#111111"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Reviewer name",
+          "default": "Jane Doe"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Star rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Review title",
+          "default": "Amazing quality"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Review text",
+          "default": "Absolutely love this product. The build quality exceeded my expectations."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Block - Reviews",
+      "blocks": [
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" }
+      ]
+    }
+  ]
+}
+{% endschema %}

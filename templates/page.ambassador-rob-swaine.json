@@ -1,0 +1,149 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "Based In Essex",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-07-21_at_11.11.59_1.jpg",
+            "title": "Bio",
+            "text": "<p>I’ve been a PT/Coach for over 15 years now and I will genuinely do it until I can’t anymore. I have a huge passion for helping other people improve their life and lifestyle. </p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_7WcBXp": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-07-21_at_11.11.59_2.jpg",
+            "title": "",
+            "text": "<p>I had a successful non league football career playing in the national conference with Bromley being the highlight. Lifting weights 100% helped me achieve this as it meant I was stronger and more mobile.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_WGq8f8": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-07-21_at_11.11.59.jpg",
+            "title": "",
+            "text": "<p>I’m massive on encouraging weight training for everyone due to the huge benefits. Not just to look and feel good now but for later in life as well get older. Stronger bones, more muscle, better flexibility, more able and more capable.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_wgaqTH": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-07-21_at_11.11.59_5.jpg",
+            "title": "",
+            "text": "<p>Of course finding a form of exercise you enjoy is key but I will always preach that you cannot beat strength training. Lift as heavy as you can as consistently as you can. <br/><br/></p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ",
+        "item_7WcBXp",
+        "item_WGq8f8",
+        "item_wgaqTH"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Rob Swaine",
+        "text": "<p>Strength training</p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_QUBYg8": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_LebtEX": {
+          "type": "card",
+          "settings": {
+            "title": "Favourite Northern Product",
+            "image": "shopify://shop_images/Northern_Rubber_Hex_Dumbbells_Pair_45kg.jpg",
+            "text": "<p>Hex Dumbbells - <em>\"I love the Hex dumbbells as I have the full set at my house. Means I can train anytime with ease. Dumbbells will always be one of the best investments anyone can ever make.”</em></p>",
+            "button_label": "Shop Now",
+            "button_link": "https://northerngymequipment.com/products/northern-hex-dumbbells-pair-2-x-15kg-30kg"
+          }
+        },
+        "card_cEmc7P": {
+          "type": "card",
+          "settings": {
+            "title": "What does being part of Northern mean to you?",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-07-21_at_11.11.59_4.jpg",
+            "text": "<p>It’s great being part of the Northern team and community. I enjoy being involved with good people who deliver good products at sensible prices.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "card_mNhWg4": {
+          "type": "card",
+          "settings": {
+            "title": "Follow Rob's Journey",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-07-21_at_11.11.59_3.jpg",
+            "text": "<p>Check out Rob's social here.</p>",
+            "button_label": "Follow",
+            "button_link": "https://www.instagram.com/robswainecoaching/"
+          }
+        }
+      },
+      "block_order": [
+        "card_LebtEX",
+        "card_cEmc7P",
+        "card_mNhWg4"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_QUBYg8"
+  ]
+}

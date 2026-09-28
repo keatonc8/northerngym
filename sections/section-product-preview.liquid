@@ -1,0 +1,96 @@
+{% assign heading = section.settings.heading %}
+{% assign paragraph = section.settings.paragraph %}
+{% assign show_buy_button = section.settings.show_buy_button %}
+{% assign source = section.settings.source %}
+
+{% case source %}
+   {% when 'recommended' %}
+      {% assign product_list = product.metafields.shopify--discovery--product_recommendation.related_products.value %}
+   {% when 'complimentary' %}
+      {% assign product_list = product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
+   {% when 'cart-recommendations' %}
+      {% for cart_item in cart.items %}
+         {% if cart_item.product.metafields.shopify--discovery--product_recommendation.complementary_products.value != blank %}
+            {% assign product_list = cart_item.product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
+            {% break %}
+         {% endif %}
+      {% endfor %}
+   {% else %}
+      {% assign product_list = section.settings.product_list %}
+{% endcase %}
+
+{% if product_list != blank %}
+   {% render 'product-preview' 
+      heading: heading,
+      paragraph: paragraph,
+      product_list: product_list,
+      show_buy_button: show_buy_button
+   %}
+{% endif %}
+
+{% schema %}
+{
+   "name": "Product Preview",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Settings"
+      },
+      {
+         "type": "checkbox",
+         "id": "show_buy_button",
+         "label": "Show Buy Button?",
+         "default": false
+      },
+      {
+         "type": "header",
+         "content": "Content"
+      },
+      {
+         "type": "text",
+         "id": "heading",
+         "label": "Heading"
+      },
+      {
+         "type": "textarea",
+         "id": "paragraph",
+         "label": "Paragraph"
+      },
+      {
+         "type": "select",
+         "id": "source",
+         "label": "Source",
+         "options": [
+            {
+               "value": "custom",
+               "label": "Custom"
+            },
+            {
+               "value": "recommended",
+               "label": "Product Page - Recommended"
+            },
+            {
+               "value": "complimentary",
+               "label": "Product Page - Complimentary"
+            },
+            {
+               "value": "cart-recommendations",
+               "label": "Cart Page - Recommended"
+            }
+         ],
+         "default": "custom"
+      },
+      {
+         "type": "product_list",
+         "id": "product_list",
+         "label": "Products",
+         "limit": 4
+      }
+   ],
+   "blocks": [],
+   "presets": [{
+      "name": "Product Preview",
+      "blocks": []
+   }]
+}
+{% endschema %}

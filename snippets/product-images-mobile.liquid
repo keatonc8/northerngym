@@ -1,0 +1,140 @@
+{%- comment -%}
+   MOBILE PRODUCT GALLERY
+
+   Slide order comes from two places:
+     - Images: the northerngym image gallery metafields (variant level first,
+       then product level), falling back to product.media.
+     - Video: always product.media.
+
+   Because those are separate lists, the video's slot is taken from its
+   position in the product media list in admin and injected into each variant
+   group at that point. Drag the video in admin and it moves here. No code
+   change needed.
+
+   The video slide is a placeholder (thumbnail plus play button) rather than a
+   real <video> element, so repeating it per variant costs one small image
+   each instead of 26 video metadata requests. See product-media-item.liquid.
+{%- endcomment -%}
+
+{% assign product_level_images = product.metafields.northerngym.image_gallery_all_variants.value %}
+{% assign fallback_media = product.media %}
+
+{% assign img_index = 0 %}
+{% assign has_variant_images = false %}
+
+{%- comment -%} First video in product media, and the slot it should occupy. {%- endcomment -%}
+{%- assign gallery_video = null -%}
+{%- assign video_slot = 0 -%}
+{%- for media in product.media -%}
+   {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+      {%- if video_slot == 0 -%}
+         {%- assign video_slot = forloop.index -%}
+         {%- assign gallery_video = media -%}
+      {%- endif -%}
+   {%- endif -%}
+{%- endfor -%}
+
+<div class="glide" x-ref="productImages" data-module="product-images-carousel" data-carousel-type="product-images" data-carousel-breakpoint="767">
+   <div class="glide__track" data-glide-el="track">
+      <ul class="glide__slides">
+         {%- for variant in product.variants -%}
+            {%- assign images = variant.metafields.northerngym.image_gallery_variant_level.value -%}
+            {%- if images != blank -%}
+               {% assign has_variant_images = true %}
+
+               {%- for image in images -%}
+                  {%- comment -%} Video takes its slot within this variant's run. {%- endcomment -%}
+                  {%- if gallery_video and forloop.index == video_slot -%}
+                     <li class="glide__slide" data-variant-id="{{ variant.id }}">
+                        {% render 'product-media-item', media_object: gallery_video, size: 'half', loading: 'lazy' %}
+                     </li>
+                  {%- endif -%}
+
+                  <li class="glide__slide" data-variant-id="{{ variant.id }}">
+                     {% if img_index == 0 %}
+                        {% render 'product-images-image', image_object: image, loading: 'eager' %}
+                     {% else %}
+                        {% render 'product-images-image', image_object: image, loading: 'lazy' %}
+                     {% endif %}
+                  </li>
+                  {% assign img_index = img_index | plus: 1 %}
+               {%- endfor -%}
+
+               {%- comment -%}
+                  Variant has fewer images than the video's slot, so the video
+                  goes on the end rather than being dropped.
+               {%- endcomment -%}
+               {%- if gallery_video and images.size < video_slot -%}
+                  <li class="glide__slide" data-variant-id="{{ variant.id }}">
+                     {% render 'product-media-item', media_object: gallery_video, size: 'half', loading: 'lazy' %}
+                  </li>
+               {%- endif -%}
+            {%- endif -%}
+         {%- endfor -%}
+
+         {% if product_level_images != blank %}
+            {% for image in product_level_images %}
+               {%- if gallery_video and has_variant_images == false and forloop.index == video_slot -%}
+                  <li class="glide__slide" data-variant-id="shared">
+                     {% render 'product-media-item', media_object: gallery_video, size: 'half', loading: 'lazy' %}
+                  </li>
+               {%- endif -%}
+
+               <li class="glide__slide" data-variant-id="shared">
+                  {% if img_index == 0 %}
+                     {% render 'product-images-image', image_object: image, loading: 'eager' %}
+                  {% else %}
+                     {% render 'product-images-image', image_object: image, loading: 'lazy' %}
+                  {% endif %}
+               </li>
+               {% assign img_index = img_index | plus: 1 %}
+            {% endfor %}
+
+            {%- if gallery_video and has_variant_images == false and product_level_images.size < video_slot -%}
+               <li class="glide__slide" data-variant-id="shared">
+                  {% render 'product-media-item', media_object: gallery_video, size: 'half', loading: 'lazy' %}
+               </li>
+            {%- endif -%}
+
+         {% elsif fallback_media.size > 0 %}
+            {%- comment -%}
+               Fallback walks product.media rather than product.images so video
+               is included and already in admin order. When variant images are
+               present the video has already been placed in each variant run
+               above, so skip it here to avoid a duplicate slide.
+            {%- endcomment -%}
+            {% for media in fallback_media %}
+               {% if has_variant_images and media.media_type == 'video' %}
+                  {% continue %}
+               {% endif %}
+               {% if has_variant_images and media.media_type == 'external_video' %}
+                  {% continue %}
+               {% endif %}
+               <li class="glide__slide" data-variant-id="shared">
+                  {% if img_index == 0 %}
+                     {% render 'product-media-item', media_object: media, size: 'half', loading: 'eager' %}
+                  {% else %}
+                     {% render 'product-media-item', media_object: media, size: 'half', loading: 'lazy' %}
+                  {% endif %}
+               </li>
+               {% assign img_index = img_index | plus: 1 %}
+            {% endfor %}
+         {% endif %}
+      </ul>
+   </div>
+
+   <div class="glide__arrows" data-glide-el="controls">
+      <button class="carousel__arrow--northern carousel__arrow--overlay-position carousel__arrow--left" data-glide-dir="<">
+         <span class="block rotate-90">
+            {% render 'icons', icon: 'chevron', class: 'w-6 text-black' %}
+         </span>
+         <span class="sr-only">Previous</span>
+      </button>
+      <button class="carousel__arrow--northern carousel__arrow--overlay-position carousel__arrow--right" data-glide-dir=">">
+         <span class="block -rotate-90">
+            {% render 'icons', icon: 'chevron', class: 'w-6 text-black' %}
+         </span>
+         <span class="sr-only">Next</span>
+      </button>
+   </div>
+</div>

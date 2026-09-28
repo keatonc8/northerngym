@@ -1,0 +1,23 @@
+<div class="flex flex-wrap -m-1">
+   {% for ambassador_tag in ambassador_tags %}
+      {% case ambassador_tag %}
+         {% when 'Endurance' %}
+            {% assign ambassador_tag_icon = 'foot' %}
+         {% when 'Strength Training' %}
+            {% assign ambassador_tag_icon = 'dumbbell' %}
+         {% else %}
+            {% assign ambassador_tag_icon = 'muscle' %} 
+      {% endcase %}
+
+      <div class="p-1">
+         <div class="flex items-center gap-2 bg-black rounded-md py-2 px-3 text-white">
+            <span>
+               {% render 'icons', icon: ambassador_tag_icon, class: 'w-4' %}
+            </span>
+            <p class="body-03">
+               {{ ambassador_tag }}
+            </p>
+         </div>
+      </div>
+   {% endfor %}
+</div>

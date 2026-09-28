@@ -1,0 +1,81 @@
+{%- comment -%}
+   Content priority:
+     1. collection.metafields.custom.seo_copy  (per collection override)
+     2. section.settings.metaobject_content    (template level default)
+     3. section.settings.heading / paragraph   (bespoke rich text)
+
+   The collection override lets one shared collection template show
+   different SEO copy on each collection. Non collection pages are
+   unaffected, since collection is nil there.
+{%- endcomment -%}
+
+{% assign metaobject_content = blank %}
+
+{% if collection != blank and collection.metafields.custom.seo_copy.value != blank %}
+   {% assign metaobject_content = collection.metafields.custom.seo_copy.value %}
+{% elsif section.settings.metaobject_content != blank %}
+   {% assign metaobject_content = section.settings.metaobject_content %}
+{% endif %}
+
+{% if metaobject_content != blank %}
+   {% assign heading = metaobject_content.heading | metafield_tag %}
+   {% assign paragraph = metaobject_content.paragraph | metafield_tag %}
+{% else %}
+   {% assign heading = section.settings.heading %}
+   {% assign paragraph = section.settings.paragraph %}
+{% endif %}
+
+{% render 'heading-text-item'
+   heading: heading,
+   paragraph: paragraph
+%}
+
+{% schema %}
+{
+   "name": "Heading & Text",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Settings"
+      },
+      {
+         "type": "header",
+         "content": "Metaobject Content"
+      },
+      {
+         "type": "paragraph",
+         "content": "On collection pages, the collection's own 'SEO copy block' metafield takes priority over the entry chosen here. Set this as the fallback for collections that have no metafield set."
+      },
+      {
+         "type": "metaobject",
+         "id": "metaobject_content",
+         "label": "Metaobject Content",
+         "metaobject_type": "heading_text"
+      },
+      {
+         "type": "header",
+         "content": "Bespoke Content"
+      },
+      {
+         "type": "richtext",
+         "id": "heading",
+         "label": "Heading",
+         "info": "Set text to bold to style the text as outlined"
+      },
+      {
+         "type": "richtext",
+         "id": "paragraph",
+         "label": "Paragraph"
+      }
+   ],
+   "blocks": [],
+   "presets": [{
+      "name": "Heading & Text",
+      "blocks": [],
+      "settings": {
+         "heading": "<p>We are Northern, offering <strong>quality gym equipment <\/strong>and a welcoming fitness community<\/p>",
+         "paragraph": "<p>What started as a mission to bring high-quality gym equipment to the UK quickly grew into something more. At Northern, we’re all about bringing people together, whether through training sessions, competitions, or events. We help people reach their fitness goals in a friendly, approachable environment, and we call it ‘NORTHERN hospitality.’<\/p><p>We’re committed to the core values of any great business, outstanding customer service, fair pricing, and a can-do attitude when you need support.<\/p><p><a href=\"\/pages\/about-us\" title=\"About Us\">About Us<\/a><\/p>"
+      }
+   }]
+}
+{% endschema %}

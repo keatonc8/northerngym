@@ -1,0 +1,212 @@
+{% assign heading = section.settings.heading | default: 'Cart Page' %}
+{% assign overview_heading = section.settings.overview_heading | default: 'Overview' %}
+
+{% assign shipping_message = section.settings.shipping_message %}
+{% assign free_shipping_limit = section.settings.free_shipping_limit %}
+{% assign discount_message = section.settings.discount_message %}
+{% assign delivery_message = section.settings.delivery_message %}
+
+{% assign empty_cart_heading = section.settings.empty_cart_heading | default: 'Your cart is empty' %}
+{% assign empty_cart_sub_heading = section.settings.empty_cart_sub_heading %}
+{% assign empty_cart_sub_heading_link = section.settings.empty_cart_sub_heading_link %}
+{% assign empty_cart_products = section.settings.empty_cart_products %}
+
+<div class="vertical-spacing-sm">
+   <div class="container">
+      <div @cart-updated.window="updateCart;"
+         x-data="{
+            loading: false,
+            cartCountGlobal: {{ cart.item_count }},
+            cartSubtotal: {{ cart.total_price }},
+            freeShippingLimit: {{ free_shipping_limit | default: false }},
+            shippingPercent: 0,
+            determineShippingPercent(){
+               if (!this.freeShippingLimit) {
+                  return 0;
+               }
+               if (this.cartSubtotal > this.freeShippingLimit) {
+                  return 100;
+               }
+               return (this.cartSubtotal / this.freeShippingLimit) * 100;
+            },
+            cartHeading: '{{ heading }}',
+            overviewHeading: '{{ overview_heading }}',
+            shippingMessage: '{{ shipping_message }}',
+            discountMessage: '{{ discount_message }}',
+            deliveryMessage: '{{ delivery_message }}',
+            usps: [{% for block in section.blocks %}{% if block.type == 'usp' %}{ icon: '{{ block.settings.icon }}', text: '{{ block.settings.heading | escape }}' }{% unless forloop.last %},{% endunless %}{% endif %}{% endfor %}],
+            updateCart(){
+               // send fetch reqeust to update cart
+               fetch('/?view=cart-page')
+               .then(response => response.text())
+               .then(cartData => {
+                  $refs.cart_content.innerHTML = cartData;
+                  var el = document.createElement('div');
+                  el.innerHTML = cartData;
+                  var cartOptions = JSON.parse(el.querySelector('[data-options]').innerHTML);
+                  var cartCount = cartOptions.item_count;
+                  var cartTotal = cartOptions.cart_total;
+                  $dispatch('cart-count-updated', cartCount);
+                  this.cartCountGlobal = cartCount;
+                  this.cartSubtotal = cartTotal;
+                  this.shippingPercent = this.determineShippingPercent();
+                  this.loading = false;
+               })
+            }
+         }"
+         x-init="shippingPercent = determineShippingPercent();"
+      >
+
+         {% render 'loader' %}
+
+         <div class="" x-ref="cart_content">
+            {% render 'cart-page-form', section: section, overview_heading: overview_heading %}
+         </div>
+
+         <div class="flex flex-col text-center items-center gap-5" x-show="cartCountGlobal === 0" x-cloak>
+            {% if empty_cart_heading != blank %}
+               <h1 class="heading">
+                  {{ empty_cart_heading }}
+               </h1>
+            {% endif %}
+            {% if empty_cart_sub_heading != blank %}
+               {% if empty_cart_sub_heading_link != blank %}
+                  <a href="{{ empty_cart_sub_heading_link }}" class="link">
+                     {{ empty_cart_sub_heading }}
+                  </a>
+               {% else %}
+                  <p class="font-bold">
+                     {{ empty_cart_sub_heading }}
+                  </p>
+               {% endif %}
+            {% endif %}
+            {% if empty_cart_products != blank %}
+               <div class="grid grid-cols-3 gap-4 max-w-240">
+                  {% for empty_cart_product in empty_cart_products %}
+                     {% render 'product-item',
+                        product_item: empty_cart_product,
+                        index: forloop.index
+                     %}
+                  {% endfor %}
+               </div>
+            {% endif %}
+         </div>
+      </div>
+   </div>
+</div>
+
+{% schema %}
+   {
+      "name": "Cart",
+      "settings": [
+         {
+            "type": "header",
+            "content": "Cart Section"
+         },
+         {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading",
+            "default": "My Gym Equipment"
+         },
+         {
+            "type": "header",
+            "content": "Overview Section"
+         },
+         {
+            "type": "text",
+            "id": "overview_heading",
+            "label": "Overview Heading",
+            "default": "Overview"
+         },
+         {
+            "type": "text",
+            "id": "shipping_message",
+            "label": "Shipping Message",
+            "default": "Shipping and discount codes calculated at checkout"
+         },
+         {
+            "type": "number",
+            "id": "free_shipping_limit",
+            "label": "Free Shipping limit",
+            "default": 6000,
+            "info": "Set the cost for the shipping limit used for the percentage slider. Set value in pence."
+         },
+         {
+            "type": "text",
+            "id": "discount_message",
+            "label": "Discount Message",
+            "default": "Got a discount code? Add it at the next step"
+         },
+         {
+            "type": "text",
+            "id": "delivery_message",
+            "label": "Delivery Message",
+            "default": "Not going to be in? We offer custom deliver dates at checkout"
+         },
+         {
+            "type": "header",
+            "content": "Empty Cart"
+         },
+         {
+            "type": "text",
+            "id": "empty_cart_heading",
+            "label": "Empty Cart Heading",
+            "default": "Your cart is empty!"
+         },
+         {
+            "type": "text",
+            "id": "empty_cart_sub_heading",
+            "label": "Empty Cart Sub Heading",
+            "default": "Lets Get You Started"
+         },
+         {
+            "type": "url",
+            "id": "empty_cart_sub_heading_link",
+            "label": "Empty Cart Sub Heading Link"
+         },
+         {
+            "type": "product_list",
+            "id": "empty_cart_products",
+            "label": "Empty Cart Products",
+            "limit": 3
+         }
+      ],
+      "blocks": [
+         {
+            "type": "@app"
+         },
+         {
+            "type": "usp",
+            "name": "USP",
+            "settings": [
+               {
+                  "type": "select",
+                  "id": "icon",
+                  "label": "Icon",
+                  "options": [
+                     {
+                        "value": "diamond",
+                        "label": "Diamond"
+                     },
+                     {
+                        "value": "dumbbell",
+                        "label": "Dumbbell"
+                     },
+                     {
+                        "value": "card",
+                        "label": "Card"
+                     }
+                  ],
+                  "default": "diamond"
+               },
+               {
+                  "type": "text",
+                  "id": "heading",
+                  "label": "Text"
+               }
+            ]
+         }
+      ]
+   }
+{% endschema %}

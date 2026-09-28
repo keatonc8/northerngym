@@ -1,0 +1,9 @@
+{% assign button_link = button_link %}
+{% assign button_text = button_text %}
+{% assign button_target = button_target | default: false %}
+
+{% if button_link != blank and button_text != blank %}
+   <a href="{{ button_link }}" class="button button-yellow" {% if button_target == true %}target="_blank" rel="noopener noreferrer"{% endif %}>
+      {{ button_text }}
+   </a>
+{% endif %}

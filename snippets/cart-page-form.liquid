@@ -1,0 +1,113 @@
+{% assign cart_total_price = cart.total_price %}
+{% assign delivery_cost = 499 %}
+{% assign total_value = cart_total_price | plus: delivery_cost %}
+{% assign free_shipping_limit = section.settings.free_shipping_limit %}
+
+
+<form action="{{ routes.cart_url }}" method="post" class="">
+   {% if cart.item_count > 0 %}
+      <div class="flex flex-col lg:flex-row gap-12 lg:gap-20 xl:gap-32 relative">
+         <div class="flex-4 flex flex-col gap-8">
+            <h1 class="heading border-b border-silver pb-4" x-text="cartHeading"></h1>
+            <div class="flex flex-col gap-6 sm:gap-4">
+               {% for item in cart.items %}
+                  {% render 'cart-page-item', item: item, forloop_index: forloop.index %}
+               {% endfor %}
+            </div>
+         </div>
+         <div class="flex-2 flex flex-col gap-5 sticky top-42 mb-auto">
+            <div class="border-b border-silver pb-4 lg:min-h-18 flex items-end">
+               <h2 class="heading-04" x-text="overviewHeading"></h2>
+            </div>
+            <div class="border-b border-silver pb-5 flex flex-col gap-8">
+               <div class="flex flex-col gap-2 body-01">
+                  <dl class="flex justify-between gap-4">
+                     <dt>
+                        Subtotal
+                     </dt>
+                     <dd class="font-bold">
+                        {{ cart.total_price | money }}
+                     </dd>
+                  </dl>
+                  <dl class="flex justify-between gap-4">
+                     <dt>
+                        Delivery
+                     </dt>
+                     <dd class="font-bold">
+                        {{ delivery_cost | money }}
+                     </dd>
+                  </dl>
+               </div>
+               {% if false %}
+                  <div class="flex flex-col gap-1">
+                     <p x-text="shippingMessage"></p>
+                     <div class="h-2 bg-silver w-full relative rounded-full">
+                        <div class="absolute left-0 top-0 h-full bg-grey rounded-full" style="width: 66.6%;" x-bind:style="shippingPercent > 0 ? 'width: ' + shippingPercent + '%;' : ''"></div>
+                     </div>
+                  </div>
+               {% endif %}
+            </div>
+            <dl class="border-b border-silver pb-4 flex justify-between gap-4 body-01 text-24">
+               <dt>
+                  Total
+               </dt>
+               <dd class="font-bold">
+                  {{ total_value | money }}
+               </dd>
+            </dl>
+            <div class="border-b border-silver pb-4 flex flex-col gap-4">
+               {% if section.blocks != blank %}
+                  {% for block in section.blocks %}
+                     {% if block.id contains 'klarna_on_site_messaging' %}
+                        <div id="klarna">
+                           {% render block %}
+                        </div>
+                     {% endif %}
+                  {% endfor %}
+               {% endif %}
+               <button name="checkout" class="button button-black flex gap-2 items-center w-full justify-center py-3">
+                  <span>
+                     {% render 'icons', icon: 'basket', class: 'w-3.5' %}
+                  </span>
+                  <span class="pt-1.5">
+                     Checkout
+                  </span>
+               </button>
+               <p class="body-03 text-grey text-center" x-text="discountMessage"></p>
+            </div>
+            <div class="border-b border-silver pb-4 flex flex-col gap-5">
+               <div class="flex justify-around 2xl:justify-between flex-wrap gap-x-5 gap-y-3">
+                  <template x-for="usp in usps" :key="usp.text">
+                     <div class="flex gap-2">
+                        <span class="w-4 h-4 flex justify-center items-center">
+                           <template x-if="usp.icon == 'diamond'">
+                           {% render 'icons', icon: 'diamond', class: 'w-full h-full' %}
+                           </template>
+                           <template x-if="usp.icon == 'dumbbell'">
+                           {% render 'icons', icon: 'dumbbell', class: 'w-full h-full' %}
+                           </template>
+                           <template x-if="usp.icon == 'card'">
+                           {% render 'icons', icon: 'card', class: 'w-full h-full' %}
+                           </template>
+                        </span>
+                        <span x-text="usp.text"></span>
+                     </div>
+                  </template>
+               </div>
+               <div class="bg-silver text-center py-5 px-6">
+                  <p class="" x-text="deliveryMessage"></p>
+               </div>
+            </div>
+            <div>
+               <ul class="grid gap-3 grid-cols-5 xs:grid-cols-6 sm:grid-cols-10 md:grid-cols-12 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8">
+                  {%- for type in shop.enabled_payment_types -%}
+                     <li class="w-full">
+                        {{ type | payment_type_svg_tag: class: 'w-full' }}
+                     </li>
+                  {% endfor %}
+               </ul>
+            </div>
+         </div>
+      </div>
+   {% endif %}
+</form>

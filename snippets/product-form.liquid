@@ -1,0 +1,1234 @@
+<style>
+  .selected-item {
+    opacity:0.6;
+  }
+</style>
+
+{%- assign product_form_id = 'product-form-' | append: section.id -%}
+{%- assign is_bulk_quantity_template = false -%}
+{%- if template.suffix == 'bulk-quantity' -%}
+  {%- assign is_bulk_quantity_template = true -%}
+{%- endif -%}
+
+{%- comment -%}
+  Combined Listings aren't fully represented by product.variants. Use the same ordered
+  product option values as the normal picker; each value exposes its own contextual variant.
+{%- endcomment -%}
+{%- assign has_bulk_combined_listing_products = false -%}
+{%- assign bulk_combined_listing_option = nil -%}
+
+{%- if is_bulk_quantity_template -%}
+  {%- for option in product.options_with_values -%}
+    {%- assign option_has_product_urls = false -%}
+    {%- for value in option.values -%}
+      {%- if value.product_url != blank -%}
+        {%- assign option_has_product_urls = true -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if option_has_product_urls -%}
+      {%- assign has_bulk_combined_listing_products = true -%}
+      {%- assign bulk_combined_listing_option = option -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- assign current_bulk_variant_id = nil -%}
+{%- if has_bulk_combined_listing_products -%}
+  {%- for value in bulk_combined_listing_option.values -%}
+    {%- assign value_variant = value.variant -%}
+    {%- assign value_is_current_product = false -%}
+    {%- if value.product_url == blank -%}
+      {%- assign value_is_current_product = true -%}
+    {%- else -%}
+      {%- assign value_product_handle = value.product_url | split: '/products/' | last | split: '?' | first | split: '#' | first -%}
+      {%- if value_product_handle == product.handle -%}
+        {%- assign value_is_current_product = true -%}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if value.selected and value_is_current_product -%}
+      {%- if value_variant != blank and value_variant.id != blank -%}
+        {%- assign current_bulk_variant_id = value_variant.id -%}
+      {%- elsif product.selected_or_first_available_variant != blank -%}
+        {%- assign current_bulk_variant_id = product.selected_or_first_available_variant.id -%}
+      {%- endif -%}
+      {%- if current_bulk_variant_id != blank -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- capture bulk_variant_data_json -%}
+[
+  {%- assign bulk_variant_data_first = true -%}
+  {%- assign bulk_variant_data_seen_ids = '|' -%}
+  {%- if has_bulk_combined_listing_products -%}
+    {%- for value in bulk_combined_listing_option.values -%}
+      {%- assign variant = value.variant -%}
+      {%- if variant == blank or variant.id == blank -%}
+        {%- continue -%}
+      {%- endif -%}
+      {%- capture bulk_variant_data_id_key -%}|{{ variant.id }}|{%- endcapture -%}
+      {%- if bulk_variant_data_seen_ids contains bulk_variant_data_id_key -%}
+        {%- continue -%}
+      {%- endif -%}
+      {%- assign bulk_variant_data_seen_ids = bulk_variant_data_seen_ids | append: bulk_variant_data_id_key -%}
+      {%- unless bulk_variant_data_first -%},{%- endunless -%}
+      {
+        "id": {{ variant.id | json }},
+        "price": {{ variant.price | default: 0 | json }},
+        "compare_at_price": {{ variant.compare_at_price | default: 0 | json }},
+        "available": {{ variant.available | json }}
+      }
+      {%- assign bulk_variant_data_first = false -%}
+    {%- endfor -%}
+  {%- else -%}
+    {%- for variant in product.variants -%}
+      {%- unless bulk_variant_data_first -%},{%- endunless -%}
+      {
+        "id": {{ variant.id | json }},
+        "price": {{ variant.price | default: 0 | json }},
+        "compare_at_price": {{ variant.compare_at_price | default: 0 | json }},
+        "available": {{ variant.available | json }}
+      }
+      {%- assign bulk_variant_data_first = false -%}
+    {%- endfor -%}
+  {%- endif -%}
+]
+{%- endcapture -%}
+
+{% assign number_of_options = 0 %}
+{% assign odd_number_of_options = false %}
+
+{%- for option in product.options_with_values -%}
+  {% if option.name == 'Title' %}
+    {% continue %}
+  {% endif %}
+  {% assign number_of_options = number_of_options | plus: 1 %}
+{%- endfor -%}
+
+{% assign number_of_options_modulo = number_of_options | modulo: 2 %}
+{% if number_of_options_modulo == 1 %}
+  {% assign odd_number_of_options = true %}
+{% endif %}
+
+{%- assign addon_groups = product.metafields.custom.product_addons.value -%}
+{%- assign extra_product = product.metafields.custom.product_extra.value -%}
+
+{%- comment -%} Build variantId -> price (cents) maps for addons + extra {%- endcomment -%}
+{%- capture addon_price_map_json -%}
+{
+  {%- assign first = true -%}
+  {%- assign seen = '' -%}
+  {%- if addon_groups != blank -%}
+    {%- for group in addon_groups -%}
+      {%- assign group_products = group.products.value -%}
+      {%- if group_products != blank -%}
+        {%- for p in group_products -%}
+          {%- assign v = p.selected_or_first_available_variant -%}
+          {%- if v != blank and v.id != blank -%}
+            {%- capture needle -%}||{{ v.id }}||{%- endcapture -%}
+            {%- unless seen contains needle -%}
+              {%- assign seen = seen | append: needle -%}
+              {%- unless first -%},{%- endunless -%}
+              "{{ v.id }}": {{ v.price | default: 0 }}
+              {%- assign first = false -%}
+            {%- endunless -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+}
+{%- endcapture -%}
+
+{%- capture extra_price_map_json -%}
+{
+  {%- if extra_product != blank -%}
+    {%- assign ev = extra_product.selected_or_first_available_variant -%}
+    {%- if ev != blank and ev.id != blank -%}
+      "{{ ev.id }}": {{ ev.price | default: 0 }}
+    {%- endif -%}
+  {%- endif -%}
+}
+{%- endcapture -%}
+
+{%- comment -%} ✅ Build variantId -> compare_at_price (cents) maps for addons + extra {%- endcomment -%}
+{%- capture addon_compare_map_json -%}
+{
+  {%- assign first = true -%}
+  {%- assign seen = '' -%}
+  {%- if addon_groups != blank -%}
+    {%- for group in addon_groups -%}
+      {%- assign group_products = group.products.value -%}
+      {%- if group_products != blank -%}
+        {%- for p in group_products -%}
+          {%- assign v = p.selected_or_first_available_variant -%}
+          {%- if v != blank and v.id != blank -%}
+            {%- capture needle -%}||{{ v.id }}||{%- endcapture -%}
+            {%- unless seen contains needle -%}
+              {%- assign seen = seen | append: needle -%}
+              {%- unless first -%},{%- endunless -%}
+              "{{ v.id }}": {{ v.compare_at_price | default: 0 }}
+              {%- assign first = false -%}
+            {%- endunless -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+}
+{%- endcapture -%}
+
+{%- capture extra_compare_map_json -%}
+{
+  {%- if extra_product != blank -%}
+    {%- assign ev = extra_product.selected_or_first_available_variant -%}
+    {%- if ev != blank and ev.id != blank -%}
+      "{{ ev.id }}": {{ ev.compare_at_price | default: 0 }}
+    {%- endif -%}
+  {%- endif -%}
+}
+{%- endcapture -%}
+
+<script>
+  window.__ADDON_PRICE_MAP__ = {{ addon_price_map_json | strip_newlines }};
+  window.__EXTRA_PRICE_MAP__ = {{ extra_price_map_json | strip_newlines }};
+  window.__ADDON_COMPARE_MAP__ = {{ addon_compare_map_json | strip_newlines }};
+  window.__EXTRA_COMPARE_MAP__ = {{ extra_compare_map_json | strip_newlines }};
+  window.__MONEY_FORMAT__ = {{ shop.money_format | json }};
+  window.__MARKET_CURRENCY__ = {{ localization.country.currency.iso_code | json }};
+</script>
+
+{%- assign has_addons = false -%}
+{%- if addon_groups != blank -%}
+  {%- assign has_addons = true -%}
+{%- endif -%}
+
+{%- assign has_extra = false -%}
+{%- if extra_product != blank -%}
+  {%- assign has_extra = true -%}
+{%- endif -%}
+
+<div
+  class=""
+  x-data="productAddons({{ has_addons | json }}, {{ has_extra | json }}, {{ is_bulk_quantity_template | json }}, {{ bulk_variant_data_json | strip_newlines | escape }}, {{ current_bulk_variant_id | json }})"
+>
+  {%- form 'product', product, id: product_form_id, class: 'flex flex-col gap-5', novalidate: 'novalidate', x-ref: 'product_form' -%}
+
+    <div class="flex flex-col gap-5">
+
+      {% if is_bulk_quantity_template %}
+        <div class="relative flex flex-col gap-2" data-bulk-quantity-selector>
+          <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 px-3 pb-1 text-12 font-bold uppercase sm:grid-cols-[minmax(0,1.2fr)_minmax(6.5rem,0.7fr)_minmax(10rem,auto)] sm:px-5">
+            <span>
+              {% if bulk_combined_listing_option != blank %}
+                {{ bulk_combined_listing_option.name }}
+              {% elsif product.options.first == 'Title' %}
+                Variant
+              {% else %}
+                {{ product.options.first | default: 'Variant' }}
+              {% endif %}
+            </span>
+            <span class="hidden sm:block">Price</span>
+            <span class="col-start-2 text-center sm:col-start-3">Quantity</span>
+          </div>
+          <div class="relative">
+            <div
+              x-ref="bulk_quantity_list"
+              x-init="$nextTick(() => updateBulkScrollProgress())"
+              @scroll="updateBulkScrollProgress()"
+              class="max-h-[24rem] space-y-2 overflow-y-auto overscroll-contain pb-12 pr-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              role="group"
+              aria-label="Choose quantities by variant"
+            >
+              {%- if has_bulk_combined_listing_products -%}
+                {%- assign rendered_bulk_variant_ids = '|' -%}
+                {%- for value in bulk_combined_listing_option.values -%}
+                  {%- assign variant = value.variant -%}
+                  {%- if variant == blank or variant.id == blank -%}
+                    {%- continue -%}
+                  {%- endif -%}
+                  {%- capture rendered_bulk_variant_id_key -%}|{{ variant.id }}|{%- endcapture -%}
+                  {%- if rendered_bulk_variant_ids contains rendered_bulk_variant_id_key -%}
+                    {%- continue -%}
+                  {%- endif -%}
+                  {%- assign rendered_bulk_variant_ids = rendered_bulk_variant_ids | append: rendered_bulk_variant_id_key -%}
+                  {%- assign bulk_variant_label = value.name | default: value -%}
+                  {%- assign bulk_max_quantity = 9999 -%}
+                  {%- if variant.inventory_management != blank and variant.inventory_policy == 'deny' -%}
+                    {%- assign bulk_max_quantity = variant.inventory_quantity | at_least: 0 -%}
+                  {%- endif -%}
+                  {% render 'bulk-quantity-row', variant: variant, variant_label: bulk_variant_label, bulk_max_quantity: bulk_max_quantity %}
+                {%- endfor -%}
+              {%- else -%}
+                {%- for variant in product.variants -%}
+                  {%- assign bulk_variant_label = variant.title -%}
+                  {%- if product.variants.size == 1 and variant.title == 'Default Title' -%}
+                    {%- assign bulk_variant_label = product.title -%}
+                  {%- endif -%}
+                  {%- assign bulk_max_quantity = 9999 -%}
+                  {%- if variant.inventory_management != blank and variant.inventory_policy == 'deny' -%}
+                    {%- assign bulk_max_quantity = variant.inventory_quantity | at_least: 0 -%}
+                  {%- endif -%}
+                  {% render 'bulk-quantity-row', variant: variant, variant_label: bulk_variant_label, bulk_max_quantity: bulk_max_quantity %}
+                {%- endfor -%}
+              {%- endif -%}
+            </div>
+
+            <div class="pointer-events-none absolute inset-y-0 right-0 w-1 overflow-hidden rounded-full bg-silver" aria-hidden="true">
+              <span
+                class="absolute top-0 left-0 w-full bg-black"
+                :style="{ height: bulkScrollProgress + '%' }"
+              ></span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            class="absolute right-5 bottom-3 z-1 bg-white px-2 text-12 font-semibold normal-case text-grey underline underline-offset-2 hover:text-black"
+            x-show="bulkTotalQuantity() > 0"
+            x-cloak
+            @click="clearBulkQuantities()"
+          >
+            Clear selection
+          </button>
+        </div>
+      {% else %}
+      <div class="grid grid-cols-10 gap-x-4 gap-y-4">
+        {%- for option in product.options_with_values -%}
+          {% if option.name == 'Title' %}
+            {% continue %}
+          {% endif %}
+
+          {% assign option_values_count = option.values | size %}
+          {% assign swatch_limit = 4 %}
+
+          <div class="flex flex-col gap-2 col-span-12">
+            {%- assign has_combined_links = false -%}
+            {%- assign selected_value_label = '' -%}
+
+            {%- for value in option.values -%}
+              {%- if value.product_url -%}
+                {%- assign has_combined_links = true -%}
+              {%- endif -%}
+              {%- if value.selected -%}
+                {%- assign selected_value_label = value -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            <label for="{{ option.name }}" class="body-03">
+              <span class="font-semibold">{{ option.name }}:</span>
+              {% if selected_value_label != '' %} {{ selected_value_label }} <span class="selected-item">(Selected)</span>{% endif %}
+            </label>
+
+            {%- if has_combined_links and option_values_count <= swatch_limit -%}
+              <!-- COMBINED LISTINGS SWATCHES (<= 8) -->
+              <div class="flex flex-wrap gap-2">
+                {%- for value in option.values -%}
+  {%- assign product_handle = value.product_url | split: '/products/' | last | split: '?' | first | split: '#' | first -%}
+  {%- assign child_product = all_products[product_handle] -%}
+  {%- assign swatch_image = child_product.featured_image -%}
+
+  <a
+    href="{{ value.product_url | default: '#' }}"
+    class="group relative w-20 h-20 rounded-lg flex items-center justify-center p-2 bg-neutral-100
+          {% if value.selected %}ring-2 ring-black{% endif %}
+          {% unless option_values_count > 1 %}pointer-events-none opacity-60{% endunless %}
+          {% unless value.product_url %}pointer-events-none opacity-60{% endunless %}"
+    aria-label="{{ value | escape }}"
+  >
+    {% if swatch_image %}
+      <img
+        src="{{ swatch_image | image_url: width: 80 }}"
+        alt="{{ value | escape }}"
+        width="56"
+        height="56"
+        class="w-full h-full object-cover rounded-lg"
+        loading="lazy"
+      >
+    {% else %}
+      <span class="text-xs px-2 text-center leading-tight">{{ value }}</span>
+    {% endif %}
+
+    <span class="pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2
+                whitespace-nowrap rounded-md bg-black/75 text-white text-xs px-2 py-1
+                opacity-0 translate-y-1 invisible
+                group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible
+                transition-all duration-200 z-10">
+      {{ value }}
+    </span>
+  </a>
+{%- endfor -%}
+              </div>
+
+            {%- elsif has_combined_links and option_values_count > swatch_limit -%}
+              <!-- COMBINED LISTINGS DROPDOWN (> 8) — SHOW ALL VALUES + PRODUCT URL -->
+              <div class="relative w-max">
+                <select
+                     name="{{ option.name }}"
+                     id="{{ option.name }}"
+                     @change="updateOption({{ forloop.index0 }}, $event.target.value, $event.target.selectedOptions[0]?.dataset.productUrl)"
+                     class="appearance-none bg-white border border-black rounded-full w-full pt-[15px] pb-3 px-5 pr-12 relative select-chevron cursor-pointer mono-font {% unless option_values_count > 1 %}pointer-events-none{% endunless %}"
+                  >
+                     {%- for value in option.values -%}
+                        <option
+                           value="{{ value | escape }}"
+                           {% if value.selected == true %}selected{% endif %}
+                           {% if value.product_url %}data-product-url="{{ value.product_url }}"{% endif %}
+                           {% if value.id %}data-option-value-id="{{ value.id }}"{% endif %}
+                           class="capitalize"
+                        >
+                           {{ value }}
+                        </option>
+                     {%- endfor -%}
+                  </select>
+                
+
+                {% if option_values_count > 1 %}
+                  <span class="absolute top-1/2 -translate-y-1/2 right-5 pointer-events-none">
+                    {% render 'icons', icon: 'chevron', class: 'w-3.5' %}
+                  </span>
+                {% endif %}
+              </div>
+
+            {%- else -%}
+              <!-- NORMAL DROPDOWN -->
+              <div class="relative w-max">
+                {%- assign option_index0 = option.position | minus: 1 -%}
+                {%- assign current_value = product.selected_or_first_available_variant.options[option_index0] | strip -%}
+
+                {%- capture allowed_values -%}
+                  {%- for v in product.variants -%}
+                    ||{{ v.options[option_index0] | strip }}||
+                  {%- endfor -%}
+                {%- endcapture -%}
+
+                <select
+                  name="{{ option.name }}"
+                  id="{{ option.name }}"
+                  @change="updateOption({{ forloop.index0 }}, $event.target.value, $event.target.selectedOptions[0]?.dataset.productUrl)"
+                  class="appearance-none bg-white border border-black rounded-full w-full pt-[15px] pb-3 px-5 relative select-chevron cursor-pointer pr-12{% unless option_values_count > 1 %}pointer-events-none{% endunless %}"
+                >
+                  {%- for value in option.values -%}
+                    {%- assign clean_value = value | strip -%}
+                    {%- capture needle -%}||{{ clean_value }}||{%- endcapture -%}
+
+                    {%- if allowed_values contains needle -%}
+                      <option
+                        value="{{ clean_value | escape }}"
+                        {% if clean_value == current_value %}selected{% endif %}
+                        {% if value.id %}data-option-value-id="{{ value.id }}"{% endif %}
+                        class="capitalize"
+                      >
+                        {{ value }}
+                      </option>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </select>
+
+                {% if option_values_count > 1 %}
+                  <span class="absolute top-1/2 -translate-y-1/2 right-5 pointer-events-none">
+                    {% render 'icons', icon: 'chevron', class: 'w-3.5' %}
+                  </span>
+                {% endif %}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+
+      </div>
+      {% endif %}
+
+      <!-- ✅ ADD-ONS UI (metaobjects) -->
+      {% if addon_groups != blank %}
+        <div class="flex flex-col gap-6">
+          {%- for group in addon_groups -%}
+            {%- assign group_heading = group.heading.value | default: group.heading -%}
+            {%- assign group_products = group.products.value -%}
+
+            {% if group_products != blank %}
+              <div class="flex flex-col gap-2">
+                <p class="body-03">
+                  <span class="font-semibold">{{ group_heading }}:</span>
+                  <span x-html="labelForGroup({{ forloop.index0 }})"></span>
+                </p>
+
+                <div class="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    class="relative w-20 h-20 rounded-lg flex items-center justify-center p-2 bg-neutral-100"
+                    :class="isNone({{ forloop.index0 }}) ? 'ring-2 ring-black' : ''"
+                    @click="selectNone({{ forloop.index0 }})"
+                    aria-label="None"
+                  >
+                    <span class="text-base font-semibold">NONE</span>
+                  </button>
+
+                  {%- for p in group_products -%}
+                    {%- assign addon_product = p -%}
+                    {%- assign addon_variant = addon_product.selected_or_first_available_variant -%}
+                    {%- assign addon_image = addon_product.featured_image -%}
+
+                    <button
+                      type="button"
+                      class="group relative w-20 h-20 rounded-lg flex items-center justify-center p-2 bg-neutral-100"
+                      :class="isSelected({{ forloop.parentloop.index0 }}, {{ addon_variant.id }}) ? 'ring-2 ring-black' : ''"
+                      @click="selectAddon({{ forloop.parentloop.index0 }}, {{ addon_variant.id }}, '{{ addon_product.title | escape }}')"
+                      aria-label="{{ addon_product.title | escape }}"
+                    >
+                      {% if addon_image %}
+                        <img
+                          src="{{ addon_image | image_url: width: 112 }}"
+                          alt="{{ addon_product.title | escape }}"
+                          width="56"
+                          height="56"
+                          class="w-full h-full object-cover rounded-lg"
+                          loading="lazy"
+                        >
+                      {% else %}
+                        <span class="text-[10px] px-1 text-center leading-tight">{{ addon_product.title }}</span>
+                      {% endif %}
+                    </button>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {% endif %}
+          {%- endfor -%}
+        </div>
+
+        <input type="hidden" name="properties[_addons]" :value="JSON.stringify(selectedAddons)" />
+      {% endif %}
+
+      <!-- ✅ PRODUCT EXTRA -->
+      {% if extra_product != blank %}
+      <div class="product-extra">
+          {%- assign extra_variant = extra_product.selected_or_first_available_variant -%}
+          {%- assign extra_image = extra_product.featured_image -%}
+          {%- assign extra_title = product.metafields.custom.product_extra_title -%}
+
+          <div class="flex flex-col gap-2">
+            <p class="body-03">
+              <span class="font-semibold">{{ extra_title }}:</span>
+              <span x-html="extraLabel()"></span>
+            </p>
+
+            <button
+              type="button"
+              class="w-full text-left rounded-2xl border border-silver p-3 flex items-center gap-4"
+              :class="extraSelected ? 'ring-2 ring-black' : ''"
+              @click="toggleExtra({{ extra_variant.id }}, '{{ extra_product.title | escape }}')"
+            >
+              <div class="w-16 h-16 rounded-lg overflow-hidden bg-neutral-100 flex items-center justify-center shrink-0">
+                {% if extra_image %}
+                  <img
+                    src="{{ extra_image | image_url: width: 128 }}"
+                    alt="{{ extra_product.title | escape }}"
+                    width="64"
+                    height="64"
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                  >
+                {% endif %}
+              </div>
+
+              <div class="flex-1 min-w-0">
+                <div class="flex items-start justify-between gap-4">
+                  <p class="heading-06 truncate">{{ extra_product.title }}</p>
+
+                  <div class="shrink-0 text-right">
+                    {% if extra_variant.compare_at_price > extra_variant.price %}
+                      <span class="line-through text-grey body-03">
+                        {{ extra_variant.compare_at_price | money }}
+                      </span>
+                    {% endif %}
+                    <span class="heading-06">
+                      {{ extra_variant.price | money }}
+                    </span>
+                  </div>
+                </div>
+
+                {% comment %}
+                <p class="text-grey body-03 truncate mt-1">
+                  {{ extra_product.description | strip_html | strip | truncate: 80 }}
+                </p>
+                {% endcomment %}
+              </div>
+
+              <div
+                class="w-6 h-6 rounded-md border border-black flex items-center justify-center shrink-0"
+                :class="extraSelected ? 'bg-black text-white' : 'bg-white text-black'"
+              >
+                <span x-show="extraSelected" aria-hidden="true">✓</span>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              class="body-03 underline text-grey w-max"
+              x-show="extraSelected"
+              @click.stop="clearExtra()"
+            >
+              Remove
+            </button>
+          </div>
+      </div>
+      {% endif %}
+
+      {% assign purchase_details_enabled = section.settings.purchase_details_enabled %}
+      {% assign purchase_details_heading = section.settings.purchase_details_heading | default: 'Secure Checkout' %}
+      {% assign purchase_details_support_icon = section.settings.purchase_details_support_icon | default: 'support' %}
+      {% assign purchase_details_support_title = section.settings.purchase_details_support_title | default: 'Support' %}
+      {% assign purchase_details_support_heading = section.settings.purchase_details_support_heading | default: 'Available 7 Days a Week' %}
+      {% assign purchase_details_support_text = section.settings.purchase_details_support_text | default: 'Assistance whenever you need it the most' %}
+      {% assign purchase_details_support_link = section.settings.purchase_details_support_link %}
+      {% assign purchase_details_returns_icon = section.settings.purchase_details_returns_icon | default: 'returns' %}
+      {% assign purchase_details_returns_title = section.settings.purchase_details_returns_title | default: 'Returns' %}
+      {% assign purchase_details_returns_heading = section.settings.purchase_details_returns_heading | default: '30 Days from Delivery' %}
+      {% assign purchase_details_returns_text = section.settings.purchase_details_returns_text | default: 'We offer simple, stress-free returns within the UK' %}
+      {% assign purchase_details_returns_link = section.settings.purchase_details_returns_link %}
+
+      <div class="flex flex-col gap-4 col-span-4 w-[95%] lg:w-full add-top-cart-pdp-wrap p-3 rounded-[12px]
+fixed left-1/2 -translate-x-1/2 bottom-2
+lg:sticky lg:left-auto lg:translate-x-0 lg:bottom-2
+lg:p-4 lg:rounded-[14px] lg:border lg:border-[#f7f7f7]
+backdrop-blur-xl bg-black/3 border-0 z-10">
+        <div class="flex flex-row flex-wrap items-end gap-2 w-full">
+          {% unless is_bulk_quantity_template %}
+          <div>
+            <p class="body-03 font-bold hidden">Quantity</p>
+            <div class="product-qty__wrapper border-0">
+              <button type="button" class="" @click="qty = Math.max(1, parseInt(qty) - 1)">
+                <span class="sr-only">
+                  {{ 'products.product.quantity.decrease' | t: product: product.title | escape }}
+                </span>
+                {% render 'icons', icon: 'minus', class: 'w-3.5' %}
+              </button>
+
+              <input type="number" x-model="qty" name="quantity" class="product-qty__input" min="1" max="9999">
+
+              <button type="button" class="" @click="qty = parseInt(qty) + 1">
+                <span class="sr-only">
+                  {{ 'products.product.quantity.increase' | t: product: product.title | escape }}
+                </span>
+                {% render 'icons', icon: 'plus', class: 'w-3.5' %}
+              </button>
+            </div>
+          </div>
+          {% endunless %}
+
+          <div class="min-w-0 grow">
+            <input type="hidden" name="id" x-ref="variant_id" :value="selectedVariant.id">
+
+            <button
+              type="button"
+              name="add"
+              x-ref="add_button"
+              {% if is_bulk_quantity_template %}
+                :disabled="bulkTotalQuantity() < 1"
+              {% else %}
+                :disabled="!selectedVariant || !selectedVariant.available"
+              {% endif %}
+              @click.stop.prevent="handleAddToCart(selectedVariant && selectedVariant.id ? selectedVariant.id : null, qty)"
+              class="button w-full bg-green-bright disabled:cursor-not-allowed disabled:grayscale disabled:opacity-50"
+            >
+              {% if is_bulk_quantity_template %}
+                <span
+                  x-show="bulkTotalQuantity() < 1 && (!selectedVariant || !selectedVariant.available)"
+                  x-cloak
+                >
+                  {{ 'products.product.sold_out' | t }}
+                </span>
+                <span
+                  class="flex items-center justify-center gap-1"
+                  x-show="bulkTotalQuantity() > 0 || (selectedVariant && selectedVariant.available)"
+                  x-cloak
+                >
+                  <span>Add to Cart</span>
+                  <span aria-hidden="true">·</span>
+                  <span x-text="formatMoney(totalCents())" aria-live="polite"></span>
+                </span>
+              {% else %}
+              <span>
+                {%- if product.selected_or_first_available_variant.available -%}
+                  {% if template.suffix == 'pre-order-only' %} Place Pre Order {% else %} Add to Cart {% endif %}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- endif -%}
+              </span>
+              {% endif %}
+            </button>
+          </div>
+        </div>
+
+        {% render 'delivery-promise',
+           wrapper_classes: 'w-full space-y-1 rounded-[12px] text-md leading-tight text-[#7d7d7d]',
+           date_prefix: 'Delivery as soon as',
+           date_line_classes: 'flex flex-wrap items-baseline gap-x-1 gap-y-0.5 text-md text-[#7d7d7d]',
+           date_prefix_classes: 'font-normal',
+           date_value_classes: 'font-semibold text-[#1c6ed7]',
+           countdown_line_classes: 'flex flex-wrap items-baseline gap-x-0.5 gap-y-0.5 text-md text-[#7d7d7d]',
+           countdown_prefix_classes: 'font-normal',
+           countdown_value_classes: 'font-semibold text-[#1c6ed7]',
+           countdown_suffix_classes: 'font-normal text-[#1c6ed7]',
+           shipping_line_classes: 'flex items-center text-md text-[#7d7d7d]',
+           shipping_text_classes: 'font-normal'
+        %}
+      </div>
+
+      {% if purchase_details_enabled %}
+        <div class="col-span-4 w-full rounded-[12px] border border-[#c9c9c9] bg-white px-4 py-5 sm:px-6">
+          <div class="flex items-center gap-3 text-[#202020]">
+            <span class="h-px flex-1 bg-[#e3e3e3]"></span>
+            <div class="flex items-center gap-2 text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6 text-[#4a4a4a]" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="4" y="10" width="16" height="10" rx="2"></rect>
+                <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+              </svg>
+              <span class="text-md leading-none">{{ purchase_details_heading }}</span>
+            </div>
+            <span class="h-px flex-1 bg-[#e3e3e3]"></span>
+          </div>
+
+          {% assign enabled_payment_types = shop.enabled_payment_types %}
+          {% if enabled_payment_types != blank %}
+            <ul class="mt-3 flex flex-wrap justify-center -m-0.5">
+              {%- for type in shop.enabled_payment_types -%}
+                <li class="p-0.5">
+                  {{ type | payment_type_svg_tag: class: 'h-[24px] w-[38px]' }}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {% endif %}
+
+          {% if section_blocks != blank %}
+            {% for block in section_blocks %}
+              {% if block.id contains 'klarna_on_site_messaging' %}
+                <style>
+                  div[part="osm-container"] {
+                  padding:0 !important;
+                  border:none !important;
+                  }
+                </style>
+                <div id="klarna" class="mt-4 rounded-[8px]">
+                  {% render block %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+
+          <div class="mt-4 grid gap-4 sm:grid-cols-2">
+            {% assign support_tag = 'div' %}
+            {% if purchase_details_support_link != blank %}
+              {% assign support_tag = 'a' %}
+            {% endif %}
+            <{{ support_tag }}
+              {% if purchase_details_support_link != blank %}href="{{ purchase_details_support_link }}"{% endif %}
+              class="rounded-[18px] border border-[#e5e5e5] bg-white p-5 text-left"
+            >
+              <div class="mb-4 flex items-center gap-3">
+                <div class="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full bg-[#f4f4f4] text-[#303030]">
+                  {% if purchase_details_support_icon == 'support' %}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M21 11.5a8.5 8.5 0 1 1-4.26-7.39"></path>
+                      <path d="M21 4.5v5h-5"></path>
+                    </svg>
+                  {% else %}
+                    {% render 'icons', icon: purchase_details_support_icon, class: 'h-5 w-5' %}
+                  {% endif %}
+                </div>
+                <p class="text-md font-semibold text-[#202020]">{{ purchase_details_support_title }}</p>
+              </div>
+              
+              <p class="text-md font-medium leading-tight text-[#202020] mb-1">{{ purchase_details_support_heading }}</p>
+              <p class="text-sm leading-snug text-[#7a7a7a]">{{ purchase_details_support_text }}</p>
+            </{{ support_tag }}>
+
+            {% assign returns_tag = 'div' %}
+            {% if purchase_details_returns_link != blank %}
+              {% assign returns_tag = 'a' %}
+            {% endif %}
+            <{{ returns_tag }}
+              {% if purchase_details_returns_link != blank %}href="{{ purchase_details_returns_link }}"{% endif %}
+              class="rounded-[18px] border border-[#e5e5e5] bg-white p-5 text-left"
+            >
+              <div class="mb-4 flex items-center gap-3">
+                <div class="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full bg-[#f4f4f4] text-[#303030]">
+                  {% render 'icons', icon: purchase_details_returns_icon, class: 'h-5 w-5' %}
+                </div>
+                <p class="text-md font-semibold text-[#202020]">{{ purchase_details_returns_title }}</p>
+              </div>
+              
+              <p class="text-md font-medium leading-tight text-[#202020] mb-1">{{ purchase_details_returns_heading }}</p>
+              <p class="text-md leading-snug text-[#7a7a7a]">{{ purchase_details_returns_text }}</p>
+            </{{ returns_tag }}>
+          </div>
+        </div>
+      {% endif %}
+
+     
+
+      <div id="judgeme_product_reviews_badge" class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}"></div>
+
+      <!-- ✅ EXPRESS CHECKOUT REPLACEMENT (cart-based, includes addons/extras) -->
+      <div class="flex flex-col gap-3 pb-5">
+        <p class="text-grey body-03 text-center">Express Checkout</p>
+
+        <div class="express-checkout">
+          <button
+            type="button"
+            class="button flex w-full items-center justify-center gap-1 text-white disabled:cursor-not-allowed disabled:opacity-50"
+            style="background-color:rgb(84, 51, 235);"
+            {% if is_bulk_quantity_template %}:disabled="bulkTotalQuantity() < 1"{% endif %}
+            @click="handleExpressCheckout()"
+          >
+            Buy with <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47 20" aria-label="Shop" role="img" class="h-5 w-auto" style="fill: rgb(255, 255, 255);"><path d="m9.095 6.766-2.33 1.186C6.233 7.035 5.5 6.565 4.48 6.565q-1.665 0-1.665 1.007c0 .716.821.873 2.663 1.275 1.842.403 3.931.985 3.931 3.29 0 2.238-1.73 3.58-4.593 3.58-2.308 0-4.02-.984-4.816-2.73l2.33-1.163c.488 1.077 1.331 1.633 2.486 1.633 1.198 0 1.797-.335 1.797-1.052 0-.716-.823-.872-2.668-1.275C2.101 10.727.02 10.145.02 7.84c0-2.17 1.709-3.536 4.46-3.536 2.153 0 3.773.873 4.615 2.462M11.05.5h2.884v5.102c.754-.828 1.842-1.298 3.085-1.298 2.485 0 4.26 1.925 4.26 4.655v6.646h-2.884V8.959c0-1.275-.932-2.216-2.22-2.216-1.287 0-2.24.962-2.24 2.216v6.646h-2.886zm12.116 4.61c.954-.671 2.33-1.14 3.795-1.14 3.906 0 6.746 2.663 6.746 6.311 0 3.401-2.441 5.774-5.837 5.774-2.907 0-4.992-1.97-4.992-4.61 0-1.79 1.067-3.111 2.574-3.626l1.22 2.082c-.82.38-1.13.94-1.13 1.633 0 1.14.955 1.947 2.33 1.947 1.687 0 3.018-1.343 3.018-3.155 0-2.127-1.664-3.737-3.927-3.737a4.5 4.5 0 0 0-2.508.738zm15.024 9.22v5.17h-2.885V4.417h2.818V5.78c.866-.94 2.086-1.477 3.462-1.477 3.04 0 5.415 2.484 5.415 5.707s-2.375 5.707-5.415 5.707c-1.354 0-2.53-.515-3.395-1.388m5.947-4.341c0-1.858-1.287-3.223-3.04-3.223-1.731 0-3.04 1.388-3.04 3.223s1.309 3.223 3.04 3.223c1.753 0 3.042-1.366 3.042-3.223z"></path></svg>
+          </button>
+
+          {%- comment -%}
+            Disabled: Shopify dynamic checkout buttons create a single-item buy-now checkout (Shop Pay callback),
+            so addons/extras (separate items) will not be included (and localhost/Theme CLI often 401s).
+            {{ form | payment_button }}
+          {%- endcomment -%}
+        </div>
+      </div>
+
+    </div>
+
+  {%- endform -%}
+</div>
+
+<script>
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('productAddons', (hasAddons = false, hasExtra = false, isBulkQuantity = false, bulkVariants = [], currentBulkVariantId = null) => ({
+      hasAddons,
+      hasExtra,
+      isBulkQuantity,
+      bulkVariants,
+      currentBulkVariantId,
+
+      addonPriceMap: window.__ADDON_PRICE_MAP__ || {},
+      extraPriceMap: window.__EXTRA_PRICE_MAP__ || {},
+      addonCompareMap: window.__ADDON_COMPARE_MAP__ || {},
+      extraCompareMap: window.__EXTRA_COMPARE_MAP__ || {},
+
+      moneyFormat: window.__MONEY_FORMAT__ || '£{{amount}}',
+      currencyCode: window.__MARKET_CURRENCY__ || 'GBP',
+
+      // groupIndex -> { variantId, title } OR null (none)
+      selectedAddons: {},
+
+      // single extra
+      extraSelected: false,
+      extraVariantId: null,
+      extraTitle: '',
+
+      // variantId -> quantity (bulk-quantity template only)
+      bulkQuantities: {},
+      bulkScrollProgress: 0,
+
+      init() {
+        if (typeof this.qty === 'undefined' || this.qty === null || this.qty === '') this.qty = 1;
+
+        if (this.isBulkQuantity) {
+          this.initialiseBulkQuantities();
+          window.addEventListener('resize', () => this.updateBulkScrollProgress());
+          this.$nextTick(() => this.scrollToCurrentBulkVariant());
+        }
+
+        // still safe to leave; does nothing now that payment_button is disabled
+        this.bindExpressSubmit();
+
+        this.publishTotals();
+
+        if (this.isBulkQuantity) {
+          this.$watch(() => JSON.stringify(this.bulkQuantities), () => this.publishTotals());
+        } else {
+          this.$watch('qty', () => this.publishTotals());
+          this.$watch('selectedVariant', () => this.publishTotals());
+        }
+
+        this.$watch(() => JSON.stringify(this.selectedAddons), () => this.publishTotals());
+        this.$watch('extraSelected', () => this.publishTotals());
+        this.$watch('extraVariantId', () => this.publishTotals());
+      },
+
+      initialiseBulkQuantities() {
+        const variants = this.bulkVariantList();
+        const quantities = {};
+
+        variants.forEach((variant) => {
+          quantities[String(variant.id)] = 0;
+        });
+
+        const currentVariant = variants.find((variant) => (
+          String(variant.id) === String(this.currentBulkVariantId)
+        ));
+        if (currentVariant && currentVariant.available) {
+          quantities[String(currentVariant.id)] = 1;
+        }
+
+        this.bulkQuantities = quantities;
+      },
+
+      bulkVariantList() {
+        if (Array.isArray(this.bulkVariants) && this.bulkVariants.length > 0) {
+          return this.bulkVariants;
+        }
+
+        return (this.product && Array.isArray(this.product.variants))
+          ? this.product.variants
+          : [];
+      },
+
+      bulkQuantity(variantId) {
+        const quantity = parseInt(this.bulkQuantities[String(variantId)] || 0, 10);
+        return Number.isFinite(quantity) ? Math.max(0, quantity) : 0;
+      },
+
+      bulkTotalQuantity() {
+        return Object.values(this.bulkQuantities).reduce((total, quantity) => {
+          const parsed = parseInt(quantity || 0, 10);
+          return total + (Number.isFinite(parsed) ? Math.max(0, parsed) : 0);
+        }, 0);
+      },
+
+      changeBulkQuantity(variantId, change, maximum = 9999) {
+        const variants = this.bulkVariantList();
+        const variant = variants.find((item) => String(item.id) === String(variantId));
+
+        if (!variant || !variant.available) return;
+
+        const current = this.bulkQuantity(variantId);
+        const delta = parseInt(change || 0, 10);
+        const parsedMaximum = parseInt(maximum || 0, 10);
+        const safeMaximum = Number.isFinite(parsedMaximum) ? Math.max(0, parsedMaximum) : 9999;
+        const next = Math.min(safeMaximum, Math.max(0, current + delta));
+
+        if (next === current) return;
+
+        this.bulkQuantities = {
+          ...this.bulkQuantities,
+          [String(variantId)]: next
+        };
+      },
+
+      clearBulkQuantities() {
+        this.bulkQuantities = Object.keys(this.bulkQuantities).reduce((quantities, variantId) => {
+          quantities[variantId] = 0;
+          return quantities;
+        }, {});
+      },
+
+      updateBulkScrollProgress() {
+        const list = this.$refs && this.$refs.bulk_quantity_list;
+        if (!list) return;
+
+        const viewportHeight = list.clientHeight;
+        const contentHeight = list.scrollHeight;
+        const maxScrollTop = Math.max(contentHeight - viewportHeight, 0);
+
+        this.bulkScrollProgress = maxScrollTop > 0
+          ? Math.min((list.scrollTop / maxScrollTop) * 100, 100)
+          : 100;
+      },
+
+      scrollToCurrentBulkVariant() {
+        const list = this.$refs && this.$refs.bulk_quantity_list;
+        if (!list || !this.currentBulkVariantId) return;
+
+        const row = list.querySelector(`[data-bulk-variant-id="${this.currentBulkVariantId}"]`);
+        if (!row) return;
+
+        list.scrollTop = Math.max(0, row.offsetTop - ((list.clientHeight - row.offsetHeight) / 2));
+        this.updateBulkScrollProgress();
+      },
+
+      // legacy intercept (kept for safety; harmless if no dynamic checkout button exists)
+      bindExpressSubmit() {
+        const root = this.$el;
+        if (!root) return;
+        if (root.__addonsExpressBound) return;
+        root.__addonsExpressBound = true;
+
+        const intercept = (btn) => {
+          if (!btn || btn.__addonsIntercepted) return;
+          btn.__addonsIntercepted = true;
+
+          btn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+            await this.handleExpressCheckout();
+          }, true);
+        };
+
+        const tryFindAndBind = () => {
+          const btn = root.querySelector('.shopify-payment-button__button');
+          if (btn) intercept(btn);
+        };
+
+        tryFindAndBind();
+
+        const obs = new MutationObserver(() => tryFindAndBind());
+        obs.observe(root, { childList: true, subtree: true });
+      },
+
+      publishTotals() {
+        const isFromPrice = this.isBulkQuantity
+          && this.bulkTotalQuantity() === 0
+          && this.totalCents() === 0;
+        const fromVariant = isFromPrice ? this.cheapestAvailableVariant() : null;
+        const fromPrice = fromVariant ? parseInt(fromVariant.price || 0, 10) : 0;
+        const fromCompareAt = fromVariant ? parseInt(fromVariant.compare_at_price || 0, 10) : 0;
+        const fromOriginal = fromCompareAt > fromPrice ? fromCompareAt : fromPrice;
+
+        window.dispatchEvent(new CustomEvent('product:addons:totals', {
+          detail: {
+            total: this.totalCents(),
+            original: isFromPrice ? fromOriginal : this.originalTotalCents(),
+            isFromPrice,
+            fromPrice,
+            fromOriginal
+          }
+        }));
+      },
+
+      // ✅ cart-based "buy now" that includes addons/extras
+      async handleExpressCheckout() {
+        try {
+          const mainVariantId = (this.selectedVariant && this.selectedVariant.id) ? this.selectedVariant.id : null;
+          const items = this.buildCartItems(mainVariantId, this.qty);
+
+          await this.addItems(items);
+
+          // cart checkout (includes all items)
+          window.location.assign('/checkout');
+        } catch (err) {
+          console.error(err);
+          alert(err?.message || 'Sorry — could not start checkout.');
+        }
+      },
+
+      selectAddon(groupIndex, variantId, title) {
+        this.selectedAddons[groupIndex] = { variantId, title };
+        this.publishTotals();
+      },
+      selectNone(groupIndex) {
+        this.selectedAddons[groupIndex] = null;
+        this.publishTotals();
+      },
+
+      isSelected(groupIndex, variantId) {
+        return this.selectedAddons[groupIndex] && this.selectedAddons[groupIndex].variantId === variantId;
+      },
+      isNone(groupIndex) {
+        return this.selectedAddons[groupIndex] === null || typeof this.selectedAddons[groupIndex] === 'undefined';
+      },
+      labelForGroup(groupIndex) {
+        const v = this.selectedAddons[groupIndex];
+        if (!v || !v.title) return `None <span class="selected-item">(Selected)</span>`;
+        return `${v.title} <span class="selected-item">(Selected)</span>`;
+      },
+
+      extraLabel() {
+        if (!this.extraSelected || !this.extraTitle) return `None <span class="selected-item">(Selected)</span>`;
+        return `${this.extraTitle} <span class="selected-item">(Selected)</span>`;
+      },
+
+      toggleExtra(variantId, title) {
+        if (!variantId) return;
+        if (this.extraSelected && this.extraVariantId === variantId) {
+          this.clearExtra();
+          return;
+        }
+        this.extraSelected = true;
+        this.extraVariantId = variantId;
+        this.extraTitle = title || '';
+        this.publishTotals();
+      },
+
+      clearExtra() {
+        this.extraSelected = false;
+        this.extraVariantId = null;
+        this.extraTitle = '';
+        this.publishTotals();
+      },
+
+      getSelectedVariantIds() {
+        return Object.values(this.selectedAddons)
+          .filter(v => v && v.variantId)
+          .map(v => v.variantId);
+      },
+
+      bulkMainItems() {
+        const variants = this.bulkVariantList();
+
+        return variants
+          .filter((variant) => variant.available && this.bulkQuantity(variant.id) > 0)
+          .map((variant) => ({
+            id: variant.id,
+            quantity: this.bulkQuantity(variant.id)
+          }));
+      },
+
+      buildCartItems(mainVariantId, qty) {
+        const mainItems = this.isBulkQuantity
+          ? this.bulkMainItems()
+          : (
+            mainVariantId
+              ? [{ id: mainVariantId, quantity: Math.max(1, parseInt(qty || 1, 10)) }]
+              : []
+          );
+
+        if (mainItems.length === 0) {
+          throw new Error('Please choose at least one quantity.');
+        }
+
+        const items = [...mainItems];
+        const addonVariantIds = this.hasAddons ? this.getSelectedVariantIds() : [];
+
+        addonVariantIds.forEach((id) => items.push({ id, quantity: 1 }));
+
+        if (this.hasExtra && this.extraSelected && this.extraVariantId) {
+          items.push({ id: this.extraVariantId, quantity: 1 });
+        }
+
+        return items;
+      },
+
+      bulkProductTotalCents(useCompareAt = false) {
+        const variants = this.bulkVariantList();
+
+        return variants.reduce((total, variant) => {
+          if (!variant.available) return total;
+
+          const quantity = this.bulkQuantity(variant.id);
+          const price = parseInt(variant.price || 0, 10);
+          const compareAt = parseInt(variant.compare_at_price || 0, 10);
+          const unitPrice = useCompareAt && compareAt > price ? compareAt : price;
+
+          return total + (unitPrice * quantity);
+        }, 0);
+      },
+
+      cheapestAvailableVariant() {
+        const variants = this.bulkVariantList();
+
+        return variants.reduce((cheapestVariant, variant) => {
+          const price = parseInt(variant.price || 0, 10);
+          if (!variant.available || !Number.isFinite(price) || price < 0) return cheapestVariant;
+
+          if (!cheapestVariant || price < parseInt(cheapestVariant.price || 0, 10)) {
+            return variant;
+          }
+
+          return cheapestVariant;
+        }, null);
+      },
+
+      totalCents() {
+        const basePrice = (this.selectedVariant && this.selectedVariant.price) ? parseInt(this.selectedVariant.price, 10) : 0;
+        const qty = parseInt(this.qty || 1, 10);
+        let total = this.isBulkQuantity
+          ? this.bulkProductTotalCents(false)
+          : basePrice * qty;
+
+        const addonIds = this.hasAddons ? this.getSelectedVariantIds() : [];
+        addonIds.forEach((id) => {
+          total += parseInt(this.addonPriceMap[id] || 0, 10);
+        });
+
+        if (this.hasExtra && this.extraSelected && this.extraVariantId) {
+          total += parseInt(this.extraPriceMap[this.extraVariantId] || 0, 10);
+        }
+
+        return total;
+      },
+
+      originalTotalCents() {
+        const price = (this.selectedVariant && this.selectedVariant.price) ? parseInt(this.selectedVariant.price, 10) : 0;
+        const compare = (this.selectedVariant && this.selectedVariant.compare_at_price) ? parseInt(this.selectedVariant.compare_at_price, 10) : 0;
+        const baseOriginal = compare > price ? compare : price;
+
+        const qty = parseInt(this.qty || 1, 10);
+        let total = this.isBulkQuantity
+          ? this.bulkProductTotalCents(true)
+          : baseOriginal * qty;
+
+        const addonIds = this.hasAddons ? this.getSelectedVariantIds() : [];
+        addonIds.forEach((id) => {
+          const aPrice = parseInt(this.addonPriceMap[id] || 0, 10);
+          const aCompare = parseInt(this.addonCompareMap[id] || 0, 10);
+          total += (aCompare > aPrice ? aCompare : aPrice);
+        });
+
+        if (this.hasExtra && this.extraSelected && this.extraVariantId) {
+          const ePrice = parseInt(this.extraPriceMap[this.extraVariantId] || 0, 10);
+          const eCompare = parseInt(this.extraCompareMap[this.extraVariantId] || 0, 10);
+          total += (eCompare > ePrice ? eCompare : ePrice);
+        }
+
+        return total;
+      },
+
+      formatMoney(cents) {
+        cents = parseInt(cents || 0, 10);
+        return new Intl.NumberFormat('en-GB', {
+          style: 'currency',
+          currency: this.currencyCode || 'GBP',
+          minimumFractionDigits: 2
+        }).format(cents / 100);
+      },
+
+      async handleAddToCart(mainVariantId, qty) {
+        try {
+          const items = this.buildCartItems(mainVariantId, qty);
+
+          await this.addItems(items);
+          window.dispatchEvent(new CustomEvent('cart-updated'));
+          this.openCartDrawerSafely();
+
+        } catch (e) {
+          console.error(e);
+          alert(e.message || 'Sorry — could not add to cart.');
+        }
+      },
+
+      openCartDrawerSafely() {
+        const drawer = document.querySelector('[data-module="cart-drawer"]');
+        const isVisible = drawer && drawer.offsetParent !== null;
+        if (!isVisible) window.dispatchEvent(new CustomEvent('toggle-cart'));
+      },
+
+      async addItems(items) {
+        const res = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ items }),
+          credentials: 'same-origin'
+        });
+
+        const text = await res.text();
+
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (e) {
+          console.error('Expected JSON but got:', text.slice(0, 500));
+          throw new Error('Cart endpoint did not return JSON.');
+        }
+
+        if (!res.ok) {
+          throw new Error(data?.description || data?.message || 'Failed to add items');
+        }
+
+        return data;
+      }
+    }));
+  });
+</script>

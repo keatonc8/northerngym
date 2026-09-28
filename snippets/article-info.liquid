@@ -1,0 +1,141 @@
+{% assign article_author = article.metafields.northerngym.blogs_author %}
+
+{% assign related_article_handles = '' %}
+{% assign related_article_handles_manual = '' %}
+
+{% for related_article in blog.articles %}
+   {% comment %}
+      Checks if the article is the one we are on
+   {% endcomment %}
+   {% if related_article.handle == article.handle %}
+      {% continue %}
+   {% endif %}
+
+   {% comment %}
+      Loops through all tags in the CURRENT article and checks if the tags in the potential related article match
+      If none of them match when we set the breakout to be true which will prevent the article from being added
+   {% endcomment %}
+   {% for current_article_tag in article_tags %}
+      {% if related_article.tags contains current_article_tag %}
+         {% assign breakout = false %}
+         {% break %}
+      {% else %}
+         {% assign breakout = true %}
+      {% endif %}
+   {% endfor %}
+
+   {% if breakout == true %}
+      {% continue %}
+   {% endif %}
+
+   {% comment %}
+      Now we are left with a string of all handles that share at least one tag
+   {% endcomment %}
+   {% if related_article_handles == '' %}
+      {% assign related_article_handles = related_article.handle %}
+   {% else %}
+      {% assign related_article_handles = related_article_handles | append: ',' | append: related_article.handle %}
+   {% endif %}
+{% endfor %}
+
+{% assign manual_related_articles = article.metafields.northerngym.related_articles.value %}
+
+{% for manual_related_article in manual_related_articles %}
+   {% comment %}
+      Check to see if 'news/' is included in the handle and adding it if not
+   {% endcomment %}
+   {% unless manual_related_article contains 'news/' %}
+      {% assign manual_related_article_checked = manual_related_article | prepend: 'news/' %}
+   {% else %}
+      {% assign manual_related_article_checked = manual_related_article %}
+   {% endunless %}
+
+   {% comment %}
+      Creating a seperate array of items that are taking priority
+   {% endcomment %}
+   {% if related_article_handles_manual == '' %}
+      {% assign related_article_handles_manual = manual_related_article_checked %}
+   {% else %}
+      {% assign related_article_handles_manual = related_article_handles_manual | append: ',' | append: manual_related_article_checked %}
+   {% endif %}
+
+   {% comment %}
+      Logic to remove articles from the original list so we don't get duplicates
+   {% endcomment %}
+   {% if related_article_handles contains manual_related_article_checked %}
+      {% assign related_article_handles = related_article_handles | remove: manual_related_article_checked | replace: ',,', ',' %}
+   {% endif %}
+
+{% endfor %}
+
+{% comment %}
+   Quick check to see if the first charcter is a comma as this could break the logic
+{% endcomment %}
+{% assign related_articles_handle_first_letter = related_article_handles | slice: 0, 1 %}
+{% if related_articles_handle_first_letter == ',' %}
+   {% assign related_article_handles = related_article_handles | remove_first: ','  %}
+{% endif %}
+
+{% assign related_article_handles_final = related_article_handles %}
+{% if related_article_handles_manual != blank %}
+   {% assign related_article_handles_final = related_article_handles_manual | append: ',' | append: related_article_handles %}
+{% endif %}
+
+{% assign related_articles_array = related_article_handles_final | split: ',' %}
+{% assign related_articles_array_size = related_articles_array | size %}
+{% assign related_article_count = 3 %}
+{% if related_articles_array_size < related_article_count %}
+   {% assign related_article_count = related_articles_array_size %}
+{% endif %}
+
+
+
+{% comment %}
+   Start of Content
+{% endcomment %}
+{% if article_author != blank %}
+   <div class="border-b border-silver pb-3">
+      <p class="body-01 font-bold">
+         Written by {{ article_author }}
+      </p>
+   </div>
+{% endif %}
+{% if article_tags != blank %}
+   <div class="border-b border-silver pb-4 flex flex-col gap-2 body-03">
+      <p class="font-bold">
+         Article Category
+      </p>
+      <div class="flex flex-wrap -m-1">
+         {% for article_tag in article_tags %}
+            {% assign article_tag_handle = article_tag | handleize %}
+            {% assign article_tag_url = blog_url | append: '/tagged/' | append: article_tag_handle %}
+            <div class="p-1">
+               <a href="{{ article_tag_url }}" class="block bg-black rounded-md py-2 px-3 text-white hover:bg-yellow hover:text-black">
+                  {{ article_tag }}
+               </a>
+            </div>
+         {% endfor %}
+      </div>
+   </div>
+{% endif %}
+{% if related_articles_array_size > 0 %}
+   <div class="flex flex-col gap-4">
+      <p class="body-03 font-bold">
+         Top {% unless related_article_count == 1 %}{{ related_article_count }} {% endunless %}related blogs
+      </p>
+      {% for related_article_item in related_articles_array limit: 3 %}
+         {% assign related_article_final = articles[related_article_item] %}
+
+         {% if related_article_final != blank %}
+            <a href="{{ related_article_final.url }}" class="flex gap-4 hover:text-yellow">
+               <span class="heading-05 pt-0.5 min-w-5">
+                  0{{ forloop.index }}
+               </span>
+               <p class="body-01">
+                  {{ related_article_final.title }}
+               </p>
+            </a>
+         {% endif %}
+      {% endfor %}
+   </div>
+{% endif %}

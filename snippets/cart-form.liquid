@@ -1,0 +1,689 @@
+{%- liquid
+  assign reward_threshold = settings.cart_drawer_reward_threshold | times: 100
+  assign reward_progress = 0
+  if reward_threshold > 0
+    assign reward_progress = cart.total_price | times: 100.0 | divided_by: reward_threshold | at_most: 100
+  endif
+
+  comment
+    Gym Floor Mat - 1m x 1m ships on a pallet and is excluded from free shipping.
+    It is a combined listing, so the cart holds the child products (one per
+    thickness), not the parent. IDs: parent, 20mm, 15mm, 30mm, 40mm, 10mm.
+    If any is in the cart, hide the free shipping bar and never show Free delivery.
+  endcomment
+  assign floor_mat_ids = '15718699237749,9094841073972,15718697795957,15718698451317,15729540989301,15958503096693' | split: ','
+  assign has_floor_mat = false
+  for cart_item in cart.items
+    assign cart_item_pid = cart_item.product_id | append: ''
+    if floor_mat_ids contains cart_item_pid
+      assign has_floor_mat = true
+      break
+    endif
+  endfor
+
+  assign reward_remaining = reward_threshold | minus: cart.total_price | at_least: 0
+  assign reward_remaining_money = reward_remaining | money
+  assign reward_message = settings.cart_drawer_reward_progress_text | replace: '[amount]', reward_remaining_money
+  assign free_shipping_unlocked = false
+  if reward_threshold > 0 and cart.total_price >= reward_threshold
+    assign reward_message = settings.cart_drawer_reward_reached_text
+  endif
+  if settings.cart_drawer_reward_enabled and reward_threshold > 0 and cart.total_price >= reward_threshold and has_floor_mat == false
+    assign free_shipping_unlocked = true
+  endif
+
+  assign delivery_label = settings.cart_drawer_delivery_method_label
+  assign delivery_price = settings.cart_drawer_delivery_summary | times: 100 | round
+  assign delivery_summary = delivery_price | money
+  if free_shipping_unlocked
+    assign delivery_summary = 'Free'
+    assign delivery_price = 0
+  endif
+  assign cart_total_with_delivery = cart.total_price | plus: delivery_price
+
+  assign delivery_method_2_label = settings.cart_drawer_delivery_method_2_label
+  assign delivery_method_2_price = settings.cart_drawer_delivery_method_2_price | times: 100 | round | money
+  assign delivery_method_3_label = settings.cart_drawer_delivery_method_3_label
+  assign delivery_method_3_price = settings.cart_drawer_delivery_method_3_price | times: 100 | round | money
+
+  assign cart_compare_at_total = 0
+  for cart_item in cart.items
+    assign cart_item_compare_at = cart_item.variant.compare_at_price | times: cart_item.quantity
+    if cart_item_compare_at > cart_item.original_line_price
+      assign cart_compare_at_total = cart_compare_at_total | plus: cart_item_compare_at
+    else
+      assign cart_compare_at_total = cart_compare_at_total | plus: cart_item.original_line_price
+    endif
+  endfor
+
+  assign upsell_collection = settings.cart_drawer_upsell_collection
+  assign cart_product_ids = cart.items | map: 'product_id'
+  assign manual_discount_applications = cart.discount_applications | where: 'type', 'discount_code'
+  assign applied_discount_codes = manual_discount_applications | map: 'title'
+-%}
+
+<div
+  class="cart-drawer-content"
+  x-data="{
+    deliveryOpen: false,
+    discountCode: '',
+    discountLoading: false,
+    discountError: '',
+    appliedDiscountCodes: {{ applied_discount_codes | json | escape }},
+    getRenderedDiscountCodes() {
+      return fetch('{{ routes.root_url }}?view=cart', {
+        headers: { 'Accept': 'text/html' }
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Unable to verify the discount code.');
+        return response.text();
+      })
+      .then(cartHtml => {
+        const cartDocument = new DOMParser().parseFromString(cartHtml, 'text/html');
+        const codesElement = cartDocument.querySelector('[data-applied-discount-codes]');
+        return codesElement ? JSON.parse(codesElement.getAttribute('data-codes')) : [];
+      });
+    },
+    updateDiscountCodes(codes, codeToValidate = '') {
+      this.discountLoading = true;
+      this.discountError = '';
+
+      fetch(window.Shopify.routes.root + 'cart/update.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ discount: codes.join(',') })
+      })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(error => Promise.reject(error));
+        }
+        return response.json();
+      })
+      .then(() => {
+        if (codeToValidate) {
+          return this.getRenderedDiscountCodes().then(renderedCodes => {
+            const codeWasApplied = renderedCodes.some(
+              title => title.toLowerCase() === codeToValidate.toLowerCase()
+            );
+
+            if (!codeWasApplied) {
+              this.discountLoading = false;
+              this.discountError = 'This discount code is invalid or is not available for the items in your cart.';
+              return;
+            }
+
+            this.$dispatch('cart-updated');
+          });
+        }
+
+        this.$dispatch('cart-updated');
+      })
+      .catch(error => {
+        this.discountLoading = false;
+        this.discountError = error.description || error.message || 'The discount code could not be updated.';
+      });
+    },
+    applyDiscountCode() {
+      const code = this.discountCode.trim();
+      if (!code) {
+        this.discountError = 'Enter a discount code.';
+        return;
+      }
+
+      const codeExists = this.appliedDiscountCodes.some(
+        appliedCode => appliedCode.toLowerCase() === code.toLowerCase()
+      );
+
+      if (codeExists) {
+        this.discountError = 'This discount code is already applied.';
+        return;
+      }
+
+      this.updateDiscountCodes([...this.appliedDiscountCodes, code], code);
+    },
+    removeDiscountCode(code) {
+      const remainingCodes = this.appliedDiscountCodes.filter(
+        appliedCode => appliedCode.toLowerCase() !== code.toLowerCase()
+      );
+      this.updateDiscountCodes(remainingCodes);
+    }
+  }"
+  @keydown.escape.window="deliveryOpen = false"
+>
+  <span
+    hidden
+    data-applied-discount-codes
+    data-codes="{{ applied_discount_codes | json | escape }}"
+  ></span>
+  <form action="{{ routes.cart_url }}" method="post" class="cart-drawer-form">
+    <header class="cart-drawer-header">
+      <h2 id="slide-over-title" class="cart-drawer-title">{{ settings.cart_drawer_title }}</h2>
+      <button
+        type="button"
+        title="Close"
+        class="cart-drawer-close"
+        @click="$dispatch('toggle-cart')"
+      >
+        <span class="sr-only">Close cart drawer</span>
+        {% render 'icons', icon: 'cross' %}
+      </button>
+    </header>
+
+    {% if cart.item_count > 0 %}
+      {% if settings.cart_drawer_reward_enabled and reward_threshold > 0 and has_floor_mat == false %}
+        <section class="cart-reward" aria-label="Cart reward progress">
+          <p class="cart-reward__message">
+            {{ reward_message }}
+          </p>
+          <div
+            class="cart-reward__track"
+            role="progressbar"
+            aria-valuemin="0"
+            aria-valuemax="{{ reward_threshold }}"
+            aria-valuenow="{{ cart.total_price | at_most: reward_threshold }}"
+          >
+            <span
+              class="cart-reward__fill{% if cart.total_price >= reward_threshold %} cart-reward__fill--complete{% endif %}"
+              style="width: {{ reward_progress }}%"
+            ></span>
+          </div>
+        </section>
+      {% endif %}
+
+      <div class="cart-drawer-scroll">
+        {% if settings.cart_drawer_reservation_message_enabled %}
+          <div class="cart-reservation-notice">
+            <strong>Your items are not reserved:</strong> Check out to avoid missing out!
+          </div>
+        {% endif %}
+
+        <div class="cart-drawer-items">
+          {% for item in cart.items %}
+            {%- liquid
+              assign item_compare_at_price = item.variant.compare_at_price | times: item.quantity
+              if item_compare_at_price <= item.line_price and item.original_line_price > item.line_price
+                assign item_compare_at_price = item.original_line_price
+              endif
+            -%}
+            <article class="cart-drawer-item">
+              <a href="{{ item.url }}" class="cart-drawer-item__image">
+                {% if item.image %}
+                  {{ item.image | image_url: width: 320 | image_tag: loading: 'lazy', class: 'cart-drawer-item__img' }}
+                {% else %}
+                  <span class="cart-drawer-item__placeholder">
+                    {% render 'icons', icon: 'logo' %}
+                  </span>
+                {% endif %}
+              </a>
+
+              <div class="cart-drawer-item__details">
+                <div>
+                  <a href="{{ item.url }}" class="cart-drawer-item__title">{{ item.product.title }}</a>
+                  {% unless item.variant.title == 'Default Title' %}
+                    <p class="cart-drawer-item__variant">{{ item.variant.title }}</p>
+                  {% endunless %}
+
+                  {% for discount in item.line_level_discount_allocations %}
+                    <p class="cart-drawer-item__discount">
+                      {% render 'icons', icon: 'discount' %}
+                      <span>{{ discount.discount_application.title }}</span>
+                    </p>
+                  {% endfor %}
+                </div>
+
+                <div class="cart-drawer-item__actions">
+                  <div
+                    class="cart-drawer-quantity"
+                    x-data="{
+                      qty: {{ item.quantity }},
+                      setQuantity(value) {
+                        this.qty = Math.max(1, parseInt(value));
+                      }
+                    }"
+                    x-init="$watch('qty', value => { loading = true; Main.updateQuantity({{ forloop.index }}, value) })"
+                  >
+                    <button type="button" @click="setQuantity(qty - 1)">
+                      <span class="sr-only">{{ 'products.product.quantity.decrease' | t: product: item.product.title | escape }}</span>
+                      {% render 'icons', icon: 'minus' %}
+                    </button>
+                    <input
+                      type="number"
+                      x-model.number="qty"
+                      name="updates[]"
+                      value="{{ item.quantity }}"
+                      min="1"
+                      max="9999"
+                      aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title | escape }}"
+                    >
+                    <button type="button" @click="setQuantity(qty + 1)">
+                      <span class="sr-only">{{ 'products.product.quantity.increase' | t: product: item.product.title | escape }}</span>
+                      {% render 'icons', icon: 'plus' %}
+                    </button>
+                  </div>
+
+                  <button
+                    type="button"
+                    title="Remove {{ item.product.title | escape }}"
+                    class="cart-drawer-item__remove"
+                    @click="loading = true; Main.updateQuantity({{ forloop.index }}, 0)"
+                  >
+                    <span class="sr-only">Remove {{ item.product.title }}</span>
+                    {% render 'icons', icon: 'bin' %}
+                  </button>
+
+                  <div class="cart-drawer-item__price cart-drawer-item__price--mobile">
+                    <strong>{{ item.line_price | money }}</strong>
+                    {% if item_compare_at_price > item.line_price %}
+                      <s>{{ item_compare_at_price | money }}</s>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+
+              <div class="cart-drawer-item__price cart-drawer-item__price--desktop">
+                <strong>{{ item.line_price | money }}</strong>
+                {% if item_compare_at_price > item.line_price %}
+                  <s>{{ item_compare_at_price | money }}</s>
+                {% endif %}
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+
+        {% if settings.cart_drawer_upsells_enabled and upsell_collection != blank %}
+          <section
+            class="cart-upsell"
+            aria-labelledby="cart-upsell-title"
+            x-data="{
+              canScrollPrevious: false,
+              canScrollNext: false,
+              updateUpsellNavigation() {
+                const rail = this.$refs.upsellRail;
+                const maxScroll = rail.scrollWidth - rail.clientWidth;
+                this.canScrollPrevious = rail.scrollLeft > 2;
+                this.canScrollNext = maxScroll > 2 && rail.scrollLeft < maxScroll - 2;
+              },
+              scrollUpsells(direction) {
+                const rail = this.$refs.upsellRail;
+                rail.scrollBy({
+                  left: direction * rail.clientWidth * 0.75,
+                  behavior: 'smooth'
+                });
+              }
+            }"
+            x-init="$nextTick(() => { updateUpsellNavigation(); setTimeout(() => updateUpsellNavigation(), 250) })"
+          >
+            <div class="cart-upsell__heading">
+              <h3 id="cart-upsell-title">{{ settings.cart_drawer_upsell_heading }}</h3>
+              <div class="cart-upsell__navigation">
+                <button
+                  type="button"
+                  @click="scrollUpsells(-1)"
+                  :disabled="!canScrollPrevious"
+                  aria-label="Previous upsell products"
+                >
+                  <svg viewBox="0 0 12 20" aria-hidden="true">
+                    <path d="M10.5 1.5 2 10l8.5 8.5"></path>
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  @click="scrollUpsells(1)"
+                  :disabled="!canScrollNext"
+                  aria-label="Next upsell products"
+                >
+                  <svg viewBox="0 0 12 20" aria-hidden="true">
+                    <path d="m1.5 1.5 8.5 8.5-8.5 8.5"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="cart-upsell__rail"
+              x-ref="upsellRail"
+              @scroll.debounce.50ms="updateUpsellNavigation()"
+              @resize.window.debounce.150ms="updateUpsellNavigation()"
+            >
+              {% assign upsell_count = 0 %}
+              {% for upsell_product in upsell_collection.products %}
+                {% unless cart_product_ids contains upsell_product.id %}
+                  {% if upsell_product.available and upsell_count < 8 %}
+                    {% assign upsell_count = upsell_count | plus: 1 %}
+                    {% assign upsell_variant = upsell_product.selected_or_first_available_variant %}
+                    {% assign has_combined_listing_options = false %}
+                    {% for upsell_option in upsell_product.options_with_values %}
+                      {% for upsell_option_value in upsell_option.values %}
+                        {% if upsell_option_value.product_url != blank %}
+                          {% assign has_combined_listing_options = true %}
+                          {% break %}
+                        {% endif %}
+                      {% endfor %}
+                      {% if has_combined_listing_options %}
+                        {% break %}
+                      {% endif %}
+                    {% endfor %}
+                    <article
+                      class="cart-upsell-card"
+                      x-data="{
+                        adding: false,
+                        selectedVariantId: {{ upsell_variant.id }},
+                        selectedPrice: {{ upsell_variant.price | money | json | escape }},
+                        selectedCompareAt: {% if upsell_variant.compare_at_price > upsell_variant.price %}{{ upsell_variant.compare_at_price | money | json | escape }}{% else %}''{% endif %},
+                        updateSelectedOption(event) {
+                          const option = event.target.selectedOptions[0];
+                          this.selectedPrice = option.dataset.price || '';
+                          this.selectedCompareAt = option.dataset.compareAt || '';
+                        }
+                      }"
+                    >
+                      <a href="{{ upsell_product.url }}" class="cart-upsell-card__image">
+                        {% if upsell_product.featured_image %}
+                          {{ upsell_product.featured_image | image_url: width: 360 | image_tag: loading: 'lazy' }}
+                        {% endif %}
+                      </a>
+                      <div class="cart-upsell-card__content">
+                        <a href="{{ upsell_product.url }}" class="cart-upsell-card__title">{{ upsell_product.title }}</a>
+                        <span class="cart-upsell-card__price">
+                          <strong x-text="selectedPrice">{{ upsell_variant.price | money }}</strong>
+                          <s
+                            x-show="selectedCompareAt"
+                            x-text="selectedCompareAt"
+                            {% unless upsell_variant.compare_at_price > upsell_variant.price %}x-cloak{% endunless %}
+                          >
+                            {% if upsell_variant.compare_at_price > upsell_variant.price %}
+                              {{ upsell_variant.compare_at_price | money }}
+                            {% endif %}
+                          </s>
+                        </span>
+                        <div class="cart-upsell-card__purchase">
+                          {% if has_combined_listing_options %}
+                            {% for upsell_option in upsell_product.options_with_values %}
+                              {% assign option_has_combined_links = false %}
+                              {% for upsell_option_value in upsell_option.values %}
+                                {% if upsell_option_value.product_url != blank %}
+                                  {% assign option_has_combined_links = true %}
+                                  {% break %}
+                                {% endif %}
+                              {% endfor %}
+
+                              {% if option_has_combined_links %}
+                                <label class="cart-upsell-card__options">
+                                  <span class="cart-upsell-card__options-label">{{ upsell_option.name }}</span>
+                                  <select x-model.number="selectedVariantId" @change="updateSelectedOption($event)">
+                                    {% for upsell_option_value in upsell_option.values %}
+                                      {% if upsell_option_value.variant != blank %}
+                                        {% assign linked_variant = upsell_option_value.variant %}
+                                        <option
+                                          value="{{ linked_variant.id }}"
+                                          data-price="{{ linked_variant.price | money | escape }}"
+                                          data-compare-at="{% if linked_variant.compare_at_price > linked_variant.price %}{{ linked_variant.compare_at_price | money | escape }}{% endif %}"
+                                          {% unless upsell_option_value.available %}disabled{% endunless %}
+                                          {% if upsell_option_value.selected %}selected{% endif %}
+                                        >
+                                          {{ upsell_option_value.name }}{% unless upsell_option_value.available %} — Sold out{% endunless %}
+                                        </option>
+                                      {% endif %}
+                                    {% endfor %}
+                                  </select>
+                                </label>
+                              {% endif %}
+                            {% endfor %}
+                          {% elsif upsell_product.has_only_default_variant == false %}
+                            <label class="cart-upsell-card__options">
+                              <span class="cart-upsell-card__options-label">Options</span>
+                              <select x-model.number="selectedVariantId" @change="updateSelectedOption($event)">
+                                {% for variant in upsell_product.variants %}
+                                  <option
+                                    value="{{ variant.id }}"
+                                    data-price="{{ variant.price | money | escape }}"
+                                    data-compare-at="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | escape }}{% endif %}"
+                                    {% unless variant.available %}disabled{% endunless %}
+                                    {% if variant.id == upsell_variant.id %}selected{% endif %}
+                                  >
+                                    {{ variant.title }}{% unless variant.available %} — Sold out{% endunless %}
+                                  </option>
+                                {% endfor %}
+                              </select>
+                            </label>
+                          {% endif %}
+                          <button
+                            type="button"
+                            class="cart-upsell-card__add"
+                            :disabled="adding"
+                            @click="
+                              adding = true;
+                              fetch(window.routes.cart_add_url, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ id: selectedVariantId, quantity: 1 })
+                              })
+                              .then(response => {
+                                if (!response.ok) throw new Error('Unable to add product');
+                                $dispatch('cart-updated');
+                              })
+                              .catch(error => { console.error(error); adding = false })
+                            "
+                          >
+                            <span class="sr-only">Add {{ upsell_product.title }} to cart</span>
+                            {% render 'icons', icon: 'plus' %}
+                          </button>
+                        </div>
+                      </div>
+                    </article>
+                  {% endif %}
+                {% endunless %}
+              {% endfor %}
+            </div>
+          </section>
+        {% endif %}
+      </div>
+
+      {% if settings.cart_drawer_delivery_popup_enabled %}
+        <div
+          id="cart-delivery-information"
+          class="cart-delivery-panel"
+          x-show="deliveryOpen"
+          x-transition:enter="cart-delivery-panel--enter"
+          x-transition:enter-start="cart-delivery-panel--enter-start"
+          x-transition:enter-end="cart-delivery-panel--enter-end"
+          x-transition:leave="cart-delivery-panel--leave"
+          x-transition:leave-start="cart-delivery-panel--enter-end"
+          x-transition:leave-end="cart-delivery-panel--enter-start"
+          x-cloak
+          role="dialog"
+          aria-modal="false"
+          aria-labelledby="cart-delivery-title"
+        >
+          <div class="cart-delivery-panel__header">
+            <h3 id="cart-delivery-title">{{ settings.cart_drawer_delivery_popup_heading }}</h3>
+            <button type="button" @click="deliveryOpen = false">
+              <span class="sr-only">Close delivery information</span>
+              {% render 'icons', icon: 'cross' %}
+            </button>
+          </div>
+          <div class="cart-delivery-panel__content">
+            {%- capture cart_delivery_shipping_message -%}
+              <span>{{ delivery_label | escape }}</span>
+              <strong>{{ delivery_summary }}</strong>
+            {%- endcapture -%}
+            {% render 'delivery-promise',
+               wrapper_classes: 'cart-delivery-promise w-full space-y-1 rounded-[12px] text-md leading-tight text-[#7d7d7d]',
+               date_prefix: 'Delivery as soon as',
+               date_line_classes: 'flex flex-wrap items-baseline gap-x-1 gap-y-0.5 text-md text-[#7d7d7d]',
+               date_prefix_classes: 'font-normal',
+               date_value_classes: 'font-semibold text-[#1c6ed7]',
+               countdown_line_classes: 'flex flex-wrap items-baseline gap-x-0.5 gap-y-0.5 text-md text-[#7d7d7d]',
+               countdown_prefix_classes: 'font-normal',
+               countdown_value_classes: 'font-semibold text-[#1c6ed7]',
+               countdown_suffix_classes: 'font-normal text-[#1c6ed7]',
+               shipping_line_classes: 'cart-delivery-promise__shipping flex items-center text-md text-[#7d7d7d]',
+               shipping_text_classes: 'cart-delivery-method font-normal',
+               shipping_message: cart_delivery_shipping_message
+            %}
+
+            {% if delivery_method_2_label != blank or delivery_method_3_label != blank %}
+              <div class="cart-delivery-methods" aria-label="Other delivery methods">
+                {% if delivery_method_2_label != blank %}
+                  <div class="cart-delivery-method">
+                    <span>{{ delivery_method_2_label | escape }}</span>
+                    <strong>{{ delivery_method_2_price }}</strong>
+                  </div>
+                {% endif %}
+                {% if delivery_method_3_label != blank %}
+                  <div class="cart-delivery-method">
+                    <span>{{ delivery_method_3_label | escape }}</span>
+                    <strong>{{ delivery_method_3_price }}</strong>
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+
+            {% if settings.cart_drawer_delivery_popup_text != blank %}
+              <div class="cart-delivery-panel__notes rte">
+                {{ settings.cart_drawer_delivery_popup_text }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+
+      <footer class="cart-drawer-footer">
+        {% if settings.cart_drawer_discount_code_enabled %}
+          <div class="cart-discount-accordion" x-data="{ discountAccordionOpen: false }">
+          <button
+            type="button"
+            class="cart-discount-accordion__trigger"
+            @click="discountAccordionOpen = !discountAccordionOpen"
+            :aria-expanded="discountAccordionOpen.toString()"
+            aria-controls="CartDrawerDiscountPanel"
+          >
+            <span>Discount code</span>
+            <svg viewBox="0 0 12 8" aria-hidden="true" :class="{ 'is-open': discountAccordionOpen }">
+              <path d="m1 1 5 5 5-5"></path>
+            </svg>
+          </button>
+
+          <div
+            id="CartDrawerDiscountPanel"
+            class="cart-discount-entry"
+            x-show="discountAccordionOpen"
+            x-transition.opacity.duration.150ms
+            x-cloak
+          >
+            <div class="cart-discount-entry__controls">
+              <input
+                id="CartDrawerDiscountCode"
+                type="text"
+                x-model="discountCode"
+                @keydown.enter.prevent="applyDiscountCode()"
+                :disabled="discountLoading"
+                placeholder="Enter code"
+                aria-label="Discount code"
+                autocomplete="off"
+                autocapitalize="characters"
+              >
+              <button
+                type="button"
+                @click="applyDiscountCode()"
+                :disabled="discountLoading"
+              >
+                <span x-show="!discountLoading">Apply</span>
+                <span x-show="discountLoading" x-cloak>Applying…</span>
+              </button>
+            </div>
+            <p class="cart-discount-entry__error" x-show="discountError" x-text="discountError" x-cloak role="alert"></p>
+          </div>
+          </div>
+
+          {% if manual_discount_applications.size > 0 %}
+            <div class="cart-applied-codes" aria-label="Applied discount codes">
+              {% for discount in manual_discount_applications %}
+                <div class="cart-applied-code">
+                  <span>
+                    {% render 'icons', icon: 'discount' %}
+                    {{ discount.title }}
+                  </span>
+                  <button
+                    type="button"
+                    @click="removeDiscountCode({{ discount.title | json | escape }})"
+                    :disabled="discountLoading"
+                    aria-label="Remove discount code {{ discount.title | escape }}"
+                  >
+                    Remove
+                  </button>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endif %}
+
+        <div class="cart-drawer-summary">
+          <div>
+            <span>Subtotal</span>
+            <span class="cart-drawer-summary__prices">
+              <strong>{{ cart.original_total_price | money }}</strong>
+              {% if cart_compare_at_total > cart.original_total_price %}
+                <s>{{ cart_compare_at_total | money }}</s>
+              {% endif %}
+            </span>
+          </div>
+          <div>
+            {% if settings.cart_drawer_delivery_popup_enabled %}
+              <button
+                type="button"
+                class="cart-delivery-trigger"
+                @click="deliveryOpen = !deliveryOpen"
+                :aria-expanded="deliveryOpen.toString()"
+                aria-controls="cart-delivery-information"
+              >
+                <span>{{ delivery_label }}</span>
+                <svg viewBox="0 0 18 18" aria-hidden="true">
+                  <rect x="1.5" y="1.5" width="15" height="15" rx="2"></rect>
+                  <path d="M9 8v5M9 5.2v.1"></path>
+                </svg>
+              </button>
+            {% else %}
+              <span>{{ delivery_label }}</span>
+            {% endif %}
+            <span>{{ delivery_summary }}</span>
+          </div>
+          {% if cart.total_discount > 0 %}
+            <div class="cart-drawer-discounts">
+              <span>Discounts</span>
+              <strong>-{{ cart.total_discount | money }}</strong>
+            </div>
+          {% endif %}
+          <div class="cart-drawer-summary__total">
+            <span>Total</span>
+            <strong>{{ cart_total_with_delivery | money }}</strong>
+          </div>
+        </div>
+
+        <button name="checkout" type="submit" class="cart-drawer-checkout">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="currentColor" fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd"></path>
+          </svg>
+          <span>{{ settings.cart_drawer_checkout_label }}</span>
+        </button>
+
+        {% if settings.cart_drawer_show_payment_icons %}
+          <ul class="cart-drawer-payments" role="list" aria-label="Payment methods">
+            {% for type in shop.enabled_payment_types %}
+              <li>{{ type | payment_type_svg_tag }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </footer>
+    {% else %}
+      <div class="cart-drawer-empty">
+        {% render 'icons', icon: 'empty-basket' %}
+        <h3>{{ 'general.cart.cart_empty_title_html' | t }}</h3>
+        <button @click="$dispatch('toggle-cart')" type="button">Continue Shopping</button>
+      </div>
+    {% endif %}
+  </form>
+</div>

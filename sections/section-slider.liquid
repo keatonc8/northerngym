@@ -1,0 +1,117 @@
+{% assign show_bullets = section.settings.show_bullets %}
+{% assign show_arrows = section.settings.show_arrows %}
+
+<div class="glide" data-module="section-slider">
+   <div class="glide__track" data-glide-el="track">
+      <ul class="glide__slides">
+         {% for block in section.blocks %}
+            {% assign slide_heading = block.settings.heading %}
+            {% assign slide_paragraph = block.settings.paragraph %}
+
+            <li class="glide__slide">
+               <div class="bg-silver flex items-center justify-center relative">
+                  <div class="w-full h-full absolute top-0 left-0 z-1 pointer-events-none">
+                     <img src="https://picsum.photos/2200/1300" alt="" class="object-cover w-full h-full">
+                  </div>
+                  <div class="vertical-padding relative z-2">
+                     <div class="container">
+                        {% render 'heading-and-text',
+                           heading: slide_heading,
+                           body: slide_paragraph
+                        %}
+                     </div>
+                  </div>
+               </div>
+            </li>
+         {% endfor %}
+      </ul>
+   </div>
+   {% if show_bullets == true %}
+      <div class="glide__bullets" data-glide-el="controls[nav]">
+         {% for block in section.blocks %}
+            <button class="glide__bullet" data-glide-dir="{{ forloop.index0 | prepend: '=' }}"></button>
+         {% endfor %}
+      </div>
+   {% endif %}
+   {% if show_arrows == true %}
+      <div class="container absolute top-0 h-full pointer-events-none">
+         <div class="glide__arrows relative h-full" data-glide-el="controls">
+            <button class="glide__arrow glide__arrow--left" data-glide-dir="<">
+               {% render 'icons', icon: 'arrow', class: 'w-3 rotate-90' %}
+               <span class="sr-only">
+                  Previous
+               </span>
+            </button>
+            <button class="glide__arrow glide__arrow--right" data-glide-dir=">">
+               {% render 'icons', icon: 'arrow', class: 'w-3 -rotate-90' %}
+               <span class="sr-only">
+                  Next
+               </span>
+            </button>
+         </div>
+      </div>
+   {% endif %}
+</div>
+
+{% schema %}
+{
+   "name": "Slider",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Settings"
+      },
+      {
+         "type": "checkbox",
+         "id": "show_bullets",
+         "label": "Show Bullets",
+         "default": true
+      },
+      {
+         "type": "checkbox",
+         "id": "show_arrows",
+         "label": "Show Arrows",
+         "default": true
+      },
+      {
+         "type": "header",
+         "content": "Content"
+      }
+   ],
+   "blocks": [
+      {
+         "type": "Slide",
+         "name": "Slide",
+         "settings": [
+            {
+               "type": "header",
+               "content": "Settings"
+            },
+            {
+               "type": "header",
+               "content": "Content"
+            },
+            {
+               "type": "text",
+               "id": "heading",
+               "label": "Heading"
+            },
+            {
+               "type": "text",
+               "id": "paragraph",
+               "label": "Paragraph"
+            },
+            {
+               "type": "image_picker",
+               "id": "background_image",
+               "label": "Background Image"
+            }
+         ]
+      }
+   ],
+   "presets": [{
+      "name": "Slider",
+      "blocks": []
+   }]
+}
+{% endschema %}

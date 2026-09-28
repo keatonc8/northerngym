@@ -1,0 +1,111 @@
+{% if image_tooltip != blank %}
+
+   {% assign show_component = false %}
+
+   {% assign display_name = image_tooltip.display_name %}
+   {% assign background_image = image_tooltip.image %}
+   {% assign mobile_image = image_tooltip.mobile_image %}
+
+   {% assign tooltips = image_tooltip.tooltips.value %}
+   {% assign tooltips_count = tooltips | size %}
+   {% assign x_axis_percentages = image_tooltip.x_axis_percentages.value %}
+   {% assign x_axis_percentages_count = x_axis_percentages | size %}
+   {% assign y_axis_percentages = image_tooltip.y_axis_percentages.value %}
+   {% assign y_axis_percentages_count = y_axis_percentages | size %}
+   {% assign x_axis_percentages_mobile = image_tooltip.x_axis_percentages_mobile.value %}
+   {% assign x_axis_percentages_mobile_count = x_axis_percentages_mobile | size %}
+   {% assign y_axis_percentages_mobile = image_tooltip.y_axis_percentages_mobile.value %}
+   {% assign y_axis_percentages_mobile_count = y_axis_percentages_mobile | size %}
+
+   {% if background_image != blank %}
+      {% if tooltips_count == x_axis_percentages_count and tooltips_count == y_axis_percentages_count and tooltips_count == x_axis_percentages_mobile_count and tooltips_count == y_axis_percentages_mobile_count %}
+         {% assign show_component = true %}
+      {% endif %}
+   {% endif %}
+
+   <div class="vertical-spacing"
+      x-data="{
+         activeMobileTooltip: false
+      }"
+   >
+      <div class="container-sm">
+         <div class="relative">
+            {% assign desktop_image_classes = 'w-full' %}
+            {% if mobile_image != blank %}
+               {% assign desktop_image_classes = desktop_image_classes | append: ' hidden md:block' %}
+            {% endif %}
+            {% render 'responsive-image',
+               image_object: background_image,
+               size: 'full',
+               class: desktop_image_classes
+            %}
+            {% if mobile_image != blank %}
+               {% render 'responsive-image',
+                  image_object: mobile_image,
+                  size: 'mobile',
+                  class: 'w-full md:hidden'
+               %}
+            {% endif %}
+            {% if show_component %}
+               {% for tooltip_item in tooltips %}
+                  {% assign forloop_index = forloop.index0 %}
+                  {% assign x_axis = x_axis_percentages[forloop_index] %}
+                  {% assign y_axis = y_axis_percentages[forloop_index] %}
+                  {% assign x_axis_mobile = x_axis_percentages_mobile[forloop_index] %}
+                  {% assign y_axis_mobile = y_axis_percentages_mobile[forloop_index] %}
+
+                  {% style %}
+                     .image-tooltip__item--{{ forloop_index }} {
+                        top: {{ y_axis_mobile }}%;
+                        left: {{ x_axis_mobile }}%;
+                     }
+
+                     @media screen and (min-width: 768px) {
+                        .image-tooltip__item--{{ forloop_index }} {
+                           top: {{ y_axis }}%;
+                           left: {{ x_axis }}%;
+                        }
+                     }
+                  {% endstyle %}
+
+                  {% assign tooltip_positioning_x_axis_classes = 'left-0 tooltip-arrow--left' %}
+                  {% assign tooltip_positioning_y_axis_classes = 'bottom-full pb-4 tooltip-arrow--bottom' %}
+                  {% assign x_axis_times = x_axis | times: 1 %}
+                  {% assign y_axis_times = y_axis | times: 1 %}
+                  {% if x_axis_times > 60 %}
+                     {% assign tooltip_positioning_x_axis_classes = 'right-0 tooltip-arrow--right' %}
+                  {% endif %}
+                  {% if y_axis_times < 25 %}
+                     {% assign tooltip_positioning_y_axis_classes = 'top-full pt-4 tooltip-arrow--top' %}
+                  {% endif %}
+                  {% assign tooltip_positioning_classes = tooltip_positioning_x_axis_classes | append: ' ' | append: tooltip_positioning_y_axis_classes %}
+
+                  <button class="absolute -translate-1/2 image-tooltip__item--{{ forloop_index }} group hover:z-1" @click.prevent="activeMobileTooltip === {{ forloop.index }} ? activeMobileTooltip = false : activeMobileTooltip = {{ forloop.index }}">
+                     <div class="rounded-full bg-white shadow-md text-black p-1.5 xs:p-2 sm:p-3 group-hover:bg-black group-hover:text-white">
+                        {% render 'icons', icon: 'cross', class: 'w-3 rotate-45 group-hover:rotate-90 duration-300' %}
+                     </div>
+                     <div class="hidden md:block absolute opacity-0 group-hover:opacity-100 duration-300 pointer-events-none group-hover:pointer-events-auto tooltip-arrow {{ tooltip_positioning_classes }}">
+                        <div class="bg-white shadow-md p-5 w-max max-w-80">
+                           <p>
+                              {{ tooltip_item }}
+                           </p>
+                        </div>
+                     </div>
+                  </button>
+               {% endfor %}
+               
+            {% endif %}
+            {% for tooltip_item in tooltips %}
+               <div class="absolute inset-0 w-full h-full flex justify-center items-center md:hidden bg-black/70 p-5 sm:p-12 z-2" x-show="activeMobileTooltip === {{ forloop.index }}" @click="activeMobileTooltip = false">
+                  <div class="w-full bg-white text-black p-5 sm:p-12 text-center max-h-[90%] overflow-scroll">
+                     <p>
+                        {{ tooltip_item }}
+                     </p>
+                  </div>
+               </div>
+            {% endfor %}
+         </div>
+      </div>
+   </div>
+
+{% endif %}

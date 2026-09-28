@@ -1,0 +1,244 @@
+
+<div class="container">
+  <div class="vertical-spacing-sm">
+    <h1 class="heading">{{collection.title}}</h1>
+    <div x-data="{
+      loading: false,
+      sort: '{{ sort_by }}',
+      nextPage: 2,
+      isFinalPage: false,
+      sortCollection(){
+        this.loading = true;
+        fetch('/collections/{{ collection.handle }}?sort_by=' + this.sort + '&page=1')
+          .then(response => response.text())
+          .then(data => {
+            let html_div = document.createElement('div');
+            html_div.innerHTML = data;
+
+            let html_dom = html_div.querySelector('#product-grid').innerHTML;
+            document.querySelector('#product-grid').innerHTML = html_dom;
+            history.replaceState(null, null, '?sort_by=' + this.sort + '&page=1');
+          })
+          .catch(error => console.error('Error:', error))
+          .finally(() => {
+              this.loading = false;
+              this.nextPage = 2;
+            }      
+          );
+      },
+      loadMore(){
+        this.loading = true;
+        counter = 1;
+        fetch('/collections/{{ collection.handle }}?sort_by=' + this.sort + '&page=' + this.nextPage)
+          .then(response => response.text())
+          .then(data => {
+            let html_div = document.createElement('div');
+            html_div.innerHTML = data;
+
+            let html_dom = html_div.querySelector('#product-grid').innerHTML;
+
+            if (html_dom == ''){
+              this.isFinalPage = true;
+              counter = 0;
+            }
+
+            document.querySelector('#product-grid').innerHTML += html_dom;
+            history.replaceState(null, null, '?sort_by=' + this.sort);
+          })
+          .catch(error => console.error('Error:', error))
+          .finally(() => {
+              this.loading = false;
+              this.nextPage = this.nextPage + counter;
+            }
+          );
+      }
+    }"
+    class="section-{{ section.id }}-padding" id="ProductGridContainer">
+      
+      {% if section.settings.enable_sorting000 %}
+        <div class="flex justify-between container">
+
+          {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+          <div class="collection__sort flex justify-end">
+            
+            {% render 'loader' %}
+      
+            <select id="sort-by" x-model="sort" @change="sortCollection()" class="py-3 px-4 my-3 border border-black">
+              {% for option in collection.sort_options %}
+                <option value="{{ option.value }}" {% if option.value == sort_by %}selected="selected"{% endif %}>
+                  {{ option.name }}
+                </option>
+              {% endfor %}
+            </select>
+            
+          </div>
+
+        </div>
+      {% endif %}
+
+      <div class="flex flex-col sm:flex-row container">
+
+        {% if section.settings.enable_filtering %}
+          <div class="w-full sm:w-3/12">
+              {{ 'component-facets.css' | asset_url | stylesheet_tag }}
+              <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+              {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+                <aside aria-labelledby="verticalTitle" class="facets-wrapper{% unless section.settings.enable_filtering %} facets-wrapper--no-filters{% endunless %}{% if section.settings.filter_type != 'vertical' %} container{% endif %}" id="main-collection-filters" data-id="{{ section.id }}">
+                  {% render 'facets', results: collection, enable_filtering: section.settings.enable_filtering, enable_sorting: section.settings.enable_sorting, filter_type: section.settings.filter_type %}
+                </aside>
+              {%- endif -%}
+              </div>
+        {% endif %}
+
+
+        <div class="w-full {% if section.settings.enable_filtering %} sm:w-9/12 {% endif %}">
+          {%- paginate collection.products by 12 -%}
+
+          
+              <div class="collection">
+                <ul id="product-grid" data-id="{{ section.id }}" class="grid grid-cols-3 gap-2">
+                  {%- for product in collection.products -%}
+      
+                    <li class="grid__item">
+                      {% render 'card-product',
+                        card_product: product,
+                        media_aspect_ratio: section.settings.image_ratio,
+                        show_secondary_image: section.settings.show_secondary_image,
+                        show_vendor: section.settings.show_vendor,
+                        show_rating: section.settings.show_rating
+                      %}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+        
+              </div>
+
+        {%- endpaginate -%}
+        </div>
+
+      </div>
+
+      <div x-show="!isFinalPage">
+        <button class="button" @click="loadMore()">load more</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Collection grid",
+  "class": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 24,
+      "step": 4,
+      "default": 16,
+      "label": "products_per_page"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "adapt"
+        },
+        {
+          "value": "portrait",
+          "label": "portrait"
+        },
+        {
+          "value": "square",
+          "label": "square"
+        }
+      ],
+      "default": "adapt",
+      "label": "image_ratio"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": false,
+      "label": "show_secondary_image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "show_vendor"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": false,
+      "label": "show_rating"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "default": true,
+      "label": "enable_filtering"
+    },
+    {
+      "type": "select",
+      "id": "filter_type",
+      "options": [
+        {
+          "value": "horizontal",
+          "label": "horizontal"
+        },
+        {
+          "value": "vertical",
+          "label": "vertical"
+        },
+        {
+          "value": "drawer",
+          "label": "drawer"
+        }
+      ],
+      "default": "horizontal",
+      "label": "filter_type"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "default": true,
+      "label": "enable_sorting"
+    },
+    {
+      "type": "checkbox",
+      "id": "collapse_on_larger_devices",
+      "default": false,
+      "label": "collapse_on_larger_devices"
+    },
+    {
+      "type": "header",
+      "content": "section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "padding_bottom",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}

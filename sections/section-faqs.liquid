@@ -1,0 +1,92 @@
+{% assign heading = section.settings.heading | default: 'FAQs' %}
+{% assign paragraph = section.settings.paragraph %}
+
+{% render 'faqs-section'
+   heading: heading,
+   paragraph: paragraph,
+   section_blocks: section.blocks
+%}
+
+{% schema %}
+{
+   "name": "FAQs",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Settings"
+      },
+      {
+         "type": "header",
+         "content": "Content"
+      },
+      {
+         "type": "text",
+         "id": "heading",
+         "label": "Heading"
+      },
+      {
+         "type": "textarea",
+         "id": "paragraph",
+         "label": "Paragraph"
+      }
+   ],
+   "blocks": [
+      {
+         "type": "faq",
+         "name": "Custom",
+         "settings": [
+            {
+               "type": "header",
+               "content": "Question"
+            },
+            {
+               "type": "text",
+               "id": "heading",
+               "label": "Question"
+            },
+            {
+               "type": "header",
+               "content": "Answer"
+            },
+            {
+               "type": "richtext",
+               "id": "answer",
+               "label": "Answer"
+            },
+            {
+               "type": "url",
+               "id": "button_link",
+               "label": "Button Link"
+            },
+            {
+               "type": "text",
+               "id": "button_text",
+               "label": "Button Text"
+            },
+            {
+               "type": "checkbox",
+               "id": "button_target",
+               "label": "Open new tab?",
+               "default": false
+            }
+         ]
+      },
+      {
+         "type": "metaobject_item",
+         "name": "Metaobject Item",
+         "settings": [
+            {
+               "type": "metaobject",
+               "id": "faq_metaobject",
+               "label": "FAQ - Metaobject",
+               "metaobject_type": "faq_item"
+            }
+         ]
+      }
+   ],
+   "presets": [{
+      "name": "FAQs",
+      "blocks": []
+   }]
+}
+{% endschema %}

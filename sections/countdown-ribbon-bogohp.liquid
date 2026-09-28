@@ -1,0 +1,220 @@
+{% comment %}
+  Section: BOGOHP Countdown Ribbon (days : hours : mins : secs)
+  Sits sticky beneath the nav, same behaviour as the announcement ticker.
+  Mobile: header is sticky, ribbon hugs its bottom edge.
+  Desktop: header scrolls away, ribbon rises and pins to the top.
+  Toggle: "Show countdown ribbon" in section settings (default OFF).
+  Deadline set in section settings. Default midnight start of 14 Sep 2026 UK.
+{% endcomment %}
+
+{%- assign show_ribbon = section.settings.show_ribbon -%}
+{%- assign hide_ie = section.settings.hide_ie -%}
+{%- if hide_ie and localization.country.iso_code == 'IE' -%}
+  {%- assign show_ribbon = false -%}
+{%- endif -%}
+
+{%- if show_ribbon -%}
+
+<style>
+  .cdr-bar {
+    position: relative;
+    z-index: 45;
+    width: 100%;
+    background: {{ section.settings.bar_bg }};
+    color: #fff;
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+  .cdr-bar.is-pinned {
+    position: fixed;
+    left: 0;
+    right: 0;
+  }
+  .cdr-bar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 9px 0;
+    line-height: normal;
+    box-sizing: border-box;
+  }
+  .cdr-bar__label {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: #ffffff;
+    line-height: 1.2;
+  }
+  .cdr-bar__timer { display: flex; align-items: center; gap: 4px; }
+  .cdr-bar__unit { display: flex; align-items: baseline; gap: 2px; }
+  .cdr-bar__digits {
+    color: {{ section.settings.accent }};
+    font-size: 14px;
+    font-weight: 700;
+    min-width: 28px;
+    display: inline-block;
+    text-align: right;
+    line-height: 1.2;
+  }
+  .cdr-bar__unit-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.6;
+    padding-left: 1px;
+  }
+  .cdr-bar__sep {
+    color: {{ section.settings.accent }};
+    font-size: 14px;
+    font-weight: 700;
+    opacity: 0.5;
+    padding: 0 1px;
+    line-height: 1.2;
+  }
+  .cdr-spacer { height: 0; }
+  @media (max-width: 767px) {
+    .cdr-bar__inner {
+      flex-direction: column;
+      gap: 4px;
+      padding: 8px 20px;
+    }
+    .cdr-bar__label { font-size: 10px; }
+    .cdr-bar__digits { font-size: 13px; }
+  }
+</style>
+
+<div class="cdr-spacer" data-cdr-spacer></div>
+<div class="cdr-bar" id="cdr-bar" data-cdr-bar>
+  <div class="cdr-bar__inner">
+    <span class="cdr-bar__label">{{ section.settings.label | escape }}</span>
+    <div class="cdr-bar__timer">
+      <div class="cdr-bar__unit">
+        <span class="cdr-bar__digits" id="cdr-days">00</span>
+        <span class="cdr-bar__unit-label">d</span>
+      </div>
+      <span class="cdr-bar__sep">:</span>
+      <div class="cdr-bar__unit">
+        <span class="cdr-bar__digits" id="cdr-hours">00</span>
+        <span class="cdr-bar__unit-label">h</span>
+      </div>
+      <span class="cdr-bar__sep">:</span>
+      <div class="cdr-bar__unit">
+        <span class="cdr-bar__digits" id="cdr-mins">00</span>
+        <span class="cdr-bar__unit-label">m</span>
+      </div>
+      <span class="cdr-bar__sep">:</span>
+      <div class="cdr-bar__unit">
+        <span class="cdr-bar__digits" id="cdr-secs">00</span>
+        <span class="cdr-bar__unit-label">s</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var bar = document.getElementById('cdr-bar');
+  if (!bar) return;
+  var spacer = bar.previousElementSibling;
+  if (spacer && !spacer.hasAttribute('data-cdr-spacer')) spacer = null;
+
+  // Countdown tick (d:h:m:s)
+  var deadline = new Date('{{ section.settings.deadline }}').getTime();
+  function pad(n) { return n < 10 ? '0' + n : String(n); }
+  function tick() {
+    var s = Math.floor(Math.max(0, deadline - Date.now()) / 1000);
+    document.getElementById('cdr-days').textContent  = pad(Math.floor(s / 86400));
+    document.getElementById('cdr-hours').textContent = pad(Math.floor((s % 86400) / 3600));
+    document.getElementById('cdr-mins').textContent  = pad(Math.floor((s % 3600) / 60));
+    document.getElementById('cdr-secs').textContent  = pad(s % 60);
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // Sticky-under-nav pin, identical approach to the announcement ticker.
+  var header = document.querySelector('header');
+  var restingTop = 0;
+  function measure() {
+    if (bar.classList.contains('is-pinned')) return;
+    restingTop = bar.getBoundingClientRect().top + window.scrollY;
+  }
+  function headerBottomOnScreen() {
+    if (!header) return 0;
+    var b = header.getBoundingClientRect().bottom;
+    return b > 0 ? b : 0;
+  }
+  function onScroll() {
+    var pinned = bar.classList.contains('is-pinned');
+    var threshold = restingTop - headerBottomOnScreen();
+    if (window.scrollY >= threshold) {
+      if (!pinned) {
+        if (spacer) { spacer.style.height = bar.getBoundingClientRect().height + 'px'; }
+        bar.classList.add('is-pinned');
+      }
+      bar.style.top = headerBottomOnScreen() + 'px';
+    } else {
+      if (pinned) {
+        bar.classList.remove('is-pinned');
+        bar.style.top = '';
+        if (spacer) { spacer.style.height = '0'; }
+        measure();
+      }
+    }
+  }
+  function boot() {
+    measure();
+    onScroll();
+  }
+  if (document.readyState === 'complete') { boot(); }
+  else { window.addEventListener('load', boot); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () {
+    if (!bar.classList.contains('is-pinned')) measure();
+    onScroll();
+  }, { passive: true });
+})();
+</script>
+
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "BOGOHP Countdown Ribbon",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_ribbon",
+      "label": "Show countdown ribbon",
+      "default": false,
+      "info": "Turn on in the final week of the offer."
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_ie",
+      "label": "Hide on Ireland market",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "BOGO half price ends in"
+    },
+    {
+      "type": "text",
+      "id": "deadline",
+      "label": "Deadline (ISO datetime, UK time)",
+      "default": "2026-09-14T00:00:00+01:00",
+      "info": "Format: YYYY-MM-DDTHH:MM:SS+01:00"
+    },
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "bar_bg", "label": "Bar background", "default": "#000000" },
+    { "type": "color", "id": "accent", "label": "Digit / accent colour", "default": "#FEED06" }
+  ],
+  "blocks": [],
+  "presets": []
+}
+{% endschema %}

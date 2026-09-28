@@ -1,0 +1,229 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "block_hero_zTxQkq": {
+      "type": "block-hero",
+      "blocks": {
+        "logo_qCynRE": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_p6QBqX": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_bbPWLe": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_3tmyyg": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_G3z4Nc": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_WFyzRd": {
+          "type": "logo",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "logo_qCynRE",
+        "logo_p6QBqX",
+        "logo_bbPWLe",
+        "logo_3tmyyg",
+        "logo_G3z4Nc",
+        "logo_WFyzRd"
+      ],
+      "name": "Block - Hero",
+      "settings": {
+        "background_image": "shopify://shop_images/BLUELIGHT_22.png",
+        "mobile_background_image": "shopify://shop_images/BLUELIGHT_23.png",
+        "content_vertical_align": "middle",
+        "heading": "<p>BLUE LIGHT CARD EXCLUSIVE</p>",
+        "body": "",
+        "button_label": "",
+        "button_link": "",
+        "text_color": "#ffffff",
+        "button_color": "#ffffff",
+        "button_text_color": "#000000",
+        "marquee_speed": "regular",
+        "add_marquee_bg": false,
+        "marquee_bg_color": "#ffffff",
+        "marquee_bg_opacity": 100
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "Use code BLUELIGHT20 at checkout · No minimum spend · Sitewide",
+            "image": "shopify://shop_images/BLUELIGHT_20.png",
+            "title": "",
+            "text": "",
+            "button_label": "Build your gym — earn the discount",
+            "button_link": "shopify://collections/shop-all"
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "YOU DO THE WORK. WE'VE GOT YOUR 20% OFF.",
+        "text": "<p>Northern Gym Equipment. Built for the people who show up, every session.</p><p>As a Blue Light Card member, you earn this discount — use it sitewide.</p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_MKdtwB": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_wUPzwY": {
+          "type": "card",
+          "settings": {
+            "title": "SHOP THE FULL SITE",
+            "image": "shopify://shop_images/Blue_Light_Discount_Checkout.png",
+            "text": "<p>Dumbbells, weight plates, racks, benches, mats, bundles. Everything's included.</p>",
+            "button_label": "Build Your Set",
+            "button_link": "shopify://collections/shop-all"
+          }
+        },
+        "card_hrCYyE": {
+          "type": "card",
+          "settings": {
+            "title": "HEAD TO CHECKOUT",
+            "image": "shopify://shop_images/Blue_Light_-_Weight_Plates.png",
+            "text": "<p>Add your items and proceed when you're ready.</p>",
+            "button_label": "Go to Checkout",
+            "button_link": "https://northerngymequipment.com/checkouts/cn/hWNBXYqejvUeOSs3JiYyHerO/en-gb?_r=AQABGTV0Mv0lXxCkfOVMr-7k3PdmqDpEP9Y0AU1_AWMd-uU&auto_redirect=false&edge_redirect=true&preview_theme_id=187480605045&skip_shop_pay=true&_su_rec=ntRwF1RtlLmtqulL8HYTIOgyAS9MN-6wp09uDt26h269saAlSfDTSb_0THaXOjfBqPjJ1plXyuRdLFOKqMhzV6xHbiCfy91VOZbFwMd6zOWU2pMuUnpHUSRXBwfhG0yKOJ4TAMfSb2Z_GFD8U3x2elJwOuLqyyaNE-gYGHo3P0rDj-LNxiRKg1hwUSJohfjWHtRT5P8tULqnMinrTN_pXncfCTMJOwQ"
+          }
+        },
+        "card_j6Yi6x": {
+          "type": "card",
+          "settings": {
+            "title": "ENTER CODE BLUELIGHT20",
+            "image": "shopify://shop_images/Blue_Light_Discount_-_Strength_Training_with_Hand_Dumbbells.png",
+            "text": "<p>20% comes straight off your total. Then the hard work starts.</p>",
+            "button_label": "Get 20% Off",
+            "button_link": "https://northerngymequipment.com/checkouts/cn/hWNBXYqejvUeOSs3JiYyHerO/en-gb?_r=AQABGTV0Mv0lXxCkfOVMr-7k3PdmqDpEP9Y0AU1_AWMd-uU&auto_redirect=false&edge_redirect=true&preview_theme_id=187480605045&skip_shop_pay=true&_su_rec=ntRwF1RtlLmtqulL8HYTIOgyAS9MN-6wp09uDt26h269saAlSfDTSb_0THaXOjfBqPjJ1plXyuRdLFOKqMhzV6xHbiCfy91VOZbFwMd6zOWU2pMuUnpHUSRXBwfhG0yKOJ4TAMfSb2Z_GFD8U3x2elJwOuLqyyaNE-gYGHo3P0rDj-LNxiRKg1hwUSJohfjWHtRT5P8tULqnMinrTN_pXncfCTMJOwQ"
+          }
+        }
+      },
+      "block_order": [
+        "card_wUPzwY",
+        "card_hrCYyE",
+        "card_j6Yi6x"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_image_tiles_dihH7R": {
+      "type": "block-image-tiles",
+      "blocks": {
+        "tile_BkFXyU": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/Blue_Light_-_Gym_Equipment_Bundle_Sets.png",
+            "title": "EVERYTHING YOU NEED",
+            "text": "<p>Dumbbells, racks, plates, flooring from first pieces to fully kitted gyms.</p>",
+            "button_label": "",
+            "link": "shopify://collections/shop-all"
+          }
+        },
+        "tile_rzPTnf": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/Blue_Light_Discount_Woman_Athlete_Performing_Fitness_Ball_Workout.jpg",
+            "title": "BUILT ON NORTHERN SPIRIT",
+            "text": "<p>Three brothers. 150,000 strong and growing.</p>",
+            "button_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "tile_BkFXyU",
+        "tile_rzPTnf"
+      ],
+      "name": "Block - Image Tiles",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "instant_ytk_td_hdt4_tz_zzq_jc_WAXETa": {
+      "type": "instant-YtkTdHdt4TZZzqJc",
+      "name": "NOR : Rack Features",
+      "settings": {
+        "text_xgf2oACTnjEwRVsl": "<p><strong>Fitness is easy. Just work really hard.</strong></p>",
+        "url_hLqzvgq9MPrtKqzV": "shopify://collections/shop-all",
+        "text_FPqqFkw2Y3GbjuL4": "<p>EARN THE DISCOUNT</p>",
+        "text_fCw8tO6Mao60bJbF": "<p>You give everything you've got, to earn everything you get. Northern gym equipment takes car of the 1% details so you can focus on the work. Built to withstand, support and endure. Session after session.</p>",
+        "image_pq5B1poILN8uGoz4": "shopify://shop_images/BLUELIGHT_21.png",
+        "text_WvuYe0FTbphIgqNE": "<p><strong>Built</strong> <strong>to work</strong></p>",
+        "text_VIdyBG9AGfUtQmdj": "<p>Every piece engineered for real training. All form. All function. No compromise.</p>",
+        "text_EczgE1De6XDDb7rV": "<p><strong>Sweat the small stuff</strong></p>",
+        "text_ORrBeCWpfYTxf8ir": "<p>We do the details. Marginal gains that make the difference rep after rep.</p>",
+        "text_M3KJZ5vlwedPE1OM": "<p><strong>Delivery from £3.99</strong></p>",
+        "text_JGyc7xYPKR1MkbJo": "<p>Fast delivery nationwide. Easy to build. Even two days after leg day</p>",
+        "text_r7aY5gyC8t8EXwBx": "<p><strong>10,000 five-star reviews</strong></p>",
+        "text_Pja1fQDGNqSEI0Dj": "<p>A national community, united by more than just the weights they lift.</p>",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "block_hero_zTxQkq",
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_MKdtwB",
+    "block_image_tiles_dihH7R",
+    "instant_ytk_td_hdt4_tz_zzq_jc_WAXETa"
+  ]
+}

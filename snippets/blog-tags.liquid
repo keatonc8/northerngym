@@ -1,0 +1,28 @@
+{% assign section_tags_list = section.settings.tags | split:',' %}
+{% assign tags_list = section_tags_list | default:blog.all_tags %}
+
+<div class="flex flex-col relative mb-8">
+   <div class="offset-container-spacing-x lg:mx-0">
+      <div class="w-full overflow-scroll mb-4 hide-scrollbar">
+         <div class="body-03 text-12 flex flex-wrap gap-2" data-module="blog-tags-scroll">
+            <a href="{{ blog.url }}" class="inline-block {% if current_tags != blank %}bg-white text-black{% else %}bg-black text-white{% endif %} border rounded-xl px-3 py-2 ml-5 md:ml-8 lg:ml-0" data-js-blog-tag-item>
+               View All
+            </a>
+            {% for tag in tags_list %}
+               {% assign is_active_tag = false %}
+               {% assign tag_handle = tag | handle %}
+               {% unless blog.tags contains tag_handle %}{% continue %}{% endunless %}
+               {% assign tag_link = blog.url | append: '/tagged/' | append: tag_handle %}
+               {% if current_tags contains tag_handle %}
+                  {% assign is_active_tag = true %}
+                  {% assign tag_link = blog.url %}
+               {% endif %}
+
+               <a href="{{ tag_link }}" class="inline-block {% if is_active_tag %}bg-white text-black{% else %}bg-black text-white{% endif %} border rounded-xl px-3 py-2 {% if forloop.last %}mr-5 md:mr-8 lg:mr-0{% endif %}" data-js-blog-tag-item>
+                  {{ tag }}
+               </a>
+            {% endfor %}
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,79 @@
+{% comment %}
+product.metafields.accordion.custom_title1
+{% endcomment %}
+
+{%- comment -%}TODO: set up reviews io app blocks{%- endcomment -%}
+
+{% comment %}
+    <div class="flex justify-center relative" id="product-accordion">
+        <div id="product-accordion-anchor" class="absolute top-[0px]"></div>
+        <div class="w-full">
+            <div class="" x-data="{selected:1}">
+                <ul>
+                    {% assign index = 1 %}
+    
+                    <li 
+                        
+                        {% if openMultiple %} 
+                            {% capture openIndex %}{% if index == 1 %} {{ index }} {% else %} null {% endif %}{% endcapture %}
+                            x-data="{ selected : {{ openIndex }} }" 
+                        {%- endif -%}
+    
+                        class="relative border-b pb-6"
+                    >                    
+                        {% render 'product-accordion-title', title: 'Full Description', index: index %}
+                        {% render 'product-accordion-content', content: product.content, index: index %}
+                        {% assign index = index | plus: 1 %}
+                    </li>
+    
+    
+                    {% for field in product.metafields.accordion %}
+    
+                        <li 
+                            
+                            {% if openMultiple %} 
+                                {% capture openIndex %}{% if index == 1 %} {{ index }} {% else %} null {% endif %}{% endcapture %}
+                                x-data="{ selected : {{ openIndex }} }" 
+                            {%- endif -%}
+    
+                            class="relative border-b py-6"
+                        >
+                            {% assign title = field | first | replace: '_', ' ' | capitalize %}
+                            {% assign content = field | last | newline_to_br %}
+                            {% render 'product-accordion-title', title: title, index: index %}
+                            {% render 'product-accordion-content', content: content, index: index %}
+                            {% assign index = index | plus: 1 %}
+                        </li>
+    
+                    {% endfor %}
+    
+                   {% assign accordionBlocks = section.blocks | where: 'type','accordion' %}
+                   {% for block in accordionBlocks %}
+                      {% assign title = block.settings.title %}
+                      {% assign content = block.settings.content %}
+                      {% if title == blank %}{% continue %}{% endif %}
+                      <li 
+                         
+                         {% if openMultiple %} 
+                               {% capture openIndex %}{% if forloop.first %} {{ index }} {% else %} null {% endif %}{% endcapture %}
+                               x-data="{ selected : {{ openIndex }} }" 
+                         {%- endif -%}
+    
+                         class="relative border-b py-6"
+                      >
+    
+                         {% render 'product-accordion-title', title: title, index: index %}
+                         {% render 'product-accordion-content', content: content, index: index %}
+                         {% assign index = index | plus: 1 %}
+                      </li>
+                   {% endfor %}
+    
+    
+    
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+{% endcomment %}
+

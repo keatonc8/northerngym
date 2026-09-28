@@ -1,0 +1,60 @@
+{% render 'repeater-blocks', section_blocks: section.blocks %}
+
+{% schema %}
+{
+   "name": "Repeater Blocks",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Settings"
+      },
+      {
+         "type": "header",
+         "content": "Content"
+      }
+   ],
+   "blocks": [
+      {
+         "type": "custom",
+         "name": "Custom",
+         "settings": [
+            {
+               "type": "header",
+               "content": "Content"
+            },
+            {
+               "type": "text",
+               "id": "heading",
+               "label": "Heading"
+            },
+            {
+               "type": "textarea",
+               "id": "content",
+               "label": "Content"
+            },
+            {
+               "type": "image_picker",
+               "id": "block_image",
+               "label": "Image"
+            }
+         ]
+      },
+      {
+         "type": "metaobject",
+         "name": "Metaobject",
+         "settings": [
+            {
+               "type": "metaobject",
+               "id": "repeater_block",
+               "label": "Repeater Block Metaobject",
+               "metaobject_type": "repeater_blocks"
+            }
+         ]
+      }
+   ],
+   "presets": [{
+      "name": "Repeater Blocks",
+      "blocks": []
+   }]
+}
+{% endschema %}

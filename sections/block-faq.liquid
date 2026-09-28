@@ -1,0 +1,383 @@
+{% assign faq_blocks = section.blocks | where: 'type', 'faq' %}
+{% assign has_faq_blocks = faq_blocks.size | plus: 0 %}
+
+{% assign has_product_faqs = false %}
+
+{%- comment -%}
+  Pull metafields safely for both contexts
+{%- endcomment -%}
+{% assign mf_faqs = blank %}
+
+{% if product != blank %}
+  {% assign mf_faqs = product.metafields.custom.product_faqs %}
+{% endif %}
+
+{% if collection != blank %}
+  {%- comment -%}
+    Collection fallback if product metafield is empty
+  {%- endcomment -%}
+  {% if mf_faqs == blank or mf_faqs.value == blank or mf_faqs.value.size == 0 %}
+    {% assign mf_faqs = collection.metafields.custom.product_faqs %}
+  {% endif %}
+{% endif %}
+
+{%- comment -%}
+  Determine if we have anything to show
+{%- endcomment -%}
+{% if mf_faqs != blank and mf_faqs.value != blank and mf_faqs.value.size != 0 %}
+  {% assign has_product_faqs = true %}
+{% endif %}
+
+{% if has_faq_blocks > 0 or has_product_faqs %}
+  <style>
+    .{{ section.id }}.block-faqs {
+      {% assign bg = section.settings.section_bg_color %}
+      {% assign a  = section.settings.section_bg_opacity | divided_by: 100.0 %}
+      {% assign r = bg | color_extract: 'red' %}
+      {% assign g = bg | color_extract: 'green' %}
+      {% assign b = bg | color_extract: 'blue' %}
+      --section-bg: rgba({{ r }}, {{ g }}, {{ b }}, {{ a }});
+      background-color: var(--section-bg);
+
+      --heading-color: {{ section.settings.heading_color }};
+      --body-color: {{ section.settings.body_text_color }};
+      --muted-color: {{ section.settings.muted_text_color }};
+      --border-color: {{ section.settings.border_color }};
+
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .{{ section.id }}.block-faqs .faq-heading { color: var(--heading-color); }
+    .{{ section.id }}.block-faqs .faq-body { color: var(--muted-color); }
+    .{{ section.id }}.block-faqs .faq-q,
+    .{{ section.id }}.block-faqs .faq-icon { color: var(--body-color); }
+
+    .{{ section.id }}.block-faqs .faq-borders {
+      border-top-color: var(--border-color) !important;
+    }
+    .{{ section.id }}.block-faqs .faq-borders,
+    .{{ section.id }}.block-faqs .faq-borders > * {
+      border-color: var(--border-color) !important;
+    }
+
+    .{{ section.id }}.block-faqs .faq-hidden { display: none; }
+    .{{ section.id }}.block-faqs.is-expanded .faq-hidden { display: block; }
+  </style>
+
+  <section class="{{ section.id }} block-faqs" data-faq-section>
+  <div class="mx-auto container-limited px-6">
+    <div class="grid gap-14 lg:grid-cols-12 lg:gap-12">
+
+      <!-- Left column -->
+      <div class="lg:col-span-4">
+        {% if section.settings.heading != blank %}
+          <h2 class="faq-heading text-4xl font-normal leading-tight tracking-tight">
+            {{ section.settings.heading }}
+          </h2>
+        {% endif %}
+
+        <div class="mt-6 flex items-center gap-2">
+          {% if section.settings.avatar_1 != blank %}
+            {{
+              section.settings.avatar_1
+              | image_url: width: 160
+              | image_tag:
+                class: "h-20 w-20 rounded-full object-cover",
+                loading: "lazy",
+                alt: section.settings.avatar_1.alt | default: section.settings.heading | escape
+            }}
+          {% else %}
+            <span class="h-20 w-20 rounded-full bg-neutral-300"></span>
+          {% endif %}
+
+          {% if section.settings.avatar_2 != blank %}
+            {{
+              section.settings.avatar_2
+              | image_url: width: 160
+              | image_tag:
+                class: "h-20 w-20 rounded-full object-cover",
+                loading: "lazy",
+                alt: section.settings.avatar_2.alt | default: section.settings.heading | escape
+            }}
+          {% else %}
+            <span class="h-20 w-20 rounded-full bg-neutral-300"></span>
+          {% endif %}
+
+          {% if section.settings.avatar_3 != blank %}
+            {{
+              section.settings.avatar_3
+              | image_url: width: 160
+              | image_tag:
+                class: "h-20 w-20 rounded-full object-cover",
+                loading: "lazy",
+                alt: section.settings.avatar_3.alt | default: section.settings.heading | escape
+            }}
+          {% else %}
+            <span class="h-20 w-20 rounded-full bg-neutral-300"></span>
+          {% endif %}
+        </div>
+
+        {% if section.settings.lead != blank %}
+          <p class="faq-body mt-6 max-w-sm text-lg leading-7">
+            {{ section.settings.lead }}
+          </p>
+        {% endif %}
+      </div>
+
+      <!-- Right column (accordion list) -->
+      <div class="lg:col-span-8">
+        <div class="faq-borders divide-y border-t">
+          {% assign faq_count = 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'faq' %}
+              {% assign faq_count = faq_count | plus: 1 %}
+              <details
+                class="group py-4 {% if faq_count > 6 %}faq-hidden{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                <summary class="flex cursor-pointer list-none items-start justify-between gap-8">
+                  <span class="faq-q text-lg font-normal">
+                    {{ block.settings.question }}
+                  </span>
+
+                  <span
+                    class="faq-icon inline-flex h-8 w-8 items-center justify-center transition-transform duration-300 ease-in-out group-open:rotate-180"
+                    aria-hidden="true"
+                  >
+                    <span class="relative block h-6 w-6">
+                      <svg class="absolute inset-0 h-6 w-6 opacity-100 transition-opacity duration-200 group-open:opacity-0"
+                        viewBox="0 0 24 24" fill="none">
+                        <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+
+                      <svg class="absolute inset-0 h-6 w-6 opacity-0 transition-opacity duration-200 group-open:opacity-100"
+                        viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    </span>
+                  </span>
+                </summary>
+
+                <div class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out group-open:grid-rows-[1fr]">
+                  <div class="overflow-hidden">
+                    <div class="mt-4 space-y-4 text-base leading-6 faq-body">
+                      {{ block.settings.answer }}
+                    </div>
+                  </div>
+                </div>
+              </details>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {%- if section.settings.view_more_label != blank and faq_count > 6 -%}
+          <div class="mt-8" data-view-more-wrap>
+            <a
+              href="#"
+              class="inline-flex text-base font-normal underline underline-offset-7"
+              style="color: var(--body-color);"
+              data-view-more
+            >
+              {{ section.settings.view_more_label }}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const sectionEl = document.querySelector('[data-faq-section].{{ section.id }}');
+      if (!sectionEl) return;
+
+      const hidden = sectionEl.querySelectorAll('.faq-hidden');
+      const btnWrap = sectionEl.querySelector('[data-view-more-wrap]');
+      const btn = sectionEl.querySelector('[data-view-more]');
+
+      if (!hidden.length && btnWrap) btnWrap.style.display = 'none';
+
+      if (btn) {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          sectionEl.classList.add('is-expanded');
+          if (btnWrap) btnWrap.remove();
+        });
+      }
+    });
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Block - FAQs",
+  "tag": "section",
+  "class": "section section-block-faqs",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Today can be the life changing moment."
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_1",
+      "label": "Avatar 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_2",
+      "label": "Avatar 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_3",
+      "label": "Avatar 3"
+    },
+    {
+      "type": "text",
+      "id": "lead",
+      "label": "Left text",
+      "default": "Vorem ipsum dolor sit amet, consectetur adipiscing elit."
+    },
+    {
+      "type": "text",
+      "id": "view_more_label",
+      "label": "View more label",
+      "default": "View more"
+    },
+    {
+      "type": "url",
+      "id": "view_more_link",
+      "label": "View more link"
+    },
+
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "section_bg_opacity",
+      "label": "Background Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Text Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "body_text_color",
+      "label": "Question/Icon Text Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Body/Answer Text Color",
+      "default": "#737373"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border/Divider Color",
+      "default": "#E5E5E5"
+    },
+
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Horem ipsum dolor sit amet, consectetur adipiscing elit."
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Corem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus.</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Block - FAQs",
+      "blocks": [
+        { "type": "faq" },
+        { "type": "faq" },
+        { "type": "faq" }
+      ]
+    }
+  ]
+}
+{% endschema %}

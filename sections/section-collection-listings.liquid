@@ -1,0 +1,396 @@
+{% assign heading = section.settings.heading | default: 'Collection Listings' %}
+{% assign paragraph = section.settings.paragraph %}
+
+{% assign show_featured_product = false %}
+{% assign featured_product = collection.metafields.northerngym.collection_page_featured_product.value %}
+
+<div class="vertical-spacing-sm">
+  <div class="container">
+    <div class="collection-page">
+      {{ 'component-facets.css' | asset_url | stylesheet_tag }}
+      <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+
+      {% assign products_per_page = section.settings.products_per_page | default: 12 %}
+      {% assign products_per_page = 12 %}
+      {% assign total_product_count = collection.products.count %}
+      {% assign featured_product_cutoff = 6 %}
+
+      {%- paginate collection.products by products_per_page -%}
+
+        {% if paginate.current_page == 1 and featured_product != blank and section.settings.enable_featured_product %}
+          {% assign show_featured_product = true %}
+        {% endif %}
+
+        <facet-filters-form
+          x-data="{
+            showFilters: false,
+            determineShowFilters() {
+              return window.innerWidth > 1023;
+            }
+          }"
+          x-init="showFilters = determineShowFilters();"
+          x-on:resize.window.debounce="showFilters = determineShowFilters();"
+        >
+          <form id="FacetFiltersForm" class="flex gap-8">
+
+            <!-- Sidebar Filters -->
+            <div 
+              class="fixed lg:static inset-0 lg:inset-auto bg-black/50 lg:bg-transparent z-50 lg:z-0 w-full flex-1 h-full lg:h-auto cursor-pointer lg:cursor-default"
+              x-show="showFilters"
+              @click.prevent="showFilters = false"
+              x-cloak
+            >
+              <aside
+                @click.stop
+                aria-labelledby="verticalTitle"
+                class="facets-wrapper w-full xs:w-4/5 max-w-80 lg:w-full bg-white h-full p-5 lg:p-0"
+                id="main-collection-filters"
+                data-id="{{ section.id }}"
+              >
+                <button @click.prevent="showFilters = false" class="flex ml-auto hover:text-yellow lg:hidden">
+                  {% render 'icons', icon: 'cross', class: 'w-4' %}
+                </button>
+                {% render 'facets',
+                  results: collection,
+                  enable_filtering: true,
+                  enable_sorting: false,
+                  filter_type: 'vertical',
+                  paginate: paginate,
+                  add_sticky_top: true
+                %}
+              </aside>
+            </div>
+
+            <!-- Main content -->
+            <main class="w-full lg:flex-3 flex flex-col">
+              <div class="flex flex-col-reverse lg:flex-row gap-5 lg:justify-between lg:items-end mb-2 sticky lg:static py-3 z-2 lg:z-0 top-0 bg-white">
+                <!-- Product count -->
+                <div role="status" class="hidden lg:block">
+                  <p class="body">
+                    <span id="ProductCountDesktop">
+                      {%- if collection.results_count -%}
+                        {{ 'templates.search.results_with_count' | t: terms: collection.terms, count: collection.results_count }}
+                      {%- elsif collection.products_count == collection.all_products_count -%}
+                        {{ 'products.facets.product_count_simple' | t: count: collection.products_count }}
+                      {%- else -%}
+                        {{ 'products.facets.product_count' | t: product_count: collection.products_count, count: collection.all_products_count }}
+                      {%- endif -%}
+                    </span>
+                  </p>
+                </div>
+
+                <!-- Sort Dropdown -->
+                <div class="flex justify-between gap-4">
+                  <button @click.prevent="showFilters = true;" class="flex items-center gap-2 rounded-lg text-black lg:hidden hover:text-yellow cursor-pointer">
+                    <span>
+                      {% render 'icons', icon: 'filter', class: 'w-5' %}
+                    </span>
+                    <span>Filters</span>
+                  </button>
+                  <div class="facet-filters__field">
+                    <label class="sr-only" for="SortBy">
+                      {{ 'products.facets.sort_by_label' | t }}
+                    </label>
+                    <div class="relative border rounded-full border-black hover:bg-black hover:text-white duration-300 cursor-pointer">
+                      {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+                      <select
+                        name="sort_by"
+                        class="pl-5 pr-12 pt-2 pb-2 cursor-pointer appearance-none"
+                        id="SortBy"
+                        aria-describedby="a11y-refresh-page-message"
+                      >
+                        {%- for option in collection.sort_options -%}
+                          <option
+                            value="{{ option.value | escape }}"
+                            {% if option.value == sort_by %}selected="selected"{% endif %}
+                          >
+                            {{ option.name | escape }}
+                          </option>
+                        {%- endfor -%}
+                      </select>
+                      <span class="absolute top-1/2 -translate-y-1/2 right-5 pointer-events-none">
+                        {% render 'icons', icon: 'chevron', class: 'w-3' %}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Product count -->
+              <div role="status" class="lg:hidden mb-5">
+                <p class="body">
+                  <span id="ProductCountDesktop">
+                    {%- if collection.results_count -%}
+                      {{ 'templates.search.results_with_count' | t: terms: collection.terms, count: collection.results_count }}
+                    {%- elsif collection.products_count == collection.all_products_count -%}
+                      {{ 'products.facets.product_count_simple' | t: count: collection.products_count }}
+                    {%- else -%}
+                      {{ 'products.facets.product_count' | t: product_count: collection.products_count, count: collection.all_products_count }}
+                    {%- endif -%}
+                  </span>
+                </p>
+              </div>
+
+              <!-- Active filters -->
+              {% render 'active-filters', results: collection %}
+
+              <!-- Product grid -->
+              <div class="product-grid-container" id="ProductGridContainer">
+                {%- if collection.products.size == 0 -%}
+                  <div class="collection collection--empty page-width" id="product-grid" data-id="{{ section.id }}">
+                    <div class="loading-overlay gradient"></div>
+                    <div class="title-wrapper center">
+                      <h2 class="title title--primary">
+                        {{ 'sections.collection_template.empty' | t }}<br>
+                        {{ 'sections.collection_template.use_fewer_filters_html' | t: link: collection.url, class: 'underlined-link link' }}
+                      </h2>
+                    </div>
+                  </div>
+                {%- else -%}
+                  <div class="flex flex-col gap-8">
+                    <div class="loading-overlay gradient"></div>
+
+                    <ul
+                      id="product-grid"
+                      data-id="{{ section.id }}"
+                      class="grid grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-5 sm:gap-6"
+                    >
+                      {%- for product in collection.products -%}
+                        {%- assign product_index = forloop.index -%}
+
+                        <li class="grid__item
+                          {% if show_featured_product %}
+                            {% if product_index > featured_product_cutoff %}lg:order-3{% else %}{% endif %}
+                          {% endif %}
+                        ">
+                          {% render 'product-item',
+                            product_item: product,
+                            index: product_index,
+                            show_tags: true
+                          %}
+                        </li>
+
+                        {%- comment -%} Review Card 1 {%- endcomment -%}
+                        {% if section.settings.enable_review_1 and product_index == section.settings.review_1_after %}
+                           <li class="grid__item review-card {% if show_featured_product %}{% endif %}">
+                              {% render 'review-card',
+                                 image: section.settings.review_1_image,
+                                 logo: section.settings.review_1_logo,
+                                 text: section.settings.review_1_text,
+                                 author: section.settings.review_1_author,
+                                 role: section.settings.review_1_role,
+                                 stars: section.settings.review_1_stars
+                              %}
+                           </li>
+                        {% endif %}
+
+                        {%- comment -%} Review Card 2 {%- endcomment -%}
+                        {% if section.settings.enable_review_2 and product_index == section.settings.review_2_after %}
+                           <li class="grid__item review-card {% if show_featured_product %}{% endif %}">
+                              {% render 'review-card',
+                                 image: section.settings.review_2_image,
+                                 logo: section.settings.review_2_logo,
+                                 text: section.settings.review_2_text,
+                                 author: section.settings.review_2_author,
+                                 role: section.settings.review_2_role,
+                                 stars: section.settings.review_2_stars
+                              %}
+                           </li>
+                        {% endif %}
+
+                        {%- comment -%} Featured Product (position adjustable) {%- endcomment -%}
+                        {% if show_featured_product and product_index == section.settings.featured_after %}
+                          <li class="col-span-2 md:col-span-3 {% if show_featured_product %}{% endif %}">
+                            {% render 'collection-featured-product', featured_product: featured_product %}
+                          </li>
+                        {% endif %}
+
+                      {%- endfor -%}
+                    </ul>
+
+                    {%- if paginate.pages > 1 -%}
+                      {% render 'pagination', paginate: paginate, anchor: '' %}
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              </div>
+            </main>
+          </form>
+        </facet-filters-form>
+      {%- endpaginate -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection Listings",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph",
+      "label": "Paragraph"
+    },
+
+    {
+      "type": "header",
+      "content": "Review card 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_review_1",
+      "label": "Enable review card 1",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "review_1_after",
+      "label": "Insert review card 1 after product #",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "image_picker",
+      "id": "review_1_image",
+      "label": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_1_logo",
+      "label": "Logo"
+    },
+    {
+      "type": "range",
+      "id": "review_1_stars",
+      "label": "Star rating",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "textarea",
+      "id": "review_1_text",
+      "label": "Review text",
+      "default": "Lorem ipsum dolor sit amet consectetur. At morbi semper egestas tortor."
+    },
+    {
+      "type": "text",
+      "id": "review_1_author",
+      "label": "Author name",
+      "default": "Dominic D'Arcy"
+    },
+    {
+      "type": "text",
+      "id": "review_1_role",
+      "label": "Author role",
+      "default": "UI / UX Designer"
+    },
+
+    {
+      "type": "header",
+      "content": "Review card 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_review_2",
+      "label": "Enable review card 2",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "review_2_after",
+      "label": "Insert review card 2 after product #",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "image_picker",
+      "id": "review_2_image",
+      "label": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_2_logo",
+      "label": "Logo"
+    },
+    {
+      "type": "range",
+      "id": "review_2_stars",
+      "label": "Star rating",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "textarea",
+      "id": "review_2_text",
+      "label": "Review text",
+      "default": "Lorem ipsum dolor sit amet consectetur. At morbi semper egestas tortor."
+    },
+    {
+      "type": "text",
+      "id": "review_2_author",
+      "label": "Author name",
+      "default": "Dominic D'Arcy"
+    },
+    {
+      "type": "text",
+      "id": "review_2_role",
+      "label": "Author role",
+      "default": "UI / UX Designer"
+    },
+
+    {
+      "type": "header",
+      "content": "Featured product"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_featured_product",
+      "label": "Enable featured product (from collection metafield)",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "featured_after",
+      "label": "Insert featured product after product #",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Products Cards"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_overlay",
+      "label": "Enable gradient overlay",
+      "default": true
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Collection Listings",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,149 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "Based In Greater London & Surrey",
+            "image": "shopify://shop_images/1010675_0_1.jpg",
+            "title": "Bio",
+            "text": "<p>I've been working in dance and fitness for over 2 decades and I love it just as much today as I did when I first started. I have scoliosis so looking after my body has always been a priority for me.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_7WcBXp": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/20260429_145019.jpg",
+            "title": "",
+            "text": "<p>I know what a difference training can make to how I move and feel and that's what I want to transmit to my clients both online and offline.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_WGq8f8": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/SNHF4403.jpg",
+            "title": "",
+            "text": "<p>I mainly focus on helping women feel stronger, get confident in a fitness environment and learn how to take what they learn and apply it to themselves.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_wgaqTH": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/DSC00901.jpg",
+            "title": "",
+            "text": "<p>My goal is to see more women getting in the resistance training they need to move well at all stages of life whether that's at home, in a group ex environment or in the gym. </p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ",
+        "item_7WcBXp",
+        "item_WGq8f8",
+        "item_wgaqTH"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Anna Martin",
+        "text": "<p>I get most of my cardio from dancing & teaching dance fitness so when I'm in the gym I like to lift, focusing on my strength and ability to move well. </p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_QUBYg8": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_LebtEX": {
+          "type": "card",
+          "settings": {
+            "title": "Favourite Northern Product",
+            "image": "shopify://shop_images/Northern_Traditional_Iron_Kettlebell_12KG.jpg",
+            "text": "<p>Kettlebell - <em>\"They are perfect, smooth handles for all the swings as well as a body that doesn't slide all over the place. Plus the delivery time is ridiculously fast so happy days!”</em></p>",
+            "button_label": "Shop Now",
+            "button_link": "https://northerngymequipment.com/online_store_preview"
+          }
+        },
+        "card_cEmc7P": {
+          "type": "card",
+          "settings": {
+            "title": "What does being part of Northern mean to you?",
+            "image": "shopify://shop_images/PSX_20220103_180647.jpg",
+            "text": "<p>I genuinely feel passionate about the products and the service. It's so important for everyone to have access to resistance training and that's why Northern is so great. The quality of the products whether it's for gyms or home training is exceptional and I love how quick the deliveries are!</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "card_mNhWg4": {
+          "type": "card",
+          "settings": {
+            "title": "Follow Anna's Journey",
+            "image": "shopify://shop_images/20220218_094624.jpg",
+            "text": "<p>Check out Anna's social here.</p>",
+            "button_label": "Follow",
+            "button_link": "https://www.instagram.com/annamartinfitness/"
+          }
+        }
+      },
+      "block_order": [
+        "card_LebtEX",
+        "card_cEmc7P",
+        "card_mNhWg4"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_QUBYg8"
+  ]
+}

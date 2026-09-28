@@ -1,0 +1,42 @@
+<style>
+   @media screen and (max-width:767px){
+      .three-icons {
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+.three-item {
+    font-size: 9px !important;
+}
+   }
+ </style>  
+<div class="flex flex-wrap gap-x-8 gap-y-2 body-03 font-bold justify-start three-icons mb-4 mono-font">
+   <div class="flex gap-2 items-center three-item">
+      <span class="relative flex size-2.5 -mt-0.5"  :class="selectedVariant.available ? 'text-green' : 'text-red'">
+         <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-current opacity-75"></span>
+         <span class="relative inline-flex size-2.5 rounded-full bg-current"></span>
+      </span>
+   
+      {% if template.suffix == 'pre-order-only' %}  <span x-text="selectedVariant.available ? 'Pre Order' : 'Out of Stock'" class=""></span> {% else %}
+    <span x-text="selectedVariant.available ? 'In Stock' : 'Out of Stock'" class=""></span> {% endif %}
+   </div>
+   {% if info_strip_delivery_text != blank %}
+      <a href="#delivery-details" data-product-details-scroll-trigger="delivery-details" class="flex gap-2 items-center hover:text-yellow three-item">
+         <span class="-mt-0.5">
+            {% render 'icons', icon: 'calendar', class: 'w-4' %}
+         </span>
+         <span>
+            {{ info_strip_delivery_text }}
+         </span>
+      </a>
+   {% endif %}
+   {% if info_strip_pay_options_text != blank %}
+      <a href="#klarna" data-product-details-scroll-trigger="klarna" class="flex gap-2 items-center hover:text-yellow three-item">
+         <span class="-mt-0.5">
+            {% render 'icons', icon: 'card', class: 'w-4' %}
+         </span>
+         <span>
+            {{ info_strip_pay_options_text }}
+         </span>   
+      </a>
+   {% endif %}
+</div>

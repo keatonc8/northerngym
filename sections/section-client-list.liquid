@@ -1,0 +1,75 @@
+{% assign heading = section.settings.heading %}
+{% assign paragraph = section.settings.paragraph %}
+
+<div class="vertical-spacing-lg">
+   <div class="container">
+      <div class="flex flex-col lg:flex-row gap-y-8 justify-between">
+         <div class="lg:pr-10 xl:pr-24 2xl:pr-32 w-full flex flex-col gap-8">
+            <h2 class="heading-03">
+               {{ heading }}
+            </h2>
+            <div class="prose xl:max-w-118">
+               {{ paragraph }}
+            </div>
+         </div>
+         <div class="lg:pl-10 xl:pl-24 2xl:pl-32 border-l border-silver w-full">
+            <ul class="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-3 gap-4">
+               {% for block in section.blocks %}
+                  {% assign logo = block.settings.logo %}
+
+                  <li class="aspect-w-12 aspect-h-7 w-full">
+                     <div class="border border-silver rounded-md px-6 py-3 flex justify-center items-center">
+                        <div class="w-full h-full flex justify-center items-center">
+                           <img src="{{ logo | img_url: '300x' }}" alt="{{ logo.alt }}" class="w-full h-full object-contain">
+                        </div>
+                     </div>
+                  </li>
+               {% endfor %}
+            </ul>
+         </div>
+      </div>
+   </div>
+</div>
+
+{% schema %}
+{
+   "name": "Client List",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Settings"
+      },
+      {
+         "type": "header",
+         "content": "Content"
+      },
+      {
+         "type": "text",
+         "id": "heading",
+         "label": "Heading"
+      },
+      {
+         "type": "richtext",
+         "id": "paragraph",
+         "label": "Paragraph"
+      }
+   ],
+   "blocks": [
+      {
+         "type": "client",
+         "name": "Client",
+         "settings": [
+            {
+               "type": "image_picker",
+               "id": "logo",
+               "label": "Logo"
+            }
+         ]
+      }
+   ],
+   "presets": [{
+      "name": "Client List",
+      "blocks": []
+   }]
+}
+{% endschema %}

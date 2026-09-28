@@ -1,0 +1,350 @@
+{% assign item_blocks = section.blocks | where: 'type', 'item' %}
+{% assign has_item_blocks = item_blocks.size | plus: 0 %}
+
+{% assign has_product_training = false %}
+
+{%- comment -%}
+  Pull metafields safely for both contexts
+{%- endcomment -%}
+{% assign mf_items = blank %}
+{% assign mf_intro = blank %}
+
+{% if product != blank %}
+  {% assign mf_items = product.metafields.custom.product_shopby_training %}
+  {% assign mf_intro = product.metafields.custom.product_shop_by_training_intro %}
+{% endif %}
+
+{% if collection != blank %}
+  {%- comment -%}
+    Collection fallback if product metafields are empty
+  {%- endcomment -%}
+
+  {% if mf_items == blank or mf_items.value == blank or mf_items.value.size == 0 %}
+    {% assign mf_items = collection.metafields.custom.product_shopby_training %}
+  {% endif %}
+
+  {% if mf_intro == blank or mf_intro.value == blank or mf_intro.value.size == 0 %}
+    {% assign mf_intro = collection.metafields.custom.product_shop_by_training_intro %}
+  {% endif %}
+{% endif %}
+
+{%- comment -%}
+  Determine if we have anything to show
+{%- endcomment -%}
+
+{% if mf_items != blank and mf_items.value != blank and mf_items.value.size != 0 %}
+  {% assign has_product_training = true %}
+{% endif %}
+
+{% if has_product_training == false and mf_intro != blank and mf_intro.value != blank and mf_intro.value.size != 0 %}
+  {% assign has_product_training = true %}
+{% endif %}
+
+{% if has_item_blocks > 0 or has_product_training %}
+
+<style>
+  /* Hide horizontal scrollbar but keep scroll functionality */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+
+  /* Section styling */
+  .{{ section.id }}.block-shop-by-training {
+    {% assign bg = section.settings.section_bg_color %}
+    {% assign a  = section.settings.section_bg_opacity | divided_by: 100.0 %}
+    {% assign r = bg | color_extract: 'red' %}
+    {% assign g = bg | color_extract: 'green' %}
+    {% assign b = bg | color_extract: 'blue' %}
+
+    --section-bg: rgba({{ r }}, {{ g }}, {{ b }}, {{ a }});
+    background-color: var(--section-bg);
+
+    --heading-color: {{ section.settings.heading_color }};
+    --body-color: {{ section.settings.body_text_color }};
+    --meta-color: {{ section.settings.meta_text_color }};
+    --btn-bg: {{ section.settings.button_bg_color }};
+    --btn-text: {{ section.settings.button_text_color }};
+
+    margin-top: {{ section.settings.margin_top }}px;
+    margin-bottom: {{ section.settings.margin_bottom }}px;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .{{ section.id }} h2,
+  .{{ section.id }} h3 { color: var(--heading-color); }
+
+  .{{ section.id }} .training-body { color: var(--body-color); }
+  .{{ section.id }} .training-meta { color: var(--meta-color); }
+
+  .{{ section.id }} .training-btn {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+  }
+</style>
+
+<section class="{{ section.id }} block-shop-by-training relative overflow-x-clip">
+  <div class="container-limited mx-auto px-0 md:px-6">
+    <div class="grid items-center gap-10 lg:grid-cols-[1fr_2fr] px-6 md:px-0">
+
+      <!-- Intro -->
+      <div class="lg:sticky lg:top-30 self-start">
+        {% if section.settings.heading != blank %}
+          <h1 class="text-3xl font-normal leading-tight sm:text-3xl lg:text-4xl">
+            {{ section.settings.heading }}
+          </h1>
+        {% endif %}
+
+        {% if section.settings.text != blank %}
+          <div class="training-body mt-4 max-w-md leading-6 text-base">
+            {{ section.settings.text | truncatewords: 50 }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.button_label != blank %}
+          <a href="{{ section.settings.button_link | default: '#' }}"
+             class="training-btn inline-flex items-center rounded-full px-6 py-3 text-base font-medium mt-6">
+            {{ section.settings.button_label }}
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Items -->
+      <div class="flex-1 min-w-0">
+        <div class="md:px-0">
+          <div
+            id="TrainingCarousel-{{ section.id }}"
+            data-snap-carousel
+            data-snap-breakpoint="md"
+            data-snap-start-index="0"
+            class="
+              no-scrollbar
+              relative left-1/2 right-1/2 -translate-x-1/2 w-screen max-w-none
+              pb-4
+              flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-px-6 overscroll-x-contain
+              md:static md:left-auto md:right-auto md:translate-x-0
+              md:w-auto md:max-w-full
+              md:pb-0 md:block md:overflow-visible md:snap-none md:space-y-12
+              px-6 md:px-0
+            "
+            aria-label="Training carousel"
+          >
+            {% for block in section.blocks %}
+              <article
+                class="
+                  min-w-0 snap-start shrink-0 w-[95%] sm:w-[70%]
+                  md:w-auto md:shrink md:snap-none
+                  flex flex-col gap-8
+                  md:grid md:grid-cols-2 md:items-center
+                "
+                {{ block.shopify_attributes }}
+              >
+                <div class="overflow-hidden rounded-2xl bg-neutral-200">
+                  {% if block.settings.image != blank %}
+                    {{
+                      block.settings.image
+                      | image_url: width: 900
+                      | image_tag:
+                        class: "h-full w-full object-cover aspect-[4/5]",
+                        loading: "lazy",
+                        alt: block.settings.image.alt | default: block.settings.title
+                    }}
+                  {% else %}
+                    <div class="aspect-[4/5] w-full"></div>
+                  {% endif %}
+                </div>
+
+                <div class="min-w-0 w-full flex flex-1 flex-col">
+                  {% if block.settings.number != blank %}
+                    <div class="training-meta text-base tracking-wider sm:text-lg mono-font">
+                      {{ block.settings.number }}
+                    </div>
+                  {% endif %}
+
+                  {% if block.settings.title != blank %}
+                    <h2 class="mt-2 text-2xl font-normal sm:text-2xl lg:text-3xl">
+                      {{ block.settings.title }}
+                    </h2>
+                  {% endif %}
+
+                  {% if block.settings.text != blank %}
+                    <div class="training-body mt-4 max-w-md leading-6 text-base mb-6">
+                      {{ block.settings.text | truncatewords: 50 }}
+                    </div>
+                  {% endif %}
+
+                  {% if block.settings.button_label != blank %}
+                    <a href="{{ block.settings.button_link | default: '#' }}"
+                       class="training-btn inline-flex items-center rounded-full px-6 py-3 text-base font-medium mt-auto w-max">
+                      {{ block.settings.button_label }}
+                    </a>
+                  {% endif %}
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Pagination (mobile only) -->
+        <div class="mt-6 flex items-center justify-center gap-2 md:hidden"
+             data-snap-dots
+             aria-label="Carousel pagination"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "Block - Shop By Training",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Lorem ipsum dolor sit amet consectetur."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Intro text",
+      "default": "<p>Lorem ipsum dolor sit amet consectetur.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Intro button label",
+      "default": "Discover More"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Intro button link"
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "section_bg_opacity",
+      "label": "Background Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Text Color",
+      "default": "#212121"
+    },
+    {
+      "type": "color",
+      "id": "body_text_color",
+      "label": "Body Text Color",
+      "default": "#A3A3A3"
+    },
+    {
+      "type": "color",
+      "id": "meta_text_color",
+      "label": "Meta Text Color",
+      "default": "#A3A3A3"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Training item",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Number", "default": "01" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Hybrid Training" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Lorem ipsum dolor sit amet.</p>" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Discover More" },
+        { "type": "url", "id": "button_link", "label": "Button link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Block - Shop By Training",
+      "blocks": [
+        { "type": "item" },
+        { "type": "item" },
+        { "type": "item" }
+      ]
+    }
+  ]
+}
+{% endschema %}

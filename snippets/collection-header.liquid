@@ -1,0 +1,81 @@
+{% assign heading = collection.title %}
+{% assign description_full = collection.description %}
+{% assign description = description_full | split: '</p>' | first %}
+{% assign description_stripped = description | strip_html %}
+{% assign description_size = description | size %}
+{% assign description_divide = false %}
+{% assign description_limit = 170 %}
+{% if description_size > description_limit %}
+   {% assign description_divide = true %}
+{% endif %}
+
+{% assign description_start = description_stripped | slice: 0, description_limit %}
+{% assign description_end = description_stripped | slice: description_limit, description_stripped.size %}
+
+{% assign background_image = collection.image %}
+{% if collection.metafields.northerngym.collection_page_header_image != blank %}
+   {% assign background_image = collection.metafields.northerngym.collection_page_header_image %}
+{% endif %}
+{% assign mobile_image = collection.metafields.northerngym.collection_page_header_image_mobile %}
+{% assign desktop_image_class = 'min-h-50' %}
+{% if mobile_image != blank and false %}
+   {% assign desktop_image_class = 'hidden md:block' %}
+{% endif %}
+
+<div class="container-full relative">
+   <div class="relative overflow-hidden">
+      <div class="text-white md:py-10 relative md:min-h-150 flex flex-col gap-8 md:grid">
+         {% if background_image != blank %}
+            <div class="md:absolute w-full h-full inset-0 z-0">
+               {% render 'responsive-image',
+                  image_object: background_image,
+                  size: 'full',
+                  class: desktop_image_class
+               %}
+               {% if mobile_image != blank and false %}
+                  {% render 'responsive-image',
+                     image_object: mobile_image,
+                     size: 'mobile',
+                     class: 'md:hidden'
+                  %}
+               {% endif %}
+            </div>
+         {% endif %}
+         <div class="container h-full relative z-1">
+            <div class="flex justify-start items-end h-full">
+               <div class="flex flex-col gap-8">
+                  {% if heading != blank or description != blank %}
+                     <div class="flex flex-col gap-4 lg:gap-2 text-black md:text-white">
+                        <ul class="flex gap-3">
+                           <li><a href="/">Home</a></li>
+                           <li>/</li>
+                           <li><a href="/collections/{{ collection.handle }}">{{ collection.title }}</a></li>
+                        </ul>
+                        {% if heading != blank %}
+                           <h1 class="heading-02">
+                              {{ heading }}
+                           </h1>
+                        {% endif %}
+                        {% if description != blank %}
+                           <div class="md:max-w-118 mt-4"
+                              x-data="{
+                                 expandDescription: false
+                              }"
+                           >
+                              {% if description_divide %}
+                                 <p>
+                                    {{ description_start }}<span x-show="expandDescription">{{ description_end }}</span> <button class="link" @click="expandDescription = !expandDescription">read <span x-text="expandDescription ? 'less' : 'more'"></span></button>
+                                 </p>
+                              {% else %}
+                                 {{ description }}   
+                              {% endif %}
+                           </div>
+                        {% endif %}
+                     </div>
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

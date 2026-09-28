@@ -1,0 +1,242 @@
+{% doc %}
+  @prompt
+    a carousel that pulls in products from a collection. Needs to show price and the sale price if applicable. i need to select the collection myself
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-collection-carousel-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-collection-carousel-{{ ai_gen_id }}__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .ai-collection-carousel-{{ ai_gen_id }}__title {
+    margin: 0;
+    font-size: {{ block.settings.heading_size }}px;
+    line-height: 1.2;
+  }
+
+  .ai-collection-carousel-{{ ai_gen_id }}__controls {
+    display: flex;
+    gap: 8px;
+  }
+
+  .ai-collection-carousel-{{ ai_gen_id }}__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid {{ block.settings.border_color }};
+    border-radius: {{ block.settings.button_radius }}px;
+    background: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    cursor: pointer;
+  }
+
+  .ai-collection-carousel-{{ ai_gen_id }}__button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .ai-collection-carousel-{{ ai_gen_id }}__button:focus-visible,
+  .ai-collection-carousel-{{ ai_gen_id }}__link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  .ai-collection-carousel-{{ ai_gen_id }}__track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - ({{ block.settings.products_desktop | minus: 1 }} * {{ block.settings.gap }}px)) / {{ block.settings.products_desktop }});
+    gap: {{ block.settings.gap }}px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    padding-bottom: 8px;
+  }
+
+  .ai-collection-carousel-{{ ai_gen_id }}__card {
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+
+  .ai-collection-carousel-{{ ai_gen_id }}__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: {{ block.settings.image_radius }}px;
+    background: #f2f2f2;
+  }
+
+  .ai-collection-carousel-{{ ai_gen_id }}__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: {{ block.settings.image_radius }}px;
+    background: #f2f2f2;
+    color: #666666;
+  }
+
+  .ai-collection-carousel-{{ ai_gen_id }}__placeholder svg {
+    width: 60%;
+    height: 60%;
+  }
+
+  .ai-collection-carousel-{{ ai_gen_id }}__name {
+    display: block;
+    margin: 12px 0 8px;
+    color: {{ block.settings.text_color }};
+    font-size: 15px;
+    line-height: 1.35;
+    text-decoration: none;
+  }
+
+  .ai-collection-carousel-{{ ai_gen_id }}__prices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  .ai-collection-carousel-{{ ai_gen_id }}__sale-price {
+    color: {{ block.settings.sale_color }};
+    font-weight: 700;
+  }
+
+  .ai-collection-carousel-{{ ai_gen_id }}__compare-price {
+    color: {{ block.settings.muted_color }};
+    text-decoration: line-through;
+  }
+
+  .ai-collection-carousel-{{ ai_gen_id }}__empty {
+    padding: 28px;
+    border: 1px dashed {{ block.settings.border_color }};
+    text-align: center;
+    color: {{ block.settings.muted_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-collection-carousel-{{ ai_gen_id }}__header {
+      align-items: flex-start;
+    }
+
+    .ai-collection-carousel-{{ ai_gen_id }}__track {
+      grid-auto-columns: calc((100% - {{ block.settings.gap }}px) / 2);
+    }
+  }
+{% endstyle %}
+
+<collection-carousel-{{ ai_gen_id }} class="ai-collection-carousel-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.collection != blank %}
+    <div class="ai-collection-carousel-{{ ai_gen_id }}__header">
+      {% if block.settings.heading != blank %}
+        <h2 class="ai-collection-carousel-{{ ai_gen_id }}__title">{{ block.settings.heading | escape }}</h2>
+      {% endif %}
+      <div class="ai-collection-carousel-{{ ai_gen_id }}__controls">
+        <button class="ai-collection-carousel-{{ ai_gen_id }}__button" type="button" data-direction="prev" aria-label="Previous products">&#8592;</button>
+        <button class="ai-collection-carousel-{{ ai_gen_id }}__button" type="button" data-direction="next" aria-label="Next products">&#8594;</button>
+      </div>
+    </div>
+
+    <div class="ai-collection-carousel-{{ ai_gen_id }}__track" data-track tabindex="0">
+      {% for product in block.settings.collection.products limit: block.settings.product_limit %}
+        <article class="ai-collection-carousel-{{ ai_gen_id }}__card">
+          <a class="ai-collection-carousel-{{ ai_gen_id }}__link" href="{{ product.url }}">
+            {% if product.featured_image %}
+              <img class="ai-collection-carousel-{{ ai_gen_id }}__image" src="{{ product.featured_image | image_url: width: 700 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy" width="700" height="700">
+            {% else %}
+              <div class="ai-collection-carousel-{{ ai_gen_id }}__placeholder">{{ 'product-apparel-1' | placeholder_svg_tag }}</div>
+            {% endif %}
+            <span class="ai-collection-carousel-{{ ai_gen_id }}__name">{{ product.title | escape }}</span>
+          </a>
+          <div class="ai-collection-carousel-{{ ai_gen_id }}__prices">
+            {% if product.compare_at_price > product.price %}
+              <span class="ai-collection-carousel-{{ ai_gen_id }}__sale-price">{{ product.price | money }}</span>
+              <span class="ai-collection-carousel-{{ ai_gen_id }}__compare-price">{{ product.compare_at_price | money }}</span>
+            {% else %}
+              <span>{{ product.price | money }}</span>
+            {% endif %}
+          </div>
+        </article>
+      {% else %}
+        <div class="ai-collection-carousel-{{ ai_gen_id }}__empty">This collection has no products to display.</div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="ai-collection-carousel-{{ ai_gen_id }}__empty">Select a collection to display products.</div>
+  {% endif %}
+</collection-carousel-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CollectionCarousel{{ ai_gen_id }} extends HTMLElement {
+      connectedCallback() {
+        this.track = this.querySelector('[data-track]');
+        if (!this.track) return;
+        this.buttons = this.querySelectorAll('[data-direction]');
+        this.buttons.forEach((button) => {
+          button.addEventListener('click', () => {
+            const distance = this.track.clientWidth * 0.85;
+            this.track.scrollBy({ left: button.dataset.direction === 'next' ? distance : -distance, behavior: 'smooth' });
+          });
+        });
+        this.updateButtons();
+        this.track.addEventListener('scroll', () => this.updateButtons(), { passive: true });
+      }
+
+      updateButtons() {
+        const atStart = this.track.scrollLeft <= 2;
+        const atEnd = this.track.scrollLeft + this.track.clientWidth >= this.track.scrollWidth - 2;
+        const previous = this.querySelector('[data-direction="prev"]');
+        const next = this.querySelector('[data-direction="next"]');
+        if (previous) previous.disabled = atStart;
+        if (next) next.disabled = atEnd;
+      }
+    }
+    customElements.define('collection-carousel-{{ ai_gen_id }}', CollectionCarousel{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Collection carousel",
+  "tag": null,
+  "class": "collection-carousel-block",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop the collection" },
+    { "type": "range", "id": "product_limit", "label": "Products to show", "min": 4, "max": 24, "step": 1, "default": 8 },
+    { "type": "range", "id": "products_desktop", "label": "Products on desktop", "min": 2, "max": 6, "step": 1, "default": 4 },
+    { "type": "range", "id": "gap", "label": "Card gap", "min": 8, "max": 32, "step": 4, "unit": "px", "default": 16 },
+    { "type": "range", "id": "desktop_width_percent", "label": "Desktop width", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "range", "id": "heading_size", "label": "Heading size", "min": 18, "max": 40, "step": 2, "unit": "px", "default": 24 },
+    { "type": "range", "id": "image_radius", "label": "Image radius", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 8 },
+    { "type": "range", "id": "button_radius", "label": "Button radius", "min": 0, "max": 20, "step": 2, "unit": "px", "default": 4 },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#111111" },
+    { "type": "color", "id": "sale_color", "label": "Sale price", "default": "#b42318" },
+    { "type": "color", "id": "muted_color", "label": "Muted text", "default": "#5f6368" },
+    { "type": "color", "id": "border_color", "label": "Border", "default": "#d9d9d9" },
+    { "type": "color", "id": "button_background", "label": "Button background", "default": "#ffffff" },
+    { "type": "color", "id": "button_text_color", "label": "Button text", "default": "#111111" }
+  ],
+  "presets": [
+    { "name": "Collection carousel" }
+  ]
+}
+{% endschema %}

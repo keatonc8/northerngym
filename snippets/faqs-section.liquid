@@ -1,0 +1,38 @@
+<div class="vertical-spacing">
+   <div class="container-sm">
+      <div class="flex flex-col gap-6 max-w-180 mx-auto">
+         {% if heading != blank or paragraph != blank %}
+            <div class="flex flex-col gap-4 xs:pr-25">
+               {% if heading != blank %}
+                  <h2 class="heading-03">
+                     {{ heading }}
+                  </h2>
+               {% endif %}
+               {% if paragraph != blank %}
+                  <p class="max-w-180">
+                     {{ paragraph }}
+                  </p>
+               {% endif %}
+            </div>
+         {% endif %}
+         {% if section_blocks != blank or faq_items != blank %}
+            <div class="" data-module="faqs">
+               {% if section_blocks != blank %}
+                  {% for block in section_blocks %}
+                     {% if block.type == 'metaobject_item' %}
+                        {% assign metaobject_item = block.settings.faq_metaobject %}
+                        {% render 'faqs-item', metaobject_item: metaobject_item, is_first: forloop.first, is_last: forloop.last %}
+                     {% else %}
+                        {% render 'faqs-item', block: block, is_first: forloop.first, is_last: forloop.last %}
+                     {% endif %}
+                  {% endfor %}
+               {% else %}
+                  {% for faq_item in faq_items %}
+                     {% render 'faqs-item', metaobject_item: faq_item, is_first: forloop.first, is_last: forloop.last %}
+                  {% endfor %}
+               {% endif %}
+            </div>
+         {% endif %}
+      </div>
+   </div>
+</div>

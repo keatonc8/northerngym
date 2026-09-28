@@ -1,0 +1,49 @@
+{{ 'cart-drawer.css' | asset_url | stylesheet_tag }}
+
+<div data-module="cart-drawer"
+   class="fixed inset-0 overflow-hidden z-60"
+   x-data="{
+      loading: false,
+      updateCart(){
+         fetch('/?view=cart')
+         .then(response => response.text())
+         .then(cartData => {
+            $refs.cart_content.innerHTML = cartData;
+            window.dispatchEvent(new Event('delivery-promise:refresh'));
+            var el = document.createElement('div');
+            el.innerHTML = cartData;
+            var cartCount = JSON.parse(el.querySelector('[data-options]').innerHTML).item_count;
+            $dispatch('cart-count-updated', cartCount);
+            this.loading = false;
+         })
+      }
+   }"
+   x-show="showCartDrawer"
+   @cart-updated.window="updateCart;"
+   @toggle-cart.window="$nextTick(() => { if (showCartDrawer) updateCart() })"
+   aria-labelledby="slide-over-title" role="dialog" aria-modal="true"
+   x-cloak
+>
+   <div class="absolute inset-0 overflow-hidden">
+      
+      <div class="absolute inset-0 bg-black/70" x-show="showCartDrawer" x-transition.opacity @click="$dispatch('toggle-cart')" aria-hidden="true">
+      </div>
+      
+      <div class="fixed inset-y-0 right-0 max-w-full flex">
+         <div class="cart-drawer-panel relative w-screen"
+            x-show="showCartDrawer"
+            x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700" 
+            x-transition:enter-start="translate-x-full opacity-0" 
+            x-transition:enter-end="translate-x-0 opacity-100" 
+            x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700" 
+            x-transition:leave-start="translate-x-0" 
+            x-transition:leave-end="translate-x-full opacity-0"
+         >           
+            {% render 'loader' %}
+            <div class="h-full flex flex-col bg-white shadow-xl" x-ref="cart_content">
+               {% render 'cart-form' %}
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

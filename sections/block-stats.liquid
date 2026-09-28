@@ -1,0 +1,377 @@
+{% assign stat_blocks = section.blocks | where: 'type', 'stat' %}
+{% assign has_stat_blocks = stat_blocks.size | plus: 0 %}
+
+{% assign has_product_stats = false %}
+
+{%- comment -%}
+  Pull metafields safely for both contexts
+{%- endcomment -%}
+{% assign mf_stats = blank %}
+{% assign mf_title = blank %}
+{% assign mf_image = blank %}
+
+{% if product != blank %}
+  {% assign mf_stats = product.metafields.custom.product_stats %}
+  {% assign mf_title = product.metafields.custom.product_stats_title %}
+  {% assign mf_image = product.metafields.custom.product_stats_image %}
+{% endif %}
+
+{% if collection != blank %}
+  {%- comment -%}
+    If we're on a collection page (or want collection fallback), use collection stats only if product stats are empty
+  {%- endcomment -%}
+  {% if mf_stats == blank or mf_stats.value == blank or mf_stats.value.size == 0 %}
+    {% assign mf_stats = collection.metafields.custom.product_stats %}
+  {% endif %}
+
+  {% if mf_title == blank or mf_title.value == blank or mf_title.value.size == 0 %}
+    {% assign mf_title = collection.metafields.custom.product_stats_title %}
+  {% endif %}
+
+  {% if mf_image == blank or mf_image.value == blank or mf_image.value.size == 0 %}
+    {% assign mf_image = collection.metafields.custom.product_stats_image %}
+  {% endif %}
+{% endif %}
+
+{%- comment -%}
+  Determine if we have anything to show
+{%- endcomment -%}
+{% if mf_stats != blank and mf_stats.value != blank and mf_stats.value.size != 0 %}
+  {% assign has_product_stats = true %}
+{% endif %}
+
+{% if has_product_stats == false and mf_title != blank and mf_title.value != blank and mf_title.value.size != 0 %}
+  {% assign has_product_stats = true %}
+{% endif %}
+
+{% if has_product_stats == false and mf_image != blank and mf_image.value != blank and mf_image.value.size != 0 %}
+  {% assign has_product_stats = true %}
+{% endif %}
+
+{% if has_stat_blocks > 0 or has_product_stats %}
+
+  <!-- YOUR EXISTING SECTION CODE STARTS HERE -->
+  <style>
+    .odometer { display: flex; }
+
+    /* Section variables */
+    .{{ section.id }}.block-stats {
+      {% assign bg = section.settings.section_bg_color %}
+      {% assign a  = section.settings.section_bg_opacity | divided_by: 100.0 %}
+      {% assign r = bg | color_extract: 'red' %}
+      {% assign g = bg | color_extract: 'green' %}
+      {% assign b = bg | color_extract: 'blue' %}
+      --section-bg: rgba({{ r }}, {{ g }}, {{ b }}, {{ a }});
+      background-color: var(--section-bg);
+
+      --stat-main: {{ section.settings.stat_main_color }};
+      --stat-sub: {{ section.settings.stat_sub_color }};
+
+      --btn-bg: {{ section.settings.button_bg_color }};
+      --btn-text: {{ section.settings.button_text_color }};
+
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .{{ section.id }}.block-stats .odometer:after {
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:9;
+
+      background-image: linear-gradient(
+        0deg,
+        var(--section-bg) 5%,
+        transparent 25%,
+        transparent 75%,
+        var(--section-bg) 95%
+      );
+    }
+
+    .{{ section.id }}.block-stats .stat-main { color: var(--stat-main); }
+    .{{ section.id }}.block-stats .stat-sub  { color: var(--stat-sub); }
+
+    .{{ section.id }}.block-stats .stats-btn {
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+    }
+
+    .odometer.odometer-animating-up .odometer-ribbon-inner,
+    .odometer.odometer-animating-down .odometer-ribbon-inner {
+      transition-property: transform;
+      transition-duration: 6s !important;
+      transition-timing-function: ease-in-out !important;
+    }
+
+    .odometer.odometer-auto-theme, .odometer.odometer-theme-default {
+      font-family:var(--font-body) !important;
+    }
+  </style>
+
+  <section class="{{ section.id }} block-stats relative overflow-hidden">
+    <div class="mx-auto container px-6">
+      {% if section.settings.section_title != blank %}
+            <div class="text-center mb-10">
+              <h2 class="text-2xl md:text-3xl lg:text-7xl font-normal stat-main">
+                {{ section.settings.section_title }}
+              </h2>
+            </div>
+          {% endif %}
+      <div class="grid items-center gap-4 xl:gap-12 xl:grid-cols-2">
+
+        <!-- Left: stats -->
+        <div class="left-stats">
+          
+
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'stat' %}
+                <div class="{% unless forloop.first %}mt-12{% endunless %}" {{ block.shopify_attributes }}>
+                  <div class="flex flex-col lg:flex-row items-center lg:items-end justify-center gap-0 lg:gap-4">
+                    <div class="flex gap-3 text-5xl font-normal tracking-tight stat-main sm:text-7xl md:text-8xl">
+                      <div class="odometer counter" data-target="{{ block.settings.number }}">0</div>
+
+                      {% if block.settings.show_suffix %}
+                        <span class="align-top text-3xl md:text-4xl block mt-4 ml-1 lg:ml-4 float-right">
+                          {{ block.settings.suffix }}
+                        </span>
+                      {% endif %}
+                    </div>
+
+                    <div class="pb-2 lg:pb-5 text-base font-medium translate-x-[0px] lg:-translate-x-[28px] stat-sub mono-font">
+                      {{ block.settings.label }}
+                    </div>
+                  </div>
+
+                  {% if block.settings.text != blank %}
+                    <p class="text-base stat-sub text-center">
+                      {{ block.settings.text }}
+                    </p>
+                  {% endif %}
+                </div>
+            {% endcase %}
+          {% endfor %}
+
+          {% if section.settings.button_label != blank %}
+            <div class="hidden lg:flex justify-center mt-12">
+              <a
+                href="{{ section.settings.button_link | default: '#' }}"
+                class="stats-btn inline-flex items-center rounded-full px-6 py-3 text-base font-medium mt-auto w-max"
+              >
+                {{ section.settings.button_label }}
+              </a>
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Right: image -->
+        <div class="relative flex flex-col items-center">
+          {% if section.settings.image != blank %}
+            {{
+              section.settings.image
+              | image_url: width: 900
+              | image_tag:
+                class: "relative w-[580px] max-w-full drop-shadow-[0_40px_80px_rgba(0,0,0,0.65)]",
+                loading: "lazy",
+                alt: section.settings.image.alt
+            }}
+          {% endif %}
+
+          {% if section.settings.button_label != blank %}
+            <div class="flex lg:hidden justify-center mt-0">
+              <a
+                href="{{ section.settings.button_link | default: '#' }}"
+                class="stats-btn inline-flex items-center rounded-full px-6 py-3 text-base font-medium mt-auto w-max"
+              >
+                {{ section.settings.button_label }}
+              </a>
+            </div>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {{ 'odometer.min.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'odometer.js' | asset_url }}" defer></script>
+  <!-- YOUR EXISTING SECTION CODE ENDS HERE -->
+
+{% endif %}
+{% schema %}
+{
+  "name": "Block - Stats",
+  "tag": "section",
+  "class": "section section-block-stats",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section title",
+      "default": "Spotlight"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Right side image"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "View all technical details"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "section_bg_opacity",
+      "label": "Background Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "stat_main_color",
+      "label": "Main Text Color (numbers)",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "stat_sub_color",
+      "label": "Secondary Text Color (labels/description)",
+      "default": "rgba(255,255,255,0.45)"
+    },
+
+    {
+      "type": "header",
+      "content": "Button Colours"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#111111"
+    },
+
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 240,
+      "step": 10,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 240,
+      "step": 10,
+      "unit": "px",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number (supports decimals)",
+          "default": "10000"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Drops"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Description",
+          "default": "Lorem ipsum dolor sit amet."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_suffix",
+          "label": "Show suffix",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "label": "Suffix",
+          "default": "+"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Block - Stats",
+      "blocks": [
+        { "type": "stat" },
+        { "type": "stat" }
+      ]
+    }
+  ]
+}
+{% endschema %}

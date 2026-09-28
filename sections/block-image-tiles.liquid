@@ -1,0 +1,251 @@
+{% assign tile_blocks = section.blocks | where: 'type', 'tile' %}
+{% assign has_tile_blocks = tile_blocks.size | plus: 0 %}
+
+{% assign has_product_image_tiles = false %}
+
+{%- comment -%}
+  Pull metafields safely for both contexts
+{%- endcomment -%}
+{% assign mf_tiles = blank %}
+
+{% if product != blank %}
+  {% assign mf_tiles = product.metafields.custom.product_image_tiles %}
+{% endif %}
+
+{% if collection != blank %}
+  {%- comment -%}
+    Collection fallback if product metafield is empty
+  {%- endcomment -%}
+  {% if mf_tiles == blank or mf_tiles.value == blank or mf_tiles.value.size == 0 %}
+    {% assign mf_tiles = collection.metafields.custom.product_image_tiles %}
+  {% endif %}
+{% endif %}
+
+{%- comment -%}
+  Determine if we have anything to show
+{%- endcomment -%}
+{% if mf_tiles != blank and mf_tiles.value != blank and mf_tiles.value.size != 0 %}
+  {% assign has_product_image_tiles = true %}
+{% endif %}
+
+{% if has_tile_blocks > 0 or has_product_image_tiles %}
+
+<style>
+  .hide-on-d { display: none; }
+
+  @media only screen and (max-width: 1100px) {
+    .hide-on-m { display: none; }
+    .hide-on-d { display: inline-flex; }
+  }
+
+  .{{ section.id }}.block-image-tiles {
+    /* Background (color + opacity) */
+    {% assign bg = section.settings.section_bg_color %}
+    {% assign a  = section.settings.section_bg_opacity | divided_by: 100.0 %}
+    {% assign r = bg | color_extract: 'red' %}
+    {% assign g = bg | color_extract: 'green' %}
+    {% assign b = bg | color_extract: 'blue' %}
+
+    --section-bg: rgba({{ r }}, {{ g }}, {{ b }}, {{ a }});
+    background-color: var(--section-bg);
+
+    /* Spacing */
+    margin-top: {{ section.settings.margin_top }}px;
+    margin-bottom: {{ section.settings.margin_bottom }}px;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+</style>
+
+<section class="{{ section.id }} block-image-tiles">
+  <div class="mx-auto container px-6 max-w-7xl">
+    <div class="grid gap-8 md:grid-cols-2">
+
+      {% for block in section.blocks %}
+        <a
+          href="{{ block.settings.link | default: '#' }}"
+          class="group relative overflow-hidden rounded-2xl ring-1 ring-black/5"
+          {{ block.shopify_attributes }}
+        >
+          <!-- Image -->
+          <div class="aspect-[1/1] w-full">
+            {% if block.settings.image != blank %}
+              {{
+                block.settings.image
+                | image_url: width: 2000
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'h-full w-full object-cover transition-transform duration-[4000ms] ease-out group-hover:scale-110',
+                  alt: block.settings.image.alt | default: block.settings.title
+              }}
+            {% else %}
+              <div class="h-full w-full bg-neutral-200"></div>
+            {% endif %}
+          </div>
+
+          <!-- Overlays -->
+          <div class="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/55 to-transparent"></div>
+          <div class="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+
+          <!-- Title -->
+          {% if block.settings.title != blank %}
+            <div class="absolute left-0 top-0 p-8">
+              <h3 class="text-2xl font-normal tracking-tight text-white">
+                {{ block.settings.title }}
+              </h3>
+            </div>
+          {% endif %}
+
+          <!-- Bottom content -->
+          <div class="absolute inset-x-0 bottom-0 p-8">
+            <div class="flex items-end justify-between gap-6">
+              {% if block.settings.text != blank %}
+                {{ block.settings.text
+                  | truncatewords: 20
+                  | replace: '<p>', '<p class="max-w-md text-base leading-6 text-white/85">'
+                }}
+              {% endif %}
+
+              {% if block.settings.button_label != blank %}
+                <span class="group" aria-label="{{ block.settings.button_label | default: 'View' }}">
+                  <span class="hide-on-d inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-white/10 text-white backdrop-blur-sm transition group-hover:bg-white/20">
+                    <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+                      <path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </span>
+
+                  <span class="hide-on-m items-center rounded-full bg-neutral-100 px-6 py-3 text-base font-medium mt-auto w-max lg:inline-flex">
+                    {{ block.settings.button_label | default: 'View' }}
+                  </span>
+                </span>
+              {% endif %}
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "Block - Image Tiles",
+  "tag": "section",
+  "class": "section-image-tiles",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "section_bg_opacity",
+      "label": "Background Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Image Tile",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Enter title here"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "info": "(Max 20 Words)"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Tile link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Block - Image Tiles",
+      "blocks": [
+        { "type": "tile" },
+        { "type": "tile" }
+      ]
+    }
+  ]
+}
+{% endschema %}

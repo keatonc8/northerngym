@@ -1,0 +1,258 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "block_hero_zTxQkq": {
+      "type": "block-hero",
+      "blocks": {
+        "logo_deqG3M": {
+          "type": "logo",
+          "disabled": true,
+          "settings": {
+            "logo": "shopify://shop_images/3_4_6ccf0d51-b4c1-41d7-a586-fdb7db406e4b.png"
+          }
+        },
+        "logo_qCynRE": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/2_4.png"
+          }
+        },
+        "logo_p6QBqX": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/4_3_4644aad2-f169-4943-a114-37b18929e43a.png"
+          }
+        },
+        "logo_bbPWLe": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/logo.png"
+          }
+        },
+        "logo_3tmyyg": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/5_3.png"
+          }
+        },
+        "logo_G3z4Nc": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/7_4b22685a-5198-4846-89af-287923ba927d.png"
+          }
+        },
+        "logo_WFyzRd": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Untitled_design_5_a73cdcc6-7d73-4433-84ec-1448f9457306.png"
+          }
+        }
+      },
+      "block_order": [
+        "logo_deqG3M",
+        "logo_qCynRE",
+        "logo_p6QBqX",
+        "logo_bbPWLe",
+        "logo_3tmyyg",
+        "logo_G3z4Nc",
+        "logo_WFyzRd"
+      ],
+      "disabled": true,
+      "name": "Block - Hero",
+      "settings": {
+        "background_image": "shopify://shop_images/Homepage_12.png",
+        "mobile_background_image": "shopify://shop_images/Dumbbells_7_9a0d69e4-21b7-4e20-8233-9143e0090056.png",
+        "content_vertical_align": "middle",
+        "heading": "",
+        "body": "",
+        "button_label": "",
+        "button_link": "",
+        "text_color": "#ffffff",
+        "button_color": "#ffffff",
+        "button_text_color": "#000000",
+        "marquee_speed": "regular",
+        "add_marquee_bg": false,
+        "marquee_bg_color": "#ffffff",
+        "marquee_bg_opacity": 100
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_KgByMW": {
+          "type": "item",
+          "settings": {
+            "number": "01",
+            "image": "shopify://shop_images/1_e844557f-22b4-4f76-8ff0-b132aa91e278.png",
+            "title": "Neoprene Dumbbells",
+            "text": "<p>Elevate your workouts with our neoprene dumbbells, crafted for refined comfort, flawless grip and effortless strength.</p>",
+            "button_label": "Discover More",
+            "button_link": "shopify://collections/movement-studio-neoprene-dumbbells"
+          }
+        },
+        "item_iXPMPn": {
+          "type": "item",
+          "settings": {
+            "number": "02",
+            "image": "shopify://shop_images/3_a20a24d8-f221-4930-a925-1ffd0cca3e04.png",
+            "title": "Neoprene Kettlebells",
+            "text": "<p>Level up your workouts with a premium neoprene kettlebell, built for smooth handling, stable control and powerful performance.</p>",
+            "button_label": "Discover More",
+            "button_link": "shopify://collections/neoprene-kettlebells"
+          }
+        },
+        "item_MPVrQi": {
+          "type": "item",
+          "settings": {
+            "number": "03",
+            "image": "shopify://shop_images/2_616a3be3-810c-4ff3-a7b5-38bcc10a41ce.png",
+            "title": "Dumbbell Hands",
+            "text": "<p>Sculpt and strengthen with our dumbbells hand weights, designed for a soft grip, smooth feel and controlled movement.</p>",
+            "button_label": "Discover More",
+            "button_link": "shopify://collections/movement-studio-dumbbell-hands"
+          }
+        },
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "04",
+            "image": "shopify://shop_images/1_1086ee33-6b44-4564-8e6b-db73d1e73ea0.png",
+            "title": "Yoga Mats",
+            "text": "<p>Practice in comfort and style with our yoga mats, offering superior grip, cushioning and support for every flow.</p>",
+            "button_label": "Discover More",
+            "button_link": "shopify://collections/movement-studio-yoga-mats"
+          }
+        }
+      },
+      "block_order": [
+        "item_KgByMW",
+        "item_iXPMPn",
+        "item_MPVrQi",
+        "item_UhVejQ"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Introducing Movement Studio",
+        "text": "<p>Designed to support control, balance and the way your body naturally moves. Built for better movement. Where strength meets control.</p>",
+        "button_label": "Explore Our Collection",
+        "button_link": "shopify://collections/movement-studio",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_image_tiles_dihH7R": {
+      "type": "block-image-tiles",
+      "blocks": {
+        "tile_BkFXyU": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/Northern_Movement_Studio_Yoga_Blocks.jpg",
+            "title": "Yoga Blocks",
+            "text": "<p>Support your Pilates practice with our yoga blocks that improve alignment, stability and control.</p>",
+            "button_label": "",
+            "link": "shopify://collections/yoga-blocks"
+          }
+        },
+        "tile_rzPTnf": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/Northern_Movement_Studio_Pilates_Ring.jpg",
+            "title": "Pilate Rings",
+            "text": "<p>Boost your Pilates workouts with a Pilates ring that enhances resistance, control and muscle engagement.</p>",
+            "button_label": "",
+            "link": "shopify://collections/movement-studio-pilates-rings"
+          }
+        }
+      },
+      "block_order": [
+        "tile_BkFXyU",
+        "tile_rzPTnf"
+      ],
+      "name": "Block - Image Tiles",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_MydBE4": {
+      "type": "block-columns",
+      "blocks": {
+        "card_WX7nd4": {
+          "type": "card",
+          "settings": {
+            "title": "Hollowrollers",
+            "image": "shopify://shop_images/MOVEMENT_STUDIO_0167.jpg",
+            "link": "shopify://collections/movement-studio-hollowrollers"
+          }
+        },
+        "card_h38A8E": {
+          "type": "card",
+          "settings": {
+            "title": "Swiss Balls",
+            "image": "shopify://shop_images/2_89aa7d05-4820-4dd7-b43c-7278d0bbe30c.png",
+            "link": "shopify://collections/movement-studio-swiss-balls"
+          }
+        },
+        "card_hQ8PDA": {
+          "type": "card",
+          "settings": {
+            "title": "Hip Bands",
+            "image": "shopify://shop_images/MOVEMENT_STUDIO_0146.jpg",
+            "link": "shopify://collections/hip-bands"
+          }
+        }
+      },
+      "block_order": [
+        "card_WX7nd4",
+        "card_h38A8E",
+        "card_hQ8PDA"
+      ],
+      "name": "Block - Columns",
+      "settings": {
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "block_hero_zTxQkq",
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_image_tiles_dihH7R",
+    "block_columns_MydBE4"
+  ]
+}

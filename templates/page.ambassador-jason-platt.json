@@ -1,0 +1,149 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "Based In Lincolnshire",
+            "image": "shopify://shop_images/Jason_Platt_9.jpg",
+            "title": "Bio",
+            "text": "<p>I'm the founder of Home Gym UK, the UK's largest and friendliest home and garage gym community, bringing together home gym owners, fitness enthusiasts and strength lovers from across the UK.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_7WcBXp": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/Jason_Platt_3.jpg",
+            "title": "",
+            "text": "<p>What started as a passion project to give people a place to share their home gyms has grown into a thriving community built around support, inspiration and honest advice. Members share their gym builds, equipment recommendations, training journeys and ideas, helping inspire others to create spaces they are proud of.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_WGq8f8": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/Jason_Platt_8.jpg",
+            "title": "",
+            "text": "<p>At Home Gym UK, community always comes first. We focus on genuine conversations between gym owners and equipment brands, sharing honest reviews, real-world feedback, useful gym hacks and helping companies understand what their customers want. We also create factory tours, giving members a behind-the-scenes look.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_wgaqTH": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/Jason_Platt_in_Fitness_and_Strength_Event.jpg",
+            "title": "",
+            "text": "<p>Through our Facebook, Instagram and YouTube, we showcase incredible home gyms across the UK, celebrating the creativity and passion behind them. I also share my fitness journey, from bodybuilding and Men’s Physique to rebuilding after hip reconstruction, showing that setbacks don’t have to stop progress.<br/><br/></p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ",
+        "item_7WcBXp",
+        "item_WGq8f8",
+        "item_wgaqTH"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Jason Platt",
+        "text": "<p>Strength-focused Men’s Physique training, inspired by strongman and built around resilience, progression, and pushing limits.<br/><br/></p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_QUBYg8": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_LebtEX": {
+          "type": "card",
+          "settings": {
+            "title": "Favourite Northern Product",
+            "image": "shopify://shop_images/CASTPLATE_2.5KG_1_e4be3566-572c-4ad6-9d30-c98102ed8355.jpg",
+            "text": "<p>Cast Iron Plates - <em>\"Northern's dumbbells and plates are excellent value for money, but my personal favourite has to be the old-school cast iron deep dish plates. I love the classic look, the feel and the timeless gym atmosphere they bring.”</em></p>",
+            "button_label": "Shop Now",
+            "button_link": "https://northerngymequipment.com/products/northern-olympic-cast-iron-plates-pair-2-x-2-5kg-5kg"
+          }
+        },
+        "card_cEmc7P": {
+          "type": "card",
+          "settings": {
+            "title": "What does being part of Northern mean to you?",
+            "image": "shopify://shop_images/Jason_Platt_4.jpg",
+            "text": "<p>Being part of Northern means representing a brand that understands the importance of quality, value and community. I enjoy being involved with brands that listen to customers, take feedback seriously and continue to improve, while sharing Northern’s products with a passionate training community.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "card_mNhWg4": {
+          "type": "card",
+          "settings": {
+            "title": "Follow Jason's Journey",
+            "image": "shopify://shop_images/Jason_Platt_10.jpg",
+            "text": "<p>Check out Jason's social here.</p>",
+            "button_label": "Follow",
+            "button_link": "https://www.instagram.com/homegym_jayjay/"
+          }
+        }
+      },
+      "block_order": [
+        "card_LebtEX",
+        "card_cEmc7P",
+        "card_mNhWg4"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_QUBYg8"
+  ]
+}

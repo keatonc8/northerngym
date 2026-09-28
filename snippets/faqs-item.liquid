@@ -1,0 +1,49 @@
+{% if metaobject_item != blank %}
+   {% assign question = metaobject_item.question %}
+   {% assign answer = metaobject_item.answer | metafield_tag %}
+   {% assign button_link = metaobject_item.button_link %}
+   {% assign button_text = metaobject_item.button_text | default: 'Click Here' %}
+   {% assign button_target = false %}
+{% else %}
+   {% assign question = block.settings.heading %}
+   {% assign answer = block.settings.answer %}
+   {% assign button_link = block.settings.button_link %}
+   {% assign button_text = block.settings.button_text | default: 'Click Here' %}
+   {% assign button_target = block.settings.button_target %}
+{% endif %}
+
+{% assign unique_id = 'faq-block-' | append: block.id %}
+
+<div class="border-t {% if is_last %}border-b{% endif %} border-silver faq__item" data-faq-item>
+   <button
+      id="{{ unique_id }}-heading"
+      class="flex justify-between items-center gap-8 py-5 font-bold body-01 hover:text-yellow w-full cursor-pointer"
+      aria-expanded="{% if is_first %}true{% else %}false{% endif %}"
+      aria-controls="{{ unique_id }}-panel"
+      data-faq-question
+   >
+      <span>
+         {{ question }}
+      </span>
+      <span class="faq__chevron">
+         {% render 'icons', icon: 'chevron', class: 'w-4' %}
+      </span>
+   </button>
+   <div
+      id="{{ unique_id }}-panel"
+      class="flex flex-col gap-8 max-h-0 overflow-hidden duration-300"
+      role="region"
+      aria-labelledby="{{ unique_id }}-heading"
+      {% unless is_first %}hidden{% endunless %}
+      data-faq-answer
+   >
+      <div class="prose">
+         {{ answer }}
+      </div>
+      {% if button_link != blank %}
+         <a href="{{ button_link }}" class="button button-black mr-auto" {% if button_target == true %}target="_blank" rel="noopener noreferrer"{% endif %}>
+            {{ button_text }}
+         </a>
+      {% endif %}
+   </div>
+</div>

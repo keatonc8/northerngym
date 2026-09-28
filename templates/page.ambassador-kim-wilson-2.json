@@ -1,0 +1,149 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "Based in the Lake District",
+            "image": "shopify://shop_images/406b9055-8ded-475e-a965-5c56b32e721b.jpg",
+            "title": "Bio",
+            "text": "<p>Although I’ve always led a healthy and active lifestyle through sport, competitively in Hockey and Football, my fitness journey really began when I got my first job in teaching. I found myself needing a real outlet and focus for after work hours. </p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_7WcBXp": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-06-11_at_17.23.11_4.jpg",
+            "title": "",
+            "text": "<p>I joined a gym and started getting into ‘body pump’ and ‘met con’ initially. I began to absolutely love the way it made me feel and I then decided to strength train using free weights and resistance machines on my own in the gym, alongside attending the classes. </p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_WGq8f8": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-06-11_at_17.23.11_2.jpg",
+            "title": "",
+            "text": "<p>I built knowledge and understanding of strength training and started to see real results. For the first time I actually felt confident in my body and a real sense of achievement. Both my physical and mental transformations were noticeable. </p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_wgaqTH": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-06-11_at_17.23.11_3.jpg",
+            "title": "",
+            "text": "<p>Fast forward to now, I train 5 times per week in the gym. I’ve developed the ability to use compound lifts in my training and have made real progress. I lift for enjoyment and empowerment, inspiring other women to do the same! </p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ",
+        "item_7WcBXp",
+        "item_WGq8f8",
+        "item_wgaqTH"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Kim Wilson",
+        "text": "<p>I love a combination of training methods but primarily my training is focussed around strength training whilst also dipping my toes into Hyrox sessions.</p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_QUBYg8": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_LebtEX": {
+          "type": "card",
+          "settings": {
+            "title": "Favourite Northern Product",
+            "image": "shopify://shop_images/Northern_Rubber_Hex_Dumbbells_Pair_45kg.jpg",
+            "text": "<p>Hex dumbbells - the perfect addition to my home gym and even better.. they don’t roll away when I put them down in between sets!</p>",
+            "button_label": "Shop Now",
+            "button_link": "shopify://products/northern-hex-dumbbells-pair-2-5kg-x-2"
+          }
+        },
+        "card_cEmc7P": {
+          "type": "card",
+          "settings": {
+            "title": "What does being part of Northern mean to you?",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-06-11_at_17.24.22.jpg",
+            "text": "<p>Northern doesn't discriminate against your training style or fitness level! I love how inclusive they are and being part of Northern makes fitness so much more accessible with high quality equipment I can use in the comfort of my own home!<br/></p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "card_mNhWg4": {
+          "type": "card",
+          "settings": {
+            "title": "Follow Kim's Journey",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-06-11_at_17.23.11_1.jpg",
+            "text": "<p>Check out Kim's social here.</p>",
+            "button_label": "Follow",
+            "button_link": "https://www.instagram.com/kim_fit_motivation/"
+          }
+        }
+      },
+      "block_order": [
+        "card_LebtEX",
+        "card_cEmc7P",
+        "card_mNhWg4"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_QUBYg8"
+  ]
+}

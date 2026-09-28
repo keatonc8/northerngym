@@ -1,0 +1,149 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "Based In Kent",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-03-31_at_08.55.26_2.jpg",
+            "title": "Bio",
+            "text": "<p>I help perimenopausal midlife women who are done with dieting lose weight, optimise their health, and build strong, confident bodies they actually love, without extremes or constantly starting over.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_7WcBXp": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/1000x1200.jpg",
+            "title": "",
+            "text": "<p>Through my proven 16-week transformation, I combine sustainable fat loss with the mindset shifts that create results that last, designed specifically for women whose bodies, hormones, and lifestyles have changed.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_WGq8f8": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/Untitled_design_-_2026-04-15T093200.513.jpg",
+            "title": "",
+            "text": "<p>Strength training is at the heart of everything I do. Not to “burn calories” but to build a body that is strong, resilient, and confident. One that supports your metabolism, balances your hormones, and carries you powerfully through midlife and beyond.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_wgaqTH": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-04-13_at_12.26.50_10.jpg",
+            "title": "",
+            "text": "<p>Because this isn’t about another diet.<br/> It’s about stepping into a completely new standard and becoming the woman you know you’re meant to be. And once you get there… you’re not going back.'</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ",
+        "item_7WcBXp",
+        "item_WGq8f8",
+        "item_wgaqTH"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Katie Vinten",
+        "text": "<p>Strength & Conditioning</p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_QUBYg8": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_LebtEX": {
+          "type": "card",
+          "settings": {
+            "title": "Favourite Northern Product",
+            "image": "shopify://shop_images/HEX_DBELL_15KG_1_6e4cca65-4826-4370-87fb-e538619bb3e4.jpg",
+            "text": "<p>Northern Hex Dumbbells</p>",
+            "button_label": "Shop Now",
+            "button_link": "shopify://products/hex-dumbbells"
+          }
+        },
+        "card_cEmc7P": {
+          "type": "card",
+          "settings": {
+            "title": "What does being part of Northern mean to you?",
+            "image": "shopify://shop_images/Untitled_design_-_2026-04-14T082056.455.jpg",
+            "text": "<p>Being part of Northern means belonging to a community and brand I genuinely trust. As a coach, I only recommend things I truly believe in. Northern is a brand I’m proud to support and confidently share with the women I work with every each single day in my coaching practice.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "card_mNhWg4": {
+          "type": "card",
+          "settings": {
+            "title": "Follow Katie's Journey",
+            "image": "shopify://shop_images/Untitled_design_-_2026-04-14T082356.341.jpg",
+            "text": "<p>Check out Katie's social here.</p>",
+            "button_label": "Follow",
+            "button_link": "https://www.instagram.com/coaching_by_katie/"
+          }
+        }
+      },
+      "block_order": [
+        "card_LebtEX",
+        "card_cEmc7P",
+        "card_mNhWg4"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_QUBYg8"
+  ]
+}

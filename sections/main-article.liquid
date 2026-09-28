@@ -1,0 +1,156 @@
+{% assign blog_url = blog.url %}
+{% assign blog_title = blog.title %}
+{% assign article_title = article.title %}
+{% assign article_image = article.image %}
+{% assign article_content = article.content %}
+{% assign instagram_handle = article.metafields.northerngym.ambassador_instagram_handle %}
+{% assign ambassador_tags = article.metafields.northerngym.ambassador_tags.value %}
+{% assign article_tags = article.tags %}
+
+{% assign is_ambassador_blog = false %}
+{% if blog_title == 'Ambassadors' %}
+   {% assign is_ambassador_blog = true %}
+{% endif %}
+
+
+
+{% assign day = article.created_at | date: "%-d" %}
+{% assign month_year = article.created_at | date: "%B %Y" %}
+
+{% case day %}
+  {% when '1' or '21' or '31' %}
+    {% assign day_suffix = 'st' %}
+  {% when '2' or '22' %}
+    {% assign day_suffix = 'nd' %}
+  {% when '3' or '23' %}
+    {% assign day_suffix = 'rd' %}
+  {% else %}
+    {% assign day_suffix = 'th' %}
+{% endcase %}
+
+{% assign blog_date = day | append: day_suffix | append: ' ' | append: month_year %}
+
+<div class="vertical-spacing-sm relative">
+   <div class="container xl:container-sm">
+      <div class="flex flex-col gap-10">
+         <a href="{{ blog_url }}" class="link flex gap-2 items-center">
+            <span class="">
+               {% render 'icons', icon: 'chevron', class: 'w-3 rotate-90' %}
+            </span>
+            <span class="pt-1">
+               Back to {{ blog_title }}
+            </span>
+         </a>
+         <div class="flex flex-col gap-6">
+            <div class="flex flex-col gap-3">
+               <h1 class="body-01 text-34 max-w-148 leading-[1.25]">
+                  {{ article_title }}
+               </h1>
+               {% if is_ambassador_blog %}
+                  {% if instagram_handle != blank %}
+                     <p class="text-grey body-03">
+                        {{ instagram_handle }}
+                     </p>
+                  {% endif %}
+               {% else %}
+                  {% if blog_date != blank %}
+                     <p class="text-grey body-03">
+                        {{ blog_date }}
+                     </p>
+                  {% endif %}
+               {% endif %}
+            </div>
+            {% if is_ambassador_blog and ambassador_tags != blank %}
+               <div class="lg:hidden">
+                  {% render 'article-ambassador-tags', ambassador_tags: ambassador_tags %}
+               </div>
+            {% endif %}
+            <div class="container-offset__mobile-only {% if is_ambassador_blog %}lg:hidden{% endif %}">
+               <div class="{% if is_ambassador_blog %}aspect-w-3 aspect-h-4{% else %}aspect-w-16 aspect-h-9{% endif %} overflow-hidden">
+                  {% render 'responsive-image',
+                     image_object: article_image,
+                     size: 'full',
+                     class: ''
+                  %}
+               </div>
+            </div>
+         </div>
+         <div class="flex gap-16 relative">
+            <div class="{% if is_ambassador_blog %}flex-6{% else %}flex-7{% endif %} flex flex-col gap-12">
+               {% if is_ambassador_blog and ambassador_tags != blank %}
+                  <div class="hidden lg:block">
+                     {% render 'article-ambassador-tags', ambassador_tags: ambassador_tags %}
+                  </div>
+               {% endif %}
+               {% render 'article-content', article: article, article_content: article_content %}
+            </div>
+            <div class="{% if is_ambassador_blog %}flex-4{% else %}flex-3{% endif %} hidden lg:flex flex-col gap-4 sticky top-42 mb-auto">
+               {% if is_ambassador_blog %}
+                  <div class="aspect-w-3 aspect-h-4 overflow-hidden">
+                     {% render 'responsive-image',
+                        image_object: article_image,
+                        size: 'full',
+                        class: ''
+                     %}
+                  </div>
+               {% else %}
+                  {% render 'article-info', article: article, article_tags: article_tags, blog_url: blog_url %}
+               {% endif %}
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+{% assign article_type = article.handle | split: '/' | first %}
+
+{% if article_type == 'ambassadors' %}
+   {% assign related_ambassadors_heading = section.settings.related_ambassadors_heading | default: 'Ambassadors' %}
+   {% assign current_blog = blogs[article_type] %}
+
+   <div class="border-t border-silver">
+      {% render 'image-block-repeater'
+         heading: related_ambassadors_heading,
+         heading_is_h1: false,
+         current_blog: current_blog,
+         current_article: article,
+         carousel_behaviour: 'mobile-only',
+         image_ratios: 'portrait',
+         overlay_text: true,
+         reduce_padding: true
+      %}
+   </div>
+{% else %}
+   {% assign related_blog_heading = section.settings.related_blog_heading | default: 'Related Blogs' %}
+   {% render 'blog-preview'
+      heading: related_blog_heading,
+      add_border_top: true
+   %}
+{% endif %}
+
+
+{% schema %}
+{
+   "name": "Article",
+   "tag": "section",
+   "class": "section",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Related Articles"
+      },
+      {
+         "type": "text",
+         "id": "related_blog_heading",
+         "label": "Related Blog Heading",
+         "default": "Related Blog Content"
+      },
+      {
+         "type": "text",
+         "id": "related_ambassadors_heading",
+         "label": "Related Ambassadors Heading",
+         "default": "Ambassadors of Northern"
+      }
+   ]
+}
+{% endschema %}

@@ -1,0 +1,98 @@
+{% assign block_count = section.blocks | size %}
+
+{% if block_count > 0 %}
+   <div class="vertical-spacing">
+      <div class="container-sm">
+         <div class="bg-black text-white py-24 md:py-32 relative overflow-hidden">
+            {% if block_count > 1 %}
+               <div class="glide z-2" data-module="basic-carousel" data-carousel-type="quote-block" data-carousel-breakpoint="99999">
+                  <div class="glide__track" data-glide-el="track">
+                     <ul class="glide__slides">
+                        {% for block in section.blocks %}
+                           <li class="glide__slide !h-auto flex">
+                              {% render 'quote-block-item', block: block %}
+                           </li>
+                        {% endfor %}
+                     </ul>
+                  </div>
+                  <div class="glide__bullets glide__bullets--quote-block lg:!hidden" data-glide-el="controls[nav]">
+                     {% for block in section.blocks %}
+                        <button class="glide__bullet" data-glide-dir="={{ forloop.index0 }}"></button>
+                     {% endfor %}
+                  </div>
+                  <div class="glide__arrows hidden lg:block" data-glide-el="controls">
+                     <button class="carousel__arrow--northern carousel__arrow--overlay-position carousel__arrow--left" data-glide-dir="<">
+                        <span class="block -rotate-90">
+                           {% render 'icons', icon: 'arrow-northern', class: 'w-8' %}
+                        </span>
+                        <span class="sr-only">
+                           Previous
+                        </span>
+                     </button>
+                     <button class="carousel__arrow--northern carousel__arrow--overlay-position carousel__arrow--right" data-glide-dir=">">
+                        <span class="block rotate-90">
+                           {% render 'icons', icon: 'arrow-northern', class: 'w-8' %}
+                        </span>
+                        <span class="sr-only">
+                           Next
+                        </span>
+                     </button>
+                  </div>
+               </div>
+            {% else %}
+               {% for block in section.blocks %}
+                  {% render 'quote-block-item', block: block %}
+               {% endfor %}
+            {% endif %}
+            {% render 'quote-block-accents' %}
+         </div>
+      </div>
+   </div>
+{% endif %}
+
+{% schema %}
+{
+   "name": "Quote Block",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Settings"
+      },
+      {
+         "type": "header",
+         "content": "Content"
+      }
+   ],
+   "blocks": [
+      {
+         "type": "quote",
+         "name": "Quote",
+         "settings": [
+            {
+               "type": "header",
+               "content": "Content"
+            },
+            {
+               "type": "text",
+               "id": "heading",
+               "label": "Quote"
+            },
+            {
+               "type": "text",
+               "id": "name",
+               "label": "Name"
+            },
+            {
+               "type": "text",
+               "id": "job_title",
+               "label": "Job Title"
+            }
+         ]
+      }
+   ],
+   "presets": [{
+      "name": "Quote Block",
+      "blocks": []
+   }]
+}
+{% endschema %}

@@ -1,0 +1,101 @@
+
+{% if block != blank %}
+   {% case block.type %}
+      {% when 'collection' %}
+         {% assign set_collection = block.settings.collection %}
+      {% when 'article' %}
+         {% assign set_article = block.settings.article %}
+      {% when 'page' %}
+         {% assign set_page = block.settings.page %}
+         {% assign background_image = set_page.metafields.northerngym.featured_image %}
+         {% assign heading = set_page.title %}
+         {% assign call_to_action = 'Find Out More' %}
+         {% assign link_url = set_page.url %}
+         {% assign link_target = false %}
+      {% when 'blog' %}
+         {% assign set_blog = block.settings.blog %}
+         {% assign background_image = set_blog.metafields.northerngym.featured_image %}
+         {% assign heading = set_blog.title %}
+         {% assign call_to_action = 'Find Out More' %}
+         {% assign link_url = set_blog.url %}
+         {% assign link_target = false %}
+      {% else %}
+         {% assign background_image = block.settings.background_image %}
+         {% assign heading = block.settings.heading %}
+         {% assign call_to_action = block.settings.call_to_action %}
+         {% assign link_url = block.settings.link_url %}
+         {% assign link_target = block.settings.link_target %}
+   {% endcase %}
+{% endif %}
+
+{% if set_collection != blank %}
+   {% assign background_image = set_collection.metafields.northerngym.collection_item_image %}
+   {% if background_image == blank %}
+      {% assign background_image = set_collection.featured_image %}
+   {% endif %}
+   {% assign heading = set_collection.title %}
+   {% assign call_to_action = 'Find Out More' %}
+   {% assign link_url = set_collection.url %}
+   {% assign link_target = false %}
+{% endif %}
+
+{% if set_article != blank %}
+   {% assign background_image = set_article.image %}
+   {% assign heading = set_article.title %}
+   {% assign call_to_action = set_article.metafields.northerngym.ambassador_instagram_handle | default: 'Find Out More' %}
+   {% assign link_url = set_article.url %}
+   {% assign link_target = false %}
+{% endif %}
+
+{% assign image_ratio_classes = image_ratio_classes | default: 'aspect-w-2 aspect-h-3' %}
+
+{% assign container_text_class = 'text-black' %}
+{% if overlay_text %}
+   {% assign container_text_class = 'text-white' %}
+{% endif %}
+{% assign container_classes = 'flex flex-col gap-3 ' | append: container_text_class %}
+
+{% capture text_content %}
+   <div class="flex flex-col gap-1">
+      {% if heading != blank %}
+         <p class="heading-04">
+            {{ heading }}
+         </p>
+      {% endif %}
+      {% if call_to_action != blank %}
+         <p class="underline underline-offset-2">
+            {{ call_to_action }}
+         </p>
+      {% endif %}
+   </div>
+{% endcapture %}
+
+{% capture image_block_content %}
+   <div class="{{ image_ratio_classes }}">
+      <div class="overflow-hidden">
+         {% render 'responsive-image',
+            image_object: background_image,
+            size: 'mobile',
+            class: 'group-hover:scale-105 duration-300'
+         %}
+      </div>
+      {% if overlay_text %}
+         <div class="p-5 flex items-end justify-start">
+            {{ text_content }}
+         </div>
+      {% endif %}
+   </div>
+   {% if overlay_text == false %}
+      {{ text_content }}
+   {% endif %}
+{% endcapture %}
+
+{% if link_url != blank %}
+   <a href="{{ link_url }}" class="{{ container_classes }} group hover:text-yellow" {% if link_target == true %}target="_blank" rel="noopener noreferrer"{% endif %}>
+      {{ image_block_content }}
+   </a>
+{% else %}
+   <div class="{{ container_classes }}">
+      {{ image_block_content }}
+   </div>   
+{% endif %}

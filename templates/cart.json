@@ -1,0 +1,128 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "cart-items": {
+      "type": "main-cart",
+      "blocks": {
+        "usp_fJ6eTP": {
+          "type": "usp",
+          "settings": {
+            "icon": "diamond",
+            "heading": "Great Value"
+          }
+        },
+        "usp_RndUxn": {
+          "type": "usp",
+          "settings": {
+            "icon": "dumbbell",
+            "heading": "Industry Quality"
+          }
+        },
+        "usp_i9AHWm": {
+          "type": "usp",
+          "settings": {
+            "icon": "card",
+            "heading": "Payment options"
+          }
+        },
+        "klarna_on_site_messaging_app_block_h4y6DE": {
+          "type": "shopify://apps/klarna-on-site-messaging/blocks/app-block/b95936a9-74b6-4a95-8103-6a1b6459c25e",
+          "settings": {
+            "data_key": "credit-promotion-badge",
+            "theme": "default",
+            "topPadding": "0",
+            "bottomPadding": "0",
+            "messagePrefix": ""
+          }
+        }
+      },
+      "block_order": [
+        "usp_fJ6eTP",
+        "usp_RndUxn",
+        "usp_i9AHWm",
+        "klarna_on_site_messaging_app_block_h4y6DE"
+      ],
+      "settings": {
+        "heading": "My Gym Equipment",
+        "overview_heading": "Overview",
+        "shipping_message": "Shipping and discount codes calculated at checkout",
+        "free_shipping_limit": 6000,
+        "discount_message": "Got a discount code? Add it at the next step",
+        "delivery_message": "We offer both standard and express delivery",
+        "empty_cart_heading": "Your cart is empty!",
+        "empty_cart_sub_heading": "Lets Get You Started",
+        "empty_cart_sub_heading_link": "shopify://collections",
+        "empty_cart_products": [
+          "northern-selectable-adjustable-dumbbell-pair-24kg-x-2-copy",
+          "northern-neoprene-dumbbells-old",
+          "2-5-20kg-hex-dumbbell-set-three-tier-dumbbell-rack"
+        ]
+      }
+    },
+    "section_product_preview_yz7eKX": {
+      "type": "section-product-preview",
+      "settings": {
+        "show_buy_button": false,
+        "heading": "Recommendations",
+        "paragraph": "",
+        "source": "cart-recommendations",
+        "product_list": [
+          "2-5-20kg-hex-dumbbell-set-three-tier-dumbbell-rack",
+          "northern-selectable-adjustable-dumbbell-pair-24kg-x-2-copy",
+          "northern-neoprene-dumbbells-old",
+          "2-4-6-8kg-neoprene-dumbbell-set-5-tier-a-frame-storage-holder-rack"
+        ]
+      }
+    },
+    "1747989015ae17c39a": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_featured_carousel_FyJbyz": {
+          "type": "shopify://apps/judge-me-reviews/blocks/featured_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "maxwidth": 1460
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_featured_carousel_FyJbyz"
+      ],
+      "settings": {}
+    },
+    "section_product_preview_njnW6j": {
+      "type": "section-product-preview",
+      "disabled": true,
+      "settings": {
+        "show_buy_button": true,
+        "heading": "Wishlist",
+        "paragraph": "",
+        "source": "custom",
+        "product_list": [
+          "2-5-20kg-hex-dumbbell-set-three-tier-dumbbell-rack",
+          "northern-selectable-adjustable-dumbbell-pair-24kg-x-2-copy",
+          "northern-neoprene-dumbbells-old",
+          "2-4-6-8kg-neoprene-dumbbell-set-5-tier-a-frame-storage-holder-rack"
+        ]
+      }
+    },
+    "175576675129820de8": {
+      "type": "apps",
+      "settings": {}
+    }
+  },
+  "order": [
+    "cart-items",
+    "section_product_preview_yz7eKX",
+    "1747989015ae17c39a",
+    "section_product_preview_njnW6j",
+    "175576675129820de8"
+  ]
+}

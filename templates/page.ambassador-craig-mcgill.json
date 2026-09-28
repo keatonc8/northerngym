@@ -1,0 +1,149 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "Based In Hitchin, Hertfordshire",
+            "image": "shopify://shop_images/Untitled_design_-_2026-04-14T114219.371.jpg",
+            "title": "Bio",
+            "text": "<p>My coaching is built on the principle that better movement patterns create better performance; using biomechanical analysis and best available research, I help people, move more efficiently to perform at much higher levels and reduce the risks of injury. </p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_7WcBXp": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/Untitled_design_-_2026-04-14T114328.397.jpg",
+            "title": "",
+            "text": "<p>From regional/national athletics to Wasps U21s/Development XV and Durham University rugby, performance has always been part of my DNA. After 20 years in the Metropolitan Police, I redirected that experience into coaching - backed by extensive qualifications in strength & conditioning and corrective exercise.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_WGq8f8": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/Untitled_design_-_2026-04-14T114420.363.jpg",
+            "title": "",
+            "text": "<p>I’ve developed progressive injury prevention systems, including work with the UK’s largest female amateur football clubs (Hitchin Belles FC) - helping lead the way in reducing ACL injuries through smarter training.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_wgaqTH": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/IMG_0396.jpg",
+            "title": "",
+            "text": "<p>I work across the spectrum with clients: former SF military, busy professionals, junior academy players, semi-pro footballers, and international rugby players. My approach is simple - no generic programmes. Every person I coach has their own physical history, limitations and potential.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ",
+        "item_7WcBXp",
+        "item_WGq8f8",
+        "item_wgaqTH"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Craig McGill",
+        "text": "<p>\"Train smarter. Move better. Perform longer.\"</p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_QUBYg8": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_LebtEX": {
+          "type": "card",
+          "settings": {
+            "title": "Favourite Northern Product",
+            "image": "shopify://shop_images/resistance_bands_amazon.jpg",
+            "text": "<p>Resistance Bands - <em>\"Non-negotiable. Versatile, portable, and the perfect solution when the cable machine’s taken - there’s always another option”</em></p>",
+            "button_label": "Shop Now",
+            "button_link": "shopify://products/northern-workout-resistance-bands"
+          }
+        },
+        "card_cEmc7P": {
+          "type": "card",
+          "settings": {
+            "title": "What does being part of Northern mean to you?",
+            "image": "shopify://shop_images/IMG_0393.jpg",
+            "text": "<p>Being part of Northern represents a shared commitment to quality, integrity, and simplicity. When establishing my studio, many larger manufacturers felt distant and impersonal. Northern offered a different experience - direct communication, reliable service, and equipment of exceptional quality at a fair price point. </p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "card_mNhWg4": {
+          "type": "card",
+          "settings": {
+            "title": "Follow Craig's Journey",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-03-25_at_16.23.26_2.jpg",
+            "text": "<p>Check out Craig's social here.</p>",
+            "button_label": "Follow",
+            "button_link": "https://www.instagram.com/body_technix/"
+          }
+        }
+      },
+      "block_order": [
+        "card_LebtEX",
+        "card_cEmc7P",
+        "card_mNhWg4"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_QUBYg8"
+  ]
+}

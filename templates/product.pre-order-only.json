@@ -1,0 +1,153 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "175576644690911e3d": {
+      "type": "apps",
+      "settings": {}
+    },
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "judge_me_reviews_preview_badge_AeAMeB": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
+        "klarna_on_site_messaging_app_block_ADR6E8": {
+          "type": "shopify://apps/klarna-on-site-messaging/blocks/app-block/b95936a9-74b6-4a95-8103-6a1b6459c25e",
+          "settings": {
+            "data_key": "credit-promotion-badge",
+            "theme": "default",
+            "topPadding": "0",
+            "bottomPadding": "0",
+            "messagePrefix": ""
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_preview_badge_AeAMeB",
+        "klarna_on_site_messaging_app_block_ADR6E8"
+      ],
+      "settings": {
+        "info_strip_delivery_text": "Delivery by 10th Jan\"26",
+        "info_strip_pay_options_text": "Lift Now Pay Later",
+        "delivery_title": "<p><strong>Standard Delivery</strong> (2-4 Business Days)</p>",
+        "delivery_paragraph": "<p>All orders only £4.99</p>",
+        "wholesale_link": "shopify://pages/whole-sale-gym-equipment",
+        "wholesale_text": "Interested in becoming a Stockist?"
+      }
+    },
+    "section_product_overview_jCMLjF": {
+      "type": "section-product-overview",
+      "settings": {
+        "heading": "",
+        "description_heading": "Description",
+        "description_description": "All our products carry a quality guarantee.",
+        "materials_heading": "Materials",
+        "materials_description": "Sourcing the industry best materials",
+        "shipping_returns_heading": "Shipping & Returns",
+        "shipping_returns_description": "Standard Delivery starts at just £4.99",
+        "shipping_default": "<p>Enjoy UK delivery for just £4.99 on all orders (excluding Floor Mats 1m x 1m x 20mm).</p>",
+        "returns_default": "<p>If you're not completely satisfied with your purchase, Northern Gym Equipment offers a hassle-free return process. Please refer to our <a href=\"/policies/refund-policy\" target=\"_blank\" title=\"Refund Policy\">Returns Policy</a> for more details.</p>",
+        "dimensions_heading": "Dimensions",
+        "dimensions_description": "Size guide for product",
+        "care_instructions_heading": "Care Instructions",
+        "care_instructions_description": "Get the best out of our product"
+      }
+    },
+    "section_product_smart_content_8zN7UY": {
+      "type": "section-product-smart-content",
+      "blocks": {
+        "image_gallery_XCHWbk": {
+          "type": "image_gallery",
+          "settings": {}
+        },
+        "ambassador_guides_abRN9Y": {
+          "type": "ambassador_guides",
+          "settings": {
+            "ambassadors_heading": "Ambassador Excercise Guide"
+          }
+        },
+        "image_tooltips_jgbLXT": {
+          "type": "image_tooltips",
+          "settings": {}
+        },
+        "repeater_blocks_cNiCzU": {
+          "type": "repeater_blocks",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "image_gallery_XCHWbk",
+        "ambassador_guides_abRN9Y",
+        "image_tooltips_jgbLXT",
+        "repeater_blocks_cNiCzU"
+      ],
+      "settings": {}
+    },
+    "section_product_preview_ENaAdH": {
+      "type": "section-product-preview",
+      "settings": {
+        "show_buy_button": false,
+        "heading": "We Recommend",
+        "paragraph": "",
+        "source": "recommended",
+        "product_list": [
+          "northern-selectable-adjustable-dumbbell-pair-24kg-x-2-copy",
+          "northern-neoprene-dumbbells-old",
+          "20-30kg-hex-dumbbell-set-2-5kg-increments",
+          "2-5-20kg-hex-dumbbell-set-three-tier-dumbbell-rack"
+        ]
+      }
+    },
+    "17477581566db1a8b7": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_hnK7LC": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_hnK7LC"
+      ],
+      "settings": {}
+    },
+    "section_product_preview_dYMLKV": {
+      "type": "section-product-preview",
+      "settings": {
+        "show_buy_button": false,
+        "heading": "Bought With",
+        "paragraph": "",
+        "source": "complimentary",
+        "product_list": [
+          "northern-selectable-adjustable-dumbbell-pair-24kg-x-2-copy",
+          "northern-neoprene-dumbbells-old",
+          "copy-of-2-5-5-7-5kg-hex-dumbbell-set-3-tier-a-frame-storage-holder-rack",
+          "2-5-20kg-hex-dumbbell-set-three-tier-dumbbell-rack"
+        ]
+      }
+    }
+  },
+  "order": [
+    "175576644690911e3d",
+    "main",
+    "section_product_overview_jCMLjF",
+    "section_product_smart_content_8zN7UY",
+    "section_product_preview_ENaAdH",
+    "17477581566db1a8b7",
+    "section_product_preview_dYMLKV"
+  ]
+}

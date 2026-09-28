@@ -1,0 +1,824 @@
+{% doc %}
+  @prompt
+    Create an embedded section for a Blue Light Card discount page. The section should display a form where customers must enter their email address and click a submit button. Once submitted, a discount code "bluelight20" is revealed to them on the page. The form should include basic email validation, a friendly message before the form (e.g. "Enter your email to unlock your exclusive discount"), and a thank-you message shown after submission alongside the revealed code displayed prominently. The design should be clean and on-brand., right i want this email to consent to marketing and sync up with klaviyo
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-bluelight-discount-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: {{ block.settings.section_padding }}px;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-bluelight-discount__container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.content_max_width }}px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .ai-bluelight-discount__heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    margin: 0 0 {{ block.settings.heading_spacing }}px;
+    font-weight: 600;
+  }
+
+  .ai-bluelight-discount__message-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 {{ block.settings.message_spacing }}px;
+    line-height: 1.5;
+  }
+
+  .ai-bluelight-discount__form-{{ ai_gen_id }} {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+    margin-bottom: {{ block.settings.form_spacing }}px;
+  }
+
+  .ai-bluelight-discount__input-{{ ai_gen_id }} {
+    flex: 1 1 250px;
+    max-width: 400px;
+    padding: 14px 16px;
+    border: 2px solid {{ block.settings.input_border_color }};
+    border-radius: {{ block.settings.input_border_radius }}px;
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    background-color: {{ block.settings.input_background }};
+    transition: border-color 0.2s ease;
+  }
+
+  .ai-bluelight-discount__input-{{ ai_gen_id }}:focus {
+    outline: none;
+    border-color: {{ block.settings.button_background }};
+  }
+
+  .ai-bluelight-discount__input-{{ ai_gen_id }}:invalid:not(:placeholder-shown) {
+    border-color: {{ block.settings.error_color }};
+  }
+
+  .ai-bluelight-discount__checkbox-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    text-align: left;
+    max-width: 600px;
+    margin: 0 auto {{ block.settings.message_spacing }}px;
+  }
+
+  .ai-bluelight-discount__checkbox-{{ ai_gen_id }} {
+    margin-top: 2px;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: {{ block.settings.button_background }};
+  }
+
+  .ai-bluelight-discount__checkbox-label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size | minus: 2 }}px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.4;
+    cursor: pointer;
+  }
+
+  .ai-bluelight-discount__button-{{ ai_gen_id }} {
+    flex: 0 0 auto;
+    padding: 14px 32px;
+    background-color: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.text_size }}px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+  }
+
+  .ai-bluelight-discount__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_background }};
+  }
+
+  .ai-bluelight-discount__button-{{ ai_gen_id }}:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .ai-bluelight-discount__error-{{ ai_gen_id }} {
+    color: {{ block.settings.error_color }};
+    font-size: {{ block.settings.text_size | minus: 2 }}px;
+    margin-top: 8px;
+    display: none;
+  }
+
+  .ai-bluelight-discount__error-{{ ai_gen_id }}.active {
+    display: block;
+  }
+
+  .ai-bluelight-discount__success-{{ ai_gen_id }} {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .ai-bluelight-discount__success-{{ ai_gen_id }}.active {
+    display: block;
+    opacity: 1;
+  }
+
+  .ai-bluelight-discount__thank-you-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size | plus: 2 }}px;
+    color: {{ block.settings.success_color }};
+    margin: 0 0 {{ block.settings.message_spacing }}px;
+    font-weight: 500;
+  }
+
+  .ai-bluelight-discount__code-container-{{ ai_gen_id }} {
+    background-color: {{ block.settings.code_background }};
+    border: 2px dashed {{ block.settings.code_border_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    padding: {{ block.settings.code_padding }}px;
+    margin: 0 auto;
+    max-width: 500px;
+  }
+
+  .ai-bluelight-discount__code-label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size | minus: 2 }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-bluelight-discount__code-{{ ai_gen_id }} {
+    font-size: {{ block.settings.code_size }}px;
+    color: {{ block.settings.code_color }};
+    font-weight: 700;
+    margin: 0 0 12px;
+    letter-spacing: 2px;
+    font-family: monospace;
+  }
+
+  .ai-bluelight-discount__copy-button-{{ ai_gen_id }} {
+    padding: 10px 24px;
+    background-color: {{ block.settings.copy_button_background }};
+    color: {{ block.settings.copy_button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.text_size | minus: 2 }}px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .ai-bluelight-discount__copy-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.copy_button_hover_background }};
+  }
+
+  .ai-bluelight-discount__copy-feedback-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size | minus: 4 }}px;
+    color: {{ block.settings.success_color }};
+    margin-top: 8px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .ai-bluelight-discount__copy-feedback-{{ ai_gen_id }}.active {
+    opacity: 1;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-bluelight-discount__form-{{ ai_gen_id }} {
+      flex-direction: column;
+    }
+
+    .ai-bluelight-discount__input-{{ ai_gen_id }} {
+      max-width: 100%;
+    }
+
+    .ai-bluelight-discount__heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.8 }}px;
+    }
+
+    .ai-bluelight-discount__code-{{ ai_gen_id }} {
+      font-size: {{ block.settings.code_size | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<bluelight-discount-{{ ai_gen_id }}
+  class="ai-bluelight-discount-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-bluelight-discount__container-{{ ai_gen_id }}">
+    <div class="ai-bluelight-discount__form-view-{{ ai_gen_id }}">
+      {% if block.settings.heading != blank %}
+        <h2 class="ai-bluelight-discount__heading-{{ ai_gen_id }}">
+          {{ block.settings.heading }}
+        </h2>
+      {% endif %}
+
+      {% if block.settings.message != blank %}
+        <div class="ai-bluelight-discount__message-{{ ai_gen_id }}">
+          {{ block.settings.message }}
+        </div>
+      {% endif %}
+
+      {% form 'customer', class: 'ai-bluelight-discount__form-{{ ai_gen_id }}', novalidate: 'novalidate' %}
+        <input type="hidden" name="contact[tags]" value="bluelight-card,newsletter">
+        <input type="hidden" name="contact[custom_property][discount_code]" value="{{ block.settings.discount_code }}">
+        <input type="hidden" name="contact[custom_property][source]" value="Blue Light Card Page">
+        
+        <input
+          type="email"
+          name="contact[email]"
+          class="ai-bluelight-discount__input-{{ ai_gen_id }}"
+          placeholder="{{ block.settings.email_placeholder }}"
+          aria-label="Email address"
+          aria-describedby="ai-bluelight-discount-error-{{ ai_gen_id }}"
+          required
+        >
+        <button
+          type="submit"
+          class="ai-bluelight-discount__button-{{ ai_gen_id }}"
+        >
+          {{ block.settings.button_text }}
+        </button>
+      {% endform %}
+
+      {% if block.settings.show_consent_checkbox %}
+        <div class="ai-bluelight-discount__checkbox-wrapper-{{ ai_gen_id }}">
+          <input
+            type="checkbox"
+            id="ai-bluelight-consent-{{ ai_gen_id }}"
+            class="ai-bluelight-discount__checkbox-{{ ai_gen_id }}"
+            checked
+          >
+          <label
+            for="ai-bluelight-consent-{{ ai_gen_id }}"
+            class="ai-bluelight-discount__checkbox-label-{{ ai_gen_id }}"
+          >
+            {{ block.settings.consent_text }}
+          </label>
+        </div>
+      {% endif %}
+
+      <div
+        id="ai-bluelight-discount-error-{{ ai_gen_id }}"
+        class="ai-bluelight-discount__error-{{ ai_gen_id }}"
+        role="alert"
+      >
+        {{ block.settings.error_message }}
+      </div>
+    </div>
+
+    <div class="ai-bluelight-discount__success-{{ ai_gen_id }}">
+      {% if block.settings.thank_you_message != blank %}
+        <p class="ai-bluelight-discount__thank-you-{{ ai_gen_id }}">
+          {{ block.settings.thank_you_message }}
+        </p>
+      {% endif %}
+
+      <div class="ai-bluelight-discount__code-container-{{ ai_gen_id }}">
+        <p class="ai-bluelight-discount__code-label-{{ ai_gen_id }}">
+          {{ block.settings.code_label }}
+        </p>
+        <p class="ai-bluelight-discount__code-{{ ai_gen_id }}">
+          {{ block.settings.discount_code }}
+        </p>
+        <button
+          type="button"
+          class="ai-bluelight-discount__copy-button-{{ ai_gen_id }}"
+          aria-label="Copy discount code"
+        >
+          {{ block.settings.copy_button_text }}
+        </button>
+        <p class="ai-bluelight-discount__copy-feedback-{{ ai_gen_id }}" aria-live="polite">
+          {{ block.settings.copied_message }}
+        </p>
+      </div>
+    </div>
+  </div>
+</bluelight-discount-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class BluelightDiscount{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.form = this.querySelector('.ai-bluelight-discount__form-{{ ai_gen_id }}');
+        this.emailInput = this.querySelector('.ai-bluelight-discount__input-{{ ai_gen_id }}');
+        this.errorMessage = this.querySelector('.ai-bluelight-discount__error-{{ ai_gen_id }}');
+        this.formView = this.querySelector('.ai-bluelight-discount__form-view-{{ ai_gen_id }}');
+        this.successView = this.querySelector('.ai-bluelight-discount__success-{{ ai_gen_id }}');
+        this.copyButton = this.querySelector('.ai-bluelight-discount__copy-button-{{ ai_gen_id }}');
+        this.copyFeedback = this.querySelector('.ai-bluelight-discount__copy-feedback-{{ ai_gen_id }}');
+        this.consentCheckbox = this.querySelector('.ai-bluelight-discount__checkbox-{{ ai_gen_id }}');
+
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.form.addEventListener('submit', this.handleSubmit.bind(this));
+        this.emailInput.addEventListener('input', this.clearError.bind(this));
+        if (this.copyButton) {
+          this.copyButton.addEventListener('click', this.copyCode.bind(this));
+        }
+      }
+
+      handleSubmit(event) {
+        event.preventDefault();
+
+        const email = this.emailInput.value.trim();
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!email || !emailPattern.test(email)) {
+          this.showError();
+          return;
+        }
+
+        this.clearError();
+        this.submitToKlaviyo(email);
+        this.submitToShopify();
+      }
+
+      submitToKlaviyo(email) {
+        const klaviyoListId = '{{ block.settings.klaviyo_list_id }}';
+        
+        if (!klaviyoListId || klaviyoListId === '') {
+          return;
+        }
+
+        const isConsented = this.consentCheckbox ? this.consentCheckbox.checked : true;
+
+        const data = {
+          email: email,
+          custom_properties: {
+            discount_code: '{{ block.settings.discount_code }}',
+            source: 'Blue Light Card Page',
+            blue_light_card_holder: true
+          }
+        };
+
+        if (isConsented) {
+          data.sms_consent = false;
+          data.email_consent = true;
+        }
+
+        if (window._learnq) {
+          window._learnq.push(['identify', { $email: email }]);
+          window._learnq.push(['track', 'Blue Light Card Signup', {
+            discount_code: '{{ block.settings.discount_code }}',
+            source: 'Blue Light Card Page'
+          }]);
+        }
+
+        const formData = new FormData();
+        formData.append('g', klaviyoListId);
+        formData.append('email', email);
+        formData.append('$fields', '$consent');
+        formData.append('$consent', JSON.stringify(['email']));
+
+        fetch('https://manage.kmail-lists.com/ajax/subscriptions/subscribe', {
+          method: 'POST',
+          body: formData,
+          mode: 'no-cors'
+        }).catch(() => {});
+      }
+
+      submitToShopify() {
+        const formData = new FormData(this.form);
+
+        fetch('/contact', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/javascript'
+          }
+        }).then(() => {
+          this.showSuccess();
+        }).catch(() => {
+          this.showSuccess();
+        });
+      }
+
+      showError() {
+        this.errorMessage.classList.add('active');
+        this.emailInput.setAttribute('aria-invalid', 'true');
+      }
+
+      clearError() {
+        this.errorMessage.classList.remove('active');
+        this.emailInput.removeAttribute('aria-invalid');
+      }
+
+      showSuccess() {
+        this.formView.style.display = 'none';
+        this.successView.classList.add('active');
+      }
+
+      copyCode() {
+        const codeText = '{{ block.settings.discount_code }}';
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(codeText).then(() => {
+            this.showCopyFeedback();
+          }).catch(() => {
+            this.fallbackCopy(codeText);
+          });
+        } else {
+          this.fallbackCopy(codeText);
+        }
+      }
+
+      fallbackCopy(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          this.showCopyFeedback();
+        } catch (err) {
+          console.error('Failed to copy code');
+        }
+        document.body.removeChild(textArea);
+      }
+
+      showCopyFeedback() {
+        this.copyFeedback.classList.add('active');
+        setTimeout(() => {
+          this.copyFeedback.classList.remove('active');
+        }, 2000);
+      }
+    }
+
+    customElements.define('bluelight-discount-{{ ai_gen_id }}', BluelightDiscount{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Blue Light Card discount",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Blue Light Card Discount"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "message",
+      "label": "Message",
+      "default": "Enter your email to unlock your exclusive discount"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "Enter your email address"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Reveal My Discount"
+    },
+    {
+      "type": "text",
+      "id": "error_message",
+      "label": "Error message",
+      "default": "Please enter a valid email address"
+    },
+    {
+      "type": "header",
+      "content": "Marketing consent"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_consent_checkbox",
+      "label": "Show consent checkbox",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "consent_text",
+      "label": "Consent text",
+      "default": "I agree to receive marketing emails and exclusive offers"
+    },
+    {
+      "type": "header",
+      "content": "Klaviyo integration"
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_list_id",
+      "label": "Klaviyo list ID",
+      "info": "Find this in Klaviyo under Lists & Segments"
+    },
+    {
+      "type": "header",
+      "content": "Success state"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "thank_you_message",
+      "label": "Thank you message",
+      "default": "Thank you! Here's your exclusive discount code:"
+    },
+    {
+      "type": "text",
+      "id": "discount_code",
+      "label": "Discount code",
+      "default": "bluelight20"
+    },
+    {
+      "type": "text",
+      "id": "code_label",
+      "label": "Code label",
+      "default": "Your discount code"
+    },
+    {
+      "type": "text",
+      "id": "copy_button_text",
+      "label": "Copy button text",
+      "default": "Copy Code"
+    },
+    {
+      "type": "text",
+      "id": "copied_message",
+      "label": "Copied feedback",
+      "default": "Copied!"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "code_size",
+      "label": "Code size",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "label": "Heading spacing",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "message_spacing",
+      "label": "Message spacing",
+      "min": 12,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "form_spacing",
+      "label": "Form spacing",
+      "min": 8,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "code_padding",
+      "label": "Code box padding",
+      "min": 16,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "input_background",
+      "label": "Input background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Input border",
+      "default": "#cccccc"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Button hover background",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "code_background",
+      "label": "Code box background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "code_border_color",
+      "label": "Code box border",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "code_color",
+      "label": "Code text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "copy_button_background",
+      "label": "Copy button background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "copy_button_hover_background",
+      "label": "Copy button hover background",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "copy_button_text_color",
+      "label": "Copy button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "success_color",
+      "label": "Success",
+      "default": "#008060"
+    },
+    {
+      "type": "color",
+      "id": "error_color",
+      "label": "Error",
+      "default": "#D82C0D"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "input_border_radius",
+      "label": "Input border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blue Light Card discount"
+    }
+  ]
+}
+{% endschema %}

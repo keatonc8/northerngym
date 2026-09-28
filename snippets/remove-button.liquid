@@ -1,0 +1,7 @@
+<button type="button" 
+   title="Remove {{ title }}" 
+   @click="loading = true; Main.updateQuantity({{ index }}, 0)" 
+   class="hover:text-red duration-300 underline underline-offset-2 body-03 font-bold"
+>
+   {% render 'icons', icon: 'bin', class: 'w-4' %}
+</button>

@@ -1,0 +1,105 @@
+{% assign max_image_width = '1200x' %}
+
+{% capture srcset_value %}
+   {{ image_object | img_url: '320x' }} 320w,
+   {{ image_object | img_url: '640x' }} 640w,
+   {{ image_object | img_url: '768x' }} 768w,
+   {{ image_object | img_url: '1024x' }} 1024w,
+   {{ image_object | img_url: '800x' }} 1366w,
+   {{ image_object | img_url: '900x' }} 1540w,
+   {{ image_object | img_url: '1024x' }} 1800w,
+   {{ image_object | img_url: '1200x' }} 2200w
+{% endcapture %}
+
+{% capture sizes_value %}
+   (max-width: 320px) 320px,
+   (max-width: 640px) 640px,
+   (max-width: 768px) 768px,
+   (max-width: 1024px) 1024px,
+   (max-width: 1366px) 800px,
+   (max-width: 1540px) 900px,
+   (max-width: 1800px) 1024px,
+   1200px
+{% endcapture %}
+
+{%- comment -%}Used when an image will be no larger than 50% width at any size{%- endcomment -%}
+{% if size == 'half' %}
+   {% assign max_image_width = '1024x' %}
+   {% capture srcset_value %}
+      {{ image_object | img_url: '320x' }} 320w,
+      {{ image_object | img_url: '640x' }} 640w,
+      {{ image_object | img_url: '768x' }} 768w,
+      {{ image_object | img_url: '1024x' }} 1024w
+   {% endcapture %}
+
+   {% capture sizes_value %}
+      (max-width: 320px) 320px,
+      (max-width: 640px) 640px,
+      (max-width: 768px) 768px,
+      1024px
+   {% endcapture %}
+{% endif %}
+
+{%- comment -%}Used for when an image is always at full size{%- endcomment -%}
+{% if size == 'full' %}
+   {% assign max_image_width = '2200x' %}
+   {% capture srcset_value %}
+      {{ image_object | img_url: '320x' }} 320w,
+      {{ image_object | img_url: '640x' }} 640w,
+      {{ image_object | img_url: '768x' }} 768w,
+      {{ image_object | img_url: '1024x' }} 1024w,
+      {{ image_object | img_url: '1366x' }} 1366w,
+      {{ image_object | img_url: '1540x' }} 1540w,
+      {{ image_object | img_url: '1800x' }} 1800w,
+      {{ image_object | img_url: '2200x' }} 2200w
+   {% endcapture %}
+
+   {% capture sizes_value %}
+      (max-width: 320px) 320px,
+      (max-width: 640px) 640px,
+      (max-width: 768px) 768px,
+      (max-width: 1024px) 1024px,
+      (max-width: 1366px) 1366px,
+      (max-width: 1540px) 1540px,
+      (max-width: 1800px) 1800px,
+      2200px
+   {% endcapture %}
+{% endif %}
+
+{%- comment -%}Used for when an image is only on mobile{%- endcomment -%}
+{% if size == 'mobile' %}
+   {% assign max_image_width = '768x' %}
+   {% capture srcset_value %}
+      {{ image_object | img_url: '320x' }} 320w,
+      {{ image_object | img_url: '640x' }} 640w,
+      {{ image_object | img_url: '768x' }} 768w
+   {% endcapture %}
+
+   {% capture sizes_value %}
+      (max-width: 320px) 320px,
+      (max-width: 640px) 640px,
+      768px
+   {% endcapture %}
+{% endif %}
+
+{% assign classes = 'w-full h-full object-cover' %}
+{% if class != blank %}
+   {% assign classes = classes | append: ' ' | append: class %}
+{% endif %}
+
+{% assign image_focal_point = image_object.presentation.focal_point %}
+{% assign image_style_attribute = '' %}
+{% if image_focal_point != blank %}
+   {% assign image_style_attribute = 'style="object-position: [focal_point];"' | replace: '[focal_point]', image_focal_point %}
+{% endif %}
+
+<img
+   src="{{ image_object | img_url: max_image_width }}"
+   srcset="{{ srcset_value }}"
+   sizes="{{ sizes_value }}"
+   alt="{{ image_object.alt }}"
+   width="{{ image_object.width }}" 
+   height="{{ image_object.height }}"
+   class="{{ classes }} {% if hide_on_mobile != blank %}hidden md:block{% endif %} {% if hide_on_desktop != blank %}md:hidden{% endif %}"
+   {% if image_style_attribute != '' %}{{ image_style_attribute }}{% endif %}
+/>

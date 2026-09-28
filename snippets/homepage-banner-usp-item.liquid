@@ -1,0 +1,30 @@
+{% assign label = usp_item.settings.heading %}
+{% assign usp_link = usp_item.settings.usp_link %}
+{% assign icon = usp_item.settings.icon %}
+{% assign klaviyo_form_id = usp_item.settings.klaviyo_form_id %}
+
+{% assign outer_classes = 'flex gap-2 items-center' %}
+{% capture inner_content %}
+   {% if icon != 'none' %}
+      <span>
+         {% render 'icons', icon: icon, class: 'w-5' %}
+      </span>
+   {% endif %}
+   <span class="pt-0.5">
+      {{ label }}
+   </span>
+{% endcapture %}
+
+{% if usp_link != blank %}
+   <a href="{{ usp_link }}" class="{{ outer_classes }} hover:text-black">
+      {{ inner_content }}
+   </a>
+{% elsif klaviyo_form_id != blank %}
+   <button @click="$nextTick(() => _klOnsite?.push(['openForm', '{{ klaviyo_form_id }}']))" class="{{ outer_classes }} hover:text-yellow">
+      {{ inner_content }}
+   </button>
+{% else %}
+   <div class="{{ outer_classes }}">
+      {{ inner_content }}
+   </div>
+{% endif %}

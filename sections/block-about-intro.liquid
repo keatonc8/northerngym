@@ -1,0 +1,36 @@
+{% render 'abu-styles' %}
+<div class="abu-scope">
+  <div class="abu-container abu-rhythm">
+    <div class="abu-divide">
+      <div class="abu-divide-a">
+        <p class="abu-h03">{{ section.settings.lede }}</p>
+      </div>
+      <div class="abu-divide-b">
+        <div class="abu-prose">{{ section.settings.body }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Block - About Intro",
+  "settings": [
+    {
+      "type": "text",
+      "id": "lede",
+      "label": "Lede line (left column)",
+      "default": "This is where you give everything you've got to earn everything you get. Then you come back and do it all again tomorrow. No shortcuts. Just honest hard work and proper Northern spirit."
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body copy (right column)",
+      "default": "<p>We're proudly based in Manchester, and our northern roots shape everything we do. The North of England has always been built on resilience, honesty, and getting the job done properly. It's a place where hard work matters more than hype, substance matters more than show, and community comes before ego.</p>"
+    }
+  ],
+  "presets": [
+    { "name": "Block - About Intro" }
+  ]
+}
+{% endschema %}

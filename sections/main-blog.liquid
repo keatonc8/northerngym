@@ -1,0 +1,178 @@
+{% assign heading = section.settings.heading %}
+{% assign tags_list = blog.all_tags %}
+{% assign tags_list_size = tags_list | size %}
+{% assign is_ambassador_blog = false %}
+{% assign pagination_count = 13 %}
+
+{% assign active_blog_title = blog.title %}
+{% assign other_blog_title = 'Ambassadors' %}
+{% assign other_blog_handle = '/blogs/ambassadors' %}
+{% if active_blog_title == 'Ambassadors' %}
+   {% assign other_blog_title = 'News' %}
+   {% assign other_blog_handle = '/blogs/news' %}
+   {% assign is_ambassador_blog = true %}
+   {% assign pagination_count = 12 %}
+{% endif %}
+{% if active_blog_title == 'Blog' %}
+   {% assign active_blog_title = 'News' %}
+{% endif %}
+
+<div class="vertical-spacing">
+   <div class="container">
+      <div class="flex flex-col gap-8"
+         x-data="{
+            showAllTags: false
+         }"
+      >
+         {% if heading != blank %}
+            <h1 class="heading">
+               {{ heading }}
+            </h1>
+         {% endif %}
+         <div class="w-screen lg:w-full overflow-x-scroll -mx-4 md:-mx-8 lg:mx-0 px-4 md:px-8 lg:px-0 pb-4 -mb-4">
+            <ul class="blog-nav">
+               <li class="blog-nav__item {% if current_tags == blank %}blog-nav__item--active{% endif %}">
+                  <a href="{{ blog.url }}" class="blog-nav__link">
+                     <span class="blog-nav__text">
+                        All {{ active_blog_title }}
+                     </span>
+                  </a>
+               </li>
+               {% for tag in tags_list %}
+                  {% assign is_active_tag = false %}
+                  {% assign tag_handle = tag | handle %}
+                  {% assign tag_link = blog.url | append: '/tagged/' | append: tag_handle %}
+                  {% if current_tags contains tag %}
+                     {% assign is_active_tag = true %}
+                     {% assign tag_link = blog.url %}
+                  {% endif %}
+   
+                  <li class="blog-nav__item {% if is_active_tag %}blog-nav__item--active{% endif %}" {% if forloop.index > 2 and is_active_tag != true %}x-show="showAllTags"{% endif %}>
+                     <a href="{{ tag_link }}" class="blog-nav__link">
+                        <span class="blog-nav__text">
+                           {{ tag }}
+                        </span>
+                     </a>
+                  </li>
+               {% endfor %}
+               {% if tags_list_size > 2 %}
+                  <li class="blog-nav__item blog-nav__item--border" {% if forloop.index > 2 %}x-show="showAllTags" x-cloak {% endif %}>
+                     <button @click.prevent="showAllTags = !showAllTags" class="blog-nav__link">
+                        <span class="blog-nav__text">
+                           Show <span x-text="showAllTags ? 'Less' : 'More'"></span>
+                        </span>
+                     </a>
+                  </li>
+               {% endif %}
+               <li class="blog-nav__item blog-nav__item--border">
+                  <a href="{{ other_blog_handle }}" class="blog-nav__link">
+                     <span class="blog-nav__text">
+                        {{ other_blog_title }}
+                     </span>
+                  </a>
+               </li>
+            </ul>
+         </div>
+         {%- paginate blog.articles by pagination_count -%}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 {% if is_ambassador_blog %}gap-y-4{% else %}gap-y-8{% endif %}" id="articles">
+               {% for article in blog.articles %}
+                  {% if is_ambassador_blog %}
+                     <div class="">
+                        {% render 'blog-ambassador-item', blog_item: article %}
+                     </div>
+                  {% else %}
+                     <div class="{% if forloop.first %}col-span-1 sm:col-span-2 lg:row-span-2{% endif %}">
+                        {% render 'blog-item', blog_item: article, is_featured: forloop.first %}
+                     </div>
+                  {% endif %}
+               {% endfor %}
+            </div>
+            {%- if paginate.pages > 1 -%}
+               <div class="mt-4">
+                  {%- render 'pagination', paginate: paginate, anchor: '#articles' -%}
+               </div>
+            {%- endif -%}
+         {%- endpaginate -%}
+      </div>
+   </div>
+</div>
+
+{% if false %}
+   {% assign pagination_count = 10 %}
+   
+   {%- paginate blog.articles by pagination_count -%}
+   
+      <div class="container">
+         <div class="vertical-spacing-sm">
+   
+            <h1 class="heading">
+               {{ blog.title | escape }}
+            </h1>
+   
+            {% if section.settings.show_tags %}
+               {% render 'blog-tags' %}
+            {% endif %}
+   
+            {% unless paginate.previous %}
+               <h3 class="heading-04 mb-6">
+                  Latest Article
+               </h3>
+            {% endunless %}
+   
+            <div class="grid grid-cols-6 gap-4 lg:gap-y-8 xl:gap-x-8">
+               {% assign page_article_count = 0 %}
+               {%- for article in blog.articles -%}
+   
+                  {%- assign first_on_page = false -%}
+                  {% assign loop_modulo = forloop.index0 | modulo: pagination_count %}
+                  {% unless paginate.previous %}
+                     {% if loop_modulo == 0 %}
+                        {%- assign first_on_page = true -%}
+                     {% endif %}
+                  {% endunless %}
+   
+                  <div class="blog-articles__article article w-full relative col-span-6 sm:col-span-3 {% unless first_on_page %}lg:col-span-2{% else %}lg:col-span-6{% endunless %}">
+                     {%- render 'article-card',
+                        cardArticle: article,
+                        media_height: section.settings.image_height,
+                        media_aspect_ratio: article.image.aspect_ratio,
+                        show_image: section.settings.show_image,
+                        show_date: section.settings.show_date,
+                        show_author: section.settings.show_author,
+                        show_excerpt: true,
+                        first_on_page: first_on_page
+                     -%}
+                  </div>
+   
+                  {% assign page_article_count = page_article_count | plus: 1 %}
+               {%- endfor -%}
+            </div>
+         </div>
+   
+         <div class="flex flex-col items-center">
+            {% assign totalBlogCount = blog.articles_count %}
+            <p class="body-xs">
+               Showing {{ page_article_count }} of {{ totalBlogCount }}
+            </p>
+            {%- if paginate.pages > 1 -%}
+               <div class="mt-4">
+                  {%- render 'pagination', paginate: paginate -%}
+               </div>
+            {%- endif -%}
+         </div>
+      </div>
+   {%- endpaginate -%}
+{% endif %}
+
+{% schema %}
+{
+   "name": "Blog",
+   "settings": [
+      {
+         "type": "text",
+         "id": "heading",
+         "label": "Heading"
+      }
+   ]
+}
+{% endschema %}

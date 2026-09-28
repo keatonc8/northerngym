@@ -1,0 +1,149 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "Based In York, North Yorkshire",
+            "image": "shopify://shop_images/Jack_Bradley_Fitness_067.jpg",
+            "title": "Bio",
+            "text": "<p>For several years I trained under a powerlifting coach, building a solid foundation in strength and learning the value of structured programming. More recently I've shifted my focus towards hybrid training, combining heavy lifting with running, rowing and ski erg work as I prepare for ATHX competitions.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_7WcBXp": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/Jack_Bradley_Fitness_087.jpg",
+            "title": "",
+            "text": "<p>What I enjoy most about training is the challenge of becoming more capable. Whether it's adding weight to the bar, running a faster 5K, improving conditioning or learning a new skill, I think as people we love notions of progression - that same mindset carries over into my coaching.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_WGq8f8": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/Jack_Bradley_Fitness_050.jpg",
+            "title": "",
+            "text": "<p>As a Personal Trainer and owner of Jack Bradley Fitness in York, I coach people of all abilities. My aim is to help clients become stronger, fitter and more confident through realistic, progressive training.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_wgaqTH": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/Jack_Bradley_Fitness_041.jpg",
+            "title": "",
+            "text": "<p>I believe long term consistency beats short term intensity, and that everyone is capable of achieving far more than they initially think with the right guidance and support.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ",
+        "item_7WcBXp",
+        "item_WGq8f8",
+        "item_wgaqTH"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Jack Bradley",
+        "text": "<p>Hybrid Strength & Conditioning - I combine strength training with all other elements of fitness. I'm currently training for ATHX hybrid races while continuing to build strength and athletic performance. (both myself and several clients)<br/></p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_QUBYg8": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_LebtEX": {
+          "type": "card",
+          "settings": {
+            "title": "Favourite Northern Product",
+            "image": "shopify://shop_images/Northern_Competition_Sandbag_Power_Bags.jpg",
+            "text": "<p>Sandbag - <em>\"The sandbags are probably my favourite piece of kit because they're a true test of strength and grit. The awkward, shifting load exposes weaknesses, builds real-world strength and works muscles you didn't even know existed. They also nicely combine strength and conditioning and they're simple and portable!\"</em></p>",
+            "button_label": "Shop Now",
+            "button_link": "https://northerngymequipment.com/products/northern-competition-sandbag-power-bag-5kg"
+          }
+        },
+        "card_cEmc7P": {
+          "type": "card",
+          "settings": {
+            "title": "What does being part of Northern mean to you?",
+            "image": "shopify://shop_images/IMG_9071.jpg",
+            "text": "<p>It's great to represent a company that's built in the North and supports the fitness community here. There's a real culture of working hard and earning your progress, and that's something I've always tried to carry into both my own training and the way I coach my clients.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "card_mNhWg4": {
+          "type": "card",
+          "settings": {
+            "title": "Follow Jack's Journey",
+            "image": "shopify://shop_images/Jack_Bradley_Fitness_042.jpg",
+            "text": "<p>Check out Jack's social here.</p>",
+            "button_label": "Follow",
+            "button_link": "https://www.instagram.com/jackbradleyfitness/"
+          }
+        }
+      },
+      "block_order": [
+        "card_LebtEX",
+        "card_cEmc7P",
+        "card_mNhWg4"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_QUBYg8"
+  ]
+}

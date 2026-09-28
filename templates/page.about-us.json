@@ -1,0 +1,134 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "section_image_carousel_cKejRM": {
+      "type": "section-image-carousel",
+      "blocks": {
+        "image_YWCD49": {
+          "type": "image",
+          "settings": {
+            "main_image": "shopify:\/\/shop_images\/Mask_Group_102-3.jpg"
+          }
+        },
+        "image_ACBwRn": {
+          "type": "image",
+          "settings": {
+            "main_image": "shopify:\/\/shop_images\/Mask_Group_102.jpg"
+          }
+        },
+        "image_FF7mKF": {
+          "type": "image",
+          "settings": {
+            "main_image": "shopify:\/\/shop_images\/Mask_Group_102-2.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_YWCD49",
+        "image_ACBwRn",
+        "image_FF7mKF"
+      ],
+      "settings": {
+        "heading": "About Us",
+        "heading_is_h1": true,
+        "heading_style": "large",
+        "paragraph": ""
+      }
+    },
+    "section_heading_and_text_7reVrt": {
+      "type": "section-heading-and-text",
+      "settings": {
+        "metaobject_content": "",
+        "heading": "<h2>About Northern Gym Equipment. <strong>Lorem ipsum dolor<\/strong> sit amet, ale trill consectetur adipiscing elit. <\/h2>",
+        "paragraph": "<p>Interdum ullamcorper quam lacus ullamcorper mi viverra. Leo metus ligula adipiscing curae habitant et ex. Fusce maecenas mollis venenatis interdum dictum mi cubilia congue ex. Commodo habitasse massa taciti a; tempor netus dignissim. Bibendum lobortis torquent netus gravida ex elit. Ut orci nam urna nibh ad. Lacus sollicitudin quam fames lacinia quis. Penatibus eget vitae accumsan suspendisse accumsan bibendum. Himenaeos imperdiet ultrices mauris venenatis donec.<br\/><br\/>Sit penatibus efficitur parturient sodales augue. Ligula aliquam torquent lorem habitant felis. Mauris class quam nascetur mus posuere lacinia. Conubia eu arcu magnis curae mus potenti diam rutrum. Magnis sodales cras; dui cursus mi sapien. Elementum blandit eget eu odio vehicula maecenas pellentesque. Porttitor scelerisque interdum euismod senectus fusce fringilla erat duis. Aptent dui pretium mi lobortis rutrum.<\/p><p><a href=\"\/pages\/contact\" title=\"Contact\">Generic CTA<\/a><\/p>"
+      }
+    },
+    "section_repeater_blocks_jGdGWd": {
+      "type": "section-repeater-blocks",
+      "blocks": {
+        "metaobject_KCyMPD": {
+          "type": "metaobject",
+          "settings": {
+            "repeater_block": "about-1"
+          }
+        },
+        "metaobject_d6A4CJ": {
+          "type": "metaobject",
+          "settings": {
+            "repeater_block": "about-2"
+          }
+        }
+      },
+      "block_order": [
+        "metaobject_KCyMPD",
+        "metaobject_d6A4CJ"
+      ],
+      "settings": {}
+    },
+    "section_quote_block_bb6rUU": {
+      "type": "section-quote-block",
+      "blocks": {
+        "quote_7cWang": {
+          "type": "quote",
+          "settings": {
+            "heading": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.",
+            "name": "Jonathan Doe",
+            "job_title": "CEO of Pump up the Jam"
+          }
+        },
+        "quote_hcBmRF": {
+          "type": "quote",
+          "settings": {
+            "heading": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.",
+            "name": "Jonathan Doe",
+            "job_title": "CEO of Pump up the Jam"
+          }
+        },
+        "quote_PBwnEg": {
+          "type": "quote",
+          "settings": {
+            "heading": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.",
+            "name": "Jonathan Doe",
+            "job_title": "CEO of Pump up the Jam"
+          }
+        }
+      },
+      "block_order": [
+        "quote_7cWang",
+        "quote_hcBmRF",
+        "quote_PBwnEg"
+      ],
+      "settings": {}
+    },
+    "section_blog_preview_zqhF64": {
+      "type": "section-blog-preview",
+      "settings": {
+        "add_blog_link": true,
+        "add_border_top": true,
+        "heading": "Blog Content",
+        "paragraph": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "section_image_carousel_cKejRM",
+    "section_heading_and_text_7reVrt",
+    "section_repeater_blocks_jGdGWd",
+    "section_quote_block_bb6rUU",
+    "section_blog_preview_zqhF64"
+  ]
+}

@@ -1,0 +1,148 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "section_image_carousel_8ainAJ": {
+      "type": "section-image-carousel",
+      "blocks": {
+        "image_AXaVHN": {
+          "type": "image",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "image_AXaVHN"
+      ],
+      "name": "Image Carousel",
+      "settings": {
+        "heading": "",
+        "heading_is_h1": false,
+        "heading_style": "default",
+        "paragraph": ""
+      }
+    },
+    "section_repeater_blocks_jGdGWd": {
+      "type": "section-repeater-blocks",
+      "blocks": {
+        "metaobject_d6A4CJ": {
+          "type": "metaobject",
+          "settings": {
+            "repeater_block": "about-2"
+          }
+        }
+      },
+      "block_order": [
+        "metaobject_d6A4CJ"
+      ],
+      "settings": {}
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "section_heading_and_text_7reVrt": {
+      "type": "section-heading-and-text",
+      "settings": {
+        "metaobject_content": "",
+        "heading": "<h1>Exclusive <strong>20% OFF</strong> for all The Gym Group members</h1><h1>Use code: <strong>TGG20</strong></h1>",
+        "paragraph": "<p>What started as a mission to bring high-quality gym equipment to the UK quickly grew into something more. At Northern, we’re all about bringing people together, whether through training sessions, competitions, or events. We help people reach their fitness goals in a friendly, approachable environment, and we call it ‘NORTHERN hospitality.’</p>"
+      }
+    },
+    "section_image_block_repeater_WTW7Ti": {
+      "type": "section-image-block-repeater",
+      "blocks": {
+        "collection_GxzfcB": {
+          "type": "collection",
+          "settings": {
+            "collection": "gym-accessories"
+          }
+        },
+        "collection_nyUzq4": {
+          "type": "collection",
+          "settings": {
+            "collection": "yoga-pilates-mats"
+          }
+        },
+        "collection_GxD4LM": {
+          "type": "collection",
+          "settings": {
+            "collection": "foamrollers"
+          }
+        },
+        "collection_jDrWrU": {
+          "type": "collection",
+          "settings": {
+            "collection": "clothing"
+          }
+        }
+      },
+      "block_order": [
+        "collection_GxzfcB",
+        "collection_nyUzq4",
+        "collection_GxD4LM",
+        "collection_jDrWrU"
+      ],
+      "name": "Image Block Repeater",
+      "settings": {
+        "heading": "",
+        "heading_is_h1": false,
+        "heading_style": "default",
+        "paragraph": "",
+        "image_ratios": "portrait",
+        "carousel_behaviour": "mobile_only",
+        "overlay_text": true
+      }
+    },
+    "section_quote_block_bb6rUU": {
+      "type": "section-quote-block",
+      "blocks": {
+        "quote_7cWang": {
+          "type": "quote",
+          "settings": {
+            "heading": "Cannot rate these guys high enough! Discovered Northern about a year ago, and since then I’ve bought 10, 15, and 20kg dumbbells, 20kg kettlebells, and my most recent purchase the 100kg bumper plate set! Always phenomenal quality equipment, looks great, well made, great price, and fast reliable delivery!100% would recommend these guys to anyone👍🏻",
+            "name": "Northern Olympic Bumper Plates Sets 60//100//150kg",
+            "job_title": "Joe Burton"
+          }
+        },
+        "quote_hcBmRF": {
+          "type": "quote",
+          "settings": {
+            "heading": "Excellent quality dumbbells. I decided to go for 4 sets from 12.5kg up to 20kg. Very pleased with my purchase. Delivery was quick and all dumbbells were well packaged with no damage. Easy 5 stars from me!",
+            "name": "NORTHERN Hex Dumbells",
+            "job_title": "Andy Johnson"
+          }
+        },
+        "quote_PBwnEg": {
+          "type": "quote",
+          "settings": {
+            "heading": "Amazing quality product at an unbelievable price, really happy with the quality of my hex dumbbell set and stand. Would definitely use Northern for any more equipment for my gym.",
+            "name": "Victoria Simpson",
+            "job_title": "NORTHERN Hex Dumbells"
+          }
+        }
+      },
+      "block_order": [
+        "quote_7cWang",
+        "quote_hcBmRF",
+        "quote_PBwnEg"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "section_image_carousel_8ainAJ",
+    "section_repeater_blocks_jGdGWd",
+    "main",
+    "section_heading_and_text_7reVrt",
+    "section_image_block_repeater_WTW7Ti",
+    "section_quote_block_bb6rUU"
+  ]
+}

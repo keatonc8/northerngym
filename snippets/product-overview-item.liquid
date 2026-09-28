@@ -1,0 +1,46 @@
+{% assign unique_id = 'faq-' | append: item_index %}
+<div class="border-t {% if is_last %}border-b{% endif %} border-silver faq__item flex flex-col justify-between w-full" data-faq-item {% if is_first %}data-faq-item-description{% endif %}>
+   <button
+      id="{{ unique_id }}-heading"
+      class="flex justify-between gap-x-8 py-5 font-bold body-01 hover:text-yellow w-full cursor-pointer"
+      aria-expanded="{% if is_first and open_first_accordion %}true{% else %}false{% endif %}"
+      {% if is_first %}open="true"{% endif %}
+      aria-controls="{{ unique_id }}-panel"
+      data-faq-question
+   >
+      <span class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-x-8 gap-y-1 w-full">
+         <span class="flex-1 flex">
+            {{ heading }}
+         </span>
+         <span class="flex-1 flex justify-between gap-8 font-normal body max-w-150 text-left">
+            <span>
+               {{ description }}
+            </span>
+            <span class="!hidden sm:!block">
+               <span class="faq__chevron">
+                  {% render 'icons', icon: 'chevron', class: 'w-4' %}
+               </span>
+            </span>
+         </span>
+      </span>
+      <span class="sm:!hidden mt-2">
+         <span class="faq__chevron sm:!hidden mt-2">
+            {% render 'icons', icon: 'chevron', class: 'w-3' %}
+         </span>
+      </span>
+   </button>
+   <div
+      id="{{ unique_id }}-panel"
+      class="flex justify-end max-h-0 overflow-hidden duration-300"
+      role="region"
+      aria-labelledby="{{ unique_id }}-heading"
+      hidden
+      data-faq-answer
+   >
+      <div class="w-full xl:max-w-150">
+         <div class="prose">
+            {{ answer }}
+         </div>
+      </div>
+   </div>
+</div>

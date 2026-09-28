@@ -1,0 +1,31 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "context": {
+    "market": "gb"
+  },
+  "parent": "product.json",
+  "sections": {
+    "section_product_overview_jCMLjF": {
+      "settings": {
+        "shipping_returns_description": "Standard Delivery at just £3.99",
+        "shipping_default": "<p>Enjoy UK delivery for just <br/>£3.99 on all orders (excluding Floor Mats 1m x 1m x 20mm).</p>"
+      },
+      "blocks": {}
+    },
+    "main": {
+      "settings": {
+        "show_usps": true,
+        "purchase_details_enabled": true
+      },
+      "blocks": {}
+    }
+  }
+}

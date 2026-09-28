@@ -1,0 +1,84 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "section_contact_block_CRTbnF": {
+      "type": "section-contact-block",
+      "blocks": {
+        "content_PPUcp7": {
+          "type": "content",
+          "settings": {
+            "heading": "Head Quarters",
+            "content": "<p>Northern Gym Equipment<br/>Unit 3A Holloway Drive, Wardley Industrial Estate<br/>Worsley<br/>M28 2LA</p>"
+          }
+        },
+        "content_fmtLxn": {
+          "type": "content",
+          "settings": {
+            "heading": "Email Contact",
+            "content": "<p><a href=\"mailto:team@northerngymequipment.com\" title=\"mailto:team@northerngymequipment.com\">team@northerngymequipment.com</a></p>"
+          }
+        }
+      },
+      "block_order": [
+        "content_PPUcp7",
+        "content_fmtLxn"
+      ],
+      "settings": {
+        "heading": "Contact us",
+        "paragraph": "",
+        "sub_heading": "Northern Gym Equipment",
+        "maps_embed": ""
+      }
+    },
+    "section_image_block_repeater_iCnetz": {
+      "type": "section-image-block-repeater",
+      "blocks": {
+        "page_CX4QRz": {
+          "type": "page",
+          "settings": {
+            "page": "about-us"
+          }
+        },
+        "blog_Lc7GbK": {
+          "type": "blog",
+          "settings": {
+            "blog": "news"
+          }
+        },
+        "page_NLmnmK": {
+          "type": "page",
+          "settings": {
+            "page": "wholesale"
+          }
+        }
+      },
+      "block_order": [
+        "page_CX4QRz",
+        "blog_Lc7GbK",
+        "page_NLmnmK"
+      ],
+      "disabled": true,
+      "settings": {
+        "heading": "Useful Pages",
+        "heading_is_h1": false,
+        "heading_style": "default",
+        "paragraph": "",
+        "image_ratios": "square",
+        "carousel_behaviour": "mobile_only",
+        "overlay_text": true
+      }
+    }
+  },
+  "order": [
+    "section_contact_block_CRTbnF",
+    "section_image_block_repeater_iCnetz"
+  ]
+}

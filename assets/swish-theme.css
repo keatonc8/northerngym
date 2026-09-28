@@ -1,0 +1,236 @@
+/* ///////////////////////////////////////////////// */
+/* Drawer button - header                            */
+/* ///////////////////////////////////////////////// */
+
+swish-drawer {
+    display: flex;
+}
+
+.swish-drawer-button {
+    --icon-size: 21px;
+    --icon-stroke: currentColor;
+    --icon-stroke-width: 1px;
+    height: 100%;
+    position: relative;
+    /* padding: 0 7px; */
+    background: none;
+    border: none;
+    top: 1px;
+    cursor: pointer;
+}
+
+sticky-header.header-transparent .swish-drawer-button {
+   --icon-stroke: white;
+}
+
+.scrolled-past-header.shopify-section-header-sticky.section-header sticky-header.header-transparent .swish-drawer-button {
+   --icon-stroke: black;
+}
+
+sticky-header.header-transparent:hover .swish-drawer-button {
+   --icon-stroke: black;
+}
+
+.swish-drawer-icon {
+}
+
+.swish-drawer-button svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  stroke: var(--icon-stroke);
+  stroke-width: var(--icon-stroke-width);
+}
+
+.swish-drawer-button svg path {
+  stroke-width: var(--icon-stroke-width);
+  stroke: var(--icon-stroke);
+}
+
+@media screen and (max-width: 989px) {
+    .swish-drawer-button {
+        --icon-size: 20px;
+
+    }
+}
+
+
+/* When the customer has saved items */
+swish-drawer[state="has-saves"] .swish-drawer-button svg path {
+}
+
+.swish-drawer-badge {
+  position: absolute;
+  background-color: rgb(var(--header-accent-color));
+  box-shadow: 0 0 0 2px rgba(var(--bg-color));
+  color: white;
+  width: 18px;
+  height: 18px;
+  border-radius: 100px;
+  top: -13px;
+  right: -16px;
+  font-size: var(--text-10);
+  font-weight: 500;
+  line-height: 18px;
+  padding-top: 1px;
+  background: var(--color-black);;
+}
+
+.swish-drawer-button:hover .swish-drawer-badge {
+  background: #ffc30b;
+  color: black;
+}
+
+/* ///////////////////////////////////////////////// */
+/* Save button - shared                              */
+/* ///////////////////////////////////////////////// */
+
+/* Disable interaction while a save/unsave is in flight */
+swish-save[state="saving"] .swish-save-button {
+  pointer-events: none;
+}
+
+/* ///////////////////////////////////////////////// */
+/* Save button - Product card                        */
+/* ///////////////////////////////////////////////// */
+
+swish-save[context="product-card"] .swish-save-label {
+  display: none;
+}
+
+/*
+ * The card image wrapper uses Tailwind's aspect-w/aspect-h utilities, which
+ * force EVERY direct child to position:absolute + inset:0 + 100% size. That
+ * stretched <swish-save> over the whole image, so a click anywhere on the
+ * image saved the product. Pin the host element to the heart only.
+ */
+swish-save[context="product-card"] {
+    position: absolute !important;
+    top: 12px !important;
+    right: 16px !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: auto !important;
+    height: auto !important;
+    display: block;
+    z-index: 20;
+    line-height: 0;
+}
+
+swish-save[context="product-card"] .swish-save-button {
+    --icon-size: 20px;
+    --icon-stroke: white;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+swish-save[context="product-card"] .swish-save-button:hover {
+}
+
+swish-save[context="product-card"] .swish-save-button svg {
+  width: var(--icon-size);
+  height: 20px var(--icon-size);
+}
+
+swish-save[context="product-card"] .swish-save-button svg path {
+  stroke-width: var(--icon-stroke-width);
+  stroke: var(--icon-stroke);
+  fill: transparent;
+}
+
+/* Filled icon when saved (also during the optimistic saving window) */
+swish-save[context="product-card"]:is([state="saved"], [state="saving"]) .swish-save-button svg path {
+  fill: white;
+}
+
+/* ///////////////////////////////////////////////// */
+/* Save button - PDP                                 */
+/* ///////////////////////////////////////////////// */
+
+swish-save[context="pdp"] .swish-save-button {
+    --icon-size: 20px;
+    --icon-stroke: black;
+    --icon-stroke-width: 1px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.572;
+    letter-spacing: .36px;
+    font-style: normal;
+    letter-spacing: normal;
+    display: flex;
+    align-items: center;
+    /* width: 100%; */
+    background: transparent;
+    justify-content: center;
+    border: none;
+    color: #000;
+    gap: 4px;
+    height: 50px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: absolute;
+    right: 17px;
+    z-index: 1;
+}
+
+
+
+swish-save[context="pdp"] .swish-save-icon {
+  display: flex;
+}
+
+swish-save[context="pdp"] .swish-save-label {
+  display: none;
+}
+
+swish-save[context="pdp"] .swish-save-button svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  stroke-width: var(--icon-stroke-width);
+  stroke: var(--icon-stroke);
+}
+
+swish-save[context="pdp"] .swish-save-label {
+}
+
+swish-save[context="pdp"] .swish-save-button svg path {
+  stroke-width: var(--icon-stroke-width);
+  stroke: var(--icon-stroke);
+  fill: transparent;
+}
+
+/* Filled icon when saved (also during the optimistic saving window) */
+swish-save[context="pdp"]:is([state="saved"], [state="saving"]) .swish-save-button svg path {
+  fill: black;
+}
+
+swish-save[context="pdp"]:is([state="saved"], [state="saving"]) .swish-save-button svg {
+    fill: black;
+}
+
+.product-page .product__information .product__add-to-list-container .app-block .shopify-app-block--mr-add-to-reg button.myregistry-add-button {
+    padding-left: 22px !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+}
+
+/*
+ * Opt-in pre-paint hiding for placements where layout shift is acceptable
+ * (e.g. product cards below the fold). Skip for above-the-fold elements
+ * where hiding would cause a visible layout shift.
+ */
+/*
+.product-grid swish-save:not([ready]) {
+  visibility: hidden;
+}
+*/
+
+#chat-button {
+    z-index: 1;
+}

@@ -1,0 +1,54 @@
+{% assign container_colour_classes = 'bg-primary-dark-iw text-site-bg-iw' %}
+
+{% comment %}Keep this to ensure shopify-app-block is included in the css{% endcomment %}
+<div class="hidden shopify-app-block"></div>
+
+<div class="vertical-spacing">
+   <div class="container">
+      {% render 'heading-and-text', heading: 'Containers', body: 'Below are the container used across the site' %}
+   </div>
+   <div class="flex flex-col gap-24">
+      <div class="container-full">
+         <div class="temp-containers__item">
+            <p class="heading">
+               Container - full
+            </p>
+            <p>
+               Used when a component is filling the page but still has a restraint on exceptionally large screens
+            </p>
+         </div>
+      </div>
+      {% comment %}
+         <div class="container-lg">
+            <div class="temp-containers__item">
+               <p class="heading">
+                  Container - Large
+               </p>
+               <p>
+                  Often used for components that need to break out of the standard container but still line up.
+               </p>
+            </div>
+         </div>
+      {% endcomment %}
+      <div class="container">
+         <div class="temp-containers__item">
+            <p class="heading">
+               Container - Normal
+            </p>
+            <p>
+               Default container size used in most places across the site
+            </p>
+         </div>
+      </div>
+      <div class="container-sm">
+         <div class="temp-containers__item">
+            <p class="heading">
+               Container - Small
+            </p>
+            <p>
+               Used for when something needs to be contained a bit smaller than standard
+            </p>
+         </div>
+      </div>
+   </div>
+</div>

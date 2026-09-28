@@ -1,0 +1,384 @@
+{%- comment -%}
+  ============================================================
+  NORTHERN GYM EQUIPMENT - REFER A FRIEND (Mention Me)
+  Section: refer-a-friend
+  ------------------------------------------------------------
+  Everything on this page is editable from the theme customizer:
+    - Text fields live in this section's settings.
+    - Steps, benefits and FAQs are BLOCKS (add / remove / reorder).
+    - Mention Me partner code + environment are section settings.
+  The Mention Me tag renders its real sign-up form into #mmWrapper
+  and, for logged-in customers, pre-fills their name and email.
+  #mmWrapper is left empty on purpose so only Mention Me's form shows.
+  On mobile the steps become a swipeable carousel with dot indicators.
+  ------------------------------------------------------------
+  DESIGN: soft, rounded, PDP-matched surfaces. Curviness is driven by
+  the "Corner radius" setting; the hero can be light or dark via the
+  "Hero style" setting. No layout or Mention Me logic depends on either.
+  ============================================================
+{%- endcomment -%}
+
+{%- liquid
+  assign yellow = section.settings.color_accent
+  assign dark   = section.settings.color_dark
+  assign red    = section.settings.color_alert
+  assign cloud  = section.settings.color_soft
+  assign radius = section.settings.radius
+  if section.settings.environment == 'live'
+    assign mm_host = 'tag.mention-me.com'
+  else
+    assign mm_host = 'tag-demo.mention-me.com'
+  endif
+-%}
+
+<div id='nge-refer'
+  style='--nge-yellow:{{ yellow }}; --nge-black:{{ dark }}; --nge-ink:#1a1a1a; --nge-white:#ffffff; --nge-red:{{ red }}; --nge-grey:#6e6e73; --nge-line:#e8e8ed; --nge-cloud:{{ cloud }}; --r-md:{{ radius }}px; --r-lg:{{ radius | plus: 8 }}px; --r-sm:{{ radius | minus: 6 }}px;'>
+
+  <!-- HERO -->
+  <header class='hero bleed{% if section.settings.hero_style == "dark" %} hero--dark{% endif %}'>
+    <div class='wrap'>
+      <div>
+        {%- if section.settings.hero_eyebrow != blank -%}
+          <p class='eyebrow eyebrow--onDark'>{{ section.settings.hero_eyebrow }}</p>
+        {%- endif -%}
+        <h1>{{ section.settings.hero_heading_1 }}<br><span class='hl'>{{ section.settings.hero_heading_2 }}</span></h1>
+
+        {%- if section.settings.show_reward -%}
+          <div class='reward'>
+            <div class='reward__cell'><span class='reward__k'>{{ section.settings.reward_friend_label }}</span><span class='reward__v'>{{ section.settings.reward_friend_value }}</span></div>
+            <div class='reward__cell'><span class='reward__k'>{{ section.settings.reward_you_label }}</span><span class='reward__v'>{{ section.settings.reward_you_value }}</span></div>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.hero_lead != blank -%}
+          <p class='hero__lead'>{{ section.settings.hero_lead }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class='mm-card'>
+        {%- if section.settings.mm_card_heading != blank -%}
+          <p class='mm-card__head'>{{ section.settings.mm_card_heading }}</p>
+        {%- endif -%}
+        <div id='mmWrapper'></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HOW IT WORKS -->
+  {%- assign steps = section.blocks | where: 'type', 'step' -%}
+  {%- if steps.size > 0 -%}
+    <section class='section'>
+      <div class='wrap'>
+        <div class='section__head'>
+          {%- if section.settings.steps_eyebrow != blank -%}<p class='eyebrow'>{{ section.settings.steps_eyebrow }}</p>{%- endif -%}
+          {%- if section.settings.steps_heading != blank -%}<h2>{{ section.settings.steps_heading }}</h2>{%- endif -%}
+        </div>
+        <div class='steps' id='refer-steps'>
+          {%- for block in steps -%}
+            <div class='step' {{ block.shopify_attributes }}>
+              {%- if block.settings.number != blank -%}<span class='step__n'>{{ block.settings.number }}</span>{%- endif -%}
+              <h3>{{ block.settings.title }}</h3>
+              <p>{{ block.settings.text }}</p>
+            </div>
+          {%- endfor -%}
+        </div>
+        {%- if steps.size > 1 -%}
+          <div class='carousel-ui'>
+            <div class='carousel-dots' id='refer-dots'></div>
+            <div class='carousel-hint'><span>Swipe</span><svg viewBox='0 0 24 12' fill='none' aria-hidden='true'><path d='M1 6h19M15 1l5 5-5 5' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg></div>
+          </div>
+        {%- endif -%}
+      </div>
+    </section>
+  {%- endif -%}
+
+  <!-- WHY / BENEFITS -->
+  {%- assign benefits = section.blocks | where: 'type', 'benefit' -%}
+  {%- if benefits.size > 0 -%}
+    <section class='section section--cloud bleed'>
+      <div class='wrap'>
+        <div class='section__head'>
+          {%- if section.settings.why_eyebrow != blank -%}<p class='eyebrow'>{{ section.settings.why_eyebrow }}</p>{%- endif -%}
+          {%- if section.settings.why_heading != blank -%}<h2>{{ section.settings.why_heading }}</h2>{%- endif -%}
+        </div>
+        <div class='benefits'>
+          {%- for block in benefits -%}
+            <div class='benefit' {{ block.shopify_attributes }}>
+              {%- if block.settings.tag != blank -%}<div class='k'>{{ block.settings.tag }}</div>{%- endif -%}
+              <h3>{{ block.settings.title }}</h3>
+              <p>{{ block.settings.text }}</p>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  <!-- FAQ -->
+  {%- assign faqs = section.blocks | where: 'type', 'faq' -%}
+  {%- if faqs.size > 0 -%}
+    <section class='section'>
+      <div class='wrap'>
+        <div class='section__head'>
+          {%- if section.settings.faq_eyebrow != blank -%}<p class='eyebrow'>{{ section.settings.faq_eyebrow }}</p>{%- endif -%}
+          {%- if section.settings.faq_heading != blank -%}<h2>{{ section.settings.faq_heading }}</h2>{%- endif -%}
+        </div>
+        <div class='faq'>
+          {%- for block in faqs -%}
+            <details {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
+              <summary>{{ block.settings.question }}</summary>
+              <div class='a'>{{ block.settings.answer }}</div>
+            </details>
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  <!-- CLOSER -->
+  {%- if section.settings.closer_heading_1 != blank or section.settings.closer_heading_2 != blank -%}
+    <section class='closer bleed'>
+      <div class='wrap'>
+        {%- if section.settings.closer_eyebrow != blank -%}<p class='eyebrow eyebrow--onDark' style='margin-bottom:22px;'>{{ section.settings.closer_eyebrow }}</p>{%- endif -%}
+        <h2>{{ section.settings.closer_heading_1 }} <span class='hl'>{{ section.settings.closer_heading_2 }}</span></h2>
+        {%- if section.settings.closer_text != blank -%}<p>{{ section.settings.closer_text }}</p>{%- endif -%}
+        {%- if section.settings.closer_button_label != blank -%}<a href='#mmWrapper' class='btn btn--yellow'>{{ section.settings.closer_button_label }}</a>{%- endif -%}
+        {%- if section.settings.closer_tagline != blank -%}<div class='tagline'>{{ section.settings.closer_tagline }}</div>{%- endif -%}
+      </div>
+    </section>
+  {%- endif -%}
+
+  <!-- LEGAL -->
+  {%- if section.settings.legal_text != blank -%}
+    <section class='section' style='padding:44px 0;'>
+      <div class='wrap'>
+        <div class='legal'>{{ section.settings.legal_text }}</div>
+      </div>
+    </section>
+  {%- endif -%}
+
+</div>
+
+{%- comment -%} Mention Me tag. Personalises for logged-in customers automatically. {%- endcomment -%}
+<script type='text/javascript' src='https://{{ mm_host }}/api/v2/referreroffer/{{ section.settings.partner_code }}?situation=landingpage&locale={{ section.settings.locale }}{% if customer %}&email={{ customer.email | url_encode }}&firstname={{ customer.first_name | url_encode }}&surname={{ customer.last_name | url_encode }}&customer_id={{ customer.id }}{% endif %}'></script>
+
+{%- comment -%} Mobile steps carousel: build dot indicators and track scroll position. {%- endcomment -%}
+<script>
+  (function () {
+    var track = document.getElementById('refer-steps');
+    var dotsWrap = document.getElementById('refer-dots');
+    if (!track || !dotsWrap) return;
+    var steps = track.querySelectorAll('.step');
+    if (steps.length < 2) return;
+    for (var i = 0; i < steps.length; i++) {
+      (function (i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'cdot';
+        b.setAttribute('aria-label', 'Go to step ' + (i + 1));
+        b.addEventListener('click', function () {
+          steps[i].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+        });
+        dotsWrap.appendChild(b);
+      })(i);
+    }
+    var dots = dotsWrap.querySelectorAll('.cdot');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            var idx = Array.prototype.indexOf.call(steps, e.target);
+            for (var d = 0; d < dots.length; d++) { dots[d].classList.toggle('is-active', d === idx); }
+          }
+        });
+      }, { root: track, threshold: 0.6 });
+      for (var s = 0; s < steps.length; s++) { io.observe(steps[s]); }
+    } else if (dots[0]) {
+      dots[0].classList.add('is-active');
+    }
+  })();
+</script>
+
+<style>
+  #nge-refer { font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; color:var(--nge-ink); font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased; text-align:left;
+    --font-display:'Aktiv Grotesk Ex','Helvetica Neue',Arial,sans-serif; --font-head:'Aktiv Grotesk Ex','Helvetica Neue',Arial,sans-serif; --font-mono:'Roboto Mono',ui-monospace,'SFMono-Regular',Menlo,monospace; --wrap:1120px; }
+  #nge-refer *, #nge-refer *::before, #nge-refer *::after { box-sizing:border-box; }
+  #nge-refer img { max-width:100%; display:block; }
+  #nge-refer a { color:inherit; }
+  #nge-refer .wrap { width:100%; max-width:var(--wrap); margin:0 auto; padding:0 24px; }
+  #nge-refer .bleed { margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); }
+
+  /* Type */
+  #nge-refer .eyebrow { font-family:var(--font-mono); font-weight:500; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--nge-grey); margin:0 0 16px; }
+  #nge-refer .eyebrow--onDark { color:var(--nge-grey); }
+  #nge-refer h1, #nge-refer h2, #nge-refer h3 { font-family:var(--font-display); font-weight:700; margin:0; line-height:1.04; letter-spacing:-0.025em; color:var(--nge-ink); }
+  #nge-refer h1 { font-size:clamp(38px,5.6vw,64px); }
+  #nge-refer h2 { font-size:clamp(28px,3.6vw,44px); }
+  #nge-refer h3 { font-family:var(--font-head); font-weight:600; font-size:20px; letter-spacing:-0.015em; }
+  #nge-refer p { margin:0 0 18px; }
+
+  /* Buttons */
+  #nge-refer .btn { display:inline-block; font-family:inherit; font-weight:600; letter-spacing:0; font-size:16px; text-decoration:none; padding:15px 32px; border:0; border-radius:999px; background:var(--nge-black); color:var(--nge-white); cursor:pointer; transition:transform .18s ease, opacity .18s ease, background .18s ease, color .18s ease; }
+  #nge-refer .btn:hover { opacity:0.88; transform:translateY(-1px); }
+  #nge-refer .btn--yellow { background:var(--nge-yellow); color:#111111; }
+
+  /* Hero (light by default, dark optional) */
+  #nge-refer .hero { background:var(--nge-cloud); color:var(--nge-ink); position:relative; overflow:hidden; }
+  #nge-refer .hero .wrap { display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center; padding-top:84px; padding-bottom:84px; }
+  #nge-refer .hero .wrap > div { min-width:0; }
+  #nge-refer .hero h1 { max-width:14ch; }
+  #nge-refer .hero h1 .hl { background-image:linear-gradient(to top, var(--nge-yellow) 0 30%, transparent 30%); border-radius:4px; padding:0 0.06em; }
+  #nge-refer .hero__lead { font-size:19px; color:var(--nge-grey); max-width:32ch; margin-bottom:0; }
+  #nge-refer .hero--dark { background:var(--nge-black); color:var(--nge-white); }
+  #nge-refer .hero--dark h1 { color:var(--nge-white); }
+  #nge-refer .hero--dark h1 .hl { background-image:none; color:var(--nge-yellow); }
+  #nge-refer .hero--dark .eyebrow--onDark { color:var(--nge-yellow); }
+  #nge-refer .hero--dark .hero__lead { color:#d7d7d7; }
+  #nge-refer .hero--dark .reward__cell { background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.14); }
+  #nge-refer .hero--dark .reward__v { color:var(--nge-white); }
+  #nge-refer .hero--dark .reward__k { color:#b8b8bd; }
+
+  /* Reward chips */
+  #nge-refer .reward { display:flex; flex-wrap:wrap; gap:10px; margin:26px 0 26px; }
+  #nge-refer .reward__cell { padding:14px 20px; background:var(--nge-white); border:1px solid var(--nge-line); border-radius:var(--r-md); }
+  #nge-refer .reward__k { font-size:13px; letter-spacing:0; text-transform:none; color:var(--nge-grey); display:block; margin-bottom:2px; }
+  #nge-refer .reward__v { font-family:var(--font-display); font-weight:700; font-size:24px; line-height:1.1; letter-spacing:-0.02em; color:var(--nge-ink); }
+
+  /* Mention Me card */
+  #nge-refer .mm-card { background:var(--nge-white); color:var(--nge-ink); padding:34px 32px; border:1px solid var(--nge-line); border-radius:var(--r-lg); min-width:0; box-shadow:0 1px 2px rgba(0,0,0,0.04), 0 12px 32px rgba(0,0,0,0.06); }
+  #nge-refer .mm-card__head { font-size:13px; letter-spacing:0; text-transform:none; color:var(--nge-grey); margin:0 0 16px; }
+  /* Only cap media + wrap long tokens so the Mention Me promo image / links can't overflow; the widget's own form layout is left untouched */
+  #nge-refer #mmWrapper { max-width:100%; overflow-wrap:anywhere; }
+  #nge-refer #mmWrapper img, #nge-refer #mmWrapper svg, #nge-refer #mmWrapper canvas, #nge-refer #mmWrapper video { max-width:100%; height:auto; }
+  /* Cap the Mention Me iframe width only - never its height (Mention Me sizes the iframe itself; height:auto would collapse it to 150px and hide the form) */
+  #nge-refer #mmWrapper iframe { max-width:100%; }
+
+  /* Sections */
+  #nge-refer .section { padding:88px 0; background:var(--nge-white); }
+  #nge-refer .section--cloud { background:var(--nge-cloud); }
+  #nge-refer .section__head { max-width:60ch; margin-bottom:40px; }
+  #nge-refer .section__head p { color:var(--nge-grey); font-size:18px; margin:16px 0 0; }
+
+  /* Steps */
+  #nge-refer .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  #nge-refer .step { background:var(--nge-cloud); border:1px solid var(--nge-line); border-radius:var(--r-lg); padding:30px 28px 32px; }
+  #nge-refer .step__n { display:inline-flex; align-items:center; justify-content:center; min-width:34px; height:34px; padding:0 10px; border-radius:999px; font-family:inherit; font-weight:600; font-size:14px; letter-spacing:0; color:#111111; background:var(--nge-yellow); margin-bottom:20px; }
+  #nge-refer .step h3 { font-size:21px; margin-bottom:8px; }
+  #nge-refer .step p { color:var(--nge-grey); font-size:16px; margin:0; }
+  #nge-refer .carousel-ui { display:none; }
+
+  /* Benefits */
+  #nge-refer .benefits { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; border:0; background:transparent; }
+  #nge-refer .benefit { padding:32px 28px; background:var(--nge-white); border:1px solid var(--nge-line); border-radius:var(--r-lg); }
+  #nge-refer .benefit .k { font-size:13px; letter-spacing:0; text-transform:none; font-weight:600; color:var(--nge-grey); margin-bottom:10px; }
+  #nge-refer .benefit h3 { font-size:20px; margin-bottom:8px; }
+  #nge-refer .benefit p { color:var(--nge-grey); font-size:16px; margin:0; }
+
+  /* FAQ */
+  #nge-refer .faq { max-width:820px; display:grid; gap:10px; }
+  #nge-refer .faq details { border:1px solid var(--nge-line); border-radius:var(--r-md); background:var(--nge-white); padding:0 20px; transition:background .18s ease; }
+  #nge-refer .faq details[open] { background:var(--nge-cloud); }
+  #nge-refer .faq summary { list-style:none; cursor:pointer; padding:20px 40px 20px 0; position:relative; font-family:var(--font-head); font-size:18px; font-weight:600; letter-spacing:-0.01em; }
+  #nge-refer .faq summary::-webkit-details-marker { display:none; }
+  #nge-refer .faq summary::after { content:''; position:absolute; right:4px; top:50%; width:11px; height:11px; margin-top:-6px; border-right:2px solid var(--nge-grey); border-bottom:2px solid var(--nge-grey); transform:rotate(45deg); transform-origin:center; transition:transform .2s ease; }
+  #nge-refer .faq details[open] summary::after { transform:rotate(-135deg); margin-top:-2px; }
+  #nge-refer .faq .a { padding:0 0 22px; color:var(--nge-grey); font-size:16px; }
+  #nge-refer .faq .a p:last-child { margin-bottom:0; }
+
+  /* Closer */
+  #nge-refer .closer { background:var(--nge-black); color:var(--nge-white); text-align:center; padding:96px 0; }
+  #nge-refer .closer h2 { color:var(--nge-white); max-width:20ch; margin:0 auto; }
+  #nge-refer .closer h2 .hl { color:var(--nge-yellow); }
+  #nge-refer .closer .eyebrow--onDark { color:#b8b8bd; }
+  #nge-refer .closer p { color:#cfcfcf; max-width:46ch; margin:18px auto 30px; }
+  #nge-refer .closer .tagline { font-family:var(--font-mono); letter-spacing:0.22em; text-transform:uppercase; font-size:11px; color:#8a8a8f; margin-top:40px; }
+
+  #nge-refer .legal { font-size:13px; color:var(--nge-grey); max-width:760px; }
+  #nge-refer .legal p { margin:0; }
+
+  @media (max-width:900px) {
+    #nge-refer .hero .wrap { grid-template-columns:1fr; gap:34px; padding-top:56px; padding-bottom:56px; }
+    #nge-refer .steps { display:flex; grid-template-columns:none; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; padding-bottom:2px; }
+    #nge-refer .steps::-webkit-scrollbar { display:none; }
+    #nge-refer .step { flex:0 0 82%; min-width:82%; scroll-snap-align:start; }
+    #nge-refer .carousel-ui { display:flex; align-items:center; justify-content:space-between; margin-top:20px; }
+    #nge-refer .carousel-dots { display:flex; gap:8px; }
+    #nge-refer .cdot { width:8px; height:8px; border-radius:50%; border:0; padding:0; background:#d2d2d7; cursor:pointer; transition:background .18s ease, transform .18s ease; }
+    #nge-refer .cdot.is-active { background:var(--nge-ink); transform:scale(1.35); }
+    #nge-refer .carousel-hint { display:flex; align-items:center; gap:8px; font-size:12px; letter-spacing:0; text-transform:none; color:var(--nge-grey); }
+    #nge-refer .carousel-hint svg { width:22px; height:11px; animation:nge-nudge 1.4s ease-in-out infinite; }
+    @keyframes nge-nudge { 0%,100% { transform:translateX(0); } 50% { transform:translateX(4px); } }
+    #nge-refer .benefits { grid-template-columns:1fr; }
+    #nge-refer .section { padding:64px 0; }
+    #nge-refer .closer { padding:72px 0; }
+  }
+  @media (max-width:520px) {
+    #nge-refer { font-size:16px; }
+    #nge-refer .wrap { padding:0 16px; }
+    #nge-refer .reward { flex-direction:column; }
+    #nge-refer .reward__cell { width:100%; }
+    #nge-refer .mm-card { padding:24px 20px; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    #nge-refer * { transition:none !important; animation:none !important; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Refer a Friend",
+  "tag": "section",
+  "class": "nge-refer-section",
+  "settings": [
+    { "type": "header", "content": "Mention Me" },
+    { "type": "text", "id": "partner_code", "label": "Partner code", "default": "YOUR_PARTNER_CODE", "info": "Your Mention Me partner code. Replace before going live." },
+    { "type": "select", "id": "environment", "label": "Environment", "options": [ { "value": "demo", "label": "Demo (testing)" }, { "value": "live", "label": "Live" } ], "default": "demo" },
+    { "type": "text", "id": "locale", "label": "Locale", "default": "en_GB", "info": "Use en_IE for the Ireland store." },
+    { "type": "header", "content": "Design" },
+    { "type": "select", "id": "hero_style", "label": "Hero style", "options": [ { "value": "light", "label": "Light (soft grey)" }, { "value": "dark", "label": "Dark" } ], "default": "light" },
+    { "type": "range", "id": "radius", "label": "Corner radius", "min": 0, "max": 32, "step": 2, "default": 18, "unit": "px" },
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "hero_eyebrow", "label": "Eyebrow", "default": "Refer a friend" },
+    { "type": "text", "id": "hero_heading_1", "label": "Heading line 1", "default": "Train together." },
+    { "type": "text", "id": "hero_heading_2", "label": "Heading line 2 (highlighted)", "default": "Win together." },
+    { "type": "textarea", "id": "hero_lead", "label": "Intro text", "default": "Send a mate to Northern. They kit out their setup for less. You get rewarded when they do. Simple." },
+    { "type": "header", "content": "Reward strip" },
+    { "type": "checkbox", "id": "show_reward", "label": "Show reward strip", "default": true },
+    { "type": "text", "id": "reward_friend_label", "label": "Friend label", "default": "Your friend gets" },
+    { "type": "text", "id": "reward_friend_value", "label": "Friend reward", "default": "£XX off" },
+    { "type": "text", "id": "reward_you_label", "label": "You label", "default": "You get" },
+    { "type": "text", "id": "reward_you_value", "label": "Your reward", "default": "£XX back" },
+    { "type": "header", "content": "Referral form card" },
+    { "type": "text", "id": "mm_card_heading", "label": "Card label", "default": "Start referring", "info": "Small label above the Mention Me form. Leave blank to hide." },
+    { "type": "header", "content": "How it works (heading)" },
+    { "type": "text", "id": "steps_eyebrow", "label": "Eyebrow", "default": "How it works" },
+    { "type": "text", "id": "steps_heading", "label": "Heading", "default": "Three moves. That's it." },
+    { "type": "header", "content": "Why share it (heading)" },
+    { "type": "text", "id": "why_eyebrow", "label": "Eyebrow", "default": "Why share it" },
+    { "type": "text", "id": "why_heading", "label": "Heading", "default": "Good kit deserves a shout." },
+    { "type": "header", "content": "FAQ (heading)" },
+    { "type": "text", "id": "faq_eyebrow", "label": "Eyebrow", "default": "The details" },
+    { "type": "text", "id": "faq_heading", "label": "Heading", "default": "Questions, answered." },
+    { "type": "header", "content": "Closing band" },
+    { "type": "text", "id": "closer_eyebrow", "label": "Eyebrow", "default": "Refer a friend" },
+    { "type": "text", "id": "closer_heading_1", "label": "Heading", "default": "Someone you train with needs" },
+    { "type": "text", "id": "closer_heading_2", "label": "Heading highlight (yellow)", "default": "this kit." },
+    { "type": "textarea", "id": "closer_text", "label": "Text", "default": "Send them the link. They build their setup, you get rewarded for the introduction." },
+    { "type": "text", "id": "closer_button_label", "label": "Button label", "default": "Get your link" },
+    { "type": "text", "id": "closer_tagline", "label": "Tagline", "default": "Built to work" },
+    { "type": "header", "content": "Legal" },
+    { "type": "richtext", "id": "legal_text", "label": "Legal text", "default": "<p>Rewards are issued in line with the Refer a Friend programme terms. Reward values and qualifying orders are subject to change. Cannot be used in conjunction with some other offers. See full terms for details.</p>" },
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "color_accent", "label": "Accent (yellow)", "default": "#feed06" },
+    { "type": "color", "id": "color_dark", "label": "Dark", "default": "#0a0a0a" },
+    { "type": "color", "id": "color_alert", "label": "Alert (red)", "default": "#be0b07" },
+    { "type": "color", "id": "color_soft", "label": "Soft background", "default": "#f5f5f7" }
+  ],
+  "blocks": [
+    { "type": "step", "name": "Step", "settings": [ { "type": "text", "id": "number", "label": "Number", "default": "01" }, { "type": "text", "id": "title", "label": "Title", "default": "Share your link" }, { "type": "textarea", "id": "text", "label": "Text", "default": "Grab your personal referral link and send it to a friend." } ] },
+    { "type": "benefit", "name": "Benefit", "settings": [ { "type": "text", "id": "tag", "label": "Tag", "default": "No catch" }, { "type": "text", "id": "title", "label": "Title", "default": "A reward that stacks up" }, { "type": "textarea", "id": "text", "label": "Text", "default": "You back the gear, we back you for it." } ] },
+    { "type": "faq", "name": "FAQ", "settings": [ { "type": "text", "id": "question", "label": "Question", "default": "How do I refer someone?" }, { "type": "textarea", "id": "answer", "label": "Answer", "default": "Enter your details to get your referral link." }, { "type": "checkbox", "id": "open", "label": "Open by default", "default": false } ] }
+  ],
+  "presets": [ { "name": "Refer a Friend" } ]
+}
+{% endschema %}

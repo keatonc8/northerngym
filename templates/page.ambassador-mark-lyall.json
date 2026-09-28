@@ -1,0 +1,149 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "Based In Guildford, Surrey",
+            "image": "shopify://shop_images/Mark_Lyall.jpg",
+            "title": "Bio",
+            "text": "<p>I’m Mark Lyall, an MSc-qualified Personal Trainer with a passion for helping people build strength, confidence, and long-term health through evidence-based training. My coaching philosophy centres around three key principles: <strong>Movement, Muscles, and Mind</strong>. I believe mastering movement quality is the foundation for achieving any fitness goal safely and effectively.<br/><br/></p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_7WcBXp": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/Mark_Lyall_2.jpg",
+            "title": "",
+            "text": "<p>Whether you’re completely new to the gym or an experienced athlete looking to improve performance, I create personalised programmes that match your goals, biomechanics, and experience level. Every plan is built using the latest exercise science to maximise results while reducing injury risk.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_WGq8f8": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/Mark_Lyall_6.jpg",
+            "title": "",
+            "text": "<p>Alongside training, I provide practical nutrition guidance, including calorie and macronutrient targets, helping clients build sustainable habits rather than relying on quick fixes. I offer one-to-one coaching, small group sessions, hybrid coaching, and app-based programmes to suit different lifestyles.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_wgaqTH": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/Mark_Lyall_5.jpg",
+            "title": "",
+            "text": "<p>Outside of coaching, I enjoy resistance training three to four times a week, running, football, and recently completed my first HYROX event. Challenging myself physically allows me to better understand the journey my clients are on and coach with both experience and empathy.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ",
+        "item_7WcBXp",
+        "item_WGq8f8",
+        "item_wgaqTH"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Mark Lyall",
+        "text": "<p>Strength & Hypertrophy | Movement Coaching | Evidence-Based Personal Training | Hybrid & Online Coaching</p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_QUBYg8": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_LebtEX": {
+          "type": "card",
+          "settings": {
+            "title": "Favourite Northern Product",
+            "image": "shopify://shop_images/Northern_Adjustable_Dumbbell_Set.jpg",
+            "text": "<p>Adjustable Dumbbells - <em>“The Northern Adjustable 24kg Dumbbells are my go-to piece of equipment. They’re incredibly versatile, space-saving, and allow me to coach everything from beginner strength sessions to advanced progressive overload without needing a full gym.”</em><br/><br/></p>",
+            "button_label": "Shop Now",
+            "button_link": "https://northerngymequipment.com/products/northern-selectable-adjustable-dumbbell-pair-24kg-x-2"
+          }
+        },
+        "card_cEmc7P": {
+          "type": "card",
+          "settings": {
+            "title": "What does being part of Northern mean to you?",
+            "image": "shopify://shop_images/Mark_Lyall_3.jpg",
+            "text": "<p>Being part of Northern means representing a brand that shares my passion for making high-quality fitness accessible to everyone. I enjoy working with equipment that I genuinely use myself and can confidently recommend to clients. It’s exciting to be part of a community that encourages people to train consistently, improve their health, and enjoy the process of becoming stronger.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "card_mNhWg4": {
+          "type": "card",
+          "settings": {
+            "title": "Follow Mark's Journey",
+            "image": "shopify://shop_images/Mark_Lyall_4.jpg",
+            "text": "<p>Check out Mark's social here.</p>",
+            "button_label": "Follow",
+            "button_link": "https://www.instagram.com/marklyallfitness/"
+          }
+        }
+      },
+      "block_order": [
+        "card_LebtEX",
+        "card_cEmc7P",
+        "card_mNhWg4"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_QUBYg8"
+  ]
+}

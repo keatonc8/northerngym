@@ -1,0 +1,65 @@
+{% assign no_heading = true %}
+
+{% if heading != blank or paragraph != blank or product_list != blank or product_handles != blank %}
+   <div class="vertical-spacing">
+      <div class="container-full">
+         <div class="flex flex-col gap-6">
+            {% if heading != blank or paragraph != blank %}
+               {% assign no_heading = false %}
+               <div class="container">
+                  <div class="flex flex-col gap-4">
+                     {% if heading != blank %}
+                        <h2 class="heading-03">
+                           {{ heading }}
+                        </h2>
+                     {% endif %}
+                     {% if paragraph != blank %}
+                        <p class="max-w-180">
+                           {{ paragraph }}
+                        </p>
+                     {% endif %}
+                  </div>
+               </div>
+            {% endif %}
+            {% if product_list != blank or product_handles != blank %}
+               <div class="xl:container xl:px-19">
+                  <div class="glide" data-module="basic-carousel">
+                     <div class="glide__track" data-glide-el="track">
+                        <ul class="glide__slides !pb-px xl:pb-0 xl:!grid xl:grid-cols-4 xl:gap-4">
+                           {% if product_list != blank %}
+                              {% for product_item in product_list %}
+                                 <li class="glide__slide !h-auto">
+                                    {% render 'product-item',
+                                       product_item: product_item,
+                                       show_buy_button: show_buy_button,
+                                       index: forloop.index,
+                                       show_tags: true
+                                    %}
+                                 </li>
+                              {% endfor %}
+                           {% else %}
+                              {% assign product_handles_array = product_handles | split: ',' %}
+                              {% for product_item_handle in product_handles_array %}
+                                 {% assign product_item_handle = product_item_handle | strip %}
+                                 {% unless product_item_handle == blank %}
+                                    {% assign product_item = all_products[product_item_handle] %}
+                                    <li class="glide__slide !h-auto">
+                                       {% render 'product-item',
+                                          product_item: product_item,
+                                          show_buy_button: show_buy_button,
+                                          index: forloop.index
+                                       %}
+                                    </li>
+                                 {% endunless %}
+                              {% endfor %}
+                           {% endif %}
+                        </ul>
+                     </div>
+                     {% render 'carousel-arrows', hide_on_desktop: true, no_heading: no_heading %}
+                  </div>
+               </div>
+            {% endif %}
+         </div>
+      </div>
+   </div>
+{% endif %}

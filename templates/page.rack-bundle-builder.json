@@ -1,0 +1,67 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "section_heading_and_text_CLDPiY": {
+      "type": "section-heading-and-text",
+      "name": "Heading & Text",
+      "settings": {
+        "metaobject_content": "",
+        "heading": "<p><strong>Build your </strong>Perfect Squat rack<strong> with our </strong>bundle builder.</p>",
+        "paragraph": "<p>Whether you're building your first home gym or upgrading a commercial facility, a quality <strong>squat rack</strong> or rig forms the backbone of your training. </p><p>Our bundle builder allows you to configure your rack to your exact requirements and save £££'s as you go! </p><p>What could be better?</p>"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "17617303655ce12e1b": {
+      "type": "apps",
+      "settings": {}
+    },
+    "instant_gx587_olz_hwp3_s_pb_z_MW4L4b": {
+      "type": "instant-gx587OlzHWP3SPbZ",
+      "disabled": true,
+      "name": "NOR : Rack USP",
+      "settings": {
+        "text_1dQTmXMHpM7hisUd": "<p>Heavy-duty Steel Construction</p>",
+        "text_QsqCFwb9q1c3RMeS": "<p>500kg+ Weight Capacity</p>",
+        "text_ALf2x55iYn9yFyV1": "<p>Wide range of accessories</p>",
+        "text_oUWP6LJ5jyz92PML": "<p>Designed in the UK</p>",
+        "text_u7F0EYwDEhiZB4az": "<p>Delivered Part-assembled</p>",
+        "text_1F46ec4Ps1M2OzWR": "<p>Free UK Delivery</p>",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "instant_gx587_olz_hwp3_s_pb_z_fCdWbY": {
+      "type": "instant-gx587OlzHWP3SPbZ",
+      "name": "NOR : Rack USP",
+      "settings": {
+        "text_1dQTmXMHpM7hisUd": "<p>Heavy-duty Steel Construction</p>",
+        "text_QsqCFwb9q1c3RMeS": "<p>500kg+ Weight Capacity</p>",
+        "text_ALf2x55iYn9yFyV1": "<p>Wide range of accessories</p>",
+        "text_oUWP6LJ5jyz92PML": "<p>Designed in the UK</p>",
+        "text_u7F0EYwDEhiZB4az": "<p>Delivered Part-assembled</p>",
+        "text_1F46ec4Ps1M2OzWR": "<p>Free UK Delivery</p>",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "section_heading_and_text_CLDPiY",
+    "instant_gx587_olz_hwp3_s_pb_z_fCdWbY",
+    "main",
+    "17617303655ce12e1b",
+    "instant_gx587_olz_hwp3_s_pb_z_MW4L4b"
+  ]
+}

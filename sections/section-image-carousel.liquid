@@ -1,0 +1,112 @@
+{% assign heading = section.settings.heading %}
+{% assign heading_is_h1 = section.settings.heading_is_h1 | default: false %}
+{% assign heading_style = section.settings.heading_style | default: 'default' %}
+{% assign heading_class = 'heading-03' %}
+{% if heading_style == 'large' %}
+   {% assign heading_class = 'heading' %}
+{% endif %}
+{% assign paragraph = section.settings.paragraph %}
+
+{% if heading != blank or paragraph != blank or section.blocks != blank %}
+   <div class="vertical-spacing">
+      <div class="container-full">
+         <div class="flex flex-col gap-6">
+            {% if heading != blank or paragraph != blank %}
+               <div class="container">
+                  <div class="flex flex-col gap-4 xs:pr-25">
+                     {% if heading != blank %}
+                        {% if heading_is_h1 %}
+                           <h1 class="{{ heading_class }}">
+                              {{ heading }}
+                           </h1>
+                        {% else %}
+                           <h2 class="{{ heading_class }}">
+                              {{ heading }}
+                           </h2>
+                        {% endif %}
+                     {% endif %}
+                     {% if paragraph != blank %}
+                        <p class="max-w-180">
+                           {{ paragraph }}
+                        </p>
+                     {% endif %}
+                  </div>
+               </div>
+            {% endif %}
+            {% if section.blocks != blank %}
+               {% render 'image-carousel', section_blocks: section.blocks %}
+            {% endif %}
+         </div>
+      </div>
+   </div>
+{% endif %}
+
+{% schema %}
+{
+   "name": "Image Carousel",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Text Section"
+      },
+      {
+         "type": "text",
+         "id": "heading",
+         "label": "Heading"
+      },
+      {
+         "type": "checkbox",
+         "id": "heading_is_h1",
+         "label": "Set heading as H1",
+         "info": "Set to true if the heading needs to be a <h1> element. Note: Ensure you only have one <h1> element on the page.",
+         "default": false
+      },
+      {
+         "type": "select",
+         "id": "heading_style",
+         "label": "Heading Style",
+         "options": [
+            {
+               "value": "large",
+               "label": "Large"
+            },
+            {
+               "value": "default",
+               "label": "Default"
+            }
+         ],
+         "default": "default"
+      },
+      {
+         "type": "textarea",
+         "id": "paragraph",
+         "label": "Paragraph"
+      }
+   ],
+   "blocks": [
+      {
+         "type": "image",
+         "name": "Image",
+         "settings": [
+            {
+               "type": "header",
+               "content": "Settings"
+            },
+            {
+               "type": "header",
+               "content": "Content"
+            },
+            {
+               "type": "image_picker",
+               "id": "main_image",
+               "label": "Main Image"
+            }
+         ]
+      }
+   ],
+   "presets": [{
+      "name": "Image Carousel",
+      "blocks": []
+   }]
+}
+{% endschema %}

@@ -1,0 +1,40 @@
+{% assign heading = section.settings.heading | default: '404 Page' %}
+{% assign paragraph = section.settings.paragraph %}
+
+<div class="container-full">
+   <div class="vertical-padding bg-black text-white">
+      <div class="flex justify-center">
+         <p class="heading">
+            {{ heading }}
+         </p>
+      </div>
+   </div>
+</div>
+
+{% schema %}
+{
+   "name": "404 Page",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Settings"
+      },
+      {
+         "type": "header",
+         "content": "Content"
+      },
+      {
+         "type": "text",
+         "id": "heading",
+         "label": "Heading"
+      },
+      {
+         "type": "textarea",
+         "id": "paragraph",
+         "label": "Paragraph"
+      }
+   ],
+   "blocks": [],
+   "presets": []
+}
+{% endschema %}

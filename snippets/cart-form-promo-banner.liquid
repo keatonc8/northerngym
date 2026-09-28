@@ -1,0 +1,36 @@
+{% assign promo_banner_image = settings.cart_drawer_promo_banner_image %}
+{% assign promo_banner_heading = settings.cart_drawer_promo_banner_heading %}
+{% assign promo_banner_sub_heading = settings.cart_drawer_promo_banner_sub_heading %}
+
+{% if promo_banner_sub_heading != blank or promo_banner_heading != blank or promo_banner_image != blank %}
+   <div class="bg-black h-32 relative px-4 py-3 flex items-end">
+      {% if promo_banner_image != blank %}
+         {% render 'responsive-image',
+            image_object: promo_banner_image,
+            size: 'full',
+            class: 'absolute inset-0 w-full h-full z-1'
+         %}
+         {% if promo_banner_sub_heading != blank or promo_banner_heading != blank %}
+            <div class="absolute inset-0 w-full h-full bg-gradient-to-b from-transparent to-black z-1">
+               <span class="sr-only">
+                  Black gradient providing an overlay to make the text legible
+               </span>
+            </div>
+         {% endif %}
+      {% endif %}
+      {% if promo_banner_sub_heading != blank or promo_banner_heading != blank %}
+         <div class="relative z-2 text-white">
+            {% if promo_banner_sub_heading != blank %}
+               <p class="body-03 font-bold">
+                  {{ promo_banner_sub_heading }}
+               </p>
+            {% endif %}
+            {% if promo_banner_heading != blank %}
+               <p class="heading-04">
+                  {{ promo_banner_heading }}
+               </p>
+            {% endif %}
+         </div>
+      {% endif %}
+   </div>
+{% endif %}

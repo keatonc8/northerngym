@@ -1,0 +1,395 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "block_columns_MydBE4": {
+      "type": "block-columns",
+      "blocks": {
+        "card_WX7nd4": {
+          "type": "card",
+          "settings": {
+            "title": "Rob Swaine",
+            "image": "shopify://shop_images/Rob_Swaine.webp",
+            "link": "shopify://pages/ambassador-rob-swaine"
+          }
+        },
+        "card_h38A8E": {
+          "type": "card",
+          "settings": {
+            "title": "Ellie Strurt",
+            "image": "shopify://shop_images/Ellie_Strurt.jpg",
+            "link": "shopify://pages/ambassador-ellie-strurt"
+          }
+        },
+        "card_hQ8PDA": {
+          "type": "card",
+          "settings": {
+            "title": "Ryan JB",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-04-29_at_09.27.13.jpg",
+            "link": "shopify://pages/ambassador-ryan-jb"
+          }
+        }
+      },
+      "block_order": [
+        "card_WX7nd4",
+        "card_h38A8E",
+        "card_hQ8PDA"
+      ],
+      "name": "Block - Columns",
+      "settings": {
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "button_bg_color": "#e3e1e1",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_qrUxRy": {
+      "type": "block-columns",
+      "blocks": {
+        "card_pQKUbV": {
+          "type": "card",
+          "settings": {
+            "title": "Chris Tomlinson",
+            "image": "shopify://shop_images/Chris_Tomlinson.jpg",
+            "link": "shopify://pages/ambassador-chris-tomlinson"
+          }
+        },
+        "card_H88zHH": {
+          "type": "card",
+          "settings": {
+            "title": "Jason Platt",
+            "image": "shopify://shop_images/Jason_Platt_9.jpg",
+            "link": "shopify://pages/ambassador-jason-platt"
+          }
+        },
+        "card_7CmtTE": {
+          "type": "card",
+          "settings": {
+            "title": "Katie Vinten",
+            "image": "shopify://shop_images/Katie_Vinten_-_Northern_Ambassador_-_Coach.webp",
+            "link": "shopify://pages/ambassador-katie-vinten"
+          }
+        }
+      },
+      "block_order": [
+        "card_pQKUbV",
+        "card_H88zHH",
+        "card_7CmtTE"
+      ],
+      "name": "Block - Columns",
+      "settings": {
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_qxEgRc": {
+      "type": "block-columns",
+      "blocks": {
+        "card_pAbpz4": {
+          "type": "card",
+          "settings": {
+            "title": "Camilla Haskell",
+            "image": "shopify://shop_images/IMG_5802_Original.jpg",
+            "link": "shopify://pages/ambassador-camilla-haskell"
+          }
+        },
+        "card_L9ByBx": {
+          "type": "card",
+          "settings": {
+            "title": "Kim Wilson",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-06-11_at_17.23.11_1.jpg",
+            "link": "shopify://pages/ambassador-kim-wilson"
+          }
+        },
+        "card_nqPJCd": {
+          "type": "card",
+          "settings": {
+            "title": "Dani Turner",
+            "image": "shopify://shop_images/UK_CHAMPIONSHIPS_QUALIFIER_If_you_d_have_told_me_a_few_months_ago_that_I_d_be_writing_those_1.jpg",
+            "link": "shopify://pages/ambassador-dani-turner"
+          }
+        }
+      },
+      "block_order": [
+        "card_pAbpz4",
+        "card_L9ByBx",
+        "card_nqPJCd"
+      ],
+      "name": "Block - Columns",
+      "settings": {
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_GaNX7q": {
+      "type": "block-columns",
+      "blocks": {
+        "card_gXrg3G": {
+          "type": "card",
+          "settings": {
+            "title": "Craig McGill",
+            "image": "shopify://shop_images/Craig_McGill_-_Northern_Athlete_Ambasaddors.jpg",
+            "link": "shopify://pages/ambassador-craig-mcgill"
+          }
+        },
+        "card_BqFGBP": {
+          "type": "card",
+          "settings": {
+            "title": "Jack Bradley",
+            "image": "shopify://shop_images/Jack_Bradley_Fitness_067.jpg",
+            "link": "shopify://pages/ambassador-jack-bradley"
+          }
+        },
+        "card_XyHBLr": {
+          "type": "card",
+          "settings": {
+            "title": "Lloyd Fox",
+            "image": "shopify://shop_images/Me.jpg",
+            "link": "shopify://pages/ambassador-lloyd-fox"
+          }
+        }
+      },
+      "block_order": [
+        "card_gXrg3G",
+        "card_BqFGBP",
+        "card_XyHBLr"
+      ],
+      "name": "Block - Columns",
+      "settings": {
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_VQhRei": {
+      "type": "block-columns",
+      "blocks": {
+        "card_yLVEP6": {
+          "type": "card",
+          "settings": {
+            "title": "Jo Adams",
+            "image": "shopify://shop_images/High_Res-00034.jpg",
+            "link": "shopify://pages/ambassador-jo-adams"
+          }
+        },
+        "card_yejPbn": {
+          "type": "card",
+          "settings": {
+            "title": "Gemma Jane",
+            "image": "shopify://shop_images/Gemma_Jane.jpg",
+            "link": "shopify://pages/ambassador-gemma-jane"
+          }
+        },
+        "card_DXTd3E": {
+          "type": "card",
+          "settings": {
+            "title": "Martyn Fallon",
+            "image": "shopify://shop_images/edited.jpg",
+            "link": "shopify://pages/ambassador-martyn-fallon"
+          }
+        }
+      },
+      "block_order": [
+        "card_yLVEP6",
+        "card_yejPbn",
+        "card_DXTd3E"
+      ],
+      "name": "Block - Columns",
+      "settings": {
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_VLnNWJ": {
+      "type": "block-columns",
+      "blocks": {
+        "card_aTxPFT": {
+          "type": "card",
+          "settings": {
+            "title": "Taya Edwards",
+            "image": "shopify://shop_images/Taya_Edwards.webp",
+            "link": "shopify://pages/ambassador-taya-edwards"
+          }
+        },
+        "card_3mXYQD": {
+          "type": "card",
+          "settings": {
+            "title": "Georgina Hall",
+            "image": "shopify://shop_images/Georgina_Hall.jpg",
+            "link": "shopify://pages/ambassador-georgina-hall"
+          }
+        },
+        "card_WRQLCB": {
+          "type": "card",
+          "settings": {
+            "title": "Dom Speakman",
+            "image": "shopify://shop_images/3fed75a8-cde7-4936-a053-f3ecc22efaa7.jpg",
+            "link": "shopify://pages/ambassador-dom-speakman"
+          }
+        }
+      },
+      "block_order": [
+        "card_aTxPFT",
+        "card_3mXYQD",
+        "card_WRQLCB"
+      ],
+      "name": "Block - Columns",
+      "settings": {
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_jTTan8": {
+      "type": "block-columns",
+      "blocks": {
+        "card_7LFCBy": {
+          "type": "card",
+          "settings": {
+            "title": "Mark Lyall",
+            "image": "shopify://shop_images/Mark_Lyall.jpg",
+            "link": "shopify://pages/ambassador-mark-lyall"
+          }
+        },
+        "card_LET9cE": {
+          "type": "card",
+          "settings": {
+            "title": "Fiona Pagett",
+            "image": "shopify://shop_images/Fiona.png",
+            "link": "shopify://pages/ambassador-fiona-pagett"
+          }
+        },
+        "card_GCPHHV": {
+          "type": "card",
+          "settings": {
+            "title": "Ross Metcalfe",
+            "image": "shopify://shop_images/Ross_963f4153-03c4-46f9-a0c8-1b1042aac561.jpg",
+            "link": "shopify://pages/ambassador-ross-metcalfe"
+          }
+        }
+      },
+      "block_order": [
+        "card_7LFCBy",
+        "card_LET9cE",
+        "card_GCPHHV"
+      ],
+      "name": "Block - Columns",
+      "settings": {
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_JKFXXF": {
+      "type": "block-columns",
+      "blocks": {
+        "card_7KADAa": {
+          "type": "card",
+          "settings": {
+            "title": "Darren Dawidiuk",
+            "image": "shopify://shop_images/Darren_Dawidiuk_-_Northern_Ambassador.webp",
+            "link": "shopify://pages/ambassador-darren-dawidiuk"
+          }
+        },
+        "card_Fmim6E": {
+          "type": "card",
+          "settings": {
+            "title": "Anna Martin",
+            "image": "shopify://shop_images/Anna_Martin.jpg",
+            "link": "shopify://pages/ambassador-anna-martin"
+          }
+        }
+      },
+      "block_order": [
+        "card_7KADAa",
+        "card_Fmim6E"
+      ],
+      "name": "Block - Columns",
+      "settings": {
+        "button_label": "Explore the campaign",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "block_columns_MydBE4",
+    "block_columns_qrUxRy",
+    "block_columns_qxEgRc",
+    "block_columns_GaNX7q",
+    "block_columns_VQhRei",
+    "block_columns_VLnNWJ",
+    "block_columns_jTTan8",
+    "block_columns_JKFXXF"
+  ]
+}

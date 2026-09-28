@@ -1,0 +1,8 @@
+{% assign content = content %}
+{% assign alignment = alignment | default: 'text-center' %}
+
+{% if content != blank %}
+   <div class="flex flex-col gap-3 body {{ alignment }} richtext">
+      {{ content }}
+   </div>
+{% endif %}

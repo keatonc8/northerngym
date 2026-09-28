@@ -1,0 +1,155 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "about_hero": {
+      "type": "block-about-hero",
+      "settings": {
+        "eyebrow": "About Us",
+        "heading": "<p>Northern. <strong>Built to Work.</strong></p>",
+        "lede": "",
+        "image": "shopify://shop_images/2L5A0672_6d952ef0-4da6-4409-bb13-bf65f1e6a542.jpg"
+      }
+    },
+    "about_intro": {
+      "type": "block-about-intro",
+      "settings": {
+        "lede": "This is where you give everything you've got to earn everything you get. Then you come back and do it all again tomorrow. No shortcuts. Just honest hard work and proper Northern spirit.",
+        "body": "<p>We're proudly based in Manchester, and our northern roots shape everything we do. The North of England has always been built on resilience, honesty, and getting the job done properly. It's a place where hard work matters more than hype, substance matters more than show, and community comes before ego.</p>"
+      }
+    },
+    "about_story": {
+      "type": "block-about-story",
+      "settings": {
+        "eyebrow": "Our Story",
+        "heading": "How it started",
+        "body": "<p>Northern Gym Equipment started with three brothers obsessed with fitness. Whether it was running, lifting, competing, or simply pushing themselves to be better, they believed people deserved gym equipment that worked as hard as they did.</p><p>What started as a small local business has grown into a nationwide community united by a commitment to self-improvement. A pair of dumbbells became complete gym setups, and a simple idea became lasting progress. Every milestone began with action, and every action moved us forward.</p><p>Whether you're building your first home gym or fitting out a commercial facility, our goal remains the same: to provide equipment you can rely on, backed by people you can trust.</p>",
+        "image": "shopify://shop_images/NORTHERN_HEADSHOTS_B_W.jpg",
+        "caption": "oUR fOUNDERS: ARAN, MARVY & HUKAM",
+        "image_position": "left"
+      }
+    },
+    "about_mission": {
+      "type": "block-about-mission",
+      "settings": {
+        "eyebrow": "Our Mission",
+        "heading": "Make fitness easier, so people can work harder.",
+        "body": "<p>Fitness shouldn't be complicated. Too often it's buried beneath trends, gimmicks, and unnecessary noise. Our mission is to simplify fitness, making it easier for more people to train with confidence and consistency.</p><p>We do that by building high-quality gym equipment, creating honest educational content, and delivering customer service that genuinely supports our community.</p><p>We take care of the details so our customers can focus on what matters most: putting in the work.</p>",
+        "image": "shopify://shop_images/2L5A0386.jpg",
+        "image_position": "right"
+      }
+    },
+    "about_principle": {
+      "type": "block-about-principle",
+      "blocks": {
+        "line_1": {
+          "type": "line",
+          "settings": {
+            "text": "But Built to Work isn't just about the equipment.",
+            "accent": false
+          }
+        },
+        "line_2": {
+          "type": "line",
+          "settings": {
+            "text": "It's about us.",
+            "accent": true
+          }
+        },
+        "para_1": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>It's our commitment to building products that last, giving honest advice, delivering dependable service, and earning the trust of our community.</p>"
+          }
+        },
+        "line_3": {
+          "type": "line",
+          "settings": {
+            "text": "The best equipment won't do the work for you.",
+            "accent": false
+          }
+        },
+        "line_4": {
+          "type": "line",
+          "settings": {
+            "text": "It simply helps you do your best work.",
+            "accent": true
+          }
+        }
+      },
+      "block_order": [
+        "line_1",
+        "line_2",
+        "para_1",
+        "line_3",
+        "line_4"
+      ],
+      "settings": {
+        "eyebrow": "Our Guiding Principle",
+        "heading": "<p>Built to <strong>Work.</strong></p>",
+        "body": "<p>At Northern Gym Equipment, Built to Work is more than a slogan. It's the standard we hold ourselves to.</p><p>It defines how we build our products, support our customers, and run our business. We believe there are no shortcuts, in fitness or in life. Progress comes from consistency, attention to detail, and showing up every day.</p><p>That's why every product we create is built to withstand real training. Whether you're investing in home gym equipment, outfitting a commercial facility, or adding to your strength setup, our equipment is designed to perform session after session, year after year.</p>",
+        "closer": "<p>Northern. <strong>Built to Work.</strong></p>"
+      }
+    },
+    "about_values": {
+      "type": "block-about-values",
+      "blocks": {
+        "value_1": {
+          "type": "value",
+          "settings": {
+            "title": "Walk the Talk",
+            "kicker": "We know our community best by keeping our feet on the gym floor.",
+            "body": "<p>Fitness is part of who we are. We train, we listen, and we stay connected to the people we build for. By working closely with our community and ambassadors, we create products and experiences that genuinely support real training.</p>"
+          }
+        },
+        "value_2": {
+          "type": "value",
+          "settings": {
+            "title": "Sweat the Small Stuff",
+            "kicker": "The difference is in the details; we find them so you don't have to.",
+            "body": "<p>The smallest details make the biggest difference. From product design to customer service, we pay attention to what others overlook, so our customers can focus on their training with confidence.</p>"
+          }
+        },
+        "value_3": {
+          "type": "value",
+          "settings": {
+            "title": "Do the Work",
+            "kicker": "When it all comes down to it, nothing outworks hard work.",
+            "body": "<p>We believe results come from showing up and putting in the effort. That's why we work hard to deliver quality products, honest advice, and dependable service, so our customers can focus on doing the work. No piece of equipment can do the work for you, but the right equipment should help you do your best work.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "value_1",
+        "value_2",
+        "value_3"
+      ],
+      "settings": {
+        "eyebrow": "What We Stand For",
+        "heading": "Our Brand Values"
+      }
+    },
+    "about_closer": {
+      "type": "block-about-closer",
+      "settings": {
+        "heading": "<p>Northern. <strong>Built to Work.</strong></p>"
+      }
+    }
+  },
+  "order": [
+    "about_hero",
+    "about_intro",
+    "about_story",
+    "about_mission",
+    "about_principle",
+    "about_values",
+    "about_closer"
+  ]
+}

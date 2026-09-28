@@ -1,0 +1,265 @@
+{%- comment -%}
+  ============================================================
+  BUNDLE20 FLASH
+  snippets/bundle20-flash.liquid
+  ============================================================
+
+  The red BUNDLE20 discount line. Single source of truth, used in
+  two places:
+
+    snippets/product-details.liquid   PDP, sits under the black price
+    snippets/product-item.liquid      collection card, under the price
+
+  PDP keeps the red bullet. Cards do not.
+
+  Current wording:
+    PDP    Save £161.40 extra with code BUNDLE20
+    Card   Save £161.40 extra with BUNDLE20
+
+  The card drops "code" to save space in the two-across mobile grid.
+
+  The saving is 20% of the CURRENT SELLING PRICE, not of the compare-at
+  price. On a bundle already reduced from £896.88 to £806.99, the line
+  reads £161.40 (20% of 806.99), which is the extra the code takes off
+  on top of the existing reduction. That matches how Shopify applies a
+  percentage discount, so the number a customer sees at checkout is the
+  number shown here.
+
+  ------------------------------------------------------------
+  HOW ELIGIBILITY IS DECIDED
+
+  PDP and card both check the PRODUCT'S OWN collections against
+  b20_collection_handles below. Same rule in both places, so a bundle
+  card carries the flash wherever it appears: its bundle collection,
+  Shop All, search, homepage tiles, related products.
+
+  This replaced an earlier version where the card checked which
+  collection PAGE the shopper was on. That was cheaper to render but it
+  silently hid the flash on any collection not in the list. Hex Dumbbell
+  Bundles (hex-dumbbell-bundles) was the example: its products sit in
+  packages-sets and home-dumbbell-sets so the discount applied fine, but
+  the cards said nothing about it.
+
+  Cost of the current approach: product.collections is one lookup per
+  card, so 24 to 48 per collection page render. Collection pages are
+  served from Shopify's full page cache for anonymous traffic, so most
+  visitors never pay it. Cache misses do.
+
+  IF COLLECTION PAGE SPEED BECOMES A PROBLEM, stop using collections for
+  this and put a 'bundle20' tag on the products instead. product.tags is
+  already loaded with the product in a card loop, so it costs nothing.
+  The eligibility check below becomes a single tags test rather than a
+  loop. That also decouples the theme from collection structure
+  entirely. It needs the products tagging in admin first.
+  ------------------------------------------------------------
+  CONFIG. This block is the only thing you need to touch.
+
+  b20_enabled = false  turns the whole feature off everywhere,
+  PDP and collection cards, instantly. Save the file and it is gone.
+  No other file needs changing.
+
+  b20_percent must match the actual discount set up in Shopify
+  Discounts. If it changes from 20%, change it here too or the site
+  will quote the wrong number.
+
+  b20_show_on_sale_items = true means bundles that already have a
+  compare-at price still get the flash. Set false to go back to hiding
+  it on anything already reduced.
+
+  ---- WORDING ----
+
+  [amount] is replaced with the cash saving. Use square brackets, not
+  curly ones: a curly brace inside a Liquid string breaks the parser.
+
+  PDP and card are separate on purpose so the card can be shortened for
+  mobile without touching the PDP.
+
+  Keep APOSTROPHES OUT of the PDP label: it is dropped into a
+  JavaScript string and an apostrophe will break it.
+
+  b20_card_label_range is used on cards showing a "From £x" price. A
+  cash figure there would have to be based on the cheapest variant, so
+  it would understate the saving on every other variant.
+
+  Shorter card options if mobile is still tight:
+    'Extra 20% with BUNDLE20'
+    '[amount] off with BUNDLE20'
+
+  ---- COLLECTIONS ----
+
+  b20_collection_handles is the list that decides eligibility. It is
+  deliberately identical to the collections the BUNDLE20 discount itself
+  targets in Shopify Discounts, checked 10/09/26.
+
+  DO NOT add a collection here that is not on the discount. The site
+  would promise a saving that does not apply at checkout. Add it to the
+  discount first, then here.
+
+  b20_pdp_gap_below is the space between the flash and the USP strip
+  (In Stock / Express Delivery / Lift Now Pay Later) underneath it.
+  ------------------------------------------------------------
+{%- endcomment -%}
+
+{%- assign b20_enabled            = false -%}
+{%- assign b20_percent            = 20 -%}
+{%- assign b20_show_on_pdp        = true -%}
+{%- assign b20_show_on_cards      = true -%}
+{%- assign b20_show_on_sale_items = true -%}
+{%- assign b20_pdp_gap_below      = '20px' -%}
+
+{%- assign b20_pdp_label        = 'Save [amount] extra with code BUNDLE20' -%}
+{%- assign b20_card_label       = 'Save [amount] extra with BUNDLE20' -%}
+{%- assign b20_card_label_range = 'Save 20% extra with BUNDLE20' -%}
+
+{%- assign b20_collection_handles = 'packages-sets,home-dumbbell-sets,yoga-pilates-bundles,kettlebell-bundles,barbell-bundles,conditioning-bundles' -%}
+
+{%- comment -%} ---------- end of config, logic below ---------- {%- endcomment -%}
+
+{%- comment -%}
+  Expected params:
+    b20_context   'pdp' or 'card'
+    b20_product   the product object
+    b20_price     selling price in cents to base the maths on
+    b20_on_sale   true if the product already has a compare-at price
+    b20_is_range  card only, true when the card shows a 'From' price
+{%- endcomment -%}
+
+{%- assign b20_render     = false -%}
+{%- assign b20_price_ok   = false -%}
+{%- assign b20_context_ok = false -%}
+
+{%- if b20_price > 0 -%}
+  {%- if b20_show_on_sale_items or b20_on_sale != true -%}
+    {%- assign b20_price_ok = true -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if b20_context == 'pdp' and b20_show_on_pdp -%}
+  {%- assign b20_context_ok = true -%}
+{%- elsif b20_context == 'card' and b20_show_on_cards -%}
+  {%- assign b20_context_ok = true -%}
+{%- endif -%}
+
+{%- if b20_enabled and b20_price_ok and b20_context_ok -%}
+
+  {%- comment -%}
+    One rule for both contexts. Breaks on the first match, so a product
+    sitting in several bundle collections costs the same as one sitting
+    in a single collection.
+  {%- endcomment -%}
+  {%- assign b20_handles = b20_collection_handles | split: ',' -%}
+
+  {%- for b20_coll in b20_product.collections -%}
+    {%- if b20_handles contains b20_coll.handle -%}
+      {%- assign b20_render = true -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+{%- endif -%}
+
+{%- if b20_render -%}
+
+  {%- comment -%}
+    Prices are in cents. Round after applying the multiplier so we never
+    render a fraction of a penny. 20% of 80699 = 16139.8, rounds to
+    16140, renders as £161.40.
+  {%- endcomment -%}
+  {%- assign b20_pct_dec = b20_percent | divided_by: 100.0 -%}
+  {%- assign b20_saving  = b20_price | times: b20_pct_dec | round -%}
+  {%- assign b20_money   = b20_saving | money -%}
+
+  {%- if b20_context == 'pdp' -%}
+
+    {%- comment -%}
+      The label is split on [amount] so the two halves can wrap around the
+      live figure in x-text. Anything before [amount] becomes the prefix,
+      anything after becomes the suffix, so the wording stays editable in
+      one place at the top of this file.
+
+      x-text keeps the saving in step with variant switching, and reads
+      selectedVariant.price, which is the SELLING price, so a bundle with
+      a compare-at price gets 20% of what it is actually sold for. No
+      range problem here because a variant is always selected.
+
+      It deliberately ignores the PDP add-on total (Arm Blaster etc):
+      BUNDLE20 is scoped to the bundle collections only, so an add-on is
+      not discounted and folding it in would overstate the saving. Do not
+      wire this to the product:addons:totals event. That event drives the
+      main price above, and the two numbers are correctly different.
+
+      Falls back to the Liquid figure before Alpine boots, so there is no
+      flash of an empty or wrong value.
+
+      Base class kept as .bogohp-flash on purpose. Renaming risks losing
+      an override sitting in custom.css (178KB, not grepped yet). The
+      spacing lives on a --pdp modifier rather than the base class so it
+      cannot leak into anything else already using .bogohp-flash.
+    {%- endcomment -%}
+
+    {%- assign b20_parts = b20_pdp_label | split: '[amount]' -%}
+    {%- assign b20_pre  = b20_parts[0] -%}
+    {%- assign b20_post = b20_parts[1] | default: '' -%}
+    {%- assign b20_pdp_text = b20_pdp_label | replace: '[amount]', b20_money -%}
+
+    <div class="bogohp-flash bogohp-flash--pdp">
+      <span class="bogohp-flash__dot" aria-hidden="true"></span>
+      <span
+        class="bogohp-flash__text"
+        x-text="'{{ b20_pre }}' + formatPrice(Math.round((selectedVariant &amp;&amp; selectedVariant.price ? selectedVariant.price : {{ b20_price }}) * {{ b20_pct_dec }})) + '{{ b20_post }}'"
+      >{{ b20_pdp_text }}</span>
+    </div>
+    <style>
+      .bogohp-flash {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        flex-wrap: wrap;
+        width: fit-content;
+        max-width: 100%;
+        color: #BE0707;
+        font-family: 'Roboto Mono', ui-monospace, monospace;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        line-height: 1.3;
+      }
+      .bogohp-flash__dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #BE0707;
+        flex: 0 0 auto;
+      }
+      .bogohp-flash--pdp {
+        margin-bottom: {{ b20_pdp_gap_below }};
+      }
+    </style>
+
+  {%- else -%}
+
+    {%- comment -%}
+      Utility classes only, no <style> tag. This snippet renders once per
+      card, so an inline style block here would repeat 24 to 48 times per
+      collection page for no benefit. text-red is the theme class already
+      used for the strikethrough 'was' price.
+
+      No Alpine here. Cards have no variant switcher, so a static Liquid
+      figure is correct and costs nothing at runtime.
+
+      text-balance spreads the wrap evenly across lines rather than
+      orphaning a single word, which is what makes a three line label
+      look worst in a two-across mobile grid.
+    {%- endcomment -%}
+
+    {%- if b20_is_range -%}
+      {%- assign b20_card_text = b20_card_label_range -%}
+    {%- else -%}
+      {%- assign b20_card_text = b20_card_label | replace: '[amount]', b20_money -%}
+    {%- endif -%}
+
+    <p class="bundle20-card-flash text-red text-xs font-normal leading-tight text-balance">{{ b20_card_text }}</p>
+
+  {%- endif -%}
+
+{%- endif -%}

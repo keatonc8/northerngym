@@ -1,0 +1,115 @@
+{% for block in section.blocks %}
+   {% case block.type %}
+      {% when 'image_gallery' %}
+         {% comment %}Image Gallery{% endcomment %}
+         {% assign image_gallery_items = product.metafields.northerngym.smart_image_gallery.value %}
+         {% assign image_gallery_items_mobile = product.metafields.northerngym.smart_image_gallery_mobile.value %}
+         {% assign both_image_gallery_values = false %}
+         {% if image_gallery_items != blank and image_gallery_items_mobile != blank %}
+            {% assign both_image_gallery_values = true %}
+         {% endif %}
+         {% if image_gallery_items != blank %}
+            <div class="{% if image_gallery_items_mobile != blank %}hidden sm:block{% endif %}">
+               {% render 'image-carousel', carousel_items: image_gallery_items %}
+            </div>
+         {% endif %}
+         {% if image_gallery_items_mobile != blank %}
+            <div class="{% if image_gallery_items != blank %}sm:hidden{% endif %}">
+               {% render 'image-carousel', carousel_items: image_gallery_items_mobile %}
+            </div>
+         {% endif %}
+      
+      {% when 'ambassador_guides' %}
+         {% comment %}Ambassador Guides{% endcomment %}
+         {% assign article_handles = product.metafields.northerngym.smart_ambassador_guides.value %}
+         {% assign ambassador_guide_heading = block.settings.ambassadors_heading %}
+         {% assign ambassador_guide_paragraph = product.title %}
+         {% if article_handles != blank %}
+            {% render 'ambassador-guides'
+               heading: ambassador_guide_heading,
+               paragraph: ambassador_guide_paragraph,
+               article_handles: article_handles,
+            %}
+         {% endif %}
+
+      {% when 'image_tooltips' %}
+         {% comment %}Image Tooltips{% endcomment %}
+         {% assign image_tooltip_items = product.metafields.northerngym.smart_image_tooltips.value %}
+         {% if image_tooltip_items != blank %}
+            {% for image_tooltip in image_tooltip_items %}
+               {% render 'image-tooltip', image_tooltip: image_tooltip %}
+            {% endfor %}
+         {% endif %}
+
+      {% when 'repeater_blocks' %}
+         {% comment %}Repeater Blocks{% endcomment %}
+         {% assign repeater_blocks_items = product.metafields.northerngym.smart_repeater_blocks.value %}
+         {% if repeater_blocks_items != blank %}
+            {% render 'repeater-blocks', repeater_blocks_items: repeater_blocks_items %}
+         {% endif %}
+   {% endcase %}
+{% endfor %}
+
+{% schema %}
+{
+   "name": "Product - Smart Content",
+   "settings": [
+      {
+         "type": "paragraph",
+         "content": "This section displays dynamic content based on the product's metafield values. Content types include image galleries, ambassador guides, image tooltips, and repeater blocks. Blocks automatically show or hide based on available content, helping keep the product page clean while supporting optional, contextual content when needed."
+      }
+   ],
+   "blocks": [
+      {
+         "type": "image_gallery",
+         "name": "Image Gallery",
+         "settings": [
+            {
+               "type": "paragraph",
+               "content": "Product Metafield: 'Smart - Image Gallery'"
+            }
+         ]
+      },
+      {
+         "type": "ambassador_guides",
+         "name": "Ambassadors Guides",
+         "settings": [
+            {
+               "type": "paragraph",
+               "content": "Product Metafield: 'Smart - Ambassador Guides'"
+            },
+            {
+               "type": "text",
+               "id": "ambassadors_heading",
+               "label": "Ambassador Guides - Heading",
+               "default": "Ambassador Excercise Guide"
+            }
+         ]
+      },
+      {
+         "type": "image_tooltips",
+         "name": "Image Tooltips",
+         "settings": [
+            {
+               "type": "paragraph",
+               "content": "Product Metafield: 'Smart - Image Tooltips'"
+            }
+         ]
+      },
+      {
+         "type": "repeater_blocks",
+         "name": "Repeater Blocks",
+         "settings": [
+            {
+               "type": "paragraph",
+               "content": "Product Metafield: 'Smart - Repeater Blocks'"
+            }
+         ]
+      }
+   ],
+   "presets": [{
+      "name": "Product - Smart Content",
+      "blocks": []
+   }]
+}
+{% endschema %}

@@ -1,0 +1,55 @@
+{% assign buttonText = buttonText | default: 'Submit' %}
+{% assign messagePlaceholder = messagePlaceholder | default: 'How can we help?' %}
+
+{% form 'contact' %}
+      {% if form.posted_successfully? %}
+         <div class="heading-04 mb-6">
+            Thank you contacting us
+         </div>
+      {% endif %}
+      {% if form.errors? %}
+         <div class="heading-04 body-alt-large mb-6">
+            {{ form.errors | default_errors }}
+         </div>
+      {% endif %}
+      <div class="flex flex-col -my-3 gap-4">
+         <div class="flex flex-col md:flex-row -mx-3">
+            <div class="w-full md:w-5/12 flex flex-col px-3">
+               <label class="form-label" for="ContactFormFirstName">
+                  First Name*
+               </label>
+               <input type="text" id="ContactFormFirstName" name="contact[firstname]" placeholder="First Name" class="contact-form-input" required="required" >
+            </div>
+            <div class="w-full md:w-7/12 flex flex-col px-3">
+               <label class="form-label" for="ContactFormLastName">
+                  Last Name*
+               </label>
+               <input type="text" id="ContactFormLastName" name="contact[lastname]" placeholder="Last Name" class="contact-form-input" required="required">
+            </div>
+         </div>
+         <div class="flex flex-col">
+            <label class="form-label" for="ContactFormEmail">
+               Email*
+            </label>
+            <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="Email Address" class="contact-form-input" required="required">
+         </div>
+         <div class="flex flex-col">
+            <label class="form-label" for="ContactFormMessage">
+               Message*
+            </label>
+            <textarea rows="4" id="ContactFormMessage" name="contact[body]" placeholder="{{ messagePlaceholder }}" class="contact-form-input" required="required"></textarea>
+         </div>
+         {% if legalText != blank %}
+            <div class=">
+               <input type="checkbox" id="ContactFormPolicy" name="contact[policy]" value="Policy" required="required">
+               <label class="form-label" for="ContactFormPolicy">
+                  {{ legalText }}
+               </label>
+            </div>
+         {% endif %}
+         <div>
+            <input type="submit" value="{{ buttonText }}" required class="button">
+         </div>
+      </div>
+{% endform %}
+

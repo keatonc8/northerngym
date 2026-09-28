@@ -1,0 +1,314 @@
+<div class="abu-scope">
+<style>
+  /* Uses this theme's own design tokens (already loaded globally via fonts.css / custom.css) —
+     Aktiv Grotesk Ex for headings, Inter for body, Roboto Mono for meta labels,
+     #212121 black, #f3f3f3 silver, and the #FEED06 accent already used on the promo ticker. */
+  .abu-scope{
+    --abu-accent:#FEED06;
+    --abu-black:var(--color-black, #212121);
+    --abu-silver:var(--color-silver, #f3f3f3);
+    --abu-grey:var(--color-grey, #747474);
+    --abu-heading-font:var(--font-heading, 'Aktiv Grotesk Ex', sans-serif);
+    --abu-body-font:var(--font-body, 'Inter', sans-serif);
+    --abu-mono-font:var(--font-mono, 'Roboto Mono', monospace);
+    font-family:var(--abu-body-font);
+    color:var(--abu-black);
+    background:#ffffff;
+    line-height:1.5;
+    display:block;
+  }
+  .abu-scope *{box-sizing:border-box;}
+  .abu-scope img{max-width:100%;display:block;}
+  .abu-scope p{margin:0;max-width:60ch;}
+  .abu-scope p + p{margin-top:1.1em;}
+
+  .abu-scope .abu-container{width:100%;max-width:1920px;margin-inline:auto;padding-inline:1rem;}
+  @media (min-width:768px){ .abu-scope .abu-container{padding-inline:2rem;} }
+
+  .abu-scope .abu-rhythm{margin-block:4rem;}
+  @media (min-width:768px){ .abu-scope .abu-rhythm{margin-block:6.25rem;} }
+  @media (min-width:1280px){ .abu-scope .abu-rhythm{margin-block:9rem;} }
+
+  .abu-scope .abu-rhythm-sm{margin-block:3rem;}
+  @media (min-width:768px){ .abu-scope .abu-rhythm-sm{margin-block:4.5rem;} }
+
+  /* headings — normal weight, tight leading, this theme's actual type scale */
+  .abu-scope h1,.abu-scope h2,.abu-scope h3,.abu-scope .abu-heading{
+    font-family:var(--abu-heading-font);
+    font-weight:400;
+    line-height:1.25;
+    letter-spacing:0;
+    margin:0;
+  }
+  .abu-scope .abu-h01{font-size:2.75rem;line-height:1;}
+  @media (min-width:1024px){ .abu-scope .abu-h01{font-size:5.5rem;} }
+  .abu-scope .abu-h02{font-size:1.75rem;}
+  @media (min-width:768px){ .abu-scope .abu-h02{font-size:2.75rem;} }
+  .abu-scope .abu-h03{font-size:1.5rem;}
+  @media (min-width:768px){ .abu-scope .abu-h03{font-size:2.125rem;} }
+  .abu-scope .abu-h04{font-size:1.25rem;}
+  @media (min-width:768px){ .abu-scope .abu-h04{font-size:1.5rem;} }
+
+  /* meta / mono label, e.g. captions, numbering — matches this theme's price/countdown treatment */
+  .abu-scope .abu-meta{
+    font-family:var(--abu-mono-font);
+    font-size:0.75rem;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--abu-grey);
+  }
+
+  /* the site's own emphasis technique: bold text inside a heading renders outlined, not filled */
+  .abu-scope strong{
+    font-weight:400;
+    color:transparent;
+    -webkit-text-stroke:2px currentColor;
+  }
+  .abu-scope strong.abu-accent-stroke{ -webkit-text-stroke-color:var(--abu-accent); }
+  .abu-scope .abu-accent-fill{ color:var(--abu-accent); font-weight:400; -webkit-text-stroke:0; }
+
+  .abu-scope .abu-prose{ color:var(--abu-black); max-width:34rem; }
+  .abu-scope .abu-prose.abu-on-dark{ color:rgba(255,255,255,0.82); }
+
+  /* the About page's real two-column layout: heading left, divider line, copy right */
+  .abu-scope .abu-divide{
+    display:flex;
+    flex-direction:column;
+    gap:2rem;
+    justify-content:space-between;
+  }
+  @media (min-width:1024px){
+    .abu-scope .abu-divide{flex-direction:row;gap:0;}
+    .abu-scope .abu-divide > .abu-divide-a{width:50%;padding-right:3rem;}
+    .abu-scope .abu-divide > .abu-divide-b{width:50%;padding-left:3rem;border-left:1px solid var(--abu-silver);}
+  }
+
+  /* simple, calm image placeholder — no gradients, no diagonal pattern */
+  .abu-scope .abu-img-slot{
+    position:relative;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--abu-silver);
+    border:1px solid rgba(33,33,33,0.14);
+    color:var(--abu-grey);
+    text-align:center;
+  }
+  .abu-scope .abu-img-slot .abu-slot-inner{padding:24px;}
+  .abu-scope .abu-img-slot svg{width:28px;height:28px;opacity:0.5;margin:0 auto 10px;}
+  .abu-scope .abu-img-slot .abu-slot-label{
+    font-family:var(--abu-body-font);
+    font-weight:600;
+    font-size:12px;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    color:var(--abu-black);
+  }
+  .abu-scope .abu-img-slot .abu-slot-sub{
+    font-size:12px;
+    color:var(--abu-grey);
+    margin-top:4px;
+    max-width:220px;
+  }
+  .abu-scope .abu-img-slot.abu-dark{ background:#1a1a1a; border-color:rgba(255,255,255,0.16); color:rgba(255,255,255,0.55); }
+  .abu-scope .abu-img-slot.abu-dark .abu-slot-label{ color:#fff; }
+  .abu-scope .abu-img-slot.abu-dark .abu-slot-sub{ color:rgba(255,255,255,0.45); }
+  .abu-scope .abu-img-slot.abu-hero{aspect-ratio:16/7;}
+  .abu-scope .abu-img-slot.abu-tall{aspect-ratio:4/5;}
+  .abu-scope .abu-img-slot.abu-portrait{aspect-ratio:4/5;}
+  .abu-scope .abu-img-slot.abu-wide{aspect-ratio:21/9;}
+
+  /* hero */
+  .abu-scope .abu-hero{ background:#111111; color:#ffffff; }
+  .abu-scope .abu-hero-copy{ padding:4.5rem 0 3rem; max-width:56rem; }
+  .abu-scope .abu-hero-lede{ margin-top:1.25rem; font-size:1.125rem; color:rgba(255,255,255,0.75); }
+
+  /* founders / repeater-style rows */
+  .abu-scope .abu-row{
+    display:flex; flex-direction:column; gap:2.5rem; align-items:center;
+  }
+  @media (min-width:1024px){
+    .abu-scope .abu-row{flex-direction:row;gap:4rem;}
+    .abu-scope .abu-row.abu-row-rev{flex-direction:row-reverse;}
+    .abu-scope .abu-row > *{width:50%;}
+  }
+  .abu-scope .abu-caption{
+    position:absolute; bottom:14px; left:14px;
+    background:rgba(255,255,255,0.9);
+    padding:5px 10px;
+  }
+
+  /* guiding principle band */
+  .abu-scope .abu-principle{ background:#111111; color:#ffffff; text-align:center; }
+  .abu-scope .abu-principle .abu-h01{ color:#fff; }
+  .abu-scope .abu-principle-stack{
+    max-width:38rem; margin:3rem auto 0; padding-top:2.5rem;
+    border-top:1px solid rgba(255,255,255,0.16);
+  }
+  .abu-scope .abu-principle-stack .abu-line{ margin:0.6rem 0; }
+  .abu-scope .abu-principle-close{ margin-top:3.5rem; }
+
+  /* values — thin dividers, mono numbering, no boxed cards */
+  .abu-scope .abu-values-list{ margin-top:2.5rem; }
+  .abu-scope .abu-value-row{
+    display:grid; grid-template-columns:1fr; gap:1rem;
+    padding:2rem 0; border-top:1px solid var(--abu-silver);
+  }
+  .abu-scope .abu-value-row:last-child{ border-bottom:1px solid var(--abu-silver); }
+  @media (min-width:900px){
+    .abu-scope .abu-value-row{ grid-template-columns:0.5fr 1.5fr 2fr; align-items:baseline; gap:2rem; }
+  }
+  .abu-scope .abu-value-kicker{ color:var(--abu-grey); font-size:0.95rem; margin-top:0.35rem; }
+  .abu-scope .abu-value-row p{ color:var(--abu-black); max-width:44ch; }
+
+  /* real pill button, matching .button-black / .button-yellow */
+  .abu-scope .abu-btn{
+    display:inline-block;
+    border-radius:999px;
+    border:1px solid var(--abu-black);
+    background:var(--abu-black);
+    color:#fff;
+    padding:0.75rem 2rem;
+    font-family:var(--abu-body-font);
+    font-weight:700;
+    font-size:0.875rem;
+    text-transform:capitalize;
+    text-decoration:none;
+  }
+  .abu-scope .abu-btn.abu-btn-yellow{ border-color:var(--abu-accent); background:var(--abu-accent); color:var(--abu-black); }
+</style>
+
+<div class="abu-hero">
+  <div class="abu-container">
+    <div class="abu-hero-copy">
+      <span class="abu-meta">About Us</span>
+      <h1 class="abu-h01" style="margin-top:0.75rem;">Northern. <strong class="abu-accent-stroke">Built to Work.</strong></h1>
+      <p class="abu-hero-lede">Fitness is easy. Just work really hard.</p>
+    </div>
+  </div>
+  <div class="abu-img-slot abu-hero abu-dark">
+    <div class="abu-slot-inner">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="8.5" cy="10.5" r="1.5"></circle><path d="M21 15l-5-5-9 9"></path></svg>
+      <div class="abu-slot-label">Hero image</div>
+      <div class="abu-slot-sub">Wide action shot — training in the gym or on the shop floor.</div>
+    </div>
+  </div>
+</div>
+
+<div class="abu-container abu-rhythm">
+  <div class="abu-divide">
+    <div class="abu-divide-a">
+      <p class="abu-h03">This is where you give everything you've got to earn everything you get. Then you come back and do it all again tomorrow. No shortcuts. Just honest hard work and proper Northern spirit.</p>
+    </div>
+    <div class="abu-divide-b">
+      <p class="abu-prose">We're proudly based in Manchester, and our northern roots shape everything we do. The North of England has always been built on resilience, honesty, and getting the job done properly. It's a place where hard work matters more than hype, substance matters more than show, and community comes before ego.</p>
+    </div>
+  </div>
+</div>
+
+<div class="abu-container abu-rhythm">
+  <div class="abu-row">
+    <div style="position:relative;">
+      <div class="abu-img-slot abu-portrait">
+        <div class="abu-slot-inner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="3.2"></circle><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"></path></svg>
+          <div class="abu-slot-label">Founder portrait</div>
+          <div class="abu-slot-sub">The three brothers, together.</div>
+        </div>
+      </div>
+      <span class="abu-caption abu-meta">Founders — Northern Gym Equipment</span>
+    </div>
+    <div>
+      <span class="abu-meta">Our Story</span>
+      <h2 class="abu-h02" style="margin-top:0.5rem;margin-bottom:1.25rem;">How it started</h2>
+      <p class="abu-prose">Northern Gym Equipment started with three brothers obsessed with fitness. Whether it was running, lifting, competing, or simply pushing themselves to be better, they believed people deserved gym equipment that worked as hard as they did.</p>
+      <p class="abu-prose">What started as a small local business has grown into a nationwide community united by a commitment to self-improvement. A pair of dumbbells became complete gym setups, and a simple idea became lasting progress. Every milestone began with action, and every action moved us forward.</p>
+      <p class="abu-prose">Whether you're building your first home gym or fitting out a commercial facility, our goal remains the same: to provide equipment you can rely on, backed by people you can trust.</p>
+    </div>
+  </div>
+</div>
+
+<div class="abu-container abu-rhythm">
+  <div class="abu-row abu-row-rev">
+    <div>
+      <div class="abu-img-slot abu-tall">
+        <div class="abu-slot-inner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="8.5" cy="10.5" r="1.5"></circle><path d="M21 15l-5-5-9 9"></path></svg>
+          <div class="abu-slot-label">Image</div>
+          <div class="abu-slot-sub">Equipment close-up or training in progress.</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <span class="abu-meta">Our Mission</span>
+      <h2 class="abu-h02" style="margin-top:0.5rem;margin-bottom:1.25rem;">Make fitness easier, so people can work harder.</h2>
+      <p class="abu-prose">Fitness shouldn't be complicated. Too often it's buried beneath trends, gimmicks, and unnecessary noise. Our mission is to simplify fitness, making it easier for more people to train with confidence and consistency.</p>
+      <p class="abu-prose">We do that by building high-quality gym equipment, creating honest educational content, and delivering customer service that genuinely supports our community.</p>
+      <p class="abu-prose">We take care of the details so our customers can focus on what matters most: putting in the work.</p>
+    </div>
+  </div>
+</div>
+
+<div class="abu-principle abu-rhythm" style="padding:5rem 0;margin-bottom:0;">
+  <div class="abu-container">
+    <span class="abu-meta" style="color:rgba(255,255,255,0.55);">Our Guiding Principle</span>
+    <h2 class="abu-h01" style="margin-top:0.75rem;">Built to <strong class="abu-accent-stroke">Work.</strong></h2>
+    <div class="abu-prose abu-on-dark" style="max-width:38rem;margin:2rem auto 0;">
+      <p>At Northern Gym Equipment, Built to Work is more than a slogan. It's the standard we hold ourselves to.</p>
+      <p>It defines how we build our products, support our customers, and run our business. We believe there are no shortcuts, in fitness or in life. Progress comes from consistency, attention to detail, and showing up every day.</p>
+      <p>That's why every product we create is built to withstand real training. Whether you're investing in home gym equipment, outfitting a commercial facility, or adding to your strength setup, our equipment is designed to perform session after session, year after year.</p>
+    </div>
+    <div class="abu-principle-stack">
+      <p class="abu-h04 abu-line">But Built to Work isn't just about the equipment.</p>
+      <p class="abu-h04 abu-line abu-accent-fill">It's about us.</p>
+      <p class="abu-prose abu-on-dark" style="margin:1.5rem auto;">It's our commitment to building products that last, giving honest advice, delivering dependable service, and earning the trust of our community.</p>
+      <p class="abu-h04 abu-line" style="margin-top:1.5rem;">The best equipment won't do the work for you.</p>
+      <p class="abu-h04 abu-line abu-accent-fill">It simply helps you do your best work.</p>
+    </div>
+    <div class="abu-principle-close abu-h02">Northern. <span class="abu-accent-fill">Built to Work.</span></div>
+  </div>
+</div>
+
+<div class="abu-container abu-rhythm">
+  <span class="abu-meta">What We Stand For</span>
+  <h2 class="abu-h02" style="margin-top:0.5rem;">Our Brand Values</h2>
+  <div class="abu-values-list">
+    <div class="abu-value-row">
+      <span class="abu-meta">01</span>
+      <div>
+        <h3 class="abu-h04">Walk the Talk</h3>
+        <p class="abu-value-kicker">We know our community best by keeping our feet on the gym floor.</p>
+      </div>
+      <p>Fitness is part of who we are. We train, we listen, and we stay connected to the people we build for. By working closely with our community and ambassadors, we create products and experiences that genuinely support real training.</p>
+    </div>
+    <div class="abu-value-row">
+      <span class="abu-meta">02</span>
+      <div>
+        <h3 class="abu-h04">Sweat the Small Stuff</h3>
+        <p class="abu-value-kicker">The difference is in the details; we find them so you don't have to.</p>
+      </div>
+      <p>The smallest details make the biggest difference. From product design to customer service, we pay attention to what others overlook, so our customers can focus on their training with confidence.</p>
+    </div>
+    <div class="abu-value-row">
+      <span class="abu-meta">03</span>
+      <div>
+        <h3 class="abu-h04">Do the Work</h3>
+        <p class="abu-value-kicker">When it all comes down to it, nothing outworks hard work.</p>
+      </div>
+      <p>We believe results come from showing up and putting in the effort. That's why we work hard to deliver quality products, honest advice, and dependable service, so our customers can focus on doing the work. No piece of equipment can do the work for you, but the right equipment should help you do your best work.</p>
+    </div>
+  </div>
+</div>
+
+<div class="abu-container abu-rhythm" style="text-align:center;">
+  <h2 class="abu-h02">Northern. <strong class="abu-accent-stroke">Built to Work.</strong></h2>
+</div>
+</div>
+
+{% schema %}
+{
+  "name": "About Us (Custom)",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,61 @@
+{% if article_handle != blank %}
+   {% assign article_handle = article_handle | strip %}
+   {% unless article_handle contains 'news/' %}
+      {% assign article_handle = article_handle | prepend: 'news/' %}
+   {% endunless %}
+   {% assign blog_item = articles[article_handle] %}
+{% endif %}
+
+{% assign blog_link = blog_item.url %}
+{% assign blog_title = blog_item.title %}
+{% assign blog_image = blog_item.image %}
+
+{% assign is_featured = is_featured | default: false %}
+
+{% assign day = blog_item.created_at | date: "%-d" %}
+{% assign month_year = blog_item.created_at | date: "%B %Y" %}
+
+{% case day %}
+  {% when '1' or '21' or '31' %}
+    {% assign day_suffix = 'st' %}
+  {% when '2' or '22' %}
+    {% assign day_suffix = 'nd' %}
+  {% when '3' or '23' %}
+    {% assign day_suffix = 'rd' %}
+  {% else %}
+    {% assign day_suffix = 'th' %}
+{% endcase %}
+
+{% assign blog_date = day | append: day_suffix | append: ' ' | append: month_year %}
+
+<a href="{{ blog_link }}" class="flex flex-col gap-3 {% if is_featured %}h-auto{% else %}h-full{% endif %} group">
+   <div class="aspect-w-16 aspect-h-9 overflow-hidden {% if is_featured %}-mx-4 md:-mx-8 lg:mx-0{% endif %}">
+      {% if blog_image %}
+         {% render 'responsive-image',
+            image_object: blog_image,
+            size: 'half',
+            class: 'group-hover:scale-105 duration-300'
+         %}
+      {% else %}
+         {% render 'image-fallback' %}
+      {% endif %}
+      {% if is_featured %}
+         <div class="bg-black text-white heading-05 text-14 py-2 px-3 absolute top-2.5 left-2.5 w-max h-max">
+            Featured
+         </div>
+      {% endif %}
+   </div>
+   <div class="flex flex-col gap-6 justify-between h-full">
+      <div class="flex flex-col gap-2">
+         <p class="body-03 text-grey">
+            {{ blog_date }}
+         </p>
+         <p class="body-01 whitespace-normal">
+            {{ blog_title }}
+         </p>
+      </div>
+      <p class="font-bold underline underline-offset-2 group-hover:text-yellow duration-300">
+         Find Out More
+      </p>
+   </div>
+</a>

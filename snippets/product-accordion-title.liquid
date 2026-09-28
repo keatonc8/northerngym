@@ -1,0 +1,22 @@
+{% if title == blank %}
+    <p>[Error] Please add a title in the snippet setup</p>
+{% endif %}
+
+{% if index == blank %}
+    <p>[Error] Please add an index in the snippet setup</p>
+{% endif %}
+
+{% if title != blank or index != blank %}
+    <button type="button" class="w-full mb-2 text-left heading-05 duration-300" @click="selected !== {{ index }} ? selected = {{ index }} : selected = null">
+        <div class="flex items-center justify-between">
+            <p class="body-01">
+                {{ title }}
+            </p>
+            <div class="absolute right-0 pr-4">
+                <div class="duration-300" style="transform: rotate(0deg);" x-bind:style="selected != {{ index }} ? 'transform: rotate(0deg);' : 'transform: rotate(180deg);' ">
+                    {% render 'icons', icon: 'arrow', class: 'w-3' %}
+                </div>
+            </div>
+        </div>
+    </button>
+{% endif %}

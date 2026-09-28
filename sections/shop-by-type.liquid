@@ -1,0 +1,216 @@
+{% comment %}
+  Shop By Type Nav Section
+  Reuses the Weight Nav styling but built as editable blocks.
+  Add / edit / reorder buttons in the theme editor. Each button block
+  has a label and a link. Optional "Limit to collection handles" setting
+  hides the section on any page whose collection handle is not listed.
+{% endcomment %}
+
+{% assign show_nav = true %}
+
+{% comment %} Optional: only show on specific collection handles {% endcomment %}
+{% if section.settings.limit_handles != blank %}
+  {% assign show_nav = false %}
+  {% assign allowed = section.settings.limit_handles | split: ',' %}
+  {% for h in allowed %}
+    {% assign clean = h | strip %}
+    {% if collection.handle == clean %}
+      {% assign show_nav = true %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if show_nav and section.blocks.size > 0 %}
+<div class="sbt-nav-outer">
+
+  {% if section.settings.heading != blank %}
+    <p class="sbt-nav-heading">{{ section.settings.heading }}</p>
+  {% endif %}
+
+  <div class="sbt-nav-scroll-wrapper">
+    <div class="sbt-nav" role="navigation" aria-label="{{ section.settings.heading | escape }}">
+      {% for block in section.blocks %}
+        {% comment %} Derive the target collection handle from the link's last path segment for an exact match {% endcomment %}
+        {% assign link_clean = block.settings.link | split: '?' | first | split: '#' | first | rstrip: '/' %}
+        {% assign link_handle = link_clean | split: '/' | last %}
+        {% assign is_active = false %}
+        {% if collection.handle != blank and link_handle == collection.handle %}
+          {% assign is_active = true %}
+        {% endif %}
+        <a href="{{ block.settings.link }}"
+           class="sbt-tile{% if is_active %} sbt-tile--active{% endif %}"
+           {% if is_active %}aria-current="page"{% endif %}
+           {{ block.shopify_attributes }}>
+          {{ block.settings.label }}
+        </a>
+      {% endfor %}
+    </div>
+    <div class="sbt-nav-fade" aria-hidden="true"></div>
+  </div>
+</div>
+
+<style>
+  .sbt-nav-outer {
+    padding: 20px var(--grid-margin, 20px) 0;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .sbt-nav-heading {
+    margin: 0 0 12px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #757575;
+    text-align: center;
+  }
+  .sbt-nav-scroll-wrapper {
+    position: relative;
+  }
+  .sbt-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding-bottom: 20px;
+  }
+  .sbt-nav-fade {
+    display: none;
+  }
+  .sbt-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 20px;
+    border: 1px solid #d1d1d1;
+    border-radius: 2px;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #111;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+    font-family: inherit;
+  }
+  .sbt-tile:hover {
+    border-color: #111;
+  }
+  .sbt-tile--active {
+    background: #e8e8e8;
+    color: #111;
+    border-color: #999;
+  }
+
+  @media (max-width: 749px) {
+    .sbt-nav-outer {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .sbt-nav-heading {
+      text-align: left;
+      padding-left: 16px;
+    }
+    .sbt-nav-scroll-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+    .sbt-nav {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-left: 16px;
+      padding-right: 48px;
+      padding-bottom: 20px;
+    }
+    .sbt-nav::-webkit-scrollbar {
+      display: none;
+    }
+    .sbt-nav-fade {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 56px;
+      height: calc(100% - 20px);
+      background: linear-gradient(to right, transparent, #ffffff 80%);
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  var nav = document.querySelector('.sbt-nav');
+  var fade = document.querySelector('.sbt-nav-fade');
+  if (!nav || !fade) return;
+  function updateFade() {
+    var atEnd = nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 4;
+    fade.style.opacity = atEnd ? '0' : '1';
+  }
+  nav.addEventListener('scroll', updateFade, { passive: true });
+  updateFade();
+})();
+</script>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "Shop By Type",
+  "tag": "div",
+  "class": "shop-by-type-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by type"
+    },
+    {
+      "type": "text",
+      "id": "limit_handles",
+      "label": "Limit to collection handles (optional)",
+      "info": "Comma-separated collection handles this section should appear on, e.g. racks. Leave blank to show everywhere the section is placed.",
+      "default": "racks"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Button label",
+          "default": "New button"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Shop By Type",
+      "settings": {
+        "heading": "Shop by type",
+        "limit_handles": "racks"
+      },
+      "blocks": [
+        { "type": "button", "settings": { "label": "Dumbbell Racks", "link": "/collections/dumbbell-rack" } },
+        { "type": "button", "settings": { "label": "Kettlebell Racks", "link": "/collections/kettlebell-racks" } },
+        { "type": "button", "settings": { "label": "Plates Racks", "link": "/collections/plate-racks" } },
+        { "type": "button", "settings": { "label": "Barbell Racks", "link": "/collections/barbell-racks" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

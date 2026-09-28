@@ -1,0 +1,25 @@
+{% assign quote = quote | default: block.settings.heading %}
+{% assign name = name | default: block.settings.name %}
+{% assign job_title = job_title | default: block.settings.job_title %}
+
+<div class="flex flex-col gap-8 justify-center text-center max-w-184 mx-auto px-8 relative z-2">
+   {% if quote != blank %}
+      <p class="body-01 !text-24">
+         {{ quote }}
+      </p>
+   {% endif %}
+   {% if name != blank or job_title != blank %}
+      <div class="flex flex-col gap-2">
+         {% if name != blank %}
+            <p class="font-bold">
+               {{ name }}
+            </p>
+         {% endif %}
+         {% if job_title != blank %}
+            <p>
+               {{ job_title }}
+            </p>
+         {% endif %}
+      </div>
+   {% endif %}
+</div>

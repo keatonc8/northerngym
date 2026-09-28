@@ -1,0 +1,209 @@
+{% liquid
+   assign menu = section.settings.menu
+   if localization.market.handle == 'ireland'
+      assign menu = linklists['main-menu-2025-ie']
+   endif
+%}
+{% assign top_menu = section.settings.top_menu %}
+
+{% assign search_placeholder = section.settings.search_placeholder %}
+{% assign search_default_heading = settings.no_search_results_heading %}
+{% assign search_default_products = settings.no_search_results_products %}
+
+<header
+   class="container-full border-b border-silver z-50 sticky top-0 md:relative bg-white"
+   x-data="{
+      cart_count: {{ cart.item_count }},
+      showMenu: false,
+   }"
+   @toggle-menu.window="showMenu = !showMenu;" 
+   @cart-count-updated.window="cart_count = $event.detail"
+>
+   {% if top_menu != blank %}
+      <div class="bg-silver py-3 hidden lg:block">
+         <div class="container">
+            <ul class="flex justify-end -mr-3">
+               {% for link in top_menu.links %}
+                  <li class="border-r border-grey last:border-r-0">
+                     <a href="{{ link.url }}" class="flex gap-2 pt-1 px-3 hover:text-yellow">
+                        {% if link.url == '/account' %}
+                           <span>
+                              {% render 'icons', icon: 'account', class: 'w-4.5' %}
+                           </span>
+                        {% endif %}
+                        <span>
+                           {{ link.title }}
+                        </span>
+                     </a>
+                  </li>
+               {% endfor %}
+            </ul>
+         </div>
+      </div>
+   {% endif %}
+   <div class="bg-white relative py-6 z-2 {% if menu == blank %}lg:py-8{% else %}lg:py-0{% endif %}">
+      <div class="container">
+         <div class="flex justify-between gap-3 items-center">
+            <div class="lg:hidden flex gap-3 justify-start min-w-15">
+               <button class="w-5 h-5 hover:text-yellow cursor-pointer" @click="$dispatch('toggle-menu');" type="button">
+                  {% render 'burger-menu' %}
+               </button>
+               <button @click.prevent="showSearch = !showSearch" class="block w-5 h-5 hover:text-yellow">
+                  <span x-show="!showSearch">
+                     {% render 'icons', icon: 'search', class: 'w-full h-full' %}
+                  </span>
+                  <span x-show="showSearch" x-cloak>
+                     {% render 'icons', icon: 'cross', class: 'w-full h-full' %}
+                  </span>
+               </button>
+            </div>
+            <div class="lg:w-1/8 2xl:w-1/6 relative lg:z-1">
+               <a href="/" class="hover:text-yellow">
+                  {% render 'icons', icon: 'logo', class: 'w-full max-w-32 xs:max-w-38 lg:max-w-28 lg:max-w-38' %}
+               </a>
+            </div>
+            {% if menu != blank %}
+               <div class="hidden lg:flex justify-center body {% if menu.links.size < 7 %}xl:body-01{% endif %} lg:w-3/4">
+                  <ul class="flex">
+                     {% for link in menu.links %}
+                        <li class="flex group">
+                           <a href="{{ link.url }}" class="font-bold px-3 2xl:px-4 py-8 relative after:h-0 hover:after:h-1 after:w-full after:content-[''] after:bottom-0 after:left-0 after:bg-black after:absolute after:duration-300">
+                              {{ link.title }}
+                           </a>
+                           {% if link.links != blank %}
+                              <div class="bg-black/70 absolute top-full w-full h-screen left-0 hidden group-hover:block duration-300 pointer-events-none xl:body-01">
+                                 <div class="bg-white w-full border-t border-silver flex justify-between pointer-events-auto">
+                                    <div class="flex-3 py-6">
+                                       <div class="px-[20%] flex flex-col justify-between gap-16">
+                                          <ul class="flex flex-col flex-wrap max-h-64 gap-4">
+                                             {% for sub_link in link.links %}
+                                                <li>
+                                                   <a href="{{ sub_link.url }}" class="font-bold hover:text-yellow">
+                                                      {{ sub_link.title }}
+                                                   </a>
+                                                </li>
+                                                {% if sub_link.links != blank %}
+                                                   {% for sub_sub_link in sub_link.links %}
+                                                      <li>
+                                                         <a href="{{ sub_sub_link.url }}" class="hover:text-yellow">
+                                                            {{ sub_sub_link.title }}
+                                                         </a>
+                                                      </li>
+                                                   {% endfor %}
+                                                {% endif %}
+                                             {% endfor %}
+                                          </ul>
+                                          <a href="{{ link.url }}" class="link">
+                                             View All products
+                                          </a>
+                                       </div>
+                                    </div>
+                                    {% assign current_collection = link.object %}
+                                    {% assign featured_product = current_collection.metafields.northerngym.mega_menu_featured_product.value | default: current_collection.products[0] %}
+                                    {% assign featured_product_image = featured_product.featured_image %}
+                                    <a href="{{ featured_product.url }}" class="flex-2 flex bg-black text-white hover:text-yellow group/featured">
+                                       <div class="flex-1 bg-silver overflow-hidden">
+                                          <img
+                                             src="{{ featured_product_image | img_url: 'x400' }}"
+                                             alt="{{ featured_product_image.alt }}"
+                                             width="{{ featured_product_image.width }}" 
+                                             height="{{ featured_product_image.height }}"
+                                             class="w-full h-full object-contain group-hover/featured:scale-105 duration-300"
+                                          />
+                                       </div>
+                                       <div class="flex-2 flex px-5 py-6 justify-start items-end body-03 relative overflow-hidden">
+                                          <div class="flex flex-col gap-2 w-full z-2">
+                                             <p class="heading-04">
+                                                {{ featured_product.title }}
+                                             </p>
+                                             <p>
+                                                {% if featured_product.price_min < featured_product.price_max %}<span>From&nbsp;</span>{% endif %}{{ featured_product.price_min | money }}{% if featured_product.price_min < featured_product.compare_at_price_min %}<span class="text-red line-through pl-1">{{ featured_product.compare_at_price_min | money }}</span>{% endif %}
+                                             </p>
+                                          </div>
+                                          {% render 'arrow-gradient', width_class: 'w-75', bottom_class: '-bottom-5', opacity_class: 'opacity-100' %}
+                                       </div>
+                                    </a>
+                                 </div>
+                              </div>
+                           {% endif %}
+                        </li>
+                     {% endfor %}
+                  </ul>
+               </div>
+            {% endif %}
+            <div class="lg:w-1/8 2xl:w-1/6 flex justify-end min-w-15">
+               <div class="flex gap-3 lg:gap-7">
+                  <button @click.prevent="showSearch = true" class="w-5 h-5 hover:text-yellow hidden lg:block">
+                     {% render 'icons', icon: 'search', class: 'w-full h-full' %}
+                  </button>
+                  {% if false %}{% comment %}WISHLIST REMOVAL{% endcomment %}
+                     <a href="/wishlist" class="w-5 h-5 hover:text-yellow">
+                        {% render 'icons', icon: 'heart', class: 'w-full h-full' %}
+                     </a>
+                  {% endif %}
+
+                  <div class="w-5 h-5 group hover:text-yellow relative">
+                    {%- render 'swish', component: 'drawer' -%}
+                  </div>
+
+                  <button @click.prevent="$dispatch('toggle-cart')" href="/cart" class="w-5 h-5 group hover:text-yellow relative">
+                     {% render 'icons', icon: 'basket', class: 'w-full h-full' %}
+                     <span class="bg-black group-hover:bg-yellow text-white group-hover:text-black duration-300 p-1 rounded-full body-03 w-4.5 h-4.5 flex justify-center items-center text-center absolute -top-3 -right-3 text-10"
+                        x-text="cartItemCount"
+                        x-show="cartItemCount > 0"
+                        x-cloak
+                     ></span>
+                  </button>
+               </div>
+            </div>
+            <div class="absolute bg-white inset-0 w-full h-full top-[69px] lg:top-0" x-cloak x-show="showSearch">
+               {% render 'search-input-predictive',
+                  search_placeholder: search_placeholder,
+                  search_default_heading: search_default_heading,
+                  search_default_products: search_default_products
+               %}
+            </div>
+         </div>
+      </div>
+   </div>
+   {% render 'mobile-menu', menu: menu, top_menu: top_menu %}
+</header>
+
+{% schema %}
+{
+   "name": "Header",
+   "class": "z-50",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Top Menu"
+      },
+      {
+         "type": "link_list",
+         "id": "top_menu",
+         "label": "Top Menu"
+      },
+      {
+         "type": "header",
+         "content": "Main Menu"
+      },
+      {
+         "type": "link_list",
+         "id": "menu",
+         "default": "main-menu",
+         "label": "Main Menu"
+      },
+      {
+         "type": "header",
+         "content": "Search"
+      },
+      {
+         "type": "text",
+         "id": "search_placeholder",
+         "default": "What are you looking for?",
+         "label": "Search Placeholder"
+      }
+   ],
+   "blocks": []
+}
+{% endschema %}

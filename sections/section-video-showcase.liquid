@@ -1,0 +1,630 @@
+{% assign section_heading = section.settings.heading %}
+{% assign section_text = section.settings.text %}
+{% assign section_id = 'video-showcase-' | append: section.id %}
+
+{% if section_heading != blank or section_text != blank or section.blocks.size > 0 %}
+  <section
+    id="{{ section_id }}"
+    class="overflow-hidden"
+    style="
+      --section-background-color: {{ section.settings.background_color }};
+      --section-text-color: {{ section.settings.text_color }};
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      background: var(--section-background-color);
+      color: var(--section-text-color);
+    "
+    data-video-showcase
+  >
+    <div class="container-sm">
+      {% if section_heading != blank or section_text != blank %}
+        <div class="mb-6 max-w-[44rem]">
+          {% if section_heading != blank %}
+            <h2 class="heading-03">
+              {{ section_heading }}
+            </h2>
+          {% endif %}
+
+          {% if section_text != blank %}
+            <div class="text-lg mt-4 text-grey">
+              {{ section_text }}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if section.blocks.size > 0 %}
+        <div class="relative">
+          <div
+            class="grid grid-flow-col gap-4 overflow-x-auto pb-2 snap-x snap-mandatory [grid-auto-columns:calc((100%_-_0.5rem)_/_1.5)] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:[grid-auto-columns:calc((100%_-_3rem)_/_4)]"
+            data-track
+          >
+            {% for block in section.blocks %}
+              {% assign poster_image = block.settings.poster_image %}
+              {% assign hosted_video = block.settings.hosted_video %}
+              {% assign external_video = block.settings.external_video %}
+              {% assign has_video = false %}
+
+              {% if poster_image == blank and hosted_video != blank %}
+                {% assign poster_image = hosted_video.preview_image %}
+              {% endif %}
+
+              {% if hosted_video != blank or external_video != blank %}
+                {% assign has_video = true %}
+              {% endif %}
+
+              {% if poster_image != blank or has_video %}
+              <div class="snap-start" {{ block.shopify_attributes }}>
+                <div class="block w-full text-left">
+                  <span class="relative block aspect-[5/8] w-full overflow-hidden rounded-[1rem] bg-[#d9d9d9]">
+                    {% if poster_image != blank %}
+                      {{
+                        poster_image
+                        | image_url: width: 900
+                        | image_tag:
+                          class: 'block h-full w-full object-cover',
+                          loading: 'lazy',
+                          alt: block.settings.title | default: poster_image.alt
+                      }}
+                    {% else %}
+                      <span class="block h-full w-full bg-[#d0d0d0] bg-[linear-gradient(135deg,rgba(255,255,255,0.2),transparent)]"></span>
+                    {% endif %}
+
+                    <span class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.02)_0%,rgba(0,0,0,0.16)_100%)]" aria-hidden="true"></span>
+
+                    {% if has_video or poster_image != blank %}
+                      <button
+                        type="button"
+                        class="absolute inset-0 block h-full w-full cursor-pointer border-0 bg-transparent p-0 appearance-none"
+                        data-open-modal="{{ block.id }}"
+                        aria-label="Open video {{ block.settings.title | escape }}"
+                      >
+                        {% if has_video %}
+                          <span class="pointer-events-none absolute inset-0 flex items-center justify-center">
+                            <svg width="30" height="34" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M18 10.2679C19.3333 11.0377 19.3333 12.9623 18 13.7321L3 22.3923C1.66667 23.1621 0 22.1998 0 20.6603L0 3.33975C0 1.80015 1.66667 0.8379 3 1.6077L18 10.2679Z" fill="transparent" stroke="white" stroke-width="1"/>
+                            </svg>
+                          </span>
+                        {% else %}
+                          <span class="pointer-events-none absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-md">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path d="M6.75 2.25H2.25V6.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M2.25 2.25L7.5 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                              <path d="M11.25 15.75H15.75V11.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M15.75 15.75L10.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                          </span>
+                        {% endif %}
+                      </button>
+                    {% endif %}
+                  </span>
+
+                  <span class="block pt-4 lg:p-4 pb-0">
+                    {% if block.settings.title != blank %}
+                      <span class="m-0 block font-heading text-[1.2rem] leading-[1.1] text-[var(--section-text-color)]">{{ block.settings.title }}</span>
+                    {% endif %}
+
+                    {% if block.settings.caption != blank %}
+                      <span class="mt-[0.45rem] block text-base leading-[1.4] text-[rgba(33,33,33,0.66)]">{{ block.settings.caption }}</span>
+                    {% endif %}
+
+                    {% if block.settings.handle != blank %}
+                      <span class="mt-[0.35rem] block text-base italic leading-[1.3] text-[var(--section-text-color)]">{{ block.settings.handle }}</span>
+                    {% endif %}
+                  </span>
+                </div>
+              </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          <div class="mt-6 flex items-center justify-center md:hidden">
+            <div class="flex items-center justify-center gap-2" data-dots></div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    {% for block in section.blocks %}
+      {% assign poster_image = block.settings.poster_image %}
+      {% assign hosted_video = block.settings.hosted_video %}
+      {% assign external_video = block.settings.external_video %}
+      {% assign video_type = '' %}
+      {% assign embed_url = '' %}
+      {% assign hosted_video_src = '' %}
+
+      {% if hosted_video != blank %}
+        {% assign video_type = 'hosted' %}
+        {% for source in hosted_video.sources %}
+          {% if source.mime_type contains 'mp4' or source.format == 'mp4' %}
+            {% assign hosted_video_src = source.url %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+
+        {% if hosted_video_src == blank and hosted_video.sources.size > 0 %}
+          {% assign hosted_video_src = hosted_video.sources.first.url %}
+        {% endif %}
+
+        {% if poster_image == blank %}
+          {% assign poster_image = hosted_video.preview_image %}
+        {% endif %}
+      {% elsif external_video != blank %}
+        {% assign video_type = 'external' %}
+        {% if external_video.type == 'youtube' %}
+          {% assign embed_url = 'https://www.youtube.com/embed/' | append: external_video.id | append: '?autoplay=1&playsinline=1&rel=0&enablejsapi=1' %}
+        {% elsif external_video.type == 'vimeo' %}
+          {% assign embed_url = 'https://player.vimeo.com/video/' | append: external_video.id | append: '?autoplay=1&playsinline=1' %}
+        {% endif %}
+      {% elsif poster_image != blank %}
+        {% assign video_type = 'image' %}
+      {% endif %}
+
+      {% if video_type != blank %}
+        <div
+          class="fixed inset-0 z-[60] bg-[rgba(17,17,17,0.72)] backdrop-blur-[8px] md:p-8"
+          data-modal="{{ block.id }}"
+          data-video-type="{{ video_type }}"
+          data-video-src="{{ hosted_video_src }}"
+          data-video-embed="{{ embed_url }}"
+          data-video-provider="{% if external_video != blank %}{{ external_video.type }}{% endif %}"
+          data-video-poster="{% if poster_image != blank %}{{ poster_image | image_url: width: 1600 }}{% endif %}"
+          data-image-alt="{{ block.settings.title | default: poster_image.alt | escape }}"
+          hidden
+          aria-hidden="true"
+        >
+        <div class="relative h-full w-full overflow-hidden bg-white md:mx-auto md:h-[min(52rem,calc(100vh-4rem))] md:max-h-[calc(100vh-4rem)] md:w-fit md:rounded-[1.75rem]" role="dialog" aria-modal="true" aria-label="{{ block.settings.title | escape }}">
+          <button
+            type="button"
+            class="absolute right-4 top-4 z-[25] inline-flex h-[3.25rem] w-[3.25rem] items-center justify-center rounded-full border-0 bg-white/95 text-[#111]"
+            data-close-modal
+            aria-label="Close video"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4.5 4.5L13.5 13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M13.5 4.5L4.5 13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <div class="relative h-full w-full md:h-full md:w-auto md:max-h-full md:max-w-full md:aspect-[9/16] md:mx-auto">
+            <div class="h-full w-full" data-video-mount></div>
+
+            {% if block.settings.title != blank or block.settings.caption != blank or block.settings.handle != blank %}
+              <div class="pointer-events-none absolute bottom-4 left-4 right-4 z-10 rounded-[1rem] border border-white/16 bg-[rgba(44,38,32,0.45)] p-4 text-white opacity-0 transition-opacity duration-200 backdrop-blur-[14px]" data-video-meta-overlay>
+                <div class="grid grid-cols-[4.25rem_minmax(0,1fr)] items-center gap-[0.9rem]">
+                  <div>
+                    {% if poster_image != blank %}
+                      {{
+                        poster_image
+                        | image_url: width: 200
+                        | image_tag:
+                          class: 'aspect-square w-full rounded-[0.9rem] bg-white/15 object-cover',
+                          loading: 'lazy',
+                          alt: block.settings.title | default: poster_image.alt
+                      }}
+                    {% else %}
+                      <div class="aspect-square w-full rounded-[0.9rem] bg-white/15"></div>
+                    {% endif %}
+                  </div>
+
+                  <div>
+                    {% if block.settings.title != blank %}
+                      <p class="m-0 text-lg leading-[1.05] text-white">{{ block.settings.title }}</p>
+                    {% endif %}
+
+                    {% if block.settings.caption != blank %}
+                      <p class="mt-[0.35rem] text-base leading-[1.4] text-white/90">{{ block.settings.caption }}</p>
+                    {% endif %}
+
+                    {% if block.settings.handle != blank %}
+                      <p class="mt-[0.2rem] text-base italic leading-[1.3] text-white/95">{{ block.settings.handle }}</p>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </section>
+
+  <script>
+    (() => {
+      const selector = '#{{ section_id }}';
+      const bodyClass = 'overflow-hidden';
+      const dotBaseClasses = ['h-2.5', 'rounded-full', 'border-0', 'transition-[width,background-color]', 'duration-200'];
+
+      function setDotState(dot, isActive) {
+        dot.classList.remove(...dotBaseClasses);
+        dot.classList.add(...dotBaseClasses);
+        dot.style.width = isActive ? '2rem' : '0.625rem';
+        dot.style.backgroundColor = isActive ? '#000000' : 'rgba(33, 33, 33, 0.22)';
+      }
+
+      function postToYouTube(iframe, command) {
+        if (!iframe || !iframe.contentWindow) return;
+        iframe.contentWindow.postMessage(JSON.stringify({
+          event: 'command',
+          func: command,
+          args: []
+        }), '*');
+      }
+
+      function syncHostedVideoToggle(modal) {
+        if (!modal) return;
+        const metaOverlay = modal.querySelector('[data-video-meta-overlay]');
+        if (metaOverlay) {
+          metaOverlay.classList.remove('opacity-0', 'pointer-events-none');
+          metaOverlay.classList.add('opacity-100', 'pointer-events-auto');
+        }
+      }
+
+      function pauseModalMedia(modal) {
+        if (!modal) return;
+        const video = modal.querySelector('video');
+        const iframe = modal.querySelector('iframe');
+        const provider = modal.getAttribute('data-video-provider');
+
+        if (video) video.pause();
+        if (iframe && provider === 'youtube') postToYouTube(iframe, 'pauseVideo');
+      }
+
+      function mountVideo(modal) {
+        if (!modal) return;
+
+        const mount = modal.querySelector('[data-video-mount]');
+        if (!mount || mount.dataset.loaded === 'true') return;
+
+        const videoType = modal.getAttribute('data-video-type');
+        const videoSrc = modal.getAttribute('data-video-src');
+        const videoEmbed = modal.getAttribute('data-video-embed');
+        const videoPoster = modal.getAttribute('data-video-poster');
+        const imageAlt = modal.getAttribute('data-image-alt') || '';
+
+        if (videoType === 'image' && videoPoster) {
+          const image = document.createElement('img');
+          image.className = 'block h-full w-full bg-[#111] object-cover';
+          image.src = videoPoster;
+          image.alt = imageAlt;
+          image.loading = 'eager';
+          mount.appendChild(image);
+          mount.dataset.loaded = 'true';
+          syncHostedVideoToggle(modal);
+          return;
+        }
+
+        if (videoType === 'external' && videoEmbed) {
+          const iframe = document.createElement('iframe');
+          iframe.className = 'block h-full w-full border-0 bg-[#111] object-cover';
+          iframe.src = videoEmbed;
+          iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+          iframe.allowFullscreen = true;
+          iframe.setAttribute('title', 'Video');
+          mount.appendChild(iframe);
+          mount.dataset.loaded = 'true';
+          return;
+        }
+
+        if (videoType === 'hosted' && videoSrc) {
+          const video = document.createElement('video');
+          video.className = 'block h-full w-full bg-[#111] object-cover';
+          video.src = videoSrc;
+          video.controls = true;
+          video.controlsList = 'nofullscreen nodownload';
+          video.autoplay = true;
+          video.playsInline = true;
+          video.preload = 'metadata';
+          if (videoPoster) video.poster = videoPoster;
+
+          video.addEventListener('play', () => syncHostedVideoToggle(modal));
+          video.addEventListener('pause', () => syncHostedVideoToggle(modal));
+          video.addEventListener('ended', () => syncHostedVideoToggle(modal));
+
+          // Safety net for browsers that ignore controlsList="nofullscreen"
+          video.addEventListener('webkitbeginfullscreen', () => {
+            if (video.webkitExitFullscreen) video.webkitExitFullscreen();
+          });
+
+          mount.appendChild(video);
+          mount.dataset.loaded = 'true';
+          syncHostedVideoToggle(modal);
+        }
+      }
+
+      function unmountVideo(modal) {
+        if (!modal) return;
+        const mount = modal.querySelector('[data-video-mount]');
+        if (!mount) return;
+        mount.innerHTML = '';
+        delete mount.dataset.loaded;
+      }
+
+      function initSection(section) {
+        if (!section || section.dataset.videoShowcaseInit === 'true') return;
+        section.dataset.videoShowcaseInit = 'true';
+
+        const track = section.querySelector('[data-track]');
+        const dotsWrap = section.querySelector('[data-dots]');
+        const cards = track ? Array.from(track.children) : [];
+        let activeModal = null;
+        let activeTrigger = null;
+        let pages = [];
+
+        const getMaxScrollLeft = () => {
+          if (!track) return 0;
+          return Math.max(track.scrollWidth - track.clientWidth, 0);
+        };
+
+        const getPagePositions = () => {
+          if (!track || !cards.length) return [];
+          const positions = [];
+          const maxScrollLeft = getMaxScrollLeft();
+
+          cards.forEach((card) => {
+            const left = Math.min(card.offsetLeft, maxScrollLeft);
+            if (!positions.length || Math.abs(positions[positions.length - 1] - left) > 2) {
+              positions.push(left);
+            }
+          });
+
+          if (!positions.length) positions.push(0);
+          if (Math.abs(positions[positions.length - 1] - maxScrollLeft) > 2) positions.push(maxScrollLeft);
+
+          return positions;
+        };
+
+        const buildDots = () => {
+          if (!track || !dotsWrap || !cards.length) return;
+
+          pages = getPagePositions();
+          dotsWrap.innerHTML = '';
+
+          pages.forEach((position, index) => {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = '';
+            setDotState(dot, index === 0);
+            dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+            dot.addEventListener('click', () => {
+              track.scrollTo({ left: position, behavior: 'smooth' });
+            });
+            dotsWrap.appendChild(dot);
+          });
+        };
+
+        const updateDots = () => {
+          if (!track || !dotsWrap || !pages.length) return;
+
+          const scrollLeft = track.scrollLeft;
+          const activeIndex = pages.reduce((bestIndex, position, index) => {
+            const delta = Math.abs(position - scrollLeft);
+            const currentDelta = Math.abs(pages[bestIndex] - scrollLeft);
+            return delta < currentDelta ? index : bestIndex;
+          }, 0);
+
+          Array.from(dotsWrap.children).forEach((dot, index) => {
+            setDotState(dot, index === activeIndex);
+            dot.setAttribute('aria-current', index === activeIndex ? 'true' : 'false');
+          });
+        };
+
+        if (track && dotsWrap && cards.length) {
+          buildDots();
+          track.addEventListener('scroll', () => window.requestAnimationFrame(updateDots), { passive: true });
+          window.addEventListener('resize', () => {
+            buildDots();
+            updateDots();
+          });
+          updateDots();
+        }
+
+        const openModal = (modal, trigger) => {
+          if (!modal) return;
+
+          activeModal = modal;
+          activeTrigger = trigger || null;
+          modal.hidden = false;
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.classList.add(bodyClass);
+          mountVideo(modal);
+
+          const closeButton = modal.querySelector('[data-close-modal]');
+          if (closeButton) closeButton.focus();
+        };
+
+        const closeModal = (modal = activeModal) => {
+          if (!modal) return;
+
+          pauseModalMedia(modal);
+          modal.hidden = true;
+          modal.setAttribute('aria-hidden', 'true');
+          unmountVideo(modal);
+          document.body.classList.remove(bodyClass);
+
+          if (activeTrigger) activeTrigger.focus();
+
+          activeModal = null;
+          activeTrigger = null;
+        };
+
+        section.querySelectorAll('[data-open-modal]').forEach((trigger) => {
+          trigger.addEventListener('click', () => {
+            const modalId = trigger.getAttribute('data-open-modal');
+            const modal = section.querySelector(`[data-modal="${modalId}"]`);
+            openModal(modal, trigger);
+          });
+        });
+
+        section.querySelectorAll('[data-close-modal]').forEach((button) => {
+          button.addEventListener('click', () => closeModal(button.closest('[data-modal]')));
+        });
+
+        section.querySelectorAll('[data-modal]').forEach((modal) => {
+          modal.addEventListener('click', (event) => {
+            if (event.target === modal) closeModal(modal);
+          });
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key !== 'Escape' || !activeModal) return;
+          closeModal(activeModal);
+        });
+      }
+
+      document.addEventListener('fullscreenchange', () => {
+        const el = document.fullscreenElement;
+        if (el && el.tagName === 'VIDEO' && el.closest(selector)) {
+          document.exitFullscreen();
+        }
+      });
+
+      document.addEventListener('webkitfullscreenchange', () => {
+        const el = document.webkitFullscreenElement;
+        if (el && el.tagName === 'VIDEO' && el.closest(selector)) {
+          document.webkitExitFullscreen();
+        }
+      });
+
+      const boot = (root = document) => {
+        root.querySelectorAll(selector).forEach(initSection);
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => boot());
+      } else {
+        boot();
+      }
+
+      document.addEventListener('shopify:section:load', (event) => {
+        boot(event.target);
+      });
+    })();
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Video showcase",
+  "tag": "section",
+  "class": "section section-video-showcase",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "From Our Community"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color (leave blank to match page background)"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#212121"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video_card",
+      "name": "Video card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "poster_image",
+          "label": "Poster image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Label (optional)"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption (optional)"
+        },
+        {
+          "type": "text",
+          "id": "handle",
+          "label": "Sub-label (optional)"
+        },
+        {
+          "type": "video",
+          "id": "hosted_video",
+          "label": "Shopify-hosted video"
+        },
+        {
+          "type": "video_url",
+          "id": "external_video",
+          "label": "External video",
+          "accept": ["youtube", "vimeo"]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video showcase",
+      "blocks": [
+        { "type": "video_card" },
+        { "type": "video_card" },
+        { "type": "video_card" },
+        { "type": "video_card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

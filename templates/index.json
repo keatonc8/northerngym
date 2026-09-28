@@ -1,0 +1,889 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "block_hero_prLK7V": {
+      "type": "block-hero",
+      "blocks": {
+        "logo_eciz7z": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/woman-and-home-logo-white-400px.png"
+          }
+        },
+        "logo_zmJ9ii": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/myprotein-logo-white-small.svg"
+          }
+        },
+        "logo_MwmiP8": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/pngfind.com-mens-health-logo-png-6830706.png"
+          }
+        },
+        "logo_yA9Un9": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Logo_2.png"
+          }
+        },
+        "logo_bdR9pj": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/2_4.png"
+          }
+        },
+        "logo_qBKUyg": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/3_4_6ccf0d51-b4c1-41d7-a586-fdb7db406e4b.png"
+          }
+        },
+        "logo_Dg46Rd": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/4_3_4644aad2-f169-4943-a114-37b18929e43a.png"
+          }
+        },
+        "logo_njcRNh": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/logo.png"
+          }
+        },
+        "logo_fT9xqb": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/5_3.png"
+          }
+        },
+        "logo_p7xhcH": {
+          "type": "logo",
+          "disabled": true,
+          "settings": {
+            "logo": "shopify://shop_images/Untitled_design_5_a73cdcc6-7d73-4433-84ec-1448f9457306.png"
+          }
+        }
+      },
+      "block_order": [
+        "logo_eciz7z",
+        "logo_zmJ9ii",
+        "logo_MwmiP8",
+        "logo_yA9Un9",
+        "logo_bdR9pj",
+        "logo_qBKUyg",
+        "logo_Dg46Rd",
+        "logo_njcRNh",
+        "logo_fT9xqb",
+        "logo_p7xhcH"
+      ],
+      "name": "Block - Hero",
+      "settings": {
+        "background_image": "shopify://shop_images/Homepage_7_1165abcf-bf30-4ba4-8b49-1c443e352dd2.png",
+        "mobile_background_image": "shopify://shop_images/Mobile_6.png",
+        "content_vertical_align": "top",
+        "heading": "<p>25% off sitewide</p>",
+        "body": "For a limited time only",
+        "button_label": "Shop Now",
+        "button_link": "shopify://collections/packages-sets",
+        "text_color": "#ffffff",
+        "button_color": "#ffffff",
+        "button_text_color": "#000000",
+        "marquee_speed": "slow",
+        "add_marquee_bg": false,
+        "marquee_bg_color": "#ffffff",
+        "marquee_bg_opacity": 100
+      }
+    },
+    "17887868997e088952": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_47b8111_CnAdVX": {
+          "type": "ai_gen_block_47b8111",
+          "disabled": true,
+          "settings": {
+            "collection": "packages-sets",
+            "heading": "Shop 20% OFF BUNDLES",
+            "show_view_all": true,
+            "view_all_label": "View all",
+            "product_limit": 8,
+            "show_bundle_price": true,
+            "bundle_message_prefix": "With code: BUNDLE20",
+            "bundle_message_suffix": "20% off",
+            "bundle_discount_percent": 20,
+            "desktop_width_percent": 100,
+            "desktop_columns": 4,
+            "card_gap": 16,
+            "show_controls": true,
+            "heading_size": 28,
+            "image_radius": 8,
+            "text_color": "#181818",
+            "bundle_text_color": "#c62828",
+            "image_background": "#f3f3f3",
+            "control_background": "#ffffff",
+            "control_hover_background": "#f0f0f0",
+            "control_border": "#b8b8b8",
+            "control_icon": "#181818"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_47b8111_CnAdVX"
+      ],
+      "disabled": true,
+      "settings": {}
+    },
+    "178965297891c3212c": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_fb1f26e_j8XwJR": {
+          "type": "ai_gen_block_fb1f26e",
+          "name": "Collection carousel",
+          "settings": {
+            "collection": "bestsellers",
+            "title": "Featured products",
+            "product_limit": 12,
+            "card_style": "collection",
+            "enable_overlay": true,
+            "desktop_width_percent": 100,
+            "desktop_columns": 4,
+            "gap": 20,
+            "mobile_gap": 12,
+            "padding_top": 24,
+            "padding_right": 12,
+            "padding_bottom": 24,
+            "padding_left": 12,
+            "margin_top": 0,
+            "margin_right": 0,
+            "margin_bottom": 0,
+            "margin_left": 0,
+            "title_size": 28,
+            "mobile_title_size": 22,
+            "product_title_size": 14,
+            "price_size": 14,
+            "image_radius": 0,
+            "background_color": "#ffffff",
+            "text_color": "#111111",
+            "sale_color": "#c00000",
+            "compare_color": "#666666",
+            "control_border_color": "#111111",
+            "focus_color": "#005fcc"
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_a3570d7_jcJMWF": {
+          "type": "ai_gen_block_a3570d7",
+          "disabled": true,
+          "settings": {
+            "collection": "bestsellers",
+            "heading": "Discover our bestsellers",
+            "product_limit": 8,
+            "products_desktop": 4,
+            "gap": 16,
+            "desktop_width_percent": 100,
+            "heading_size": 24,
+            "image_radius": 8,
+            "button_radius": 4,
+            "text_color": "#111111",
+            "sale_color": "#b42318",
+            "muted_color": "#5f6368",
+            "border_color": "#d9d9d9",
+            "button_background": "#ffffff",
+            "button_text_color": "#111111"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_fb1f26e_j8XwJR",
+        "ai_gen_block_a3570d7_jcJMWF"
+      ],
+      "settings": {}
+    },
+    "section_video_testimonials_F6mKWe": {
+      "type": "section-video-testimonials",
+      "blocks": {
+        "testimonial_77QPr9": {
+          "type": "testimonial",
+          "settings": {
+            "poster_image": "shopify://shop_images/8a1822d6-84db-47c7-8f30-a4dbd35ef70e.jpg",
+            "title": "Adam Maxted",
+            "caption": "Professional Wrestler",
+            "handle": "@adammaxted",
+            "modal_text": "All the products in this video, in one place.",
+            "sidebar_heading": "Products featured in this video",
+            "hosted_video": "shopify://files/videos/HEX DUMBBELLS_LIFESTYLE.mp4",
+            "external_video": "",
+            "products": [
+              "hex-dumbbell-set-2-5-12-5kg-5-tier-rack"
+            ]
+          }
+        },
+        "testimonial_YtcDPR": {
+          "type": "testimonial",
+          "settings": {
+            "poster_image": "shopify://shop_images/WhatsApp_Image_2026-04-17_at_12.06.56_ca04d1ce-1b9c-40eb-a92a-8c5e67449bac.jpg",
+            "title": "Chris Tomlinson",
+            "caption": "Functional Fitness Coach",
+            "handle": "@nrthncoach",
+            "modal_text": "All the products in this video, in one place.",
+            "sidebar_heading": "Products featured in this video",
+            "hosted_video": "shopify://files/videos/SKI ERG_WHY I TRAIN_9X16.mp4",
+            "external_video": "",
+            "products": [
+              "northern-cardio-skierg-machine-full-body-indoor-ski-training-equipment"
+            ]
+          }
+        },
+        "testimonial_cq9XDw": {
+          "type": "testimonial",
+          "settings": {
+            "poster_image": "shopify://shop_images/c5897b68-231d-4d19-82f8-0777149ac8ad.jpg",
+            "title": "Nicki Georgiou",
+            "caption": "Online Coach & Recipe Book Author",
+            "handle": "@nickigeorgiou",
+            "modal_text": "All the products in this video, in one place.",
+            "sidebar_heading": "Products featured in this video",
+            "hosted_video": "shopify://files/videos/NEOPRENE DUMBBELLS_WHY I TRAIN.mp4",
+            "external_video": "",
+            "products": [
+              "northern-neoprene-hex-dumbbells-pair-2-x-3kg-6kg",
+              "northern-heavy-duty-flat-weight-bench",
+              "northern-4mm-yoga-mat-black"
+            ]
+          }
+        },
+        "testimonial_NdMjCA": {
+          "type": "testimonial",
+          "settings": {
+            "poster_image": "shopify://shop_images/leyton_wright.jpg",
+            "title": "Leyton Wright",
+            "caption": "Barry's Instructor",
+            "handle": "@leytonwrightfit",
+            "modal_text": "All the products in this video, in one place.",
+            "sidebar_heading": "Products featured in this video",
+            "hosted_video": "shopify://files/videos/BARBELL_UNBOXING.mp4",
+            "external_video": "",
+            "products": [
+              "northern-olympic-barbell-20kg",
+              "rockbase-olympic-bumper-plates"
+            ]
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_77QPr9",
+        "testimonial_YtcDPR",
+        "testimonial_cq9XDw",
+        "testimonial_NdMjCA"
+      ],
+      "name": "Video testimonials",
+      "settings": {
+        "heading": "Built on Northern Spirit",
+        "text": "<p>Real training, real results. Straight from the people doing the work.</p>",
+        "mobile_products_button_label": "View products in this video",
+        "product_button_label": "View product",
+        "product_button_background": "#6bea63",
+        "product_button_text_color": "#111111",
+        "background_color": "#ffffff",
+        "text_color": "#212121",
+        "padding_top": 52,
+        "padding_bottom": 52,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "block_shop_by_training_xbbFGE": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_ERjwMi": {
+          "type": "item",
+          "settings": {
+            "number": "01",
+            "image": "shopify://shop_images/Hex_Dumbbells_for_Home_Gyms.jpg",
+            "title": "Dumbbells",
+            "text": "<p>Built to handle the work, giving you the control and stability to train properly and get more from every rep.</p>",
+            "button_label": "Buy Dumbbells",
+            "button_link": "shopify://collections/dumbbells"
+          }
+        },
+        "item_7WcR4j": {
+          "type": "item",
+          "settings": {
+            "number": "02",
+            "image": "shopify://shop_images/Bumper_Plates_for_Home_Powerlifting.jpg",
+            "title": "Weight Plates",
+            "text": "<p>Lifted, dropped, and used again, designed to handle repeated impact and keep your sessions moving without interruption.</p>",
+            "button_label": "Buy Weight Plates",
+            "button_link": "shopify://collections/weight-plates"
+          }
+        },
+        "item_g4t4eG": {
+          "type": "item",
+          "settings": {
+            "number": "03",
+            "image": "shopify://shop_images/Cast_Iron_Kettlebells_in_Overhead_Press_Position.jpg",
+            "title": "Kettlebells",
+            "text": "<p>Built for movement, helping you train with control, build strength, and move efficiently through every rep.</p>",
+            "button_label": "Buy Kettlebells",
+            "button_link": "shopify://collections/kettlebells"
+          }
+        },
+        "item_jfDmfK": {
+          "type": "item",
+          "settings": {
+            "number": "04",
+            "image": "shopify://shop_images/Bicep_Curl_Workout_Using_Northern_Adjustable_Dumbbell.jpg",
+            "title": "Adjustable Dumbbells",
+            "text": "<p>Designed to change the weight quickly, so you can train consistently without breaking your flow.</p>",
+            "button_label": "Buy Adjustable Dumbbells",
+            "button_link": "shopify://collections/adjustable-fitness-weights"
+          }
+        }
+      },
+      "block_order": [
+        "item_ERjwMi",
+        "item_7WcR4j",
+        "item_g4t4eG",
+        "item_jfDmfK"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Fitness is easy. Just work really hard.",
+        "text": "<p>No shortcuts. No noise. Just effort, consistency, and earning it. We take care of the details. You do the work.</p>",
+        "button_label": "Build Your Home Gym",
+        "button_link": "shopify://collections/shop-all",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#e3e1e1",
+        "button_text_color": "#111111",
+        "margin_top": 40,
+        "margin_bottom": 40,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_8ygVWM": {
+      "type": "block-columns",
+      "blocks": {
+        "card_fF7wM6": {
+          "type": "card",
+          "settings": {
+            "title": "Barbells",
+            "image": "shopify://shop_images/Bench_Press_Exercise_and_Northern_Weight_Plates.jpg",
+            "link": "shopify://collections/barbells"
+          }
+        },
+        "card_fdnAFp": {
+          "type": "card",
+          "settings": {
+            "title": "Mats & Flooring",
+            "image": "shopify://shop_images/Floor_Exercise_Using_Northern_Yoga_Mats.jpg",
+            "link": "shopify://collections/gym-flooring"
+          }
+        },
+        "card_jfRR8k": {
+          "type": "card",
+          "settings": {
+            "title": "Outlet",
+            "image": "shopify://shop_images/Clearance_Sale_Banner.png",
+            "link": "shopify://collections/sale"
+          }
+        }
+      },
+      "block_order": [
+        "card_fF7wM6",
+        "card_fdnAFp",
+        "card_jfRR8k"
+      ],
+      "name": "Block - Columns",
+      "settings": {
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 40,
+        "margin_bottom": 40,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_reviews_dJAYEL": {
+      "type": "block-reviews",
+      "blocks": {
+        "review_D84ei7": {
+          "type": "review",
+          "settings": {
+            "author": "anna penny",
+            "rating": 5,
+            "title": "💯 recommended",
+            "body": "💯 recommended. Huge selection of equipment. Competitive prices. Excellent service, both my orders arrived within couple days. Top quality products. Ready to buy again 😊Thank you,"
+          }
+        },
+        "review_tbgUH4": {
+          "type": "review",
+          "settings": {
+            "author": "Ethan Fullen",
+            "rating": 5,
+            "title": "Best gym equipment brand",
+            "body": "This is now my favourite gym equipment brand due to my experience with their customer service. Quality of equipment is top and I will definitely be purchasing from them again.\nThanks! :)"
+          }
+        },
+        "review_hLJCdK": {
+          "type": "review",
+          "settings": {
+            "author": "Paul S",
+            "rating": 5,
+            "title": "Would highly recommend",
+            "body": "Bought dumbbells 10kg-30kg + rack, really impressed with the quality of the product. Great communication from northern from when the order landed up to the point of delivery. Would highly recommend."
+          }
+        },
+        "review_HAKrfN": {
+          "type": "review",
+          "settings": {
+            "author": "Eva",
+            "rating": 5,
+            "title": "Quick and easy order and delivery",
+            "body": "Quick and easy order and delivery. Quality equipment I got some weights, kettlebell, roller! Happy with all and will purchase again!"
+          }
+        },
+        "review_B6CN7j": {
+          "type": "review",
+          "settings": {
+            "author": "Miss Carolyn Tandy",
+            "rating": 5,
+            "title": "Great products and excellent value",
+            "body": "This is my third purchase from Northern Gym Equipment. The dumbbells are excellent quality and a really good price. I feel like I’m getting great value for money. Delivery is fast and I am really pleased with my purchase once again."
+          }
+        }
+      },
+      "block_order": [
+        "review_D84ei7",
+        "review_tbgUH4",
+        "review_hLJCdK",
+        "review_HAKrfN",
+        "review_B6CN7j"
+      ],
+      "name": "Block - Reviews",
+      "settings": {
+        "section_bg_color": "#000000",
+        "section_bg_opacity": 0,
+        "section_text_color": "#ffffff",
+        "background_image": "shopify://shop_images/Post_Workout_Recovery_After_Dumbbell_Training_Sessions.png",
+        "mobile_background_image": "shopify://shop_images/Post_Workout_Recovery_After_Dumbbell_Training_Mobile.png",
+        "margin_top": 40,
+        "margin_bottom": 40,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "heading": "Rated 4.8 (Excellent) by 150,000+ customers",
+        "pill_1_text": "Reliable Delivery",
+        "pill_1_icon": "shopify://shop_images/005-fast_delivery.svg",
+        "pill_2_text": "30 Day Returns",
+        "pill_2_icon": "shopify://shop_images/returns.svg",
+        "pill_3_text": "Secure Checkout",
+        "pill_3_icon": "shopify://shop_images/security-shield.svg",
+        "card_bg_color": "#212121",
+        "card_bg_opacity": 25,
+        "card_text_color": "#ffffff"
+      }
+    },
+    "block_image_tiles_neaFKt": {
+      "type": "block-image-tiles",
+      "blocks": {
+        "tile_LFK7Hj": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_-_2026-03-18T122358.186.jpg",
+            "title": "Adjustable Dumbbells",
+            "text": "<p>From light to heavy, these adjustable dumbbells move the way we move - precise, seamless and built for every rep.</p>",
+            "button_label": "Shop Now",
+            "link": "shopify://collections/adjustable-fitness-weights"
+          }
+        },
+        "tile_RRnQKG": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_-_2026-03-18T122749.315.jpg",
+            "title": "Olympic Barbells",
+            "text": "<p>Built tough, engineered right,</p>",
+            "button_label": "Shop Now",
+            "link": "shopify://collections/barbells"
+          }
+        }
+      },
+      "block_order": [
+        "tile_LFK7Hj",
+        "tile_RRnQKG"
+      ],
+      "disabled": true,
+      "name": "Block - Image Tiles",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "margin_top": 40,
+        "margin_bottom": 40,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_y9T4Qr": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_PiNipN": {
+          "type": "card",
+          "settings": {
+            "title": "Weightlifting Guide for Beginners: How to Start Weight Lifting",
+            "image": "shopify://shop_images/Blog_Weightlifting_Guide.webp",
+            "text": "<p>Starting weight lifting can feel like walking into a foreign country. Everyone seems to know the language, the gym equipment is unfamiliar, and there's a mountain of conflicting advice online. Here is the good news: the weightlifting basics are simple, and the basics are what build real strength.&nbsp;<br/><br/></p>",
+            "button_label": "Discover More",
+            "button_link": "shopify://blogs/news/how-to-start-weight-lifting-guide"
+          }
+        },
+        "card_cWyh6i": {
+          "type": "card",
+          "settings": {
+            "title": "The Dead Hang Challenge: Dead Hang Benefits & How to Improve Dead Hang Time",
+            "image": "shopify://shop_images/Dead_Hang_Challenge_in_Power_Rack_and_Kettlebell_Holds.png",
+            "text": "<p>Dead hang challenge becomes viral fitness test for content creators. They challenge some gym goers how long they can hang from a bar and shockingly some non-gym enthusiasts were able to do this challenge for a longer time.</p>",
+            "button_label": "Discover More",
+            "button_link": "shopify://blogs/news/dead-hang-challenge-benefits-and-how-to-improve-hang-time"
+          }
+        },
+        "card_KapqmJ": {
+          "type": "card",
+          "settings": {
+            "title": "Building Power & Strength: Q&A with Darren Dawidiuk",
+            "image": "shopify://shop_images/blog_Building_Power_Strength.webp",
+            "text": "<p>At Northern Gym Equipment, we believe that the right fitness equipment is important; the intention and goal behind your training is what truly delivers results. To help on your fitness journey, we talk with our athlete ambassadors, ranging from ex-professional rugby players to strength specialists and pregnancy fitness experts.<br/><br/></p>",
+            "button_label": "Discover More",
+            "button_link": "shopify://blogs/news/building-power-strength-qa-with-darren-dawidiuk"
+          }
+        }
+      },
+      "block_order": [
+        "card_PiNipN",
+        "card_cWyh6i",
+        "card_KapqmJ"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 40,
+        "margin_bottom": 40,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_stats_bA9nqX": {
+      "type": "block-stats",
+      "blocks": {
+        "stat_FcgWYc": {
+          "type": "stat",
+          "settings": {
+            "number": "5000000",
+            "label": "KG Sold",
+            "text": "We’ve proudly delivered over five million kg of our premium strength training weights to customers who trust quality and reliability.",
+            "show_suffix": true,
+            "suffix": "+"
+          }
+        },
+        "stat_xTTRfi": {
+          "type": "stat",
+          "settings": {
+            "number": "10000",
+            "label": "Drops",
+            "text": "Every weight is pre tested to ensure flawless performance and peak reliability right out of the box.",
+            "show_suffix": true,
+            "suffix": "+"
+          }
+        }
+      },
+      "block_order": [
+        "stat_FcgWYc",
+        "stat_xTTRfi"
+      ],
+      "name": "Block - Stats",
+      "settings": {
+        "section_title": "Spotlight on Northern Hex Dumbbells",
+        "image": "shopify://shop_images/Hex_Dumbbell_Weights_in_Rack.png",
+        "button_label": "Shop Hex Dumbbells",
+        "button_link": "https://northerngymequipment.com/products/northern-hex-dumbbells-pair-1kg-x-2",
+        "section_bg_color": "#111111",
+        "section_bg_opacity": 100,
+        "stat_main_color": "#ffffff",
+        "stat_sub_color": "#ffffff73",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "block_faq_Mamf4B": {
+      "type": "block-faq",
+      "blocks": {
+        "faq_xctXry": {
+          "type": "faq",
+          "settings": {
+            "question": "Which gym equipment is best for losing weight and burning calories?",
+            "answer": "<p>If you want to burn calories, it’s all about the intensity. We’re talking HIIT and heavy compound sets to keep the metabolic fire burning long after you’ve finished your session. Northern <a href=\"/products/northern-competition-sandbag-power-bag\" title=\"Northern Competition Sandbag Power Bag (5kg - 20kg)\"><strong>High-Density Power Bags</strong></a> and <a href=\"/collections/plyo-boxes\" title=\"PLYO BOXES\"><span style=\"text-decoration:underline\"><strong>Plyo Boxes</strong></span></a> are built for those full-body workouts that pushes your heart rate. To lose more weight, work harder with strength training routines using <a href=\"/products/hex-dumbbells\" title=\"Northern Hex Dumbbells (1kg - 50kg)\"><span style=\"text-decoration:underline\"><strong>Hex Dumbbells</strong></span></a> or <a href=\"/products/cast-iron-kettlebells\" title=\"Northern Cast Iron Kettlebells (2kg - 28kg)\"><span style=\"text-decoration:underline\"><strong>Cast Iron Kettlebells</strong></span></a>. With progressive weightlifting you can also lose weight, you need <a href=\"/collections/barbells\" title=\"Barbells\"><span style=\"text-decoration:underline\"><strong>Olympic barbells</strong></span></a> with a set of <a href=\"/products/olympic-bumper-plates-old\" title=\"Northern Olympic Bumper Plates\"><span style=\"text-decoration:underline\"><strong>bumper plates</strong></span></a> or <a href=\"/products/cast-iron-plates-old\" title=\"Northern Olympic Cast Iron Plates\"><span style=\"text-decoration:underline\"><strong>cast iron plates</strong></span></a> to work with multi-joint compound exercises including squats, presses and rows.</p>"
+          }
+        },
+        "faq_XhngHg": {
+          "type": "faq",
+          "settings": {
+            "question": "What gym equipment do I need to buy for a starter or new home gym setup?",
+            "answer": "<p>Building your first home gym setup? A <a href=\"/products/5-15kg-hex-dumbbell-set-5-15kg-2-5kg-increments\" title=\"5-15KG Hex Dumbbell Set (2.5KG Increments)\"><span style=\"text-decoration:underline\"><strong>set of hex dumbbells</strong></span></a>, a few <a href=\"/collections/kettlebells\" title=\"KETTLEBELLS\"><span style=\"text-decoration:underline\"><strong>kettlebells</strong></span></a>, and our <a href=\"/collections/benches\" title=\"BENCHES\"><span style=\"text-decoration:underline\"><strong>adjustable bench</strong></span></a> are the non-negotiables—offering hundreds of exercise variations in a compact space. Don't forget to protect your floor and reduce the noise with our <a href=\"/collections/floormats\" title=\"FLOORMATS\"><span style=\"text-decoration:underline\"><strong>floor mats</strong></span></a> for those high-energy sets. If you’re more on yoga or Pilates, our <a href=\"/products/northern-4mm-yoga-mat\" title=\"Northern 4mm Yoga Mat Non-Slip, Eco-Friendly Exercise Mat, Pilates & Home Workouts\"><span style=\"text-decoration:underline\"><strong>non-slip yoga mats</strong></span></a> will keep you stable and protected. For more serious workouts, that’s where our <a href=\"/products/northern-half-rack\" title=\"Northern Half Rack Heavy-Duty Strength Rack Station for Home & Commercial Gym\"><span style=\"text-decoration:underline\"><strong>Northern Half Rack</strong></span></a> and <a href=\"/collections/barbells\" title=\"BARBELLS\"><span style=\"text-decoration:underline\"><strong>Olympic bars</strong></span></a> is best.</p>"
+          }
+        },
+        "faq_tKJ39f": {
+          "type": "faq",
+          "settings": {
+            "question": "What gym equipment is best for core and ab training?",
+            "answer": "<p>To build core stability, combine isometric exercises and high-intensity movements. The Tyre Wheel <a href=\"/products/northern-tyre-wheel-abdominal-exercise-ab-roller\" title=\"Northern Tyre Wheel Abdominal Exercise Ab Roller\"><span style=\"text-decoration:underline\"><strong>Ab Roller</strong></span></a> is the go-to for that deep, functional burn, while <a href=\"/collections/gym-ab-mats\" title=\"Ab Mats & Balance Pads\"><span style=\"text-decoration:underline\"><strong>Ab Mats</strong></span></a> and <a href=\"/products/northern-old\" title=\"Northern Foam Balance Pad\"><span style=\"text-decoration:underline\"><strong>Balance Pads</strong></span></a> provide the support you need to focus on the reps, not the floor. To build explosive rotational power and a core that actually performs, go with <a href=\"/collections/slamballs\" title=\"SLAM BALLS\"><span style=\"text-decoration:underline\"><strong>Slam Balls</strong></span></a> or <a href=\"/collections/kettlebells\" title=\"KETTLEBELLS\"><span style=\"text-decoration:underline\"><strong>Kettlebells</strong></span></a>. </p>"
+          }
+        },
+        "faq_DNBWw4": {
+          "type": "faq",
+          "settings": {
+            "question": "How to properly clean your gym equipment and maintain?",
+            "answer": "<p>Wipe down the weights with a mild detergent to keep things hygienic, just skip the harsh chemicals that mess with the powder-coating on the racks or the rubber on the hex dumbbells. For <a href=\"/products/northern-45cm-foam-roller-black\" title=\"Northern 45cm Foam Roller - Black\"><span style=\"text-decoration:underline\"><strong>foam rollers</strong></span></a> and <a href=\"/collections/floormats\" title=\"FLOORMATS\"><span style=\"text-decoration:underline\"><strong>flooring mats</strong></span></a>, a damp cloth wipe is enough to keep them fresh. Store the dumbbells in the <a href=\"/collections/dumbbell-racks\" title=\"Dumbbell Storage Racks\"><span style=\"text-decoration:underline\"><strong>storage holder rack</strong></span></a> after each session to prevent accidental drops that can damage your flooring. Make it a habit to check the bolts on your adjustable bench so it stays solid for the next big push, and always rack your weights when you’re done.</p>"
+          }
+        },
+        "faq_rHRhG4": {
+          "type": "faq",
+          "settings": {
+            "question": "When can I expect my fitness equipment order to arrive?",
+            "answer": "<p>We know you’re excited to start your training, so we aim for rapid delivery across the UK. Most orders land on your doorstep within 2-4 working days. Our cut off time for next day delivery is 3pm. We also offer collection in our warehouse. Please <a href=\"/pages/contact\" title=\"CONTACT\"><span style=\"text-decoration:underline\"><strong>reach to us</strong></span></a> for additional help.</p>"
+          }
+        },
+        "faq_Rh3nAy": {
+          "type": "faq",
+          "settings": {
+            "question": "Do you offer wholesale for commercial gyms or fitness facilities?",
+            "answer": "<p>Yes, we offer high-quality and durable commercial gym equipment in wholesale. Every piece of equipment is built using top-tier materials to ensure your members can focus on their progress, not the tools. <a href=\"/pages/whole-sale-gym-equipment\" title=\"WHOLESALE GYM EQUIPMENT\"><span style=\"text-decoration:underline\"><strong>Drop a message</strong></span></a> and talk with our sales team today.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_xctXry",
+        "faq_XhngHg",
+        "faq_tKJ39f",
+        "faq_DNBWw4",
+        "faq_rHRhG4",
+        "faq_Rh3nAy"
+      ],
+      "name": "Block - FAQs",
+      "settings": {
+        "heading": "Got Questions? We’ve Got Answers",
+        "avatar_1": "shopify://shop_images/Craig_McGill_-_Northern_Ambassador.jpg",
+        "avatar_2": "shopify://shop_images/Katie_Vinten_-_Northern_Ambassaddor.jpg",
+        "avatar_3": "shopify://shop_images/Darren_Dawidiuk_Northern_Ambassador.jpg",
+        "lead": "If you’re still looking for the right answer, give our team a shout. We’re gym-native and always here to help you find exactly what you need to keep the progress coming. Drop us a message.",
+        "view_more_label": "",
+        "view_more_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#111111",
+        "muted_text_color": "#737373",
+        "border_color": "#e5e5e5",
+        "margin_top": 40,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "section_homepage_banner_jyMGaH": {
+      "type": "section-homepage-banner",
+      "disabled": true,
+      "custom_css": [
+        ".bg-black {background-color: #ffc30a; color: #ffc30a;}"
+      ],
+      "settings": {
+        "background_image": "shopify://shop_images/adjustable_banner_2.png",
+        "background_image_mobile": "shopify://shop_images/Untitled_design_51.jpg",
+        "desktop_background_alignment": "object-center",
+        "mobile_background_alignment": "object-center",
+        "heading": "train without limits",
+        "paragraph": "",
+        "button_one_link": "shopify://collections/gym-equipment",
+        "button_one_text": "SHOP NOW",
+        "button_two_link": "",
+        "button_two_text": ""
+      }
+    },
+    "177004525286535658": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_medals_3RniEq": {
+          "type": "shopify://apps/judge-me-reviews/blocks/medals/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_medals_3RniEq"
+      ],
+      "disabled": true,
+      "settings": {}
+    },
+    "section_product_preview_LtxtB7": {
+      "type": "section-product-preview",
+      "disabled": true,
+      "settings": {
+        "show_buy_button": false,
+        "heading": "",
+        "paragraph": "",
+        "source": "custom",
+        "product_list": [
+          "adjustable-bench",
+          "hex-dumbbells-pair-2-x-40kg-80kg",
+          "three-tier-dumbbell-rack-130cm-400kg",
+          "adjustable-bench-with-dumbbells-storage-rack"
+        ]
+      }
+    },
+    "section_image_block_repeater_CjXbnB": {
+      "type": "section-image-block-repeater",
+      "blocks": {
+        "collection_GeR4pt": {
+          "type": "collection",
+          "settings": {
+            "collection": "sale"
+          }
+        },
+        "collection_N4VnLi": {
+          "type": "collection",
+          "settings": {
+            "collection": "dumbbells"
+          }
+        },
+        "collection_69zfXp": {
+          "type": "collection",
+          "disabled": true,
+          "settings": {
+            "collection": "adjustable-fitness-weights"
+          }
+        },
+        "collection_tbtVLq": {
+          "type": "collection",
+          "settings": {
+            "collection": "weight-plates"
+          }
+        },
+        "collection_XqYnzj": {
+          "type": "collection",
+          "settings": {
+            "collection": "weight-bundles-sets"
+          }
+        }
+      },
+      "block_order": [
+        "collection_GeR4pt",
+        "collection_N4VnLi",
+        "collection_69zfXp",
+        "collection_tbtVLq",
+        "collection_XqYnzj"
+      ],
+      "disabled": true,
+      "settings": {
+        "heading": "Quality Gym Equipment",
+        "heading_is_h1": true,
+        "heading_style": "default",
+        "paragraph": "",
+        "image_ratios": "portrait",
+        "carousel_behaviour": "mobile_only",
+        "overlay_text": true
+      }
+    },
+    "section_heading_and_text_MQjy6C": {
+      "type": "section-heading-and-text",
+      "disabled": true,
+      "settings": {
+        "metaobject_content": "default",
+        "heading": "",
+        "paragraph": ""
+      }
+    },
+    "section_callout_ff7ngC": {
+      "type": "section-callout",
+      "disabled": true,
+      "settings": {
+        "show_logo": true,
+        "heading": "We offer a wide range of dumbbells suitable for all types of training",
+        "button_url": "shopify://collections/dumbbells",
+        "button_text": "View All Dumbbells",
+        "main_image": "shopify://shop_images/NORTHERN_HEX_DUMBELL_3.jpg"
+      }
+    },
+    "usp_slider_7DqWLa": {
+      "type": "usp-slider",
+      "disabled": true,
+      "name": "USP Slider",
+      "settings": {}
+    },
+    "178902835779a6cf80": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_featured_carousel_yWi7zL": {
+          "type": "shopify://apps/judge-me-reviews/blocks/featured_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "disabled": true,
+          "settings": {
+            "maxwidth": 1080
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_featured_carousel_yWi7zL"
+      ],
+      "settings": {}
+    },
+    "17900803757c8313c1": {
+      "type": "_blocks",
+      "settings": {}
+    }
+  },
+  "order": [
+    "block_hero_prLK7V",
+    "17887868997e088952",
+    "178965297891c3212c",
+    "section_video_testimonials_F6mKWe",
+    "block_shop_by_training_xbbFGE",
+    "block_columns_8ygVWM",
+    "block_reviews_dJAYEL",
+    "block_image_tiles_neaFKt",
+    "block_columns_text_y9T4Qr",
+    "block_stats_bA9nqX",
+    "block_faq_Mamf4B",
+    "section_homepage_banner_jyMGaH",
+    "177004525286535658",
+    "section_product_preview_LtxtB7",
+    "section_image_block_repeater_CjXbnB",
+    "section_heading_and_text_MQjy6C",
+    "section_callout_ff7ngC",
+    "usp_slider_7DqWLa",
+    "178902835779a6cf80",
+    "17900803757c8313c1"
+  ]
+}

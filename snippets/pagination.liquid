@@ -1,0 +1,41 @@
+{%- if paginate.parts.size > 0 -%}
+   <nav class="pagination flex justify-center" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+      <ul class="flex items-center" role="list">
+         <li class="flex items-center pagination-item mr-4 {% unless paginate.previous %}opacity-50 cursor-not-allowed{% endunless %}">
+            <a href="{{ paginate.previous.url }}{{ anchor }}" class="carousel__arrow {% unless paginate.previous %}pointer-events-none{% endunless %}" aria-label="{{ 'general.pagination.previous' | t }}">
+               <span class="block rotate-180">
+                  {% render 'icons', icon: 'arrow', class: 'w-4' %}
+               </span>
+            </a>
+         </li>
+
+         {%- for part in paginate.parts -%}
+            <li class="flex items-center pagination-item">
+               {%- if part.is_link -%}
+                  <a href="{{ part.url }}{{ anchor }}" class="pagination-link" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">
+                     {{ part.title }}
+                  </a>
+               {%- else -%}
+                  {%- if part.title == paginate.current_page -%}
+                     <span class="pagination-link pagination-link--active" aria-current="page" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">
+                        {{ part.title }}
+                     </span>
+                  {%- else -%}
+                     <span class="pagination-link">
+                        {{ part.title }}
+                     </span>
+                  {%- endif -%}
+               {%- endif -%}
+            </li>
+         {%- endfor -%}
+
+         <li class="flex items-center pagination-item ml-4 {% unless paginate.next %}opacity-50 cursor-not-allowed{% endunless %}">
+            <a href="{{ paginate.next.url }}{{ anchor }}" class="carousel__arrow {% unless paginate.next %}pointer-events-none{% endunless %}" aria-label="{{ 'general.pagination.next' | t }}" >
+               <span class="block">
+                  {% render 'icons', icon: 'arrow', class: 'w-4' %}
+               </span>
+            </a>
+         </li>
+      </ul>
+   </nav>
+{%- endif -%}

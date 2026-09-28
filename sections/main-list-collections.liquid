@@ -1,0 +1,90 @@
+<div class="vertical-spacing">
+   <div class="container">
+      <div class="flex flex-col gap-8">
+         <h1 class="heading">
+            {{ section.settings.title | escape }}
+         </h1>
+
+         {%- liquid
+            assign collections_list = section.settings.collection_list | default: collections
+
+            case section.settings.sort
+               when 'products_high' or 'products_low'
+               assign collections_list = collections_list | sort: 'all_products_count'
+               when 'date' or 'date_reversed'
+               assign collections_list = collections_list | sort: 'published_at'
+            endcase
+
+            if section.settings.sort == 'products_high' or section.settings.sort == 'date_reversed' or section.settings.sort == 'alphabetical_reversed'
+               assign collections_list = collections_list | reverse
+            endif
+         -%}
+         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {% for collection in collections_list %}
+               {% render 'collection-item', collection: collection %}
+            {% endfor %}
+         </div>
+      </div>
+   </div>
+</div>
+
+{% schema %}
+{
+   "name": "Collection Listing",
+   "class": "section",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Settings"
+      },
+      {
+         "type": "collection_list",
+         "id": "collection_list",
+         "label": "Collections",
+         "limit": 12
+      },
+      {
+         "type": "select",
+         "id": "sort",
+         "options": [
+         {
+            "label": "A-Z",
+            "value": "alphabetical"
+         },
+         {
+            "label": "Z-A",
+            "value": "alphabetical_reversed"
+         },
+         {
+            "label": "Oldest to Newest",
+            "value": "date_reversed"
+         },
+         {
+            "label": "Newest to Oldest",
+            "value": "date"
+         },
+         {
+            "label": "Highest number of products",
+            "value": "products_high"
+         },
+         {
+            "label": "Lowest number of products",
+            "value": "products_low"
+         }
+         ],
+         "default": "alphabetical",
+         "label": "Sort order"
+      },
+      {
+         "type": "header",
+         "content": "Content"
+      },
+      {
+         "type": "text",
+         "id": "title",
+         "label": "Collections",
+         "default": "Collections"
+      }
+   ]
+}
+{% endschema %}

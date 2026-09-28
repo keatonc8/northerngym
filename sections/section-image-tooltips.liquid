@@ -1,0 +1,30 @@
+{% assign image_tooltip = section.settings.image_tooltip %}
+
+{% render 'image-tooltip', image_tooltip: image_tooltip %}
+
+{% schema %}
+{
+   "name": "Image Tooltips",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Settings"
+      },
+      {
+         "type": "header",
+         "content": "Content"
+      },
+      {
+         "type": "metaobject",
+         "id": "image_tooltip",
+         "label": "Image Tooltip",
+         "metaobject_type": "image_tooltips"
+      }
+   ],
+   "blocks": [],
+   "presets": [{
+      "name": "Image Tooltips",
+      "blocks": []
+   }]
+}
+{% endschema %}

@@ -1,0 +1,39 @@
+{% assign placeholder_default = 'general.search.search' | t %}
+{% assign placeholder_text = search_placeholder | default: placeholder_default %}
+
+<div class="w-full flex justify-between items-center relative gap-4 container h-17 lg:h-22">
+    <span class="hidden lg:block w-5">
+        <span class="sr-only">
+            Spacer for offset
+        </span>
+    </span>
+
+    <div class="w-full md:max-w-118 relative">
+        <label class="sr-only" for="nav-search-input">{{ placeholder_default }}</label>
+        <input class="w-full border border-silver rounded-full py-3 pl-12 pr-5 placeholder:opacity-60"
+            type="search"
+            id="nav-search-input"
+            name="q"
+            value="{{ search.terms | escape }}"
+            placeholder="{{ placeholder_text }}"
+            x-model="search"
+            role="combobox"
+            aria-expanded="false"
+            aria-owns="predictive-search-results"
+            aria-controls="predictive-search-results"
+            aria-haspopup="listbox"
+            aria-autocomplete="list"
+        >
+        <input name="options[prefix]" type="hidden" value="last">
+        <input type="hidden" name="type" value="product,article,page">
+        <span class="absolute left-4 top-1/2 -translate-y-1/2">
+           {% render 'icons', icon: 'search', class: 'w-5' %}
+        </span>
+        <button type="submit" class="sr-only" aria-hidden="true" tabindex="-1">Submit</button>
+    </div>
+
+
+    <button @click.prevent="showSearch = false" class="hidden lg:block hover:text-yellow">
+        {% render 'icons', icon: 'cross', class: 'w-5' %}
+    </button>
+</div>

@@ -1,0 +1,10 @@
+{% assign tag = tag | default: 'h2' %}
+{% assign heading = heading %}
+{% assign styling = styling | default: 'heading' %}
+{% assign alignment = alignment | default: 'text-center' %}
+
+{% if heading != blank %}
+   <{{ tag }} class="{{ styling }} {{ alignment }}">
+      {{ heading }}
+   </{{ tag }}>
+{% endif %}

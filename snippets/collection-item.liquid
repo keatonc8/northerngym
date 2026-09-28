@@ -1,0 +1,29 @@
+<a href="{{ collection.url }}" class="group border-2 border-silver">
+   <div class="aspect-w-1 aspect-h-1 relative overflow-hidden">
+      <div class="">
+         {% if collection.image %}
+            {% render 'responsive-image',
+               image_object: collection.image,
+               size: 'mobile',
+               class: 'object-cover w-full h-full group-hover:scale-105 duration-300'
+            %}
+         {% else %}
+            <div class="w-full h-full bg-silver flex justify-center items-center p-12 md:p-20 text-silver bg-opacity-20 group-hover:bg-opacity-100 group-hover:text-white duration-300">
+               {% render 'icons', icon: 'logo', class: 'w-full' %}
+            </div>
+         {% endif %}
+      </div>
+   </div>
+   <div class="p-4 flex flex-col gap-2">
+      {% if collection.title != blank %}
+         <p class="heading-05 group-hover:text-yellow duration-300">
+            {{ collection.title }}
+         </p>
+      {% endif %}
+      {% if collection.description != blank %}
+         <p class="body-03">
+            {{ collection.description | truncatewords: 50 }}
+         </p>
+      {% endif %}
+   </div>
+</a>

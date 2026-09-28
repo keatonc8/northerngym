@@ -1,0 +1,84 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "section_homepage_banner_A7B3JT": {
+      "type": "section-homepage-banner",
+      "name": "Homepage Banner",
+      "settings": {
+        "background_image": "shopify://shop_images/approved_Weights_Bars.png",
+        "background_image_mobile": "shopify://shop_images/approved_Weights_Bars_6.png",
+        "desktop_background_alignment": "object-center",
+        "mobile_background_alignment": "object-bottom",
+        "heading": "Train Without Limits",
+        "paragraph": "",
+        "button_one_link": "shopify://collections/dumbbells",
+        "button_one_text": "DUMBBELLS",
+        "button_two_link": "shopify://collections/packages-sets",
+        "button_two_text": "Packages"
+      }
+    },
+    "section_collection_smart_content_Q98T6N": {
+      "type": "section-collection-smart-content",
+      "blocks": {
+        "related_collections_zLaKrw": {
+          "type": "related_collections",
+          "settings": {
+            "show_fallback": true,
+            "heading_is_h1": true,
+            "carousel_behaviour": "never",
+            "collections_heading": "{{ collection.title }}",
+            "collections_paragraph": "{{ collection.description }}"
+          }
+        },
+        "heading_text_cPWrT6": {
+          "type": "heading_text",
+          "settings": {}
+        },
+        "recommended_products_Ua3HwL": {
+          "type": "recommended_products",
+          "settings": {
+            "products_heading": "Product Recommendations"
+          }
+        },
+        "image_gallery_pW4Ajn": {
+          "type": "image_gallery",
+          "settings": {}
+        },
+        "faqs_section_QNQbb8": {
+          "type": "faqs_section",
+          "settings": {
+            "faqs_heading": "{{ collection.title }} FAQ's"
+          }
+        },
+        "blog_articles_kCxPd8": {
+          "type": "blog_articles",
+          "settings": {
+            "blog_heading": "Blog"
+          }
+        }
+      },
+      "block_order": [
+        "related_collections_zLaKrw",
+        "heading_text_cPWrT6",
+        "recommended_products_Ua3HwL",
+        "image_gallery_pW4Ajn",
+        "faqs_section_QNQbb8",
+        "blog_articles_kCxPd8"
+      ],
+      "name": "Collection - Smart Content",
+      "settings": {}
+    }
+  },
+  "order": [
+    "section_homepage_banner_A7B3JT",
+    "section_collection_smart_content_Q98T6N"
+  ]
+}

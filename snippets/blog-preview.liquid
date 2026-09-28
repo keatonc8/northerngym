@@ -1,0 +1,57 @@
+{% assign no_heading = true %}
+{% assign blog_list = blogs['news'] %}
+
+{% if heading != blank or paragraph != blank or blog_list != blank or blog_article_handles != blank %}
+   <div class="vertical-spacing {% if add_border_top %}border-t border-silver pt-12 md:pt-16{% endif %}">
+      <div class="container-full">
+         <div class="flex flex-col gap-6">
+            {% if heading != blank or paragraph != blank %}
+               {% assign no_heading = false %}
+               <div class="container">
+                  <div class="flex justify-between items-center gap-8">
+                     <div class="flex flex-col gap-4">
+                        {% if heading != blank %}
+                           <h2 class="heading-03">
+                              {{ heading }}
+                           </h2>
+                        {% endif %}
+                        {% if paragraph != blank %}
+                           <p class="max-w-180">
+                              {{ paragraph }}
+                           </p>
+                        {% endif %}
+                     </div>
+                     {% if add_blog_link %}
+                        <a href="{{ blog_list.url }}" class="hidden xl:inline-block button button-black button-transparent">
+                           View Blog
+                        </a>
+                     {% endif %}
+                  </div>
+               </div>
+            {% endif %}
+            {% if blog_list != blank or blog_article_handles != blank %}
+               <div class="xl:container xl:px-19">
+                  <div class="glide" data-module="basic-carousel">
+                     <div class="glide__track" data-glide-el="track">
+                        <ul class="glide__slides !pb-px xl:pb-0 xl:!grid xl:grid-cols-4 xl:gap-4">
+                           {% if blog_article_handles != blank %}
+                              {% for article_handle in blog_article_handles %}
+                                 {% render 'blog-item', article_handle: article_handle %}
+                              {% endfor %}
+                           {% else %}
+                              {% for blog_item in blog_list.articles limit: 4 %}
+                                 <li class="glide__slide !h-auto">
+                                    {% render 'blog-item', blog_item: blog_item %}
+                                 </li>
+                              {% endfor %}
+                           {% endif %}
+                        </ul>
+                     </div>
+                     {% render 'carousel-arrows', hide_on_desktop: true, no_heading: no_heading %}
+                  </div>
+               </div>
+            {% endif %}
+         </div>
+      </div>
+   </div>
+{% endif %}

@@ -1,0 +1,287 @@
+{% assign heading = section.settings.heading | default: 'Search Results' %}
+{% assign paragraph = section.settings.paragraph %}
+
+{% assign products_per_page = section.settings.products_per_page | default: 8 %}
+{% assign articles_per_page = section.settings.articles_per_page | default: 4 %}
+{% assign paginated_per_page = section.settings.paginated_per_page | default: 12 %}
+
+{% assign active_state = 'all' %}
+{% assign search_types = search.types %}
+
+{% if search_types contains 'product' and search_types contains 'article' %}
+   {% assign active_state = 'all' %}
+{% elsif search_types contains 'product' %}
+   {% assign active_state = 'products' %}
+{% elsif search_types contains 'article' %}
+   {% assign active_state = 'articles' %}
+{% endif %}
+
+{% assign product_results = search.results | where: "object_type", "product" %}
+{% assign article_results = search.results | where: "object_type", "article" %}
+
+<div class="vertical-spacing-sm">
+   <div class="container">
+      <div class="flex flex-col gap-8">
+         <div class="flex flex-col md:flex-row md:justify-between gap-8 md:items-center">
+            <div class="flex flex-col gap-4 flex-none">
+               {% if heading != blank %}
+                  <h1 class="heading">
+                     {{ heading }}
+                  </h1>
+               {% endif %}
+               {% if paragraph != blank %}
+                  <p class="max-w-180">
+                     {{ paragraph }}
+                  </p>
+               {% endif %}
+            </div>
+            <div class="w-full md:max-w-118">
+               {% render 'search-input', search_placeholder: search_placeholder %}
+            </div>
+         </div>
+         <div class="flex flex-col-reverse md:flex-row md:justify-between gap-8">
+            <div class="flex gap-8">
+               <a href="/search?q={{ search.terms }}" class="search__tab-link {% if active_state == 'all' %}search__tab-link--active{% endif %}">
+                  All Results
+               </a>
+               <a href="/search?q={{ search.terms }}&type=product" class="search__tab-link {% if active_state == 'products' %}search__tab-link--active{% endif %}">
+                  Products
+               </a>
+               <a href="/search?q={{ search.terms }}&type=article" class="search__tab-link {% if active_state == 'articles' %}search__tab-link--active{% endif %}">
+                  Blog
+               </a>
+            </div>
+
+            <div>
+               {%- if search.performed -%}
+                  {%- if search.results_count > 0 -%}
+                     <p role="status">
+                        {{ 'templates.search.results_with_count_and_term' | t: terms: search.terms, count: search.results_count }}
+                     </p>
+                  {%- endif -%}
+                  {%- if search.results_count == 0 and search.filters == empty -%}
+                     <p role="status">
+                        {{ 'templates.search.no_results' | t: terms: search.terms }}
+                     </p>
+                  {%- endif -%}
+               {%- endif -%}
+            </div>
+         </div>
+
+         {% comment %} ALL RESULTS VIEW (MIXED CONTENT) {% endcomment %}
+         {% if active_state == 'all' %}
+            <div class="flex flex-col gap-12">
+               {% comment %} PRODUCTS SECTION {% endcomment %}
+               {% if product_results.size > 0 %}
+                  <div class="flex flex-col gap-6">
+                     <h2 class="heading-03">
+                        Products
+                     </h2>
+                     <ul class="search__grid" role="list">
+                        {%- for product in product_results limit: products_per_page -%}
+                           <li class="grid__item">
+                              {% render 'product-item', product_item: product %}
+                           </li>
+                        {%- endfor -%}
+                     </ul>
+                     {% if product_results.size > products_per_page %}
+                        <div class="flex justify-center mt-4">
+                           <a href="/search?q={{ search.terms }}&type=product" class="button button-black button-transparent">
+                              View More
+                           </a>
+                        </div>
+                     {% endif %}
+                  </div>
+               {% endif %}
+
+               {% if product_results.size > 0 and article_results.size > 0 %}
+                  <hr />
+               {% endif %}
+
+               {% comment %} BLOG ARTICLES SECTION {% endcomment %}
+               {% if article_results.size > 0 %}
+                  <div class="flex flex-col gap-6">
+                     <h2 class="heading-03">
+                        Blog Articles
+                     </h2>
+                     <ul class="search__grid" role="list">
+                        {%- for article in article_results limit: articles_per_page -%}
+                           <li>
+                              {% render 'blog-item', blog_item: article %}
+                           </li>
+                        {%- endfor -%}
+                     </ul>
+                     {% if article_results.size > articles_per_page %}
+                        <div class="flex justify-center mt-4">
+                           <a href="/search?q={{ search.terms }}&type=article" class="button button-black button-transparent">
+                              View More
+                           </a>
+                        </div>
+                     {% endif %}
+                  </div>
+               {% endif %}
+
+               {% comment %} NO RESULTS MESSAGE {% endcomment %}
+               {% if search.results_count == 0 %}
+                  {% assign no_results_heading = section.settings.no_results_heading | default: 'No results found' %}
+                  {% if no_results_heading contains "[term]" %}
+                     {% assign no_results_heading = no_results_heading | replace: '[term]', search.terms %}
+                  {% endif %}
+                  {% assign no_results_paragraph = section.settings.no_results_paragraph %}
+
+                  {% assign search_default_heading = settings.no_search_results_heading %}
+                  {% assign search_default_products = settings.no_search_results_products %}
+
+                  <div class="py-12 text-center flex flex-col gap-4">
+                     {% if no_results_heading != blank %}
+                        <p class="heading-04">
+                           {{ no_results_heading }}
+                        </p>
+                     {% endif %}
+                     {% if no_results_paragraph != blank %}
+                        <p class="">
+                           {{ no_results_paragraph }}
+                        </p>
+                     {% endif %}
+                  </div>
+                  <div>
+                     <div class="flex flex-col gap-5 max-w-180 mx-auto justify-center">
+                        <h2 class="body-01 font-bold text-center">
+                           {{ search_default_heading }}
+                        </h2>
+                        <div class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4">
+                           {% for search_default_product in search_default_products %}
+                              {% render 'product-item',
+                                 product_item: search_default_product,
+                                 index: forloop.index
+                              %}
+                           {% endfor %}
+                        </div>
+                     </div>
+                  </div>
+               {% endif %}
+            </div>
+
+         {% comment %} PRODUCTS ONLY VIEW {% endcomment %}
+         {% elsif active_state == 'products' %}
+            <div class="flex flex-col gap-6"
+               x-data="{
+                  visible: 12
+               }"
+            >
+               <h2 class="heading-03">
+                  Products
+               </h2>
+               <ul class="search__grid" role="list">
+                  {% for product in product_results %}
+                     <li x-show="{{ forloop.index }} <= visible" class="" x-cloak>
+                        {% render 'product-item', product_item: product %}
+                     </li>
+                  {% endfor %}
+               </ul>
+               <div x-show="visible < {{ product_results.size }}" class="flex justify-center mt-4">
+                  <button @click="visible = visible + 4" class="button button-black button-transparent">
+                     Load More
+                  </button>
+               </div>
+            </div>
+
+         {% comment %} BLOG ARTICLES ONLY VIEW {% endcomment %}
+         {% elsif active_state == 'articles' %}
+            <div class="flex flex-col gap-6"
+               x-data="{
+                  visible: 12
+               }"
+            >
+               <h2 class="heading-03">
+                  Blog Articles
+               </h2>
+               <ul class="search__grid" role="list">
+                  {% for article in article_results %}
+                     <li x-show="{{ forloop.index }} <= visible" class="" x-cloak>
+                        {% render 'blog-item', blog_item: article %}
+                     </li>
+                  {% endfor %}
+               </ul>
+               <div x-show="visible < {{ article_results.size }}" class="flex justify-center mt-4">
+                  <button @click="visible = visible + 4" class="button button-black button-transparent">
+                     Load More
+                  </button>
+               </div>
+            </div>
+         {% endif %}
+      </div>
+   </div>
+</div>
+
+{% schema %}
+{
+   "name": "Search",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Settings"
+      },
+      {
+         "type": "range",
+         "id": "products_per_page",
+         "min": 4,
+         "max": 12,
+         "step": 2,
+         "default": 8,
+         "label": "Products per page (All Results view)"
+      },
+      {
+         "type": "range",
+         "id": "articles_per_page",
+         "min": 2,
+         "max": 8,
+         "step": 1,
+         "default": 4,
+         "label": "Articles per page (All Results view)"
+      },
+      {
+         "type": "range",
+         "id": "paginated_per_page",
+         "min": 8,
+         "max": 24,
+         "step": 4,
+         "default": 12,
+         "label": "Items per page (Single type view)"
+      },
+      {
+         "type": "header",
+         "content": "Content"
+      },
+      {
+         "type": "text",
+         "id": "heading",
+         "label": "Heading"
+      },
+      {
+         "type": "textarea",
+         "id": "paragraph",
+         "label": "Paragraph"
+      },
+      {
+         "type": "header",
+         "content": "No Results Content"
+      },
+      {
+         "type": "text",
+         "id": "no_results_heading",
+         "label": "No Results Heading",
+         "info": "Use '[term]' to dynamically inject the search term",
+         "default": "No results found for \"[term]\""
+      },
+      {
+         "type": "textarea",
+         "id": "no_results_paragraph",
+         "label": "No Results Paragraph",
+         "default": "Try checking your spelling or using different search terms."
+      }
+   ],
+   "blocks": [],
+   "presets": []
+}
+{% endschema %}

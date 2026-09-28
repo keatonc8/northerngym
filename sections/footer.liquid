@@ -1,0 +1,199 @@
+{% assign form_heading = section.settings.form_heading %}
+{% assign instagram_text = section.settings.instagram_text | default: 'Follow us on Instagram' %}
+{% assign instagram_link = settings.social_instagram_link %}
+{% assign footer_menu = section.settings.footer_menu %}
+{% assign tagline = section.settings.tagline %}
+{% assign tagline_mobile = section.settings.tagline_mobile %}
+{% assign copyright_text = section.settings.copyright_text %}
+
+<footer class="bg-black text-white container-full footer">
+   <div class="border-b border-charcoal py-10 relative overflow-hidden">
+      <div class="container relative z-2">
+         <a href="/" class="hover:text-yellow">
+            {% render 'icons', icon: 'logo', class: 'w-44' %}
+         </a>
+      </div>
+      {% render 'arrow-gradient', width_class: 'w-75', bottom_class: '-bottom-5', opacity_class: 'opacity-100' %}
+   </div>
+   <div class="border-b border-charcoal py-16">
+      <div class="container">
+         <div class="flex flex-col md:flex-row justify-between gap-16">
+            <div class="flex-1 flex flex-col gap-12 justify-between">
+               <div class="flex flex-col gap-6 md:max-w-[508px]">
+                  <p class="body-01">
+                     {{ form_heading }}
+                  </p>
+                  <div>
+                     {% render 'footer-newsletter-form' %}
+                  </div>
+               </div>
+               {% if instagram_link != blank %}
+                  <div class="flex">
+                     <a href="{{ instagram_link }}" class="flex items-center gap-2 hover:text-yellow">
+                        <span class="text-yellow">
+                           {% render 'icons', icon: 'instagram', class: 'w-5' %}
+                        </span>
+                        <span class="pt-1">
+                           {{ instagram_text }}
+                        </span>
+                     </a>
+                  </div>
+               {% endif %}
+            </div>
+            {% if footer_menu != blank %}
+               <ul class="flex-1 grid grid-cols-1 xs:grid-cols-2 gap-y-12 gap-x-6">
+                  {% for link in linklists[footer_menu].links %}
+                     <li class="flex flex-col gap-5">
+                        <p class="heading-05">
+                           {{ link.title }}
+                        </p>
+                        {% if link.links != blank %}
+                           <ul class="flex flex-col gap-1">
+                              {% for sublink in link.links %}
+                                 <li class="whitespace-nowrap">
+                                    <a class="hover:text-yellow opacity-80 hover:opacity-100" href="{{ sublink.url }}">
+                                       {{ sublink.title }}
+                                    </a>
+                                 </li>
+                              {% endfor %}
+                           </ul>
+                        {% endif %}
+                     </li>
+                  {% endfor %}
+               </ul> 
+            {% endif %}
+         </div>
+      </div>
+   </div>
+   {% if tagline != blank %}
+      <div class="border-b border-charcoal py-4"
+         x-data="{
+            scaleText() {
+               const scale = ($refs.taglineContainer.offsetWidth) / ($refs.taglineText.scrollWidth);
+               $refs.taglineText.style.transform = `scale(${scale})`;
+               $refs.taglineContainer.style.minHeight = `${$refs.taglineText.offsetHeight * scale}px`;
+            },
+            scaleTextMobile() {
+               const mobileTaglineWords = [...$refs.mobileTaglineContainer.querySelectorAll('[data-mobile-tagline-word]')];
+               let largestWordWidth = 0;
+               mobileTaglineWords.forEach(word => {
+                  if (word.scrollWidth > largestWordWidth) {
+                     largestWordWidth = word.scrollWidth;
+                  }
+               });
+               const scaleMobile = ($refs.taglineContainer.offsetWidth) / largestWordWidth;
+               mobileTaglineWords.forEach(word => {
+                  word.style.transform = `scale(${scaleMobile})`;
+               });
+            }
+         }"
+         x-init="setTimeout(scaleText, 200); setTimeout(scaleTextMobile, 200);"
+         x-on:resize.window.debounce="scaleText(); scaleTextMobile();"
+      >
+         <div class="container">
+            <div class="w-full md:whitespace-nowrap" x-ref="taglineContainer">
+               <span class="uppercase heading heading-alt origin-top-left text-[6.5vw] {% if tagline_mobile != blank %}hidden{% else %}inline-block{% endif %} md:inline-block" x-ref="taglineText">
+                  {{ tagline }}
+               </span>
+               {% if tagline_mobile != blank %}
+                  {% assign tagline_mobile_array = tagline_mobile | split: ' ' %}
+                  <div class="flex flex-col md:hidden" x-ref="mobileTaglineContainer">
+                     {% for word in tagline_mobile_array %}
+                        <span class="uppercase heading heading-alt flex text-[26vw] -my-2 xs:-my-3 sm:-my-4">
+                           <span class="origin-top-left" data-mobile-tagline-word>
+                              {{ word }}
+                           </span>
+                        </span>
+                     {% endfor %}
+                  </div>
+               {% endif %}
+            </div>
+         </div>
+      </div>
+   {% endif %}
+   <div class="py-5">
+      <div class="container">
+         <div class="flex flex-col md:flex-row items-center md:justify-between gap-8">
+            <p class="body-03">
+               {% assign current_year = 'now' | date: '%Y' %}
+               {% assign copyright_copy = section.settings.copyright_text %}
+
+               {{ copyright_copy | replace: '[year]', current_year | replace: '[store]', shop.name }}
+            </p>
+            <ul class="flex flex-wrap -m-0.5">
+               {%- for type in shop.enabled_payment_types -%}
+                  <li class="p-0.5">
+                     {{ type | payment_type_svg_tag: class: 'h-[24px] w-[38px]' }}
+                  </li>
+               {%- endfor -%}
+            </ul>
+         </div>
+      </div>
+   </div>
+</footer>
+
+{% schema %}
+{
+   "name": "Footer",
+   "class": "relative z-1",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Newsletter"
+      },
+      {
+         "type": "text",
+         "id": "form_heading",
+         "label": "Form Heading",
+         "default": "Sign up to our news letter for promotions and exclusive offers direct to your inbox"
+      },
+      {
+         "type": "header",
+         "content": "Socials"
+      },
+      {
+         "type": "text",
+         "id": "instagram_text",
+         "label": "Instagram Text",
+         "default": "Follow us on Instagram"
+      },
+      {
+         "type": "header",
+         "content": "Footer Links"
+      },
+      {
+         "type": "link_list",
+         "id": "footer_menu",
+         "label": "Footer Menu",
+         "default": "footer"
+      },
+      {
+         "type": "header",
+         "content": "Tagline"
+      },
+      {
+         "type": "text",
+         "id": "tagline",
+         "label": "Tagline (Desktop)",
+         "default": "Train without limits - Northern"
+      },
+      {
+         "type": "text",
+         "id": "tagline_mobile",
+         "label": "Tagline (Mobile)",
+         "default": "Train without limits"
+      },
+      {
+         "type": "header",
+         "content": "Bottom Content"
+      },
+      {
+         "type": "textarea",
+         "id": "copyright_text",
+         "label": "Copyright Text",
+         "default": "© [year] Northern Gym Equipment",
+         "info": "Add the text to appear in the footer for the copyright message. NOTE: Use [year] to dynamically insert the year and [store] to dynamically insert the store name"
+      }
+  ]
+}
+{% endschema %}

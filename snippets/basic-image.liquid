@@ -1,0 +1,5 @@
+{% assign image_object = image_object %}
+
+{% if image_object != blank %}
+   <img src="{{ image_object | img_url: '640x' }}" class="">
+{% endif %}

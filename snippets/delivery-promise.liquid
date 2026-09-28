@@ -1,0 +1,75 @@
+{% unless localization.country.iso_code == "IE" %}
+{% if settings.delivery_promise_enabled %}
+  {% assign delivery_dispatch_days = '' %}
+
+  {% if settings.delivery_dispatch_sunday %}
+    {% assign delivery_dispatch_days = delivery_dispatch_days | append: '0,' %}
+  {% endif %}
+  {% if settings.delivery_dispatch_monday %}
+    {% assign delivery_dispatch_days = delivery_dispatch_days | append: '1,' %}
+  {% endif %}
+  {% if settings.delivery_dispatch_tuesday %}
+    {% assign delivery_dispatch_days = delivery_dispatch_days | append: '2,' %}
+  {% endif %}
+  {% if settings.delivery_dispatch_wednesday %}
+    {% assign delivery_dispatch_days = delivery_dispatch_days | append: '3,' %}
+  {% endif %}
+  {% if settings.delivery_dispatch_thursday %}
+    {% assign delivery_dispatch_days = delivery_dispatch_days | append: '4,' %}
+  {% endif %}
+  {% if settings.delivery_dispatch_friday %}
+    {% assign delivery_dispatch_days = delivery_dispatch_days | append: '5,' %}
+  {% endif %}
+  {% if settings.delivery_dispatch_saturday %}
+    {% assign delivery_dispatch_days = delivery_dispatch_days | append: '6,' %}
+  {% endif %}
+
+  {% assign delivery_wrapper_classes = wrapper_classes | default: 'delivery border-t border-b border-gray-200 pt-3 pb-3 text-sm text-gray-700 space-y-1 w-100' %}
+  {% assign delivery_date_prefix_value = date_prefix | default: settings.delivery_date_prefix | default: 'Delivery by' %}
+  {% assign delivery_countdown_prefix_value = countdown_prefix | default: settings.delivery_countdown_prefix | default: 'Order within' %}
+  {% assign delivery_countdown_suffix_value = countdown_suffix | default: settings.delivery_countdown_suffix | default: 'for same-day dispatch' %}
+  {% assign delivery_order_before_prefix_value = order_before_prefix | default: settings.delivery_order_before_prefix | default: 'Order before' %}
+  {% assign delivery_order_before_suffix_value = order_before_suffix | default: settings.delivery_order_before_suffix | default: 'for next dispatch' %}
+  {% assign delivery_date_line_classes = date_line_classes | default: 'flex items-center gap-2' %}
+  {% assign delivery_date_prefix_classes = date_prefix_classes | default: '' %}
+  {% assign delivery_date_value_classes = date_value_classes | default: 'font-medium' %}
+  {% assign delivery_countdown_line_classes = countdown_line_classes | default: 'flex items-center gap-2 text-green-600' %}
+  {% assign delivery_countdown_prefix_classes = countdown_prefix_classes | default: '' %}
+  {% assign delivery_countdown_value_classes = countdown_value_classes | default: '' %}
+  {% assign delivery_countdown_suffix_classes = countdown_suffix_classes | default: '' %}
+  {% assign delivery_shipping_line_classes = shipping_line_classes | default: 'flex items-center gap-2' %}
+  {% assign delivery_shipping_text_classes = shipping_text_classes | default: '' %}
+  {% assign delivery_shipping_message_value = shipping_message | default: settings.delivery_shipping_message %}
+
+  <div
+    class="{{ delivery_wrapper_classes }}"
+    data-delivery-promise
+    data-cutoff-time="{{ settings.delivery_cutoff_time | default: '14:00' | escape }}"
+    data-dispatch-days="{{ delivery_dispatch_days | escape }}"
+    data-lead-days="{{ settings.delivery_lead_days | default: 1 }}"
+    data-failsafe-days="{{ settings.delivery_failsafe_days | default: 0 }}"
+    data-date-prefix="{{ delivery_date_prefix_value | escape }}"
+    data-countdown-prefix="{{ delivery_countdown_prefix_value | escape }}"
+    data-countdown-suffix="{{ delivery_countdown_suffix_value | escape }}"
+    data-order-before-prefix="{{ delivery_order_before_prefix_value | escape }}"
+    data-order-before-suffix="{{ delivery_order_before_suffix_value | escape }}"
+  >
+    <div class="{{ delivery_date_line_classes }}">
+      <span class="delivery-date-prefix {{ delivery_date_prefix_classes }}"></span>
+      <span class="delivery-date-value {{ delivery_date_value_classes }}"></span>
+    </div>
+
+    <div class="{{ delivery_countdown_line_classes }}">
+      <span class="delivery-countdown-prefix {{ delivery_countdown_prefix_classes }} text-[#1c6ed7]"></span>
+      <span class="delivery-countdown-value {{ delivery_countdown_value_classes }}"></span>
+      <span class="delivery-countdown-suffix {{ delivery_countdown_suffix_classes }}"></span>
+    </div>
+
+    {% if delivery_shipping_message_value != blank %}
+      <div class="{{ delivery_shipping_line_classes }}">
+        <span class="delivery-shipping {{ delivery_shipping_text_classes }}">{{ delivery_shipping_message_value }}</span>
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+{% endunless %}

@@ -1,0 +1,23 @@
+{% assign is_new = product_item.metafields.northerngym.tag_is_new_item %}
+{% assign is_package = product_item.metafields.northerngym.tag_is_package_item %}
+
+
+
+<div class="absolute top-0 lg:top-3 left-0 lg:left-3 pointer-events-none flex gap-3">
+   {% if is_new %}
+      <span class="h-max rounded-full bg-gradient-to-r from-yellow-500/80 to-black/30 px-3 py-1 text-sm font-normal text-white/90 ring-1 ring-white/40 backdrop-blur-md">
+         New Product
+      </span>
+   {% endif %}
+   {% if is_on_sale %}
+      <span class="h-max rounded-full bg-gradient-to-r from-red-600/80 to-black/30 px-3 py-1 text-sm font-normal text-white/90 ring-1 ring-white/40 backdrop-blur-md">
+         HERE
+      </span>
+   {% endif %}
+   {% if is_package %}
+      <span class="h-max rounded-full bg-gradient-to-r from-black/80 to-black/30 px-3 py-1 text-sm font-normal text-white/90 ring-1 ring-white/40 backdrop-blur-md">
+         Package
+      </span>
+   {% endif %}
+</div>
+ 

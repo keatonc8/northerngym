@@ -1,0 +1,156 @@
+{{ 'component-show-more.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+   assign sort_by = results.sort_by | default: results.default_sort_by
+   assign total_active_values = 0
+   if results.url
+      assign results_url = results.url
+   else
+      assign terms = results.terms | escape
+      assign results_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
+   endif
+-%}
+
+<div class="w-full lg:sticky lg:top-42">
+
+   {%- if results.terms -%}
+      <input type="hidden" name="q" value="{{ results.terms | escape }}">
+      <input name="options[prefix]" type="hidden" value="last">
+   {%- endif -%}
+
+   {% comment %} Heading is the first tabbable element on filter type horizontal {% endcomment %}
+   <div id="FacetsWrapperDesktop">
+
+      <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
+
+      <h2 class="body-01 font-bold py-4 border-b border-silver">
+         Filter
+      </h2>
+      
+      {% comment %} Filters for both horizontal and vertical filter {% endcomment %}
+      {%- for filter in results.filters -%}
+         {%- assign total_active_values = total_active_values | plus: filter.active_values.size -%}
+
+         <div
+            id="Details-{{ forloop.index }}-{{ section.id }}"
+            class="py-4 border-b border-silver js-filter"
+            data-index="{{ forloop.index }}"
+            x-data="{ open: {% if forloop.first %}true{% else %}false{% endif %} }"
+         >
+            <button
+               class="body-01 font-bold flex justify-between items-center w-full"
+               @click.prevent="open = !open"
+               aria-label="{{ filter.label }} ({{ 'products.facets.filters_selected.one' | t: count: filter.active_values.size }})"
+            >
+               <span>
+                  {{- filter.label | escape }}
+                  <span class="facets__selected no-js-hidden{% if filter.active_values.size == 0 or filter.type == 'price_range' %} hidden{% endif %}">
+                     ({{ filter.active_values.size }})
+                  </span>
+               </span>
+               <span :class="open ? '!rotate-180' : '!rotate-0'" class="duration-300 {% if forloop.first %}rotate-180{% else %}rotate-0{% endif  %}">
+                  {% render 'icons', icon: 'chevron', class: 'w-4' %}
+               </span>
+            </button>
+
+            {% case filter.type %}
+               {% when 'boolean', 'list' %}
+                  <div id="Facet-{{ forloop.index }}-{{ section.id }}"
+                     class="pt-4"
+                     x-show="open"
+                     x-transition
+                     {% unless forloop.first %}
+                        x-cloak
+                     {% endunless %}
+                  >
+                     <fieldset class="">
+                        <legend class="sr-only">
+                           {{ filter.label | escape }}
+                        </legend>
+                        <ul class="flex flex-col gap-2" role="list">
+                           {%- for value in filter.values -%}
+                              <li class="list-menu__item facets__item">
+                                 <label
+                                    for="Filter-{{ filter.param_name | escape }}-{{ forloop.index }}"
+                                    class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %} group"
+                                 >
+                                    <input
+                                       type="checkbox"
+                                       name="{{ value.param_name }}"
+                                       value="{{ value.value }}"
+                                       id="Filter-{{ filter.param_name | escape }}-{{ forloop.index }}"
+                                       {% if value.active %}
+                                          checked
+                                       {% endif %}
+                                       {% if value.count == 0 and value.active == false %}
+                                          disabled
+                                       {% endif %}
+                                    >
+
+                                    <span class="custom-checkbox">
+                                       <span class="checkbox-tick">
+                                          {% render 'icons', icon: 'tick', class: 'w-3' %}
+                                       </span>
+                                    </span>
+
+                                    <span class="pt-1 group-hover:text-yellow duration-300 mono-font" aria-hidden="true">{{ value.label | escape }} ({{ value.count }})</span>
+                                    <span class="sr-only">
+                                       {{- value.label | escape }} (
+                                       {%- if value.count == 1 -%}
+                                          {{- 'products.facets.product_count_simple.one' | t: count: value.count -}}
+                                       {%- else -%}
+                                          {{- 'products.facets.product_count_simple.other' | t: count: value.count -}}
+                                       {%- endif -%}
+                                       )
+                                    </span>
+                                 </label>
+                              </li>
+                           {%- endfor -%}
+                        </ul>
+                     </fieldset>
+                  </div>
+               {% when 'price_range' %}
+                  <price-range
+                     data-module="facets-price-slider"
+                     data-options='{
+                        "minInit": {% if filter.min_value.value %}{{ filter.min_value.value | money_without_currency | replace: ',', '' }}{% else %}null{% endif %},
+                        "maxInit": {% if filter.max_value.value %}{{ filter.max_value.value | money_without_currency | replace: ',', '' }}{% else %}null{% endif %},
+                        "minRange": 0,
+                        "maxRange": {{ filter.range_max | money_without_currency | replace: ',', '' }},
+                        "currencySymbol": "{{ cart.currency.symbol }}",
+                        "paramMin": "{{ filter.min_value.param_name }}",
+                        "paramMax": "{{ filter.max_value.param_name }}"
+                     }'
+                     class="block mt-4 px-2"
+                     x-show="open"
+                     x-transition
+                     x-cloak
+                  >
+                     <div id="price-slider" class="price-slider mb-4"></div>
+
+                     <div class="price-display text-grey text-center">
+                        <span>{{ cart.currency.symbol }}<span id="min-display"></span></span> —
+                        <span>{{ cart.currency.symbol }}<span id="max-display"></span></span>
+                     </div>
+
+                     <input type="hidden" name="{{ filter.min_value.param_name }}">
+                     <input type="hidden" name="{{ filter.max_value.param_name }}">
+                  </price-range> 
+            {% endcase %}
+         </div>
+      {%- endfor -%}
+      <facet-remove class="active-filter__clear-all">
+         <a href="{{ results_url }}" class="link mt-5 block" data-filter-remove>
+            <span>{{ 'products.facets.clear_all' | t }}</span>
+         </a>
+      </facet-remove>
+   </div>
+
+   {% if results.current_vendor or results.current_type %}
+      <input type="hidden" name="q" value="{{ results.current_vendor }}{{ results.current_type }}">
+   {% endif %}
+
+
+
+  
+</div>

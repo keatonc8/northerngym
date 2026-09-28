@@ -1,0 +1,143 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "Based In Bolton",
+            "title": "Bio",
+            "text": "<p>My fitness journey began as a personal challenge, but over time it grew into something far bigger. Training became more than just exercise for me,  it gave me confidence, routine, and a way to look after both my physical and mental wellbeing.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_7WcBXp": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "title": "",
+            "text": "<p>Strength training in particular completely changed my outlook on fitness. It showed me that progress isn’t about perfection or extremes, but about consistency, patience, and learning what your body is capable of. That mindset is something I now try to pass on to the people I coach.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_WGq8f8": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "title": "",
+            "text": "<p>I work with both men and women through my coaching and community challenges, helping them build strength, confidence, and sustainable habits that fit into real life. Seeing people grow stronger, not just physically but mentally, is the most rewarding part of what I do.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_wgaqTH": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "title": "",
+            "text": "<p>Fitness should feel empowering, not intimidating, and I’m passionate about creating a supportive environment where everyone feels encouraged to show up, try their best, and realise they’re capable of more than they think.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ",
+        "item_7WcBXp",
+        "item_WGq8f8",
+        "item_wgaqTH"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Dani Turner ",
+        "text": "<p>Strength-focused training that builds confidence, resilience, and strong, capable bodies.</p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_QUBYg8": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_LebtEX": {
+          "type": "card",
+          "settings": {
+            "title": "Favourite Northern Product",
+            "image": "shopify://shop_images/Northern_Rubber_Hex_Dumbbells_Pair_45kg.jpg",
+            "text": "<p>Hex Dumbbells - <em>\"The Northern hex dumbbells, they’re incredibly durable, sturdy, and comfortable to use, making them perfect for strength training at any level.”</em></p>",
+            "button_label": "Shop Now",
+            "button_link": "shopify://products/northern-hex-dumbbells-pair-2-5kg-x-2"
+          }
+        },
+        "card_cEmc7P": {
+          "type": "card",
+          "settings": {
+            "title": "What does being part of Northern mean to you?",
+            "text": "",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "card_mNhWg4": {
+          "type": "card",
+          "settings": {
+            "title": "Follow Dani's Journey",
+            "text": "<p>Check out Dani's social here.</p>",
+            "button_label": "Follow",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_LebtEX",
+        "card_cEmc7P",
+        "card_mNhWg4"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_QUBYg8"
+  ]
+}

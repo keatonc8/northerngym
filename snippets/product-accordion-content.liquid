@@ -1,0 +1,15 @@
+{% if content == blank %}
+    <p>[Error] Please add a content source in the snippet setup</p>
+{% endif %}
+
+{% if index == blank %}
+    <p>[Error] Please add an index in the snippet setup</p>
+{% endif %}
+
+{% if content != blank or index != blank %}
+    <div class="relative overflow-hidden transition-all max-h-0 duration-700" x-ref="container{{ index }}" x-bind:style="selected == {{ index }} ? 'max-height: ' + $refs.container{{ index }}.scrollHeight + 'px' : ''">
+        <div class="richtext mt-2">
+            {{ content }}
+        </div>
+    </div>
+{% endif %}

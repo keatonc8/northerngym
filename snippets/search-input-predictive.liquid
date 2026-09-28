@@ -1,0 +1,36 @@
+<predictive-search class="w-full">
+   <form x-data="{search:''}" action="{{ routes.search_url }}" method="get" role="search" class="search flex flex-col">
+      {% render 'search-input-form-inner', search_placeholder: search_placeholder %}
+      <div id="predictive-search" tabindex="-1" class="flex-auto overflow-scroll">
+         <div class="bg-white absolute w-full py-8 container z-2 border-t border-silver">
+            <div class="flex flex-col gap-5 max-w-180 mx-auto justify-center">
+               <h2 class="body-01 font-bold text-center">
+                  {{ search_default_heading }}
+               </h2>
+               <div class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4">
+                  {% for search_default_product in search_default_products %}
+                     {% render 'product-item',
+                        product_item: search_default_product,
+                        index: forloop.index
+                     %}
+                  {% endfor %}
+               </div>
+            </div>
+         </div>
+         <div
+            x-data="{
+               offsetClass: 'top-24',
+               handleScroll() {
+                  this.offsetClass = window.scrollY > 100 ? 'top-0 lg:top-24' : 'top-24';
+               }
+            }"
+            x-init="
+               handleScroll();
+               window.addEventListener('scroll', Alpine.debounce(() => handleScroll(), 100))
+            "
+            :class="`bg-black/70 inset-0 -z-1 h-screen fixed ${offsetClass}`"
+            @click.prevent="showSearch = false"
+         ></div>
+      </div>
+   </form>
+</predictive-search>

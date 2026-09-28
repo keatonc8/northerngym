@@ -1,0 +1,149 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "Based In Surrey",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-04-29_at_09.27.13.jpg",
+            "title": "Bio",
+            "text": "<p>My fitness journey began as a personal challenge, but over time it grew into something far bigger. Training became more than just exercise for me,  it gave me confidence, routine, and a way to look after both my physical and mental wellbeing.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_7WcBXp": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/4B8B8CB9-EF00-4224-BE01-DD09431F56F6.jpg",
+            "title": "",
+            "text": "<p>After training with experienced athletes and fully immersing myself in the fitness world, I entered my first competition in 2009 and won the overall title. </p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_WGq8f8": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/632696f1-08b9-4803-b9cd-1c401c5004eb.jpg",
+            "title": "",
+            "text": "<p>From there, I progressed through the bodybuilding ranks, earning WBFF Pro status before ultimately achieving IFBB Pro status — the pinnacle of men's physique competition. Competing twice at the Olympia, I placed 11th in my debut against 45 world-class athletes.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_wgaqTH": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/P1499993.jpg",
+            "title": "",
+            "text": "<p>Today, my approach to training is centred around longevity, consistency, and lifestyle. For me, fitness is about staying in peak condition, maintaining health as I age, and embracing the discipline and enjoyment that training brings every day.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ",
+        "item_7WcBXp",
+        "item_WGq8f8",
+        "item_wgaqTH"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Ryan JB",
+        "text": "<p>High-intensity, brutal training focused on high repetitions, supersets, and drop sets. A varied approach combining machine work, cables, and dumbbells to maximise muscle growth, endurance, and overall performance.</p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_QUBYg8": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_LebtEX": {
+          "type": "card",
+          "settings": {
+            "title": "Favourite Northern Product",
+            "image": "shopify://shop_images/Northern_Adjustable_Dumbbell_Set.jpg",
+            "text": "<p>Adjustable Dumbbells - <em>\"The up to 24kg Adjustable Dumbbells are my favourite because they save a huge amount of space, allow for quick weight changes during intense supersets and drop sets, and are incredibly durable — making them perfect for efficient, high-level training and home workouts.\"</em><br/><br/></p>",
+            "button_label": "Shop Now",
+            "button_link": "https://northerngymequipment.com/products/northern-selectable-adjustable-dumbbell-pair-24kg-x-2"
+          }
+        },
+        "card_cEmc7P": {
+          "type": "card",
+          "settings": {
+            "title": "What does being part of Northern mean to you?",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-04-29_at_09.27.13.jpg",
+            "text": "<p>Being part of Northern means representing a brand that aligns with my values of hard work, consistency, and high performance. It's about promoting quality equipment that not only supports serious training but also helps people build better lifestyles, improve their health, and reach their full potential.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "card_mNhWg4": {
+          "type": "card",
+          "settings": {
+            "title": "Follow Ryan's Journey",
+            "image": "shopify://shop_images/SaveClip.App_468148326_18479500714050022_2438761465197096488_n.jpg",
+            "text": "<p>Check out Ryan's social here.</p>",
+            "button_label": "Follow",
+            "button_link": "https://www.instagram.com/ryanjohnbaptiste/"
+          }
+        }
+      },
+      "block_order": [
+        "card_LebtEX",
+        "card_cEmc7P",
+        "card_mNhWg4"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_QUBYg8"
+  ]
+}

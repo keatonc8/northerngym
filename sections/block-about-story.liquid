@@ -1,0 +1,58 @@
+{% render 'abu-styles' %}
+<div class="abu-scope">
+  <div class="abu-container abu-rhythm">
+    <div class="abu-row{% if section.settings.image_position == 'right' %} abu-row-rev{% endif %}">
+      <div style="position:relative;">
+        <div class="abu-media abu-tall">
+          {% if section.settings.image %}
+            {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400, 600, 900, 1200', sizes: '(min-width: 1024px) 50vw, 100vw' }}
+          {% else %}
+            {{ 'people' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+        {% if section.settings.caption != blank %}
+          <span class="abu-caption abu-meta">{{ section.settings.caption }}</span>
+        {% endif %}
+      </div>
+      <div>
+        {% if section.settings.eyebrow != blank %}
+          <span class="abu-meta">{{ section.settings.eyebrow }}</span>
+        {% endif %}
+        <h2 class="abu-h02" style="margin-top:0.5rem;margin-bottom:1.25rem;">{{ section.settings.heading }}</h2>
+        <div class="abu-prose">{{ section.settings.body }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Block - About Story",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow label", "default": "Our Story" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "How it started" },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body copy",
+      "default": "<p>Northern Gym Equipment started with three brothers obsessed with fitness. Whether it was running, lifting, competing, or simply pushing themselves to be better, they believed people deserved gym equipment that worked as hard as they did.</p><p>What started as a small local business has grown into a nationwide community united by a commitment to self-improvement. A pair of dumbbells became complete gym setups, and a simple idea became lasting progress. Every milestone began with action, and every action moved us forward.</p><p>Whether you're building your first home gym or fitting out a commercial facility, our goal remains the same: to provide equipment you can rely on, backed by people you can trust.</p>"
+    },
+    { "type": "header", "content": "Image" },
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Recommend a portrait photo of the founders." },
+    { "type": "text", "id": "caption", "label": "Image caption", "default": "Founders — Northern Gym Equipment" },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    }
+  ],
+  "presets": [
+    { "name": "Block - About Story" }
+  ]
+}
+{% endschema %}

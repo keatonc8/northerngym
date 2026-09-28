@@ -1,0 +1,334 @@
+{%- comment -%}
+  Sticky Announcement Ticker - Buy One Get One Half Price
+  Theme: September 2026 - BOGOHP
+
+  Sits sticky under the main nav on all pages.
+  Copy scrolls right to left, seamless infinite loop.
+  Countdown item (days only) appended after the message, on by default.
+  Padding-driven height so descenders never clip.
+{%- endcomment -%}
+
+{%- liquid
+  assign bar_bg      = section.settings.bar_bg
+  assign bar_text    = section.settings.bar_text
+  assign accent      = section.settings.accent
+  assign mode        = section.settings.mode
+  assign speed       = section.settings.speed
+  assign rotate_time = section.settings.rotate_time
+  assign show_bar    = section.settings.show_bar
+  assign hide_ie     = section.settings.hide_ie
+  assign primary     = section.settings.primary_text
+  assign primary_hl  = section.settings.primary_highlight
+  assign link_url    = section.settings.link_url | default: 'https://northerngymequipment.com/collections/shop-all'
+  assign show_countdown = section.settings.show_countdown
+  assign countdown_prefix = section.settings.countdown_prefix
+  assign countdown_target = section.settings.countdown_target
+  assign render_bar  = show_bar
+  if hide_ie and localization.country.iso_code == 'IE'
+    assign render_bar = false
+  endif
+  assign block_count = section.blocks.size
+-%}
+
+{%- if render_bar -%}
+<style>
+  .nge-ticker {
+    position: relative;
+    z-index: 45;
+    width: 100%;
+    background: {{ bar_bg }};
+    color: {{ bar_text }};
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+  }
+  .nge-ticker.is-pinned {
+    position: fixed;
+    left: 0;
+    right: 0;
+  }
+  .nge-ticker-spacer { height: 0; }
+  .nge-ticker-spacer.is-active { height: 43px; }
+  .nge-ticker__inner {
+    display: flex;
+    align-items: center;
+    padding: 13px 0;
+    line-height: normal;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .nge-ticker--marquee .nge-ticker__track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    will-change: transform;
+    animation: nge-marquee {{ speed }}s linear infinite;
+  }
+  .nge-ticker__group {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+  .nge-ticker--marquee:hover .nge-ticker__track { animation-play-state: paused; }
+  .nge-ticker__item {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1.2;
+    padding: 0 2rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  .nge-ticker__hl {
+    color: {{ accent }};
+    margin-left: 0.4em;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  a.nge-ticker__hl { color: {{ accent }}; }
+  a.nge-ticker__hl:hover { opacity: 0.85; }
+  .nge-ticker__count { color: {{ accent }}; margin-left: 0.4em; font-variant-numeric: tabular-nums; }
+  .nge-ticker__dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: {{ accent }};
+    flex: 0 0 auto;
+  }
+  @keyframes nge-marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .nge-ticker--rotate .nge-ticker__inner { justify-content: center; position: relative; }
+  .nge-ticker--rotate .nge-ticker__slide {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    padding: 0 1rem;
+    text-align: center;
+  }
+  .nge-ticker--rotate .nge-ticker__slide.is-active { opacity: 1; position: relative; }
+  @media (prefers-reduced-motion: reduce) {
+    .nge-ticker--marquee .nge-ticker__track { animation: none; }
+    .nge-ticker--marquee .nge-ticker__inner { justify-content: center; }
+  }
+</style>
+
+{%- comment -%} Build the highlight (linked + underlined if a URL is set) {%- endcomment -%}
+{%- capture hl_open -%}{%- if link_url != blank -%}<a class="nge-ticker__hl" href="{{ link_url }}">{%- else -%}<span class="nge-ticker__hl">{%- endif -%}{%- endcapture -%}
+{%- capture hl_close -%}{%- if link_url != blank -%}</a>{%- else -%}</span>{%- endif -%}{%- endcapture -%}
+
+{%- capture messages -%}
+  {%- if block_count > 0 -%}
+    {%- for block in section.blocks -%}
+      <span class="nge-ticker__item" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}{%- if block.settings.highlight != blank %}{{ hl_open }}{{ block.settings.highlight | escape }}{{ hl_close }}{% endif -%}</span><span class="nge-ticker__dot"></span>
+    {%- endfor -%}
+  {%- else -%}
+    <span class="nge-ticker__item">{{ primary | escape }}{%- if primary_hl != blank %}{{ hl_open }}{{ primary_hl | escape }}{{ hl_close }}{% endif -%}</span><span class="nge-ticker__dot"></span>
+  {%- endif -%}
+  {%- if show_countdown and countdown_target != blank -%}
+    <span class="nge-ticker__item nge-ticker__item--count">{{ countdown_prefix | escape }}<span class="nge-ticker__count" data-nge-countdown data-target="{{ countdown_target }}">…</span></span><span class="nge-ticker__dot"></span>
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- if mode == 'rotate' and block_count > 1 -%}
+  <div class="nge-ticker-spacer" data-nge-ticker-spacer></div>
+  <div class="nge-ticker nge-ticker--rotate" data-nge-ticker data-rotate="{{ rotate_time }}">
+    <div class="nge-ticker__inner">
+      {%- for block in section.blocks -%}
+        <span class="nge-ticker__slide {% if forloop.first %}is-active{% endif %}" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}{%- if block.settings.highlight != blank %}{{ hl_open }}{{ block.settings.highlight | escape }}{{ hl_close }}{% endif -%}</span>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- else -%}
+  <div class="nge-ticker-spacer" data-nge-ticker-spacer></div>
+  <div class="nge-ticker nge-ticker--marquee" data-nge-ticker>
+    <div class="nge-ticker__inner">
+      <div class="nge-ticker__track">
+        <div class="nge-ticker__group">{{ messages }}{{ messages }}{{ messages }}</div>
+        <div class="nge-ticker__group" aria-hidden="true">{{ messages }}{{ messages }}{{ messages }}</div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+<script>
+  (function () {
+    var script = document.currentScript;
+    var el = script.previousElementSibling;
+    while (el && !el.hasAttribute('data-nge-ticker')) { el = el.previousElementSibling; }
+    if (!el) return;
+    var spacer = el.previousElementSibling;
+    if (spacer && !spacer.hasAttribute('data-nge-ticker-spacer')) spacer = null;
+
+    // --- Live countdown (days only) ---
+    var countEls = el.querySelectorAll('[data-nge-countdown]');
+    if (countEls.length) {
+      var target = new Date(countEls[0].getAttribute('data-target')).getTime();
+      function renderCountdown() {
+        var now = Date.now();
+        var diff = target - now;
+        var text;
+        if (isNaN(target)) {
+          text = '';
+        } else if (diff <= 0) {
+          text = 'now on';
+        } else {
+          var days = Math.ceil(diff / 86400000);
+          text = days + (days === 1 ? ' day' : ' days');
+        }
+        for (var c = 0; c < countEls.length; c++) { countEls[c].textContent = text; }
+      }
+      renderCountdown();
+      setInterval(renderCountdown, 300000);
+    }
+
+    // Rotate mode fade
+    if (el.classList.contains('nge-ticker--rotate')) {
+      var slides = el.querySelectorAll('.nge-ticker__slide');
+      if (slides.length > 1) {
+        var i = 0;
+        var t = parseInt(el.getAttribute('data-rotate'), 10) || 4000;
+        setInterval(function () {
+          slides[i].classList.remove('is-active');
+          i = (i + 1) % slides.length;
+          slides[i].classList.add('is-active');
+        }, t);
+      }
+    }
+
+    var header = document.querySelector('header');
+    var restingTop = 0;
+    function measure() {
+      if (el.classList.contains('is-pinned')) return;
+      restingTop = el.getBoundingClientRect().top + window.scrollY;
+    }
+    function headerBottomOnScreen() {
+      if (!header) return 0;
+      var b = header.getBoundingClientRect().bottom;
+      return b > 0 ? b : 0;
+    }
+    function onScroll() {
+      var pinned = el.classList.contains('is-pinned');
+      var threshold = restingTop - headerBottomOnScreen();
+      if (window.scrollY >= threshold) {
+        if (!pinned) {
+          if (spacer) { spacer.style.height = el.getBoundingClientRect().height + 'px'; spacer.classList.add('is-active'); }
+          el.classList.add('is-pinned');
+        }
+        el.style.top = headerBottomOnScreen() + 'px';
+      } else {
+        if (pinned) {
+          el.classList.remove('is-pinned');
+          el.style.top = '';
+          if (spacer) { spacer.classList.remove('is-active'); spacer.style.height = ''; }
+          measure();
+        }
+      }
+    }
+    measure();
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', function () {
+      if (!el.classList.contains('is-pinned')) measure();
+      onScroll();
+    }, { passive: true });
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement Ticker",
+  "tag": "section",
+  "class": "nge-ticker-section",
+  "settings": [
+    { "type": "checkbox", "id": "show_bar", "label": "Show bar", "default": true },
+    { "type": "checkbox", "id": "hide_ie", "label": "Hide on Ireland market", "default": false },
+    {
+      "type": "select",
+      "id": "mode",
+      "label": "Display mode",
+      "options": [
+        { "value": "marquee", "label": "Scrolling (right to left)" },
+        { "value": "rotate", "label": "Rotating (fade between messages)" }
+      ],
+      "default": "marquee",
+      "info": "Rotate needs 2+ message blocks; otherwise it scrolls."
+    },
+    { "type": "header", "content": "Default message" },
+    {
+      "type": "text",
+      "id": "primary_text",
+      "label": "Message",
+      "info": "Shown when no message blocks are added below.",
+      "default": "Buy one get one half price."
+    },
+    {
+      "type": "text",
+      "id": "primary_highlight",
+      "label": "Highlight text (yellow, underlined link) - leave blank for none"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Highlight link",
+      "info": "Where the highlight text links to."
+    },
+    { "type": "header", "content": "Countdown" },
+    {
+      "type": "checkbox",
+      "id": "show_countdown",
+      "label": "Show countdown",
+      "default": true,
+      "info": "Adds a live 'Offer ends in X days' item to the ticker."
+    },
+    {
+      "type": "text",
+      "id": "countdown_prefix",
+      "label": "Countdown prefix",
+      "default": "Offer ends in "
+    },
+    {
+      "type": "text",
+      "id": "countdown_target",
+      "label": "Countdown end (ISO datetime)",
+      "default": "2026-09-14T00:00:00+01:00",
+      "info": "When the countdown hits zero. UK time. Format: YYYY-MM-DDTHH:MM:SS+01:00"
+    },
+    { "type": "header", "content": "Timing" },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Scroll speed (seconds per loop)",
+      "min": 10, "max": 60, "step": 2, "unit": "s", "default": 30,
+      "info": "Lower = faster. Marquee mode only."
+    },
+    {
+      "type": "range",
+      "id": "rotate_time",
+      "label": "Rotate interval (ms)",
+      "min": 2000, "max": 8000, "step": 500, "unit": "ms", "default": 4000,
+      "info": "Rotate mode only."
+    },
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "bar_bg", "label": "Bar background", "default": "#1a1a1a" },
+    { "type": "color", "id": "bar_text", "label": "Text colour", "default": "#ffffff" },
+    { "type": "color", "id": "accent", "label": "Yellow accent", "default": "#FEED06" }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Message", "default": "Buy one get one half price." },
+        { "type": "text", "id": "highlight", "label": "Highlight text (yellow, underlined link)", "default": "Shop now" }
+      ]
+    }
+  ],
+  "max_blocks": 6
+}
+{% endschema %}

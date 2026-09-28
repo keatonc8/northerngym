@@ -1,0 +1,274 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "block_hero_zTxQkq": {
+      "type": "block-hero",
+      "blocks": {
+        "logo_qCynRE": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_p6QBqX": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_bbPWLe": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_3tmyyg": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_G3z4Nc": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_WFyzRd": {
+          "type": "logo",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "logo_qCynRE",
+        "logo_p6QBqX",
+        "logo_bbPWLe",
+        "logo_3tmyyg",
+        "logo_G3z4Nc",
+        "logo_WFyzRd"
+      ],
+      "name": "Block - Hero",
+      "settings": {
+        "background_image": "shopify://shop_images/WIN_500.png",
+        "mobile_background_image": "shopify://shop_images/WIN_500_2_29f3c345-635a-4d91-9583-88fe7ac65334.png",
+        "content_vertical_align": "middle",
+        "heading": "",
+        "body": "",
+        "button_label": "",
+        "button_link": "",
+        "text_color": "#ffffff",
+        "button_color": "#ffffff",
+        "button_text_color": "#000000",
+        "marquee_speed": "regular",
+        "add_marquee_bg": false,
+        "marquee_bg_color": "#ffffff",
+        "marquee_bg_opacity": 100
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "disabled": true,
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/apply_now_banner_4000_x_6000.jpg",
+            "title": "",
+            "text": "",
+            "button_label": "Apply Now",
+            "button_link": "https://af.uppromote.com/Northerngymequipment/register"
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ"
+      ],
+      "disabled": true,
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "APPLY TO BECOME A NORTHERN AMBASSADOR",
+        "text": "<p>This isn’t given. it’s earned.</p><p>Show up. Stay consistent. Put the work in.</p><p>Join a community of athletes, coaches and everyday lifters representing Northern and growing together.</p><p>Built for those who want more.</p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_MKdtwB": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_wUPzwY": {
+          "type": "card",
+          "settings": {
+            "title": "BRAND OPPORTUNITIES",
+            "image": "shopify://shop_images/1_9dbbfdbb-ece4-4ec9-87b4-cf66955aab26.jpg",
+            "text": "<p>Be part of photoshoots, campaigns and product launches.</p>",
+            "button_label": "Sign Up",
+            "button_link": "https://af.uppromote.com/Northerngymequipment/register"
+          }
+        },
+        "card_hrCYyE": {
+          "type": "card",
+          "settings": {
+            "title": "EARLY ACCESS",
+            "image": "shopify://shop_images/2_d8cb6924-9586-4961-b12d-d0f0450b2ff4.jpg",
+            "text": "<p>Train new releases before anyone else.</p>",
+            "button_label": "Sign Up",
+            "button_link": "https://af.uppromote.com/Northerngymequipment/register"
+          }
+        },
+        "card_j6Yi6x": {
+          "type": "card",
+          "settings": {
+            "title": "EARN UP TO 10% COMMISSION",
+            "image": "shopify://shop_images/3_9ae5930c-7421-438b-aa9f-90759e04ecec.jpg",
+            "text": "<p>Turn your content into income, as you build your platform.</p>",
+            "button_label": "Sign Up",
+            "button_link": "https://af.uppromote.com/Northerngymequipment/register"
+          }
+        }
+      },
+      "block_order": [
+        "card_wUPzwY",
+        "card_hrCYyE",
+        "card_j6Yi6x"
+      ],
+      "disabled": true,
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_image_tiles_dihH7R": {
+      "type": "block-image-tiles",
+      "blocks": {
+        "tile_BkFXyU": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/4_9993a5a7-f275-4cc3-8ab1-9f523f63f586.jpg",
+            "title": "Built on Community",
+            "text": "<p>Train. Grow. Win together. A network of people showing up,putting the work in and pushing forward.</p>",
+            "button_label": "",
+            "link": ""
+          }
+        },
+        "tile_rzPTnf": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/5_82629deb-5103-48b5-8af4-6c9e2b3aa4c6.jpg",
+            "title": "REAL OPPORTUNITIES",
+            "text": "<p>Not just a code. Events. Content. Exposure. Built for people who actually show up.</p>",
+            "button_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "tile_BkFXyU",
+        "tile_rzPTnf"
+      ],
+      "disabled": true,
+      "name": "Block - Image Tiles",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_MydBE4": {
+      "type": "block-columns",
+      "blocks": {
+        "card_WX7nd4": {
+          "type": "card",
+          "settings": {
+            "title": "Darren Dawidiuk",
+            "image": "shopify://shop_images/Untitled_design_-_2026-04-01T083339.559_d0fe18ce-e77c-438e-a0a5-84cde8ca2f8f.jpg",
+            "link": "https://northerngymequipment.com/pages/ambassador-darren-dawidiuk"
+          }
+        },
+        "card_h38A8E": {
+          "type": "card",
+          "settings": {
+            "title": " Katie Vinten",
+            "link": "shopify://pages/ambassador-katie-vinten"
+          }
+        },
+        "card_hQ8PDA": {
+          "type": "card",
+          "settings": {
+            "title": "Craig McGill",
+            "image": "shopify://shop_images/Untitled_design_-_2026-03-31T123113.845_3390f41d-1e9a-4279-b0a7-3ca1a65c17d2.jpg",
+            "link": "shopify://pages/ambassador-craig-mcgill"
+          }
+        }
+      },
+      "block_order": [
+        "card_WX7nd4",
+        "card_h38A8E",
+        "card_hQ8PDA"
+      ],
+      "disabled": true,
+      "name": "Block - Columns",
+      "settings": {
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "1778142270e528a4aa": {
+      "type": "apps",
+      "blocks": {
+        "klaviyo_email_marketing_sms_form_embed_block_rWcJpd": {
+          "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/form-embed-block/2632fe16-c075-4321-a88b-50b567f42507",
+          "settings": {
+            "formId": "X9YJbZ"
+          }
+        }
+      },
+      "block_order": [
+        "klaviyo_email_marketing_sms_form_embed_block_rWcJpd"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "block_hero_zTxQkq",
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_MKdtwB",
+    "block_image_tiles_dihH7R",
+    "block_columns_MydBE4",
+    "1778142270e528a4aa"
+  ]
+}

@@ -1,0 +1,211 @@
+{% assign heading = section.settings.heading %}
+{% assign heading_is_h1 = section.settings.heading_is_h1 | default: false %}
+{% assign heading_style = section.settings.heading_style | default: 'default' %}
+{% assign paragraph = section.settings.paragraph %}
+
+{% assign image_ratios = section.settings.image_ratios | default: 'portrait' %}
+{% assign overlay_text = section.settings.overlay_text %}
+
+{% assign carousel_behaviour = section.settings.carousel_behaviour | default: 'mobile_only' %}
+
+{% render 'image-block-repeater'
+   heading: heading,
+   paragraph: paragraph,
+   heading_is_h1: heading_is_h1,
+   section_blocks: section.blocks,
+   carousel_behaviour: carousel_behaviour,
+   image_ratios: image_ratios,
+   overlay_text: overlay_text,
+%}
+
+{% schema %}
+{
+   "name": "Image Block Repeater",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Text Section"
+      },
+      {
+         "type": "text",
+         "id": "heading",
+         "label": "Heading"
+      },
+      {
+         "type": "checkbox",
+         "id": "heading_is_h1",
+         "label": "Set heading as H1",
+         "info": "Set to true if the heading needs to be a <h1> element. Note: Ensure you only have one <h1> element on the page.",
+         "default": false
+      },
+      {
+         "type": "select",
+         "id": "heading_style",
+         "label": "Heading Style",
+         "options": [
+            {
+               "value": "large",
+               "label": "Large"
+            },
+            {
+               "value": "default",
+               "label": "Default"
+            }
+         ],
+         "default": "default"
+      },
+      {
+         "type": "textarea",
+         "id": "paragraph",
+         "label": "Paragraph"
+      },
+      {
+         "type": "header",
+         "content": "Blocks Content"
+      },
+      {
+         "type": "paragraph",
+         "content": "There are multiple ways to populate this section. By default you can add blocks and manually add content or you can add a selection of collections to dynamically populate the contents"
+      },
+      {
+         "type": "header",
+         "content": "Blocks Settings"
+      },
+      {
+         "type": "select",
+         "id": "image_ratios",
+         "label": "Image Ratios",
+         "options": [
+            {
+               "value": "portrait",
+               "label": "Portrait"
+            },
+            {
+               "value": "square",
+               "label": "Square"
+            }
+         ],
+         "default": "portrait"
+      },
+      {
+         "type": "select",
+         "id": "carousel_behaviour",
+         "label": "Carousel Behaviour",
+         "options": [
+            {
+               "value": "never",
+               "label": "Never"
+            },
+            {
+               "value": "mobile_only",
+               "label": "Mobile Only"
+            },
+            {
+               "value": "always",
+               "label": "Always"
+            }
+         ],
+         "default": "mobile_only",
+         "info": "Select when you would like the section to convert to a carousel."
+      },
+      {
+         "type": "checkbox",
+         "id": "overlay_text",
+         "label": "Overlay Text",
+         "info": "If selected, the text will appear over the image otherwise it will sit underneath",
+         "default": true
+      }
+   ],
+   "blocks": [
+      {
+         "type": "block",
+         "name": "Custom",
+         "settings": [
+            {
+               "type": "header",
+               "content": "Settings"
+            },
+            {
+               "type": "header",
+               "content": "Content"
+            },
+            {
+               "type": "image_picker",
+               "id": "background_image",
+               "label": "Background Image"
+            },
+            {
+               "type": "text",
+               "id": "heading",
+               "label": "Heading"
+            },
+            {
+               "type": "text",
+               "id": "call_to_action",
+               "label": "Call to Action",
+               "default": "Find Out More"
+            },
+            {
+               "type": "url",
+               "id": "link_url",
+               "label": "Link URL"
+            },
+            {
+               "type": "checkbox",
+               "id": "link_target",
+               "label": "Open in new tab?",
+               "default": false
+            }
+         ]
+      },
+      {
+         "type": "collection",
+         "name": "Collection",
+         "settings": [
+            {
+               "type": "collection",
+               "id": "collection",
+               "label": "Collection"
+            }
+         ]
+      },
+      {
+         "type": "article",
+         "name": "Blog Article",
+         "settings": [
+            {
+               "type": "article",
+               "id": "article",
+               "label": "Article"
+            }
+         ]
+      },
+      {
+         "type": "page",
+         "name": "Page",
+         "settings": [
+            {
+               "type": "page",
+               "id": "page",
+               "label": "Page"
+            }
+         ]
+      },
+      {
+         "type": "blog",
+         "name": "Blog",
+         "settings": [
+            {
+               "type": "blog",
+               "id": "blog",
+               "label": "Blog"
+            }
+         ]
+      }
+   ],
+   "presets": [{
+      "name": "Image Block Repeater",
+      "blocks": []
+   }]
+}
+{% endschema %}

@@ -1,0 +1,115 @@
+{% comment %}
+  Shared styles for the "Block - About …" section family.
+  Render this once at the top of every block-about-*.liquid section.
+  Uses this theme's own tokens (fonts.css / custom.css, already loaded globally).
+{% endcomment %}
+<style>
+  .abu-scope{
+    --abu-accent:#FEED06;
+    --abu-black:var(--color-black, #212121);
+    --abu-silver:var(--color-silver, #f3f3f3);
+    --abu-grey:var(--color-grey, #747474);
+    --abu-heading-font:var(--font-heading, 'Aktiv Grotesk Ex', sans-serif);
+    --abu-body-font:var(--font-body, 'Inter', sans-serif);
+    --abu-mono-font:var(--font-mono, 'Roboto Mono', monospace);
+    font-family:var(--abu-body-font);
+    color:var(--abu-black);
+    line-height:1.5;
+    display:block;
+  }
+  .abu-scope *{box-sizing:border-box;}
+  .abu-scope img{max-width:100%;display:block;}
+  .abu-scope p{margin:0;max-width:60ch;}
+  .abu-scope p + p{margin-top:1.1em;}
+
+  .abu-scope .abu-container{width:100%;max-width:1920px;margin-inline:auto;padding-inline:1rem;}
+  @media (min-width:768px){ .abu-scope .abu-container{padding-inline:2rem;} }
+
+  .abu-scope .abu-rhythm{padding-block:4rem;}
+  @media (min-width:768px){ .abu-scope .abu-rhythm{padding-block:6.25rem;} }
+  @media (min-width:1280px){ .abu-scope .abu-rhythm{padding-block:9rem;} }
+
+  .abu-scope h1,.abu-scope h2,.abu-scope h3,.abu-scope .abu-heading{
+    font-family:var(--abu-heading-font);
+    font-weight:400;
+    line-height:1.25;
+    letter-spacing:0;
+    margin:0;
+  }
+  .abu-scope .abu-h01{font-size:2.75rem;line-height:1;}
+  @media (min-width:1024px){ .abu-scope .abu-h01{font-size:5.5rem;} }
+  .abu-scope .abu-h02{font-size:1.75rem;}
+  @media (min-width:768px){ .abu-scope .abu-h02{font-size:2.75rem;} }
+  .abu-scope .abu-h03{font-size:1.5rem;}
+  @media (min-width:768px){ .abu-scope .abu-h03{font-size:2.125rem;} }
+  .abu-scope .abu-h04{font-size:1.25rem;}
+  @media (min-width:768px){ .abu-scope .abu-h04{font-size:1.5rem;} }
+
+  .abu-scope .abu-meta{
+    font-family:var(--abu-mono-font);
+    font-size:0.75rem;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--abu-grey);
+  }
+
+  /* Default emphasis (light backgrounds): bold text gets a legible yellow
+     highlight behind dark text — never pale yellow ON white. */
+  .abu-scope strong{
+    font-weight:600;
+    color:var(--abu-black);
+    background-image:linear-gradient(to top, var(--abu-accent) 0.32em, transparent 0.32em);
+    box-decoration-break:clone;
+    -webkit-box-decoration-break:clone;
+  }
+  /* On dark sections (wrap content in .abu-dark): outline/stroke emphasis,
+     matching this site's own About page treatment — reads clearly on near-black. */
+  .abu-dark{ color:#ffffff; }
+  .abu-dark strong{
+    font-weight:400;
+    color:transparent;
+    background:none;
+    -webkit-text-stroke:2px var(--abu-accent);
+  }
+  .abu-scope .abu-accent-text{ color:var(--abu-black); }
+  .abu-dark .abu-accent-text{ color:var(--abu-accent); }
+
+  .abu-scope .abu-prose{ color:var(--abu-black); max-width:34rem; }
+  .abu-dark .abu-prose{ color:rgba(255,255,255,0.82); }
+
+  /* two-column layout with divider, matching this theme's real heading+text pattern */
+  .abu-scope .abu-divide{ display:flex; flex-direction:column; gap:2rem; }
+  @media (min-width:1024px){
+    .abu-scope .abu-divide{flex-direction:row;gap:0;}
+    .abu-scope .abu-divide > .abu-divide-a{width:50%;padding-right:3rem;}
+    .abu-scope .abu-divide > .abu-divide-b{width:50%;padding-left:3rem;border-left:1px solid var(--abu-silver);}
+  }
+
+  /* image column */
+  .abu-scope .abu-media{ position:relative; overflow:hidden; background:var(--abu-silver); }
+  .abu-scope .abu-media img{ width:100%; height:100%; object-fit:cover; }
+  .abu-scope .abu-media.abu-tall{ aspect-ratio:4/5; }
+  .abu-scope .abu-media.abu-wide{ aspect-ratio:16/7; }
+  .abu-scope .abu-media .placeholder-svg{ width:100%; height:100%; }
+  .abu-scope .abu-caption{
+    position:absolute; bottom:14px; left:14px;
+    background:rgba(255,255,255,0.9); padding:5px 10px;
+  }
+
+  .abu-scope .abu-row{ display:flex; flex-direction:column; gap:2.5rem; align-items:center; }
+  @media (min-width:1024px){
+    .abu-scope .abu-row{flex-direction:row;gap:4rem;}
+    .abu-scope .abu-row.abu-row-rev{flex-direction:row-reverse;}
+    .abu-scope .abu-row > *{width:50%;}
+  }
+
+  .abu-scope .abu-value-row{
+    display:grid; grid-template-columns:1fr; gap:1rem;
+    padding:2rem 0; border-top:1px solid var(--abu-silver);
+  }
+  .abu-scope .abu-value-row:last-child{ border-bottom:1px solid var(--abu-silver); }
+  @media (min-width:900px){
+    .abu-scope .abu-value-row{ grid-template-columns:0.5fr 1.5fr 2fr; align-items:baseline; gap:2rem; }
+  }
+  .abu-scope .abu-value-kicker{ color:var(--abu-grey); font-size:0.95rem; margin-top:0.35rem; }
+</style>

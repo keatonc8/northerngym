@@ -1,0 +1,125 @@
+{% assign heading_class = 'heading-03' %}
+{% if heading_style == 'large' %}
+   {% assign heading_class = 'heading' %}
+{% endif %}
+
+{% assign grid_classes_desktop = 'lg:grid-cols-4' %}
+{% assign image_ratio_classes = 'aspect-w-2 aspect-h-3' %}
+{% if image_ratios == 'square' %}
+   {% assign image_ratio_classes = 'aspect-w-1 aspect-h-1' %}
+   {% assign grid_classes_desktop = 'lg:grid-cols-3' %}
+{% endif %}
+
+{% case carousel_behaviour %}
+   {% when 'never' %}
+      {% assign carousel_content_classes = 'hidden' %}
+      {% assign static_content_classes = 'grid' %}
+      {% assign container_classes = 'container' %} 
+   {% when 'always' %}
+      {% assign carousel_content_classes = 'block' %}
+      {% assign static_content_classes = 'hidden' %}
+      {% assign container_classes = 'xl:px-19' %} 
+   {% else %}
+      {% assign carousel_content_classes = 'xl:hidden' %}
+      {% assign static_content_classes = 'hidden xl:grid' %}  
+      {% assign container_classes = 'xl:px-19' %}
+{% endcase %}
+
+{% assign spacing_class = 'vertical-spacing' %}
+{% if reduce_padding == true %}
+   {% assign spacing_class = 'vertical-spacing-sm' %}
+{% endif %}
+
+<div class="{{ spacing_class }}">
+   <div class="container-full">
+      <div class="flex flex-col gap-6">
+         {% if heading != blank or paragraph != blank %}
+            <div class="container">
+               <div class="flex flex-col gap-4 {% unless carousel_behaviour == 'never' %}xs:pr-25{% endunless %}">
+                  {% if heading != blank %}
+                     {% if heading_is_h1 %}
+                        <h1 class="{{ heading_class }}">
+                           {{ heading }}
+                        </h1>
+                     {% else %}
+                        <h2 class="{{ heading_class }}">
+                           {{ heading }}
+                        </h2>
+                     {% endif %}
+                  {% endif %}
+                  {% if paragraph != blank %}
+                     <div class="max-w-180 {% if paragraph_is_richtext == true %}prose prose-sm{% endif %}">
+                        {{ paragraph }}
+                     </div>
+                  {% endif %}
+               </div>
+            </div>
+         {% endif %}
+         {% if section_blocks != blank or collections_list != blank or current_blog != blank %}
+            <div class="{{ container_classes }}">
+               <div class="{{ carousel_content_classes }}">
+                  <div class="glide" data-module="image-block-repeater" data-image-style="{{ image_ratios }}">
+                     <div class="glide__track" data-glide-el="track">
+                        <ul class="glide__slides">
+                           {% if section_blocks != blank %}
+                              {% for block in section_blocks %}
+                                 <li class="glide__slide">
+                                    {% render 'image-block-item',
+                                       block: block,
+                                       image_ratio_classes: image_ratio_classes,
+                                       overlay_text: overlay_text
+                                    %}
+                                 </li>
+                              {% endfor %}
+                           {% elsif current_blog != blank %}
+                              {% render 'image-block-repeater-blog'
+                                 current_blog: current_blog,
+                                 current_article: current_article,
+                                 is_carousel: true
+                              %}
+                           {% else %}
+                              {% for collection_item in collections_list %}
+                                 <li class="glide__slide">
+                                    {% render 'image-block-item',
+                                       set_collection: collection_item,
+                                       image_ratio_classes: image_ratio_classes,
+                                       overlay_text: overlay_text
+                                    %}
+                                 </li>
+                              {% endfor %}
+                           {% endif %}
+                        </ul>
+                     </div>
+                     {% render 'carousel-arrows' %}
+                  </div>
+               </div>
+               <div class="{{ static_content_classes }} grid-cols-1 sm:grid-cols-2 {{ grid_classes_desktop }} gap-4">
+                  {% if section_blocks != blank %}
+                     {% for block in section_blocks %}
+                        {% render 'image-block-item'
+                           block: block,
+                           image_ratio_classes: image_ratio_classes,
+                           overlay_text: overlay_text
+                        %}
+                     {% endfor %}
+                  {% elsif current_blog != blank %}
+                     {% render 'image-block-repeater-blog'
+                        current_blog: current_blog,
+                        current_article: current_article,
+                        is_carousel: false
+                     %}
+                  {% else %}
+                     {% for collection_item in collections_list %}
+                        {% render 'image-block-item',
+                           set_collection: collection_item,
+                           image_ratio_classes: image_ratio_classes,
+                           overlay_text: overlay_text
+                        %}
+                     {% endfor %}
+                  {% endif %}
+               </div>
+            </div>
+         {% endif %}
+      </div>
+   </div>
+</div>

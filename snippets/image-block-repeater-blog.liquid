@@ -1,0 +1,29 @@
+{% assign is_carousel = is_carousel | default: false %}
+{% assign article_index = 0 %}
+{% for article in current_blog.articles %}
+   {% if current_article == article %}
+      {% continue %}
+   {% endif %}
+   {% assign article_index = article_index | plus: 1 %}
+
+   {% if article_index > 4 %}
+      {% break %}
+   {% endif %}
+
+   {% capture image_block_item_inner %}
+      {% render 'image-block-item',
+         set_article: article,
+         image_ratio_classes: image_ratio_classes,
+         overlay_text: overlay_text
+      %}
+   {% endcapture %}
+
+   {% if is_carousel %}
+      <li class="glide__slide">
+         {{ image_block_item_inner }}
+      </li>
+   {% else %}
+      {{ image_block_item_inner }}
+   {% endif %}
+
+{% endfor %}

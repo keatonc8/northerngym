@@ -1,0 +1,58 @@
+{% if section_blocks != blank or repeater_blocks_items != blank %}
+   <div class="vertical-spacing">
+      <div class="container-sm">
+         <div class="flex flex-col gap-4">
+            {% if section_blocks != blank %}
+               {% for block in section_blocks %}
+                  {% assign is_odd = false %}
+                  {% assign forloop_modulo = forloop.index | modulo: 2 %}
+                  {% if forloop_modulo == 1 %}
+                     {% assign is_odd = true %}
+                  {% endif %}
+   
+                  {% if block.type == 'metaobject' %}
+                     {% assign metaobject_value = block.settings.repeater_block %}
+                     {% if metaobject_value != blank %}
+                        {% assign heading = metaobject_value.heading %}
+                        {% assign content = metaobject_value.content %}
+                        {% assign block_image = metaobject_value.image %}
+                     {% endif %}
+                  {% else %}
+                     {% assign heading = block.settings.heading %}
+                     {% assign content = block.settings.content %}
+                     {% assign block_image = block.settings.block_image %}
+                  {% endif %}
+   
+                  {% render 'repeater-block-item'
+                     heading: heading,
+                     content: content,
+                     block_image: block_image,
+                     is_odd: is_odd
+                  %}
+               {% endfor %}
+            {% else %}
+               {% for repeater_block_item in repeater_blocks_items %}
+                  {% assign is_odd = false %}
+                  {% assign forloop_modulo = forloop.index | modulo: 2 %}
+                  {% if forloop_modulo == 1 %}
+                     {% assign is_odd = true %}
+                  {% endif %}
+                  
+                  {% if repeater_block_item != blank %}
+                     {% assign heading = repeater_block_item.heading %}
+                     {% assign content = repeater_block_item.content %}
+                     {% assign block_image = repeater_block_item.image %}
+                  {% endif %}
+   
+                  {% render 'repeater-block-item'
+                     heading: heading,
+                     content: content,
+                     block_image: block_image,
+                     is_odd: is_odd
+                  %}
+               {% endfor %}   
+            {% endif %}
+         </div>
+      </div>
+   </div>
+{% endif %}

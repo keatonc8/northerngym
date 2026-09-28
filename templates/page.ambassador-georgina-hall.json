@@ -1,0 +1,149 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "Based In Newcastle",
+            "image": "shopify://shop_images/httpswww.instagram.combackyardgeorgina_2.jpg",
+            "title": "Bio",
+            "text": "<p>I'm Georgina, a gym owner and personal trainer based in Newcastle-upon-Tyne.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_7WcBXp": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/httpswww.instagram.combackyardgeorgina_5.jpg",
+            "title": "",
+            "text": "<p>I own The Backyard gym in Newcastle city centre, built on community and joy and to be a safe haven for the LGBTQ community.<br/></p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_WGq8f8": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/httpswww.instagram.combackyardgeorgina.jpg",
+            "title": "",
+            "text": "<p>I specialise in making strength training fun and accessible for people who don’t traditionally enjoy or feel comfortable in traditional gym environments.<br/><br/></p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_wgaqTH": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/httpswww.instagram.combackyardgeorgina_1.jpg",
+            "title": "",
+            "text": "<p>As an ex competitive boxer I enjoy a hybrid approach to strength and conditioning. I want to be as strong as possible while still being athletic. <br/><br/></p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ",
+        "item_7WcBXp",
+        "item_WGq8f8",
+        "item_wgaqTH"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Georgina Hall",
+        "text": "<p>Strength-focused training that builds confidence, resilience, and strong, capable bodies.</p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_QUBYg8": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_LebtEX": {
+          "type": "card",
+          "settings": {
+            "title": "Favourite Northern Product",
+            "image": "shopify://shop_images/httpswww.instagram.combackyardgeorgina_7.jpg",
+            "text": "<p>Bumper Plates - <em>\"My favourite northern product is the bumper plates because I love a bench press and my favourite thing for clients is watching them load up the bar with big plates they never dreamed they’d be able to lift!\"</em></p>",
+            "button_label": "Shop Now",
+            "button_link": "https://northerngymequipment.com/products/northern-olympic-bumper-plates-10kg"
+          }
+        },
+        "card_cEmc7P": {
+          "type": "card",
+          "settings": {
+            "title": "What does being part of Northern mean to you?",
+            "image": "shopify://shop_images/httpswww.instagram.combackyardgeorgina_4.jpg",
+            "text": "",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "card_mNhWg4": {
+          "type": "card",
+          "settings": {
+            "title": "Follow Georgina's Journey",
+            "image": "shopify://shop_images/httpswww.instagram.combackyardgeorgina_3.jpg",
+            "text": "<p>Check out Georgina's social here.</p>",
+            "button_label": "Follow",
+            "button_link": "https://www.instagram.com/backyardgeorgina/"
+          }
+        }
+      },
+      "block_order": [
+        "card_LebtEX",
+        "card_cEmc7P",
+        "card_mNhWg4"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_QUBYg8"
+  ]
+}

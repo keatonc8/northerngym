@@ -1,0 +1,79 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "disabled": true,
+      "settings": {
+        "heading": "",
+        "paragraph": ""
+      }
+    },
+    "section_homepage_banner_44C3kH": {
+      "type": "section-homepage-banner",
+      "name": "Homepage Banner",
+      "settings": {
+        "background_image": "shopify:\/\/shop_images\/homepage-background.png",
+        "desktop_background_alignment": "object-center",
+        "mobile_background_alignment": "object-bottom",
+        "heading": "404",
+        "paragraph": "Vestibulum sed arcu non odio euismod. Aliquet nibh praesent tristique magna sit amet. Quam pellentesque nec nam.",
+        "button_one_link": "shopify:\/\/collections",
+        "button_one_text": "Collections",
+        "button_two_link": "\/",
+        "button_two_text": "Homepage"
+      }
+    },
+    "section_image_block_repeater_VaMpPi": {
+      "type": "section-image-block-repeater",
+      "blocks": {
+        "page_zJCdmj": {
+          "type": "page",
+          "settings": {
+            "page": "about-us"
+          }
+        },
+        "page_qBAaJY": {
+          "type": "page",
+          "settings": {
+            "page": "contact"
+          }
+        },
+        "blog_8rizFe": {
+          "type": "blog",
+          "settings": {
+            "blog": "news"
+          }
+        }
+      },
+      "block_order": [
+        "page_zJCdmj",
+        "page_qBAaJY",
+        "blog_8rizFe"
+      ],
+      "name": "Image Block Repeater",
+      "settings": {
+        "heading": "Useful Links",
+        "heading_is_h1": false,
+        "heading_style": "default",
+        "paragraph": "",
+        "image_ratios": "square",
+        "carousel_behaviour": "mobile_only",
+        "overlay_text": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "section_homepage_banner_44C3kH",
+    "section_image_block_repeater_VaMpPi"
+  ]
+}

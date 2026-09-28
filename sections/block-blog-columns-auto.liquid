@@ -1,0 +1,364 @@
+{%- comment -%}
+  ------------------------------------------------------------------
+  Block - Blog Columns (Auto)
+
+  Pulls the most recent articles from the chosen blog whose tags match
+  the current collection. No manual entry required.
+
+  Match key (in order of priority):
+    1. collection.metafields.custom.blog_tag  (text metafield override)
+    2. collection.handle
+
+  Matching is exact, case and whitespace insensitive. A tag of
+  "dumbbells" matches the handle "dumbbells" only, not "20kg-dumbbells".
+
+  If nothing matches, the whole section renders nothing.
+  ------------------------------------------------------------------
+{%- endcomment -%}
+
+{%- liquid
+  comment
+    The blog setting can resolve to a blog object or to a handle string
+    depending on context, so handle both.
+  endcomment
+  assign blog_setting = section.settings.blog
+  if blog_setting.handle != blank
+    assign target_blog = blog_setting
+  else
+    assign target_blog = blogs[blog_setting]
+  endif
+
+  assign posts_limit = section.settings.posts_limit | at_most: 3
+
+  assign tag_key = collection.metafields.custom.blog_tag.value
+  if tag_key == blank
+    assign tag_key = collection.handle
+  endif
+  assign tag_key = tag_key | downcase | strip
+
+  assign match_count = 0
+-%}
+
+{%- comment -%} Pass 1: count matches so we can hide the section cleanly and size the grid {%- endcomment -%}
+{%- if target_blog != blank and tag_key != blank -%}
+  {%- for article in target_blog.articles limit: 50 -%}
+    {%- if match_count >= posts_limit -%}
+      {%- break -%}
+    {%- endif -%}
+    {%- for t in article.tags -%}
+      {%- assign t_norm = t | downcase | strip -%}
+      {%- if t_norm == tag_key -%}
+        {%- assign match_count = match_count | plus: 1 -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- comment -%} Diagnostics, theme editor only. Never output on the live storefront. {%- endcomment -%}
+{%- if request.design_mode -%}
+  <!-- Blog Columns (Auto) | blog: {{ target_blog.handle | default: 'NOT SET' }} | tag looked for: {{ tag_key | default: 'NONE' }} | articles matched: {{ match_count }} -->
+{%- endif -%}
+
+{%- if match_count > 0 -%}
+
+<style>
+  /* Hide scrollbar for the mobile carousel track */
+  #blogAutoTrack-{{ section.id }}::-webkit-scrollbar { display: none; }
+  #blogAutoTrack-{{ section.id }} { scrollbar-width: none; -ms-overflow-style: none; }
+
+  .{{ section.id }}.block-blog-auto {
+    {%- assign bg = section.settings.section_bg_color -%}
+    {%- assign a  = section.settings.section_bg_opacity | divided_by: 100.0 -%}
+    {%- assign r = bg | color_extract: 'red' -%}
+    {%- assign g = bg | color_extract: 'green' -%}
+    {%- assign b = bg | color_extract: 'blue' -%}
+
+    --section-bg: rgba({{ r }}, {{ g }}, {{ b }}, {{ a }});
+    background-color: var(--section-bg);
+
+    --heading-color: {{ section.settings.heading_color }};
+    --body-color: {{ section.settings.body_text_color }};
+    --btn-bg: {{ section.settings.button_bg_color }};
+    --btn-text: {{ section.settings.button_text_color }};
+
+    margin-top: {{ section.settings.margin_top }}px;
+    margin-bottom: {{ section.settings.margin_bottom }}px;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .{{ section.id }}.block-blog-auto .col-title { color: var(--heading-color); }
+  .{{ section.id }}.block-blog-auto .col-title a { color: inherit; text-decoration: none; }
+  .{{ section.id }}.block-blog-auto .col-body { color: var(--body-color); }
+  .{{ section.id }}.block-blog-auto .section-heading { color: var(--heading-color); }
+
+  .{{ section.id }}.block-blog-auto .col-btn {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+  }
+
+  /* Desktop column count follows the number of matched articles, so 1 or 2
+     posts render at a sensible card size instead of stretching. */
+  @media (min-width: 768px) {
+    #blogAutoTrack-{{ section.id }} {
+      grid-template-columns: repeat({{ match_count }}, minmax(0, 1fr));
+    }
+    {%- if match_count == 1 %}
+    #blogAutoTrack-{{ section.id }} { max-width: 33%; }
+    {%- endif %}
+  }
+</style>
+
+<section class="{{ section.id }} block-blog-auto">
+  <div class="mx-auto container-limited px-6">
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="section-heading text-2xl md:text-3xl font-normal tracking-tight mb-8">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+
+    <div class="relative">
+      <div
+        id="blogAutoTrack-{{ section.id }}"
+        data-snap-carousel
+        data-snap-breakpoint="md"
+        data-snap-start-index="0"
+        class="
+          -mx-6 flex gap-6 overflow-x-auto px-6 pb-3
+          snap-x snap-mandatory scroll-px-6
+          md:mx-0 md:grid md:gap-8 md:overflow-visible md:px-0 md:pb-0
+        "
+      >
+        {%- assign rendered = 0 -%}
+        {%- for article in target_blog.articles limit: 50 -%}
+          {%- if rendered >= posts_limit -%}
+            {%- break -%}
+          {%- endif -%}
+
+          {%- assign is_match = false -%}
+          {%- for t in article.tags -%}
+            {%- assign t_norm = t | downcase | strip -%}
+            {%- if t_norm == tag_key -%}
+              {%- assign is_match = true -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if is_match -%}
+            {%- assign rendered = rendered | plus: 1 -%}
+
+            {%- liquid
+              if article.excerpt != blank
+                assign card_text = article.excerpt | strip_html | strip
+              else
+                assign card_text = article.content | strip_html | strip
+              endif
+            -%}
+
+            <article
+              class="
+                group relative shrink-0 overflow-hidden
+                w-[95%] sm:w-[70%] md:w-auto md:shrink
+                snap-start
+              "
+            >
+              <a href="{{ article.url }}" tabindex="-1" aria-hidden="true" class="block">
+                <div class="aspect-[1/1] w-full overflow-hidden rounded-2xl bg-zinc-200 ring-1 ring-black/5">
+                  {%- if article.image != blank -%}
+                    {{
+                      article.image
+                      | image_url: width: 1600
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '375, 550, 750, 1100, 1500',
+                        sizes: '(min-width: 768px) 33vw, 85vw',
+                        class: 'h-full w-full object-cover transition-transform duration-[4000ms] ease-out group-hover:scale-110',
+                        alt: article.image.alt | default: article.title
+                    }}
+                  {%- else -%}
+                    <div class="h-full w-full bg-zinc-200"></div>
+                  {%- endif -%}
+                </div>
+              </a>
+
+              <div class="flex flex-col items-start justify-between py-6">
+                <h3 class="col-title text-2xl font-normal tracking-tight">
+                  <a href="{{ article.url }}">{{ article.title }}</a>
+                </h3>
+
+                {%- if card_text != blank -%}
+                  <div class="col-body my-4 leading-6 text-base mb-4">
+                    {{ card_text | truncatewords: 30 }}
+                  </div>
+                {%- endif -%}
+
+                {%- if section.settings.button_label != blank -%}
+                  <a
+                    href="{{ article.url }}"
+                    class="col-btn inline-flex items-center rounded-full px-6 py-3 text-base font-medium mt-auto w-max"
+                  >
+                    {{ section.settings.button_label }}
+                    <span class="sr-only">: {{ article.title }}</span>
+                  </a>
+                {%- endif -%}
+              </div>
+            </article>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if match_count > 1 -%}
+        <div
+          class="mt-6 flex items-center justify-center gap-2 md:hidden"
+          data-snap-dots
+          aria-label="Carousel pagination"
+        ></div>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Blog Columns (Auto)",
+  "tag": "section",
+  "class": "section section-block-blog-auto",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Automatically shows the most recent articles tagged with this collection's handle. Matching is exact. To use a different tag, add a single line text metafield custom.blog_tag to the collection and enter the tag there."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading",
+      "info": "Leave blank to hide."
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "range",
+      "id": "posts_limit",
+      "label": "Maximum articles",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Discover More"
+    },
+
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "section_bg_opacity",
+      "label": "Background Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Title Text Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "body_text_color",
+      "label": "Body Text Color",
+      "default": "#737373"
+    },
+
+    {
+      "type": "header",
+      "content": "Button Colours"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#111111"
+    },
+
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog Columns (Auto)"
+    }
+  ]
+}
+{% endschema %}

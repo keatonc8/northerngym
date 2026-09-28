@@ -1,0 +1,437 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "instant_g4j_vgv8_bm_a6s_tx_xi_xnPnzb": {
+      "type": "instant-g4jVGV8BmA6sTxXi",
+      "disabled": true,
+      "name": "3for2 Ticker",
+      "settings": {
+        "text_nmYeoGygJ6ap9aMJ": "<p>3-for-2</p>",
+        "text_y8TmLrU4wYejo1nb": "<p>all items</p>",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "section_collection_header_FMXnfy": {
+      "type": "section-collection-header",
+      "settings": {}
+    },
+    "block_shop_by_training_PBFtyU": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_bjKrJG": {
+          "type": "item",
+          "disabled": true,
+          "repeater": "{{ collection.metafields.custom.collection_shop_by_training.value }}",
+          "settings": {
+            "number": "{{ block.repeater.number.value }}",
+            "image": "{{ block.repeater.image.value }}",
+            "title": "{{ block.repeater.title.value }}",
+            "text": "{{ block.repeater.text_new | metafield_tag }}",
+            "button_label": "{{ block.repeater.button_label.value }}",
+            "button_link": "{{ block.repeater.button_link.value }}"
+          }
+        }
+      },
+      "block_order": [
+        "item_bjKrJG"
+      ],
+      "disabled": true,
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "{{ collection.metafields.custom.collection_shop_by_training_intro.value.headng.value }}",
+        "text": "{{ collection.metafields.custom.collection_shop_by_training_intro.value.text_new | metafield_tag }}",
+        "button_label": "{{ collection.metafields.custom.collection_shop_by_training_intro.value.link_text.value }}",
+        "button_link": "{{ collection.metafields.custom.collection_shop_by_training_intro.value[\"link-url\"].value }}",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 40,
+        "margin_bottom": 40,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "weight_nav_fYFgxP": {
+      "type": "weight-nav",
+      "name": "Weight Nav",
+      "settings": {
+        "heading": "Popular Weights",
+        "kettlebell_tiles": "12kg:12kg-kettlebells|16kg:16kg-kettlebells|20kg:20kg-kettlebells|24kg:24kg-kettlebells",
+        "dumbbell_tiles": "5kg:5kg-dumbbells|7.5kg:7-5kg-dumbbells|10kg:10kg-dumbbells|12.5kg:12-5kg-dumbbells|15kg:15kg-dumbbells|20kg:20kg-dumbbells|30kg:30kg-dumbbells",
+        "plates_tiles": "5kg:5kg-weight-plates|10kg:10kg-weight-plates|15kg:15kg-weight-plates|20kg:20kg-weight-plates|Fractional:fractional-plates"
+      }
+    },
+    "section_collection_listings_fKbHhG": {
+      "type": "section-collection-listings",
+      "settings": {
+        "heading": "",
+        "paragraph": "",
+        "enable_review_1": true,
+        "review_1_after": 1,
+        "review_1_image": "shopify://shop_images/NORTHERN0020_2.jpg",
+        "review_1_logo": "shopify://shop_images/northern_logo_cropped.png",
+        "review_1_stars": 5,
+        "review_1_text": "Great product, fast delivery and genuine human customer service when I had a question. Cannot fault Northern Gym equipment, will definitely be buying from them again",
+        "review_1_author": "M Allchin",
+        "review_1_role": "'Great all round service'",
+        "enable_review_2": true,
+        "review_2_after": 7,
+        "review_2_image": "shopify://shop_images/Picture_4.jpg",
+        "review_2_logo": "shopify://shop_images/northern_logo_cropped.png",
+        "review_2_stars": 5,
+        "review_2_text": "💯 recommended. Huge selection of equipment. Competitive prices. Excellent service, both my orders arrived within couple days. Top quality products. Ready to buy again 😊Thank you,",
+        "review_2_author": "Anna Penny",
+        "review_2_role": "'💯 recommended'",
+        "enable_featured_product": true,
+        "featured_after": 5,
+        "enable_overlay": true
+      }
+    },
+    "block_image_tiles_zyQi4b": {
+      "type": "block-image-tiles",
+      "blocks": {
+        "tile_6ETKtP": {
+          "type": "tile",
+          "disabled": true,
+          "repeater": "{{ collection.metafields.custom.collection_image_tiles.value }}",
+          "settings": {
+            "image": "{{ block.repeater.image.value }}",
+            "title": "{{ block.repeater.title.value }}",
+            "text": "<p>{{ block.repeater.text | metafield_tag }}</p>",
+            "button_label": "{{ block.repeater.button_label.value }}",
+            "link": "{{ block.repeater.title_link.value }}"
+          }
+        }
+      },
+      "block_order": [
+        "tile_6ETKtP"
+      ],
+      "name": "Block - Image Tiles",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "margin_top": 40,
+        "margin_bottom": 40,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "section_collection_smart_content_3r8gEa": {
+      "type": "section-collection-smart-content",
+      "blocks": {
+        "heading_text_kEcphD": {
+          "type": "heading_text",
+          "settings": {}
+        },
+        "judge_me_reviews_featured_carousel_ekqeBr": {
+          "type": "shopify://apps/judge-me-reviews/blocks/featured_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "maxwidth": 1920
+          }
+        },
+        "faqs_section_YDVq9A": {
+          "type": "faqs_section",
+          "settings": {
+            "faqs_heading": "FAQ's"
+          }
+        },
+        "image_gallery_Dbjafk": {
+          "type": "image_gallery",
+          "settings": {}
+        },
+        "related_collections_hfNVr8": {
+          "type": "related_collections",
+          "settings": {
+            "show_fallback": false,
+            "heading_is_h1": false,
+            "carousel_behaviour": "mobile_only",
+            "collections_heading": "Related Products",
+            "collections_paragraph": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_text_kEcphD",
+        "judge_me_reviews_featured_carousel_ekqeBr",
+        "faqs_section_YDVq9A",
+        "image_gallery_Dbjafk",
+        "related_collections_hfNVr8"
+      ],
+      "disabled": true,
+      "name": "Collection - Smart Content",
+      "settings": {}
+    },
+    "block_reviews_Hi89D7": {
+      "type": "block-reviews",
+      "blocks": {
+        "review_yjTNnK": {
+          "type": "review",
+          "settings": {
+            "author": "anna penny",
+            "rating": 5,
+            "title": "💯 recommended",
+            "body": "💯 recommended. Huge selection of equipment. Competitive prices. Excellent service, both my orders arrived within couple days. Top quality products. Ready to buy again 😊Thank you,"
+          }
+        },
+        "review_me64VL": {
+          "type": "review",
+          "settings": {
+            "author": "Ethan Fullen",
+            "rating": 5,
+            "title": "Best gym equipment brand",
+            "body": "This is now my favourite gym equipment brand due to my experience with their customer service. Quality of equipment is top and I will definitely be purchasing from them again.\\nThanks! :)"
+          }
+        },
+        "review_kg4Wq3": {
+          "type": "review",
+          "settings": {
+            "author": "Paul S",
+            "rating": 5,
+            "title": "Would highly recommend",
+            "body": "Bought dumbbells 10kg-30kg + rack, really impressed with the quality of the product. Great communication from northern from when the order landed up to the point of delivery. Would highly recommend."
+          }
+        },
+        "review_t4AUq9": {
+          "type": "review",
+          "settings": {
+            "author": "Eva",
+            "rating": 5,
+            "title": "Quick and easy order and delivery",
+            "body": "Quick and easy order and delivery. Quality equipment I got some weights, kettlebell, roller! Happy with all and will purchase again!"
+          }
+        },
+        "review_dmBrcB": {
+          "type": "review",
+          "settings": {
+            "author": "Miss Carolyn Tandy",
+            "rating": 5,
+            "title": "Great products and excellent value",
+            "body": "This is my third purchase from Northern Gym Equipment. The dumbbells are excellent quality and a really good price. I feel like I’m getting great value for money. Delivery is fast and I am really pleased with my purchase once again."
+          }
+        }
+      },
+      "block_order": [
+        "review_yjTNnK",
+        "review_me64VL",
+        "review_kg4Wq3",
+        "review_t4AUq9",
+        "review_dmBrcB"
+      ],
+      "name": "Block - Reviews",
+      "settings": {
+        "section_bg_color": "#000000",
+        "section_bg_opacity": 0,
+        "section_text_color": "#ffffff",
+        "background_image": "shopify://shop_images/1_4f70e187-86fd-4641-8da9-d7bd57745e80.png",
+        "mobile_background_image": "shopify://shop_images/Untitled_design_19.png",
+        "margin_top": 40,
+        "margin_bottom": 40,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "heading": "Rated 4.8 (Excellent) from over 68,000 satisfied customers",
+        "pill_1_text": "Next Day Delivery Available",
+        "pill_1_icon": "shopify://shop_images/005-fast_delivery.svg",
+        "pill_2_text": "30 Day Returns",
+        "pill_2_icon": "shopify://shop_images/returns.svg",
+        "pill_3_text": "Secure Checkout",
+        "pill_3_icon": "shopify://shop_images/security-shield.svg",
+        "card_bg_color": "#212121",
+        "card_bg_opacity": 25,
+        "card_text_color": "#ffffff"
+      }
+    },
+    "block_stats_PWnJp4": {
+      "type": "block-stats",
+      "blocks": {
+        "stat_7fPyQx": {
+          "type": "stat",
+          "repeater": "{{ collection.metafields.custom.collection_stats.value }}",
+          "settings": {
+            "number": "{{ block.repeater.stat.value }}",
+            "label": "{{ block.repeater.stat_name.value }}",
+            "text": "{{ block.repeater.stat_description.value }}",
+            "show_suffix": true,
+            "suffix": "+"
+          }
+        }
+      },
+      "block_order": [
+        "stat_7fPyQx"
+      ],
+      "name": "Block - Stats",
+      "settings": {
+        "section_title": "{{ collection.metafields.custom.collection_stats_title.value }}",
+        "image": "{{ collection.metafields.custom.collection_stats_image.value }}",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#111111",
+        "section_bg_opacity": 100,
+        "stat_main_color": "#ffffff",
+        "stat_sub_color": "#ffffff73",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "block_columns_text_kiddtM": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_AtgUYz": {
+          "type": "card",
+          "repeater": "{{ collection.metafields.custom.collection_columns_with_text.value }}",
+          "settings": {
+            "title": "{{ block.repeater.title.value }}",
+            "image": "{{ block.repeater.image.value }}",
+            "text": "{{ block.repeater.text_new | metafield_tag }}",
+            "button_label": "{{ block.repeater.button_label.value }}",
+            "button_link": "{{ block.repeater.button_link.value }}"
+          }
+        }
+      },
+      "block_order": [
+        "card_AtgUYz"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 40,
+        "margin_bottom": 40,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "section_heading_and_text_TmTBqr": {
+      "type": "section-heading-and-text",
+      "name": "Heading & Text",
+      "settings": {
+        "metaobject_content": "{{ collection.metafields.northerngym.smart_heading_text.value }}",
+        "heading": "<p>We are Northern, offering <strong>quality gym equipment </strong>and a welcoming fitness community</p>",
+        "paragraph": "<p>What started as a mission to bring high-quality gym equipment to the UK quickly grew into something more. At Northern, we’re all about bringing people together, whether through training sessions, competitions, or events. We help people reach their fitness goals in a friendly, approachable environment, and we call it ‘NORTHERN hospitality.’</p><p>We’re committed to the core values of any great business, outstanding customer service, fair pricing, and a can-do attitude when you need support.</p><p><a href=\"/pages/about-us\" title=\"About Us\">About Us</a></p>"
+      }
+    },
+    "block_blog_columns_auto_Nq4Zt7": {
+      "type": "block-blog-columns-auto",
+      "name": "Blog Columns (Auto)",
+      "settings": {
+        "heading": "",
+        "blog": "news",
+        "posts_limit": 3,
+        "button_label": "Discover More",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 40,
+        "margin_bottom": 40,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_Kjk8Pg": {
+      "type": "block-columns",
+      "blocks": {
+        "card_EwpDhN": {
+          "type": "card",
+          "repeater": "{{ collection.metafields.custom.collection_columns.value }}",
+          "settings": {
+            "title": "{{ block.repeater.title.value }}",
+            "image": "{{ block.repeater.image.value }}",
+            "link": "{{ block.repeater.link.value }}"
+          }
+        }
+      },
+      "block_order": [
+        "card_EwpDhN"
+      ],
+      "disabled": true,
+      "name": "Block - Columns",
+      "settings": {
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 40,
+        "margin_bottom": 40,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_faq_R94EQH": {
+      "type": "block-faq",
+      "blocks": {
+        "faq_36kgXp": {
+          "type": "faq",
+          "repeater": "{{ collection.metafields.custom.collection_faqs.value }}",
+          "settings": {
+            "question": "{{ block.repeater.question.value }}",
+            "answer": "<p>{{ block.repeater.answer | metafield_tag }}</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_36kgXp"
+      ],
+      "name": "Block - FAQs",
+      "settings": {
+        "heading": "Got Questions? We’ve Got Answers",
+        "avatar_1": "shopify://shop_images/Craig_McGill_-_Northern_Ambassador.jpg",
+        "avatar_2": "shopify://shop_images/Katie_Vinten_-_Northern_Ambassaddor.jpg",
+        "avatar_3": "shopify://shop_images/Darren_Dawidiuk_Northern_Ambassador.jpg",
+        "lead": "If you can’t find the answer you’re looking for, please contact our dedicated customer service experts, they’ll be happy to assist and provide the support you need",
+        "view_more_label": "View more",
+        "view_more_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#111111",
+        "muted_text_color": "#737373",
+        "border_color": "#e5e5e5",
+        "margin_top": 40,
+        "margin_bottom": 40,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "instant_g4j_vgv8_bm_a6s_tx_xi_xnPnzb",
+    "section_collection_header_FMXnfy",
+    "block_shop_by_training_PBFtyU",
+    "weight_nav_fYFgxP",
+    "section_collection_listings_fKbHhG",
+    "block_image_tiles_zyQi4b",
+    "section_collection_smart_content_3r8gEa",
+    "block_reviews_Hi89D7",
+    "block_stats_PWnJp4",
+    "block_columns_text_kiddtM",
+    "section_heading_and_text_TmTBqr",
+    "block_blog_columns_auto_Nq4Zt7",
+    "block_columns_Kjk8Pg",
+    "block_faq_R94EQH"
+  ]
+}

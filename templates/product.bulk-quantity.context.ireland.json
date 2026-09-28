@@ -1,0 +1,24 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "context": {
+    "market": "ireland"
+  },
+  "parent": "product.bulk-quantity.json",
+  "sections": {
+    "section_product_overview_jCMLjF": {
+      "settings": {
+        "shipping_returns_description": "Standard Delivery at just €4.99",
+        "shipping_default": "<p>Enjoy delivery for just €4.99 on all orders (excluding Floor Mats 1m x 1m x 20mm).</p>"
+      },
+      "blocks": {}
+    }
+  }
+}

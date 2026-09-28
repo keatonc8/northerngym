@@ -1,0 +1,298 @@
+{% assign heading = section.settings.heading %}
+{% assign sub_heading = product.metafields.northerngym.overview_sub_heading %}
+{% assign paragraph = product.metafields.northerngym.overview_paragraph | metafield_tag %}
+
+{% assign total_accordion_item_count = 0 %}
+
+{% assign description_heading = section.settings.description_heading | default: 'Description' %}
+{% assign description_description = section.settings.description_description %}
+{% assign description_answer = product.description %}
+{% if description_answer != blank %}
+   {% assign total_accordion_item_count = total_accordion_item_count | plus: 1 %}
+{% endif %}
+
+{% assign materials_heading = section.settings.materials_heading | default: 'Description' %}
+{% assign materials_description = section.settings.materials_description %}
+{% assign materials_answer = product.metafields.northerngym.overview_materials | metafield_tag %}
+{% if materials_answer != blank %}
+   {% assign total_accordion_item_count = total_accordion_item_count | plus: 1 %}
+{% endif %}
+
+{% assign shipping_returns_heading = section.settings.shipping_returns_heading | default: 'Shipping & Returns' %}
+{% assign shipping_returns_description = section.settings.shipping_returns_description %}
+{% assign shipping_answer = section.settings.shipping_default %}
+{% assign returns_answer = section.settings.returns_default %}
+{% assign shipping_override = product.metafields.northerngym.overview_shipping_override | metafield_tag %}
+{% assign returns_override = product.metafields.northerngym.overview_returns_override | metafield_tag %}
+{% if shipping_override != blank %}
+   {% assign shipping_answer = shipping_override %}
+{% endif %}
+{% if returns_override != blank %}
+   {% assign returns_answer = returns_override %}
+{% endif %}
+
+{% assign shipping_returns_answer = blank %}
+{% if shipping_answer != blank or returns_answer != blank %}
+   {% capture shipping_returns_answer %}
+      {% if shipping_answer != blank %}<p><strong>Shipping:</strong></p> {{ shipping_answer }}{% endif %}
+      {% if returns_answer != blank %}<p><strong>Returns:</strong></p> {{ returns_answer }}{% endif %}
+   {% endcapture %}
+{% endif %}
+{% if shipping_returns_answer != blank %}
+   {% assign total_accordion_item_count = total_accordion_item_count | plus: 1 %}
+{% endif %}
+
+{% assign dimensions_heading = section.settings.dimensions_heading | default: 'Dimensions' %}
+{% assign dimensions_description = section.settings.dimensions_description %}
+{% assign dimensions_answer = product.metafields.northerngym.overview_dimensions | metafield_tag %}
+{% if dimensions_answer != blank %}
+   {% assign total_accordion_item_count = total_accordion_item_count | plus: 1 %}
+{% endif %}
+
+{% assign care_instructions_heading = section.settings.care_instructions_heading | default: 'Care Instructions' %}
+{% assign care_instructions_description = section.settings.care_instructions_description %}
+{% assign care_instructions_answer = product.metafields.northerngym.overview_care_instructions | metafield_tag %}
+{% if care_instructions_answer != blank %}
+   {% assign total_accordion_item_count = total_accordion_item_count | plus: 1 %}
+{% endif %}
+
+{% assign open_first_accordion = false %}
+
+<div class="vertical-spacing product-desc" id="product-description">
+   <div class="container">
+      <div class="flex flex-col gap-8">
+         <div class="flex flex-col md:flex-row md:justify-between gap-8">
+            <h2 class="heading flex-1">
+               {{ heading }}
+            </h2>
+            {% if sub_heading != blank or paragraph != blank %}
+               <div class="flex-1 md:max-w-150">
+                  <div class="flex flex-col gap-4 md:max-w-118">
+                     {% if sub_heading != blank %}
+                        <p class="font-bold">
+                           {{ sub_heading }}
+                        </p>
+                     {% endif %}
+                     {% if paragraph != blank %}
+                        <div class="prose">
+                           {{ paragraph }}
+                        </div>
+                     {% endif %}
+                  </div>
+               </div>
+            {% endif %}
+         </div>
+         <div data-module="faqs" data-faqs-show-first="{{ open_first_accordion }}">
+            {% assign is_first = true %}
+            {% assign is_last = false %}
+            {% assign accordion_item_count = 0 %}
+
+            {% if description_answer != blank %}
+               {% assign accordion_item_count = accordion_item_count | plus: 1 %}
+               {% if accordion_item_count == total_accordion_item_count %}
+                  {% assign is_last = true %}
+               {% endif %}
+               
+               {% render 'product-overview-item',
+                  heading: description_heading,
+                  description: description_description,
+                  answer: description_answer,
+                  is_first: is_first,
+                  is_last: is_last,
+                  item_index: accordion_item_count,
+                  open_first_accordion: open_first_accordion
+               %}
+               {% assign is_first = false %}
+            {% endif %}
+            
+            {% if materials_answer != blank %}
+               {% assign accordion_item_count = accordion_item_count | plus: 1 %}
+               {% if accordion_item_count == total_accordion_item_count %}
+                  {% assign is_last = true %}
+               {% endif %}
+               
+               {% render 'product-overview-item',
+                  heading: materials_heading,
+                  description: materials_description,
+                  answer: materials_answer,
+                  is_first: is_first,
+                  is_last: is_last,
+                  item_index: accordion_item_count,
+                  open_first_accordion: open_first_accordion
+               %}
+               {% assign is_first = false %}
+            {% endif %}
+            
+            {% if shipping_returns_answer != blank %}
+               {% assign accordion_item_count = accordion_item_count | plus: 1 %}
+               {% if accordion_item_count == total_accordion_item_count %}
+                  {% assign is_last = true %}
+               {% endif %}
+               
+               {% render 'product-overview-item',
+                  heading: shipping_returns_heading,
+                  description: shipping_returns_description,
+                  answer: shipping_returns_answer,
+                  is_first: is_first,
+                  is_last: is_last,
+                  item_index: accordion_item_count,
+                  open_first_accordion: open_first_accordion
+               %}
+               {% assign is_first = false %}
+            {% endif %}
+            
+            {% if dimensions_answer != blank %}
+               {% assign accordion_item_count = accordion_item_count | plus: 1 %}
+               {% if accordion_item_count == total_accordion_item_count %}
+                  {% assign is_last = true %}
+               {% endif %}
+               
+               {% render 'product-overview-item',
+                  heading: dimensions_heading,
+                  description: dimensions_description,
+                  answer: dimensions_answer,
+                  is_first: is_first,
+                  is_last: is_last,
+                  item_index: accordion_item_count,
+                  open_first_accordion: open_first_accordion
+               %}
+               {% assign is_first = false %}
+            {% endif %}
+            
+            {% if care_instructions_answer != blank %}
+               {% assign accordion_item_count = accordion_item_count | plus: 1 %}
+               {% if accordion_item_count == total_accordion_item_count %}
+                  {% assign is_last = true %}
+               {% endif %}
+               
+               {% render 'product-overview-item',
+                  heading: care_instructions_heading,
+                  description: care_instructions_description,
+                  answer: care_instructions_answer,
+                  is_first: is_first,
+                  is_last: is_last,
+                  item_index: accordion_item_count,
+                  open_first_accordion: open_first_accordion
+               %}
+               {% assign is_first = false %}
+            {% endif %}
+         </div>
+      </div>
+   </div>
+</div>
+
+{% schema %}
+{
+   "name": "Product Overview",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Settings"
+      },
+      {
+         "type": "header",
+         "content": "Content"
+      },
+      {
+         "type": "text",
+         "id": "heading",
+         "label": "Heading"
+      },
+      {
+         "type": "header",
+         "content": "Description"
+      },
+      {
+         "type": "text",
+         "id": "description_heading",
+         "label": "Description Heading",
+         "default": "Description"
+      },
+      {
+         "type": "text",
+         "id": "description_description",
+         "label": "Description Description",
+         "default": "A detailed description of this product"
+      },
+      {
+         "type": "header",
+         "content": "Materials"
+      },
+      {
+         "type": "text",
+         "id": "materials_heading",
+         "label": "Materials Heading",
+         "default": "Materials"
+      },
+      {
+         "type": "text",
+         "id": "materials_description",
+         "label": "Materials Description",
+         "default": "Sourcing the industry best materials"
+      },
+      {
+         "type": "header",
+         "content": "Shipping & Returns"
+      },
+      {
+         "type": "text",
+         "id": "shipping_returns_heading",
+         "label": "Shipping & Returns Heading",
+         "default": "Shipping & Returns"
+      },
+      {
+         "type": "text",
+         "id": "shipping_returns_description",
+         "label": "Shipping & Returns Description",
+         "default": "Not what you wanted? We can help"
+      },
+      {
+         "type": "richtext",
+         "id": "shipping_default",
+         "label": "Shipping Default"
+      },
+      {
+         "type": "richtext",
+         "id": "returns_default",
+         "label": "Returns Default"
+      },
+      {
+         "type": "header",
+         "content": "Dimensions"
+      },
+      {
+         "type": "text",
+         "id": "dimensions_heading",
+         "label": "Dimensions Heading",
+         "default": "Dimensions"
+      },
+      {
+         "type": "text",
+         "id": "dimensions_description",
+         "label": "Dimensions Description",
+         "default": "Size guide for product"
+      },
+      {
+         "type": "header",
+         "content": "Care Instructions"
+      },
+      {
+         "type": "text",
+         "id": "care_instructions_heading",
+         "label": "Care Instructions Heading",
+         "default": "Care Instructions"
+      },
+      {
+         "type": "text",
+         "id": "care_instructions_description",
+         "label": "Care Instructions Description",
+         "default": "Get the best out of our product"
+      }
+   ],
+   "blocks": [],
+   "presets": [{
+      "name": "Product Overview",
+      "blocks": []
+   }]
+}
+{% endschema %}

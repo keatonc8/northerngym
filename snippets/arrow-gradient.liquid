@@ -1,0 +1,10 @@
+{% assign width_class = width_class | default: 'w-100' %}
+{% assign bottom_class = bottom_class | default: 'bottom-0' %}
+{% assign opacity_class = opacity_class | default: 'opacity-65' %}
+
+<div class="absolute {{ bottom_class }} right-0 z-1 text-black pointer-events-none {{ opacity_class }}">
+   <div class="relative">
+      {% render 'icons', icon: 'arrow-gradient', class: width_class %}
+      <div class="w-full h-full absolute bottom-0 right-5 bg-gradient-to-r from-black/100 to-black/0"></div>
+   </div>
+</div>

@@ -1,0 +1,57 @@
+{% assign heading = section.settings.heading %}
+{% assign paragraph = section.settings.paragraph %}
+{% assign add_blog_link = section.settings.add_blog_link %}
+{% assign add_border_top = section.settings.add_border_top %}
+
+{% render 'blog-preview'
+   heading: heading,
+   paragraph: paragraph,
+   add_blog_link: add_blog_link,
+   add_border_top: add_border_top
+%}
+
+{% schema %}
+{
+   "name": "Blog Preview",
+   "settings": [
+      {
+         "type": "header",
+         "content": "Settings"
+      },
+      {
+         "type": "checkbox",
+         "id": "add_blog_link",
+         "label": "Add Blog Link?",
+         "info": "Select this option to add a link to the blog on desktop",
+         "default": false
+      },
+      {
+         "type": "checkbox",
+         "id": "add_border_top",
+         "label": "Add Border Top?",
+         "info": "Select this option to add a border along the top of the component to seperate from the rest of the page",
+         "default": false
+      },
+      {
+         "type": "header",
+         "content": "Content"
+      },
+      {
+         "type": "text",
+         "id": "heading",
+         "label": "Heading",
+         "default": "Blog"
+      },
+      {
+         "type": "textarea",
+         "id": "paragraph",
+         "label": "Paragraph"
+      }
+   ],
+   "blocks": [],
+   "presets": [{
+      "name": "Blog Preview",
+      "blocks": []
+   }]
+}
+{% endschema %}

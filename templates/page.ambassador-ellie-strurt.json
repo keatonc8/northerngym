@@ -1,0 +1,149 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "Based In Manchester",
+            "image": "shopify://shop_images/Ellie_Strurt.jpg",
+            "title": "Bio",
+            "text": "<p>I’m Ellie, a qualified Personal Trainer passionate about strength training and helping women feel stronger and more confident in the gym. My fitness journey has taught me that training isn’t about perfection—it’s about building strength, finding what works for you and creating a routine you genuinely enjoy.<br/><br/></p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_7WcBXp": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/Ellie_Strurt_6.jpg",
+            "title": "",
+            "text": "<p>My approach combines progressive strength training with functional and conditioning-based workouts, with a big focus on building muscle, improving body composition and becoming stronger both physically and mentally. I love helping women feel comfortable around weights and showing them that lifting doesn’t have to be intimidating.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_WGq8f8": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/Ellie_Strurt_2.jpg",
+            "title": "",
+            "text": "<p>Alongside my 1-1 personal training, I coach group fitness classes, incorporating everything from strength and conditioning to hybrid and functional training. I’m passionate about creating workouts that challenge people while still being enjoyable and accessible.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_wgaqTH": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/Ellie_Strurt_3.jpg",
+            "title": "",
+            "text": "<p>For me, fitness is about becoming the strongest version of yourself - inside and outside of the gym - and helping other people realise just how capable they are.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ",
+        "item_7WcBXp",
+        "item_WGq8f8",
+        "item_wgaqTH"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Ellie Strurt",
+        "text": "<p>Strength-focused training combining progressive strength, functional fitness and conditioning to build muscle, confidence and overall strength.</p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_QUBYg8": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_LebtEX": {
+          "type": "card",
+          "settings": {
+            "title": "Favourite Northern Product",
+            "image": "shopify://shop_images/Northern_Weight_Lifting_Straps_Padded_Wrist_Support.jpg",
+            "text": "<p>Lifting Straps - <em>\"Northern Hand Straps are easily one of my favourite pieces of kit. They’ve made such a difference to my RDLs by helping me maintain my grip and focus more on loading my hamstrings and glutes. They’ve even helped me hit a 60kg PB!\"</em></p>",
+            "button_label": "Shop Now",
+            "button_link": "https://northerngymequipment.com/products/northern-lifting-straps-for-weightlifting-padded-wrist-support"
+          }
+        },
+        "card_cEmc7P": {
+          "type": "card",
+          "settings": {
+            "title": "What does being part of Northern mean to you?",
+            "image": "shopify://shop_images/Ellie_Strurt_4.jpg",
+            "text": "<p>Being part of Northern means a lot to me. It’s a brand that covers every side of fitness, from racks, barbells and machines to the smaller pieces of kit that make a difference. I’m proud to represent Northern and share equipment I personally use and believe in with my community.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "card_mNhWg4": {
+          "type": "card",
+          "settings": {
+            "title": "Follow Ellie's Journey",
+            "image": "shopify://shop_images/Ellie_Strurt_5.jpg",
+            "text": "<p>Check out Ellie's social here.</p>",
+            "button_label": "Follow",
+            "button_link": "https://www.instagram.com/builtbyellie.fit/"
+          }
+        }
+      },
+      "block_order": [
+        "card_LebtEX",
+        "card_cEmc7P",
+        "card_mNhWg4"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_QUBYg8"
+  ]
+}

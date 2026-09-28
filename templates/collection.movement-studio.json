@@ -1,0 +1,176 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "block_shop_by_training_PBFtyU": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_D4ApbT": {
+          "type": "item",
+          "settings": {
+            "number": "01",
+            "image": "shopify://shop_images/1_e844557f-22b4-4f76-8ff0-b132aa91e278.png",
+            "title": "Neoprene Dumbbells",
+            "text": "<p>Elevate your workouts with our neoprene dumbbells, crafted for refined comfort, flawless grip and effortless strength.</p>",
+            "button_label": "Discover More",
+            "button_link": "shopify://collections/movement-studio-neoprene-dumbbells"
+          }
+        },
+        "item_bjKrJG": {
+          "type": "item",
+          "settings": {
+            "number": "02",
+            "image": "shopify://shop_images/3_a20a24d8-f221-4930-a925-1ffd0cca3e04.png",
+            "title": "Neoprene Kettlebells",
+            "text": "<p>Level up your workouts with a premium neoprene kettlebell, built for smooth handling, stable control and powerful performance.</p>",
+            "button_label": "Discover More",
+            "button_link": "shopify://collections/neoprene-kettlebells"
+          }
+        },
+        "item_gr7ftz": {
+          "type": "item",
+          "settings": {
+            "number": "03",
+            "image": "shopify://shop_images/2_616a3be3-810c-4ff3-a7b5-38bcc10a41ce.png",
+            "title": "Dumbbell Hands",
+            "text": "<p>Sculpt and strengthen with our dumbbells hand weights, designed for a soft grip, smooth feel and controlled movement.</p>",
+            "button_label": "Discover More",
+            "button_link": "shopify://collections/movement-studio-dumbbell-hands"
+          }
+        },
+        "item_mEmyyN": {
+          "type": "item",
+          "settings": {
+            "number": "04",
+            "image": "shopify://shop_images/1_1086ee33-6b44-4564-8e6b-db73d1e73ea0.png",
+            "title": "Yoga Mats",
+            "text": "<p>Practice in comfort and style with our yoga mats, offering superior grip, cushioning and support for every flow.</p>",
+            "button_label": "Discover More",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_D4ApbT",
+        "item_bjKrJG",
+        "item_gr7ftz",
+        "item_mEmyyN"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Introducing Movement Studio",
+        "text": "<p>Designed to support control, balance and the way your body naturally moves. Built for better movement. Where strength meets control.</p>",
+        "button_label": "Explore Our Collection",
+        "button_link": "shopify://collections/movement-studio",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 40,
+        "margin_bottom": 40,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_image_tiles_zyQi4b": {
+      "type": "block-image-tiles",
+      "blocks": {
+        "tile_6izxMG": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/Northern_Movement_Studio_Yoga_Blocks.jpg",
+            "title": "Yoga Blocks",
+            "text": "<p>Support your Pilates practice with our yoga blocks that improve alignment, stability and control.</p>",
+            "button_label": "",
+            "link": "shopify://collections/yoga-blocks"
+          }
+        },
+        "tile_6ETKtP": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/Northern_Movement_Studio_Pilates_Ring.jpg",
+            "title": "Pilate Rings",
+            "text": "<p>Boost your Pilates workouts with a Pilates ring that enhances resistance, control and muscle engagement.</p>",
+            "button_label": "",
+            "link": "shopify://collections/movement-studio-pilates-rings"
+          }
+        }
+      },
+      "block_order": [
+        "tile_6izxMG",
+        "tile_6ETKtP"
+      ],
+      "name": "Block - Image Tiles",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "margin_top": 40,
+        "margin_bottom": 40,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_Kjk8Pg": {
+      "type": "block-columns",
+      "blocks": {
+        "card_EwpDhN": {
+          "type": "card",
+          "settings": {
+            "title": "Hollow Rollers",
+            "image": "shopify://shop_images/Northern_Movement_Studio_Hollow_Rollers.jpg",
+            "link": "shopify://collections/movement-studio-hollowrollers"
+          }
+        },
+        "card_DyLEMt": {
+          "type": "card",
+          "settings": {
+            "title": "Swiss Balls",
+            "image": "shopify://shop_images/2_89aa7d05-4820-4dd7-b43c-7278d0bbe30c.png",
+            "link": "shopify://collections/movement-studio-swiss-balls"
+          }
+        },
+        "card_UFyXAr": {
+          "type": "card",
+          "settings": {
+            "title": "Hip Bands",
+            "image": "shopify://shop_images/MOVEMENT_STUDIO_0146.jpg",
+            "link": "shopify://collections/hip-bands"
+          }
+        }
+      },
+      "block_order": [
+        "card_EwpDhN",
+        "card_DyLEMt",
+        "card_UFyXAr"
+      ],
+      "name": "Block - Columns",
+      "settings": {
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 40,
+        "margin_bottom": 40,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "block_shop_by_training_PBFtyU",
+    "block_image_tiles_zyQi4b",
+    "block_columns_Kjk8Pg"
+  ]
+}

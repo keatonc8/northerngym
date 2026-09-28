@@ -1,0 +1,287 @@
+<style>
+/* ==============================
+Marquee styles 
+============================== */
+{% assign speed = 0 %}
+
+{% if section.settings.marquee_speed == 'fast' %}
+  {% assign speed = 20 %}
+{% elsif section.settings.marquee_speed == 'regular' %}
+  {% assign speed = 30 %}
+{% elsif section.settings.marquee_speed == 'slow' %}
+  {% assign speed = 40 %}
+{% endif %}
+
+.{{ section.id }} .marquee {
+  --gap: 6rem;
+  --duration: {{ speed }}s;
+  display: flex;
+  overflow: hidden;
+  gap: var(--gap);
+}
+
+.{{ section.id }} .marquee {
+  {% if section.settings.add_marquee_bg %}
+    {% assign bg = section.settings.marquee_bg_color %}
+    {% assign a  = section.settings.marquee_bg_opacity | divided_by: 100.0 %}
+    {% assign r = bg | color_extract: 'red' %}
+    {% assign g = bg | color_extract: 'green' %}
+    {% assign b = bg | color_extract: 'blue' %}
+    --marquee-bg: rgba({{ r }}, {{ g }}, {{ b }}, {{ a }});
+
+    background: var(--marquee-bg);
+    position: relative;
+    isolation: isolate;
+  {% else %}
+    mask-image: linear-gradient(90deg,transparent 5%, black 25%, black 75%, transparent 95%);
+    -webkit-mask-image: linear-gradient(90deg,transparent 5%, black 25%, black 75%, transparent 95%);
+  {% endif %}
+}
+
+{% if section.settings.add_marquee_bg %}
+.{{ section.id }} .marquee:after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image: linear-gradient(
+    90deg,
+    var(--marquee-bg) 5%,
+    transparent 25%,
+    transparent 75%,
+    var(--marquee-bg) 95%
+  );
+  z-index:1;
+}
+{% endif %}
+
+.{{ section.id }} .marquee__content {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-around;
+  min-width: 100%;
+  gap:var(--gap);
+  height:30px;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100% - var(--gap))); }
+}
+
+.{{ section.id }} .enable-animation .marquee__content {
+  animation: scroll var(--duration) linear infinite;
+}
+
+.{{ section.id }} .marquee--hover-pause:hover .marquee__content {
+  animation-play-state: paused;
+}
+
+/* ==============================
+Section Styles
+============================== */
+.hero-button {
+  background-color:{{ section.settings.button_color }};
+  color:{{ section.settings.button_text_color }};
+}
+
+.{{ section.id }} {
+  color:{{ section.settings.text_color }};
+  {% if section.settings.background_image != blank %}
+    background-image:url('{{ section.settings.background_image | image_url: width: 2000 }}');
+  {% endif %}
+}
+
+@media only screen and (max-width: 841px) {
+  .{{ section.id }} {
+    {% if section.settings.mobile_background_image != blank %}
+      background-image:url('{{ section.settings.mobile_background_image | image_url: width: 800 }}');
+    {% else %}
+      background-image:url('{{ section.settings.background_image | image_url: width: 1000 }}');
+    {% endif %}
+  }
+}
+</style>
+
+<section class="{{ section.id }} overflow-hidden bg-cover bg-center relative">
+  <a href="{{ section.settings.button_link | default: '#' }}" class="absolute inset-0 z-10"></a>
+  <div class="mx-auto">
+
+    <div class="hero-content container-limited grid min-h-[520px]
+      {% case section.settings.content_vertical_align %}
+        {% when 'top' %} items-start
+        {% when 'bottom' %} items-end
+        {% else %} items-center
+      {% endcase %}
+      gap-10 py-10 px-6 mx-auto">
+
+      <div class="max-w-xl">
+        {% if section.settings.heading != blank %}
+          <h1 class="text-4xl font-extrabold uppercase tracking-tight sm:text-6xl lg:text-7xl">
+            {{ section.settings.heading }}
+          </h1>
+        {% endif %}
+
+        {% if section.settings.body != blank %}
+          <p class="mt-6 max-w-md text-base leading-6">
+            {{ section.settings.body | truncatewords: 50 }}
+          </p>
+        {% endif %}
+
+        {% if section.settings.button_label != blank %}
+          <div class="mt-8">
+            <span
+              class="hero-button inline-flex items-center rounded-full px-6 py-3 text-base font-medium"
+            >
+              {{ section.settings.button_label }}
+            </span>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% assign logo_blocks = section.blocks | where: "type", "logo" %}
+    {% if logo_blocks.size > 0 %}
+      <div class="marquee marquee--hover-pause enable-animation py-10">
+        <ul class="marquee__content">
+          {% for block in logo_blocks %}
+            <li {{ block.shopify_attributes }}>
+              {% if block.settings.logo %}
+                {{
+                  block.settings.logo
+                  | image_url: width: 400
+                  | image_tag:
+                  alt: block.settings.alt,
+                  loading: 'lazy',
+                  widths: '150, 300, 450, 600',
+                  sizes: '(max-width: 768px) 50vw, 300px',
+                  class: 'w-full h-full object-contain'
+                }}
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+
+        <ul aria-hidden="true" class="marquee__content">
+          {% for block in logo_blocks %}
+            <li>
+              {% if block.settings.logo %}
+                {{
+                  block.settings.logo
+                  | image_url: width: 400
+                  | image_tag:
+                  loading: 'lazy',
+                  widths: '150, 300, 450, 600',
+                  sizes: '(max-width: 768px) 50vw, 300px',
+                  class: 'w-full h-full object-contain'
+                }}
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Block - Hero",
+  "limit": 1,
+  "settings": [
+    { "type": "image_picker", "id": "background_image", "label": "Background Image (Desktop)" },
+    { "type": "image_picker", "id": "mobile_background_image", "label": "Background Image (Mobile)" },
+
+    {
+      "type": "select",
+      "id": "content_vertical_align",
+      "label": "Content vertical alignment",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "middle", "label": "Middle" },
+        { "value": "bottom", "label": "Bottom" }
+      ],
+      "default": "middle"
+    },
+
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Today can be<br>life-changing</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "info": "(Max 50 Words)",
+      "default": "Lorem ipsum dolor sit amet consectetur..."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "View Full Collection"
+    },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "text_color", "label": "Text Colour", "default": "#FFFFFF" },
+    { "type": "color", "id": "button_color", "label": "Button Color", "default": "#FFFFFF" },
+    { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "#000000" },
+
+    { "type": "header", "content": "Marquee Settings" },
+    {
+      "type": "select",
+      "id": "marquee_speed",
+      "label": "Marquee Speed",
+      "options": [
+        { "value": "fast", "label": "Fast" },
+        { "value": "regular", "label": "Regular" },
+        { "value": "slow", "label": "Slow" }
+      ],
+      "default": "regular"
+    },
+    { "type": "checkbox", "id": "add_marquee_bg", "label": "Add Background?", "default": false },
+    {
+      "type": "color",
+      "id": "marquee_bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF",
+      "visible_if": "{{ section.settings.add_marquee_bg }}"
+    },
+    {
+      "type": "range",
+      "id": "marquee_bg_opacity",
+      "label": "Background Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ section.settings.add_marquee_bg }}"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Marquee logo",
+      "settings": [
+        { "type": "image_picker", "id": "logo", "label": "Logo image" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Block - Hero",
+      "blocks": [
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" }
+      ]
+    }
+  ]
+}
+{% endschema %}

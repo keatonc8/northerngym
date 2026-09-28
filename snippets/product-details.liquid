@@ -1,0 +1,143 @@
+{% assign product_title = product.title %}
+{% assign product_price = product.selected_or_first_available_variant.price %}
+{% assign product_price_compare = product.selected_or_first_available_variant.compare_at_price %}
+
+{% assign is_on_sale = false %}
+{% if product_price_compare > product_price %}
+   {% assign is_on_sale = true %}
+{% endif %}
+
+{% assign product_bullet_points = product.metafields.northerngym.details_bullet_points.value %}
+{% assign product_description = product.description %}
+{% assign product_description_text = product_description | strip_html %}
+{% assign product_description_first_sentence = product_description_text | truncate: 140, '...' %}
+
+{% assign delivery_title = section_settings.delivery_title %}
+{% assign delivery_paragraph = section_settings.delivery_paragraph %}
+
+{% assign primary_collection = product.metafields.northerngym.product_page_primary_collections.value %}
+{% assign top_section_classes = 'justify-between' %}
+{% if primary_collection == blank and is_on_sale == true %}
+   {% assign top_section_classes = 'justify-end' %}
+{% endif %}
+
+
+<div class="container cst-product-content md:px-8 lg:px-12 xl:px-20 2xl:px-32 pt-1 pb-10 md:pb-0 static md:sticky md:top-0 lg:z-[10] lg:top-0" data-product-details-container>
+   <div class="w-full md:max-w-126 flex flex-col gap-4">
+
+      
+
+      <div class="flex flex-col gap-3 mt-4">
+         
+         <h1 class="heading-01 text-24 lg:text-34/10">
+            {{ product_title }}
+         </h1>
+
+         <div
+  x-data="{ subTotal: 0, subTotalOriginal: 0, isFromPrice: false, fromPrice: 0, fromOriginal: 0 }"
+  x-init="
+    window.addEventListener('product:addons:totals', (e) => {
+      subTotal = e.detail.total || 0;
+      subTotalOriginal = e.detail.original || 0;
+      isFromPrice = e.detail.isFromPrice || false;
+      fromPrice = e.detail.fromPrice || 0;
+      fromOriginal = e.detail.fromOriginal || 0;
+    })
+  "
+>
+  <div class="flex justify-between flex-wrap mb-4">
+  <div class="flex gap-5 text-right">
+    
+    <!-- Current Subtotal -->
+    <p class="body-01 font-bold text-24 flex flex-col">
+      <span
+        class="body-03"
+        x-show="isFromPrice || subTotalOriginal > subTotal"
+        x-cloak
+      >
+        <span x-text="isFromPrice ? 'From' : 'Now'"></span>
+      </span>
+
+      <span x-text="formatPrice(isFromPrice ? fromPrice : subTotal)"></span>
+    </p>
+
+    <!-- Original Subtotal (if discounted) -->
+    <p
+      class="body-01 font-bold text-18 flex flex-col text-red"
+      x-show="isFromPrice ? fromOriginal > fromPrice : subTotalOriginal > subTotal"
+      x-cloak
+    >
+      <span class="body-03">Was</span>
+
+      <span
+        class="line-through"
+        x-text="formatPrice(isFromPrice ? fromOriginal : subTotalOriginal)"
+      ></span>
+    </p>
+
+  </div>
+  {% if section_blocks != blank %}
+               {% for block in section_blocks %}
+                  {% if block.id contains 'judge_me_reviews_preview_badge' %}
+                     <div x-data="{ showBadge: false }" 
+                          x-init="setTimeout(() => showBadge = true, 200)" 
+                          x-show="showBadge" 
+                          x-cloak>
+                        {% render block %}
+                     </div>
+                  {% endif %}
+               {% endfor %}
+            {% endif %}
+</div>
+
+  {%- comment -%}
+     BUNDLE20 flash. Sits UNDER the black price by design, so the order
+     reads: title, price, red saving line.
+
+     Rendered inside this x-data wrapper rather than as a sibling of the
+     h1 so the gap to the price is the wrapper's own mb-4 (16px) instead
+     of mb-4 plus the parent's gap-3 (28px). Alpine scope chains upward,
+     so selectedVariant and formatPrice still resolve from here.
+
+     All logic, the collection list and the on/off switch live in
+     snippets/bundle20-flash.liquid.
+  {%- endcomment -%}
+  {%- render 'bundle20-flash',
+     b20_context: 'pdp',
+     b20_product: product,
+     b20_price: product_price,
+     b20_on_sale: is_on_sale
+  -%}
+
+</div>
+
+         </div>
+      </div>
+
+      {%  if section.settings.show_usps %}
+         {% render 'product-details-usps',
+            info_strip_delivery_text: info_strip_delivery_text,
+            info_strip_pay_options_text: info_strip_pay_options_text
+         %}
+      {% endif %}
+
+      
+
+      {% render 'product-form', section_blocks: section_blocks %}
+
+      
+
+      {% assign show_wholesale_link = section_settings.show_wholesale_link %}
+      {% assign wholesale_link = section_settings.wholesale_link %}
+      {% assign wholesale_text = section_settings.wholesale_text | default: 'Looking for Wholesale?' %}
+      {% if show_wholesale_link and wholesale_link != blank %}
+         <div class="text-center">
+            <a href="{{ wholesale_link }}" class="link">
+               {{ wholesale_text }}
+            </a>
+         </div>
+      {% endif %}
+
+   </div>
+
+   

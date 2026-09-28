@@ -1,0 +1,131 @@
+{% assign product_object = product | default: product_item %}
+
+{%- comment -%}
+  ============================================================
+  FREE SHIPPING BADGE CONFIG
+  ============================================================
+  Collections that must NEVER show the free shipping badge.
+  Thick floormats ship on a pallet, so free shipping cannot apply
+  to them no matter what is assigned in the admin. Comma separated
+  collection handles.
+  ============================================================
+{%- endcomment -%}
+{%- assign fs_excluded_collections = 'gym-floor-mats,home-gym-floor-interlocking-rubber' -%}
+
+{% if product_object != blank %}
+
+  {% assign is_new = product_object.metafields.northerngym.tag_is_new_item %}
+  {% assign is_package = product_object.metafields.northerngym.tag_is_package_item %}
+
+  {%- comment -%} Liquid fallback sale calculation (rounded to nearest whole number) {%- endcomment -%}
+  {% assign sale_percentage = 0 %}
+  {% assign variant = product_object.selected_or_first_available_variant %}
+
+  {% if variant.compare_at_price and variant.compare_at_price > variant.price %}
+    {% assign discount = variant.compare_at_price | minus: variant.price %}
+    {% assign sale_percentage = discount | times: 100.0 | divided_by: variant.compare_at_price | round %}
+  {% endif %}
+
+  {%- comment -%}
+    Free shipping badge, driven by the 'Free Shipping Badge' metaobject
+    assigned to the product metafield northerngym.badge_free_shipping.
+    Three gates, all must pass:
+      1. the metaobject is not switched off (Active field)
+      2. the product clears the metaobject's Minimum order value, if one is set
+      3. the product is not in an excluded (pallet shipped) collection
+  {%- endcomment -%}
+  {%- assign fs_badge = product_object.metafields.northerngym.badge_free_shipping.value -%}
+  {%- assign fs_show = false -%}
+
+  {%- if fs_badge != blank and fs_badge.label != blank -%}
+    {%- assign fs_show = true -%}
+
+    {%- if fs_badge.active == false -%}
+      {%- assign fs_show = false -%}
+    {%- endif -%}
+
+    {%- if fs_badge.minimum_order_value != blank -%}
+      {%- assign fs_minimum_pennies = fs_badge.minimum_order_value | times: 100 -%}
+      {%- if product_object.price_min < fs_minimum_pennies -%}
+        {%- assign fs_show = false -%}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- assign fs_excluded_list = fs_excluded_collections | split: ',' -%}
+    {%- for fs_collection in product_object.collections -%}
+      {%- if fs_excluded_list contains fs_collection.handle -%}
+        {%- assign fs_show = false -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+
+  <div class="flex gap-2 items-center flex-wrap mono-font">
+
+    {% if is_new %}
+      <span class="h-max rounded-full bg-gradient-to-r from-green-500/80 to-black/30 
+        px-3 py-1 text-xs sm:px-5 sm:py-2 sm:text-sm 
+        font-normal text-white/90 ring-1 ring-white/40 backdrop-blur-md">
+        New Product
+      </span>
+    {% endif %}
+
+    {%- comment -%}
+      Alpine-powered dynamic sale badge
+      Rounded to nearest whole number
+    {%- endcomment -%}
+    <span
+      class="h-max rounded-full bg-gradient-to-r from-red-600/80 to-black/30 
+        px-3 py-1 text-xs sm:px-5 sm:py-2 sm:text-sm 
+        font-normal text-white/90 ring-1 ring-white/40 backdrop-blur-md"
+      x-cloak
+      x-show="typeof selectedVariant !== 'undefined'
+              && selectedVariant.compare_at_price
+              && selectedVariant.compare_at_price > selectedVariant.price"
+    >
+      <span 
+        x-text="Math.round(
+          ((selectedVariant.compare_at_price - selectedVariant.price) 
+          / selectedVariant.compare_at_price) * 100
+        )"
+      ></span>% Off
+    </span>
+
+    {%- comment -%}
+      Liquid fallback (for collection cards / no Alpine)
+    {%- endcomment -%}
+    {% if sale_percentage > 0 %}
+      <span class="h-max rounded-full bg-gradient-to-r from-red-600/80 to-black/30 
+        px-3 py-1 text-xs sm:px-5 sm:py-2 sm:text-sm 
+        font-normal text-white/90 ring-1 ring-white/40 backdrop-blur-md"
+        x-show="typeof selectedVariant === 'undefined'">
+        {{ sale_percentage }}% Off
+      </span>
+    {% endif %}
+
+    {% if is_package %}
+      <span class="h-max rounded-full bg-gradient-to-r from-black/80 to-black/30 
+        px-3 py-1 text-xs sm:px-5 sm:py-2 sm:text-sm 
+        font-normal text-white/90 ring-1 ring-white/40 backdrop-blur-md">
+        Package
+      </span>
+    {% endif %}
+
+    {% if fs_show %}
+      <span class="inline-flex items-center gap-1.5 h-max rounded-full 
+        px-3 py-1 text-xs sm:px-5 sm:py-2 sm:text-sm 
+        font-normal text-white/90 ring-1 ring-white/40 backdrop-blur-md"
+        style="background-image: linear-gradient(to right, rgba(23,23,23,0.88), rgba(23,23,23,0.28));">
+        <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M1 3h12v12H1z"></path>
+          <path d="M13 7h4l4 4v4h-8z"></path>
+          <circle cx="6" cy="18" r="2"></circle>
+          <circle cx="17" cy="18" r="2"></circle>
+        </svg>
+        {{ fs_badge.label }}
+      </span>
+    {% endif %}
+
+  </div>
+
+{% endif %}

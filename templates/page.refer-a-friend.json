@@ -1,0 +1,165 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "refer": {
+      "type": "refer-a-friend",
+      "blocks": {
+        "step-1": {
+          "type": "step",
+          "settings": {
+            "number": "01",
+            "title": "Share your link",
+            "text": "Grab your personal referral link above and send it to a training partner, a friend building their home gym, whoever."
+          }
+        },
+        "step-2": {
+          "type": "step",
+          "settings": {
+            "number": "02",
+            "title": "They kit up",
+            "text": "They shop the range and claim their welcome reward on their first order."
+          }
+        },
+        "step-3": {
+          "type": "step",
+          "settings": {
+            "number": "03",
+            "title": "You both win",
+            "text": "Once their order lands, your reward is on its way. Every referral counts."
+          }
+        },
+        "benefit-1": {
+          "type": "benefit",
+          "settings": {
+            "tag": "No catch",
+            "title": "A reward that stacks up",
+            "text": "You back the gear, we back you for it. Straightforward reward, no hoops."
+          }
+        },
+        "benefit-2": {
+          "type": "benefit",
+          "settings": {
+            "tag": "For them",
+            "title": "£25 off their order",
+            "text": "Your friend starts with money off the equipment that will still be standing years in."
+          }
+        },
+        "benefit-3": {
+          "type": "benefit",
+          "settings": {
+            "tag": "No limit",
+            "title": "Refer as many as you like",
+            "text": "One mate or the whole gym floor. Every referral earns you the reward."
+          }
+        },
+        "faq-1": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I refer someone?",
+            "answer": "Enter your details at the top of this page to get your unique referral link. Share it however you like. Your friend clicks it, shops, and the reward takes care of itself.",
+            "open": true
+          }
+        },
+        "faq-2": {
+          "type": "faq",
+          "settings": {
+            "question": "When do I get my reward?",
+            "answer": "Your reward is triggered once your friend completes a qualifying first order.",
+            "open": false
+          }
+        },
+        "faq-3": {
+          "type": "faq",
+          "settings": {
+            "question": "What does my friend get?",
+            "answer": "A welcome reward on their first order with us.",
+            "open": false
+          }
+        },
+        "faq-4": {
+          "type": "faq",
+          "settings": {
+            "question": "How many people can I refer?",
+            "answer": "As many as you want. There is no cap on how many friends you send our way.",
+            "open": false
+          }
+        },
+        "faq-5": {
+          "type": "faq",
+          "settings": {
+            "question": "Where can I see my referrals?",
+            "answer": "You will get a confirmation each time, and you can track your rewards through the link in your referral emails.",
+            "open": false
+          }
+        },
+        "faq_YqBbDH": {
+          "type": "faq",
+          "settings": {
+            "question": "How can I redeem my rewards?",
+            "answer": "Once your friend places their first order, your reward code will appear in ‘My Rewards’ in your account area.\n\n\nPlease note: Only one discount code can be used per order. Please ensure your cart meets the minimum order value of £100; otherwise, the code will not apply.",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "benefit-1",
+        "benefit-2",
+        "benefit-3",
+        "faq-1",
+        "faq-2",
+        "faq-3",
+        "faq-4",
+        "faq-5",
+        "faq_YqBbDH"
+      ],
+      "settings": {
+        "partner_code": "mmdf6197f0",
+        "environment": "live",
+        "locale": "en_GB",
+        "hero_style": "light",
+        "radius": 18,
+        "hero_eyebrow": "Refer a friend",
+        "hero_heading_1": "Train together.",
+        "hero_heading_2": "Win together.",
+        "hero_lead": "Send a mate to Northern. They kit out their setup for less. You get rewarded when they do. Simple.",
+        "show_reward": true,
+        "reward_friend_label": "Your friend gets",
+        "reward_friend_value": "£25 off",
+        "reward_you_label": "You get",
+        "reward_you_value": "£25 back",
+        "mm_card_heading": "Start referring",
+        "steps_eyebrow": "How it works",
+        "steps_heading": "Three moves. That's it.",
+        "why_eyebrow": "Why share it",
+        "why_heading": "Good kit deserves a shout out.",
+        "faq_eyebrow": "The details",
+        "faq_heading": "Questions, answered.",
+        "closer_eyebrow": "Refer a friend",
+        "closer_heading_1": "Someone you train with needs",
+        "closer_heading_2": "this kit.",
+        "closer_text": "Send them the link. They build their setup, you get rewarded for the introduction.",
+        "closer_button_label": "Get your link",
+        "closer_tagline": "Built to work",
+        "legal_text": "<p>Rewards are issued in line with the <a href=\"/pages/refer-a-friend-terms-conditions\" title=\"Refer a Friend Terms & Conditions\">Refer a Friend programme terms</a>. Reward values and qualifying orders are subject to change. Cannot be used in conjunction with some other offers. See full terms for details.</p>",
+        "color_accent": "#feed06",
+        "color_dark": "#0a0a0a",
+        "color_alert": "#be0b07",
+        "color_soft": "#f4f4f2"
+      }
+    }
+  },
+  "order": [
+    "refer"
+  ]
+}

@@ -1,0 +1,88 @@
+{% render 'abu-styles' %}
+<div class="abu-scope">
+  <div class="abu-dark" style="background:#111111;text-align:center;">
+    <div class="abu-container abu-rhythm">
+      {% if section.settings.eyebrow != blank %}
+        <span class="abu-meta" style="color:rgba(255,255,255,0.55);">{{ section.settings.eyebrow }}</span>
+      {% endif %}
+      <h2 class="abu-h01" style="margin-top:0.75rem;">{{ section.settings.heading }}</h2>
+      {% if section.settings.body != blank %}
+        <div class="abu-prose" style="max-width:38rem;margin:2rem auto 0;">{{ section.settings.body }}</div>
+      {% endif %}
+
+      {% if section.blocks.size > 0 %}
+        <div style="max-width:38rem;margin:3rem auto 0;padding-top:2.5rem;border-top:1px solid rgba(255,255,255,0.16);">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'line' %}
+                <p class="abu-h04" style="margin:0.6rem 0;{% if block.settings.accent %}color:var(--abu-accent);{% endif %}" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+              {% when 'paragraph' %}
+                <div class="abu-prose" style="margin:1.5rem auto;" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+            {% endcase %}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.closer != blank %}
+        <div class="abu-h02" style="margin-top:3.5rem;">{{ section.settings.closer }}</div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Block - About Principle",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow label", "default": "Our Guiding Principle" },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Bold a word to highlight it.",
+      "default": "<p>Built to <strong>Work.</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Intro body copy",
+      "default": "<p>At Northern Gym Equipment, Built to Work is more than a slogan. It's the standard we hold ourselves to.</p><p>It defines how we build our products, support our customers, and run our business. We believe there are no shortcuts, in fitness or in life. Progress comes from consistency, attention to detail, and showing up every day.</p><p>That's why every product we create is built to withstand real training. Whether you're investing in home gym equipment, outfitting a commercial facility, or adding to your strength setup, our equipment is designed to perform session after session, year after year.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "closer",
+      "label": "Closing line",
+      "default": "<p>Northern. <strong>Built to Work.</strong></p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "line",
+      "name": "Statement line",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text" },
+        { "type": "checkbox", "id": "accent", "label": "Yellow accent colour", "default": false }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "name": "Paragraph",
+      "settings": [
+        { "type": "richtext", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Block - About Principle",
+      "blocks": [
+        { "type": "line", "settings": { "text": "But Built to Work isn't just about the equipment." } },
+        { "type": "line", "settings": { "text": "It's about us.", "accent": true } },
+        { "type": "paragraph", "settings": { "text": "<p>It's our commitment to building products that last, giving honest advice, delivering dependable service, and earning the trust of our community.</p>" } },
+        { "type": "line", "settings": { "text": "The best equipment won't do the work for you." } },
+        { "type": "line", "settings": { "text": "It simply helps you do your best work.", "accent": true } }
+      ]
+    }
+  ]
+}
+{% endschema %}

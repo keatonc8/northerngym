@@ -1,0 +1,353 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "social_tiktok_link": "https://www.tiktok.com/@northerngymequipment",
+    "social_instagram_link": "https://www.instagram.com/northerngymequipment/",
+    "cart_drawer_reservation_message_enabled": true,
+    "cart_drawer_reward_threshold": 75,
+    "cart_drawer_reward_progress_text": "You're [amount] from free shipping!",
+    "cart_drawer_reward_reached_text": "You've unlocked free shipping!",
+    "cart_drawer_upsells_enabled": true,
+    "cart_drawer_upsell_collection": "upsells",
+    "cart_drawer_discount_code_enabled": true,
+    "cart_drawer_delivery_popup_enabled": true,
+    "cart_drawer_delivery_summary": "4.99",
+    "cart_drawer_delivery_method_2_label": "Express Delivery",
+    "cart_drawer_delivery_method_2_price": "9.99",
+    "cart_drawer_delivery_method_3_label": "Evri ParcelShop/Locker",
+    "cart_drawer_delivery_method_3_price": "3.99",
+    "cart_drawer_delivery_popup_text": "",
+    "no_search_results_products": [
+      "2-5-10kg-hex-dumbbell-set-2-5kg-increments-1",
+      "northern-cast-iron-kettlebells-sets",
+      "northern-olympic-cast-iron-plates-pair-2-x-5kg-10kg-15kg-20kg-25kg-150kg-set"
+    ],
+    "show_build_kit": false,
+    "delivery_promise_enabled": true,
+    "delivery_cutoff_time": "15:00",
+    "delivery_shipping_message": "Standard Delivery From £4.99",
+    "delivery_countdown_suffix": "for same day dispatch",
+    "delivery_order_before_prefix": "Your order will be dispatched",
+    "delivery_order_before_suffix": "tomorrow",
+    "delivery_dispatch_sunday": false,
+    "delivery_dispatch_saturday": true,
+    "swym_button_position": "custom",
+    "swym_custom_selector": "form[action*=\"/cart/add\"]",
+    "swym_wishlist_custom_button_css": "",
+    "swym_advanced_collections_wishlist_enabled": true,
+    "swym_advanced_collections_wishlist_social_count": false,
+    "swym_advanced_collections_wishlist_button_before_html": "<button type=\"button\" class=\"swym-advanced-wishlist-collections\" aria-label=\"{{ADD_TO_WISHLIST}}\" aria-pressed=\"false\" style=\"color:{{ICON_COLOR}}; transform:{{ICON_POSITION}};\">\n  <div class=\"swym-advanced-wishlist-collections-social-count\">\n    {{SOCIAL_COUNT}}\n  </div>\n  <div class=\"swym-icon-bg\">\n    <svg width=\"24\" height=\"24\" viewbox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path d=\"M19.6706 5.4736C17.6806 3.8336 14.7206 4.1236 12.8906 5.9536L12.0006 6.8436L11.1106 5.9536C9.29063 4.1336 6.32064 3.8336 4.33064 5.4736C2.05064 7.3536 1.93063 10.7436 3.97063 12.7836L11.6406 20.4536C11.8406 20.6536 12.1506 20.6536 12.3506 20.4536L20.0206 12.7836C22.0706 10.7436 21.9506 7.3636 19.6706 5.4736Z\" stroke=\"{{ICON_COLOR}}\" stroke-width=\"{{ICON_WIDTH}}\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n    </svg>\n  </div>\n</button>",
+    "swym_advanced_collections_wishlist_button_after_html": "<button type=\"button\" class=\"swym-advanced-wishlist-collections\" aria-label=\"{{ADDED_TO_WISHLIST}}\" aria-pressed=\"true\" style=\"color:{{ICON_COLOR}}; transform:{{ICON_POSITION}};\">\n  <div class=\"swym-advanced-wishlist-collections-social-count\">\n    {{SOCIAL_COUNT}}\n  </div>\n  <div class=\"swym-icon-bg\">\n    <svg width=\"24\" height=\"24\" viewbox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path d=\"M19.6706 5.4736C17.6806 3.8336 14.7206 4.1236 12.8906 5.9536L12.0006 6.8436L11.1106 5.9536C9.29063 4.1336 6.32064 3.8336 4.33064 5.4736C2.05064 7.3536 1.93063 10.7436 3.97063 12.7836L11.6406 20.4536C11.8406 20.6536 12.1506 20.6536 12.3506 20.4536L20.0206 12.7836C22.0706 10.7436 21.9506 7.3636 19.6706 5.4736Z\" stroke=\"{{ICON_COLOR}}\" stroke-width=\"{{ICON_WIDTH}}\" fill=\"{{ICON_COLOR}}\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n    </svg>\n  </div>\n</button>",
+    "swym_advanced_collections_wishlist_button_css": ".swym-advanced-wishlist-collections-container {\n  position: absolute;\n  top: 0;\n  left: 0;\n  padding: 10px;\n  z-index: 5;\n  cursor: pointer;\n  width: 60px;\n  height: 40px;\n}\n\n.swym-advanced-wishlist-collections,\n.swym-advanced-wishlist-collections svg {\n  cursor: pointer;\n  background: unset;\n  border: none;\n  box-shadow: none;\n  display: flex;\n  align-items: center;\n  flex-direction: row-reverse;\n  gap: 5px;\n  color: currentColor;\n  min-width: 24px;\n  min-height: 24px;\n}\n\nbutton.swym-advanced-wishlist-collections:hover {\n  background: none;\n  border: none;\n  box-shadow: none;\n}\n\n.swym-advanced-wishlist-collections svg path {\n  stroke: currentColor;\n}\n\n.swym-advanced-wishlist-collections .swym-advanced-wishlist-collections-social-count {\n  font-size: 14px;\n  font-weight: 500;\n  color: currentColor;\n}\n\n.swym-sr-only {\n  clip: rect(0 0 0 0);\n  clip-path: inset(50%);\n  height: 1px;\n  width: 1px;\n  overflow: hidden;\n  white-space: nowrap;\n  position: absolute;\n}\n\n/* Circular background for icon */\n.swym-circular-bg button.swym-advanced-wishlist-collections {\n  position: relative;\n  flex-direction: unset;\n  padding: 0;\n  background: none;\n  border: none;\n  box-shadow: none;\n}\n\n.swym-circular-bg .swym-icon-bg {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 36px;\n  height: 36px;\n  border-radius: 50%;\n  background: #fff;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);\n}\n\n/*for active*/\n/* Make button position: relative so badge positions correctly */\n.swym-circular-bg .swym-advanced-wishlist-collections {\n  position: relative;\n}\n\n/* Badge styling when social count is active */\n.swym-circular-bg .swym-social-count-active {\n  position: absolute;\n  top: -6px;\n  right: -6px;\n  background: #000000;\n  color: #FFFFFF;\n  border-radius: 50%;\n  width: 16px;\n  height: 16px;\n  font-size: 10px;\n  font-weight: 600;\n  line-height: 16px;\n  text-align: center;\n  z-index: 1;\n}",
+    "swym_advanced_collections_wishlist_product_url_selector": "a.group.flex.flex-col.h-full.gap-3.card-wrap",
+    "swym_advanced_collections_wishlist_attach_button_selector": ".flex.flex-col.gap-4.h-full.text-left",
+    "swym_advanced_collections_wishlist_icon_position": "top-right",
+    "swym_advanced_collections_wishlist_icon_color": "#000000",
+    "swym_advanced_collections_wishlist_icon_width": 1.7,
+    "swym_header_icon_enabled": true,
+    "swym_header_icon_show_count": true,
+    "swym_header_icon_custom_html": "",
+    "swym_header_icon_count_bubble_html": "",
+    "swym_header_icon_custom_css": "#swym-advanced-header-icon {display: inline-flex !important; align-items: center !important; justify-content: center !important; vertical-align: middle !important; align-self: center !important; height: 24px !important; line-height: 24px !important; width: 27px !important; min-width: 27px !important; margin-top: 0 !important; margin-bottom: 0 !important; padding-left: 0 !important; padding-right: 0 !important; color: inherit !important; position: relative !important;}\n#swym-advanced-header-icon svg {flex-shrink: 0 !important;}\n#swym-advanced-header-icon svg path {stroke: currentColor !important; fill: none !important; stroke-width: 1.5 !important;}\n#swym-advanced-header-icon:hover {opacity: 0.75 !important; cursor: pointer !important;}\n#swym-advanced-header-icon.swym-added svg path {fill: currentColor !important;}\n#swym-advanced-header-icon .swym-header-icon-count-bubble {position: absolute !important; top: -6px !important; right: -6px !important; left: auto !important; bottom: auto !important; transform: none !important; min-width: 16px !important; height: 16px !important; line-height: 16px !important; border-radius: 50% !important; font-size: 10px !important; padding: 0 4px !important; text-align: center !important; background-color: rgb(230, 0, 0) !important; color: #ffffff !important; box-sizing: border-box !important; z-index: 10 !important;}\n#swym-advanced-header-icon .swym-header-icon-count {line-height: 1 !important;}\n#swym-advanced-header-icon .swym-header-icon-html, .swym-advanced-header-icon .swym-header-icon-html {display: inline-flex !important; align-items: center !important; justify-content: center !important; height: 100% !important; line-height: normal !important;}\n#swym-advanced-header-icon svg, .swym-advanced-header-icon svg, #swym-advanced-header-icon .swym-header-icon-html svg {width: 26px !important; height: 26px !important; display: block !important; vertical-align: middle !important;}\n#swym-advanced-header-icon, .swym-advanced-header-icon {min-width: 27px !important; height: 24px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; box-sizing: border-box !important;}\n#swym-advanced-header-icon, .swym-advanced-header-icon {color: inherit !important;}\n#swym-advanced-header-icon.swym-added .swym-header-icon-html svg path, #swym-advanced-header-icon .swym-header-icon-html svg path, #swym-advanced-header-icon svg path, .swym-advanced-header-icon svg path {fill: none !important; stroke: currentColor !important; stroke-width: 1.5 !important;}\n#swym-advanced-header-icon svg, #swym-advanced-header-icon .swym-header-icon-html svg, .swym-advanced-header-icon svg {width: 26px !important; height: 26px !important;}\n#swym-advanced-header-icon .swym-header-icon-count-bubble.swym-header-icon-count-bubble.swym-header-icon-count-bubble {position: absolute !important; inset: auto !important; top: 50% !important; left: 50% !important; transform: translate(calc(13px - 50%), calc(-13px - 50%)) !important; min-width: 16px !important; height: 16px !important; line-height: 16px !important; border-radius: 50% !important; text-align: center !important; padding: 0 4px !important; box-sizing: border-box !important; font-size: 10px !important; font-weight: 600 !important; background-color: rgb(var(--color-foreground, 18 18 63)) !important; color: rgb(var(--color-background, 255 255 255)) !important;}",
+    "swym_header_icon_selector_desktop": "button.w-5.h-5.group",
+    "swym_header_icon_selector_mobile": "button.w-5.h-5.group",
+    "cart_drawer_promo_banner_sub_heading": "",
+    "cart_drawer_promo_banner_heading": "",
+    "accordion_title1": "Theme settings title 1",
+    "accordion_content1": "<p>Theme settings content 1</p>",
+    "accordion_title2": "Theme settings title 2",
+    "accordion_content2": "<p>Theme settings content 2</p>",
+    "accordion_title3": "Theme settings title 3",
+    "accordion_content3": "<p>Theme settings content 3</p>",
+    "sections": {
+      "header": {
+        "type": "header",
+        "custom_css": [
+          "header li > a[href=\"/collections/sale\"] {color: #be0b07;}",
+          ".mobile-nav-links {text-transform: capitalize;}"
+        ],
+        "settings": {
+          "top_menu": "",
+          "menu": "main-menu-2025",
+          "search_placeholder": "What are you looking for?"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "form_heading": "Sign up to get 15% off your first order and be the first to know about the latest products, discounts & northern news.",
+          "instagram_text": "Follow us on Instagram",
+          "footer_menu": "footer-2025",
+          "tagline": "built to work",
+          "tagline_mobile": "built to work",
+          "copyright_text": "© [year], Northern Gym Equipment"
+        }
+      },
+      "temp-colours": {
+        "type": "temp-colours",
+        "settings": {}
+      },
+      "temp-type": {
+        "type": "temp-type",
+        "settings": {}
+      },
+      "temp-buttons": {
+        "type": "temp-buttons",
+        "settings": {}
+      },
+      "temp-icons": {
+        "type": "temp-icons",
+        "settings": {}
+      },
+      "temp-containers": {
+        "type": "temp-containers",
+        "settings": {}
+      },
+      "temp-prose": {
+        "type": "temp-prose",
+        "settings": {}
+      },
+      "usp-slider": {
+        "type": "usp-slider",
+        "settings": {}
+      },
+      "announcement-bar-gift": {
+        "type": "announcement-bar-gift",
+        "settings": {
+          "gift_bar_text": "<p>Spend <strong>£100</strong> &amp; unlock a free gift worth <strong>£20</strong></p>"
+        }
+      },
+      "announcement-ticker": {
+        "type": "announcement-ticker",
+        "settings": {
+          "show_bar": false,
+          "hide_ie": false,
+          "mode": "marquee",
+          "primary_text": "20% off bundles with code BUNDLE20",
+          "primary_highlight": "Shop Now",
+          "link_url": "shopify://collections/packages-sets",
+          "show_countdown": false,
+          "countdown_prefix": "Offer ends in",
+          "countdown_target": "2026-09-27T00:00:00+01:00",
+          "speed": 42,
+          "rotate_time": 5000,
+          "bar_bg": "#1a1a1a",
+          "bar_text": "#ffffff",
+          "accent": "#feed06"
+        }
+      },
+      "countdown-ribbon-bogohp": {
+        "type": "countdown-ribbon-bogohp",
+        "settings": {
+          "show_ribbon": false,
+          "hide_ie": false,
+          "label": "20% off bundles ends in",
+          "deadline": "2026-09-14T00:00:00+01:00",
+          "bar_bg": "#000000",
+          "accent": "#feed06"
+        }
+      }
+    },
+    "content_for_index": [],
+    "blocks": {
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
+      },
+      "855628211100114053": {
+        "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
+        "disabled": false,
+        "settings": {}
+      },
+      "2153490007123654574": {
+        "type": "shopify://apps/consentmo-gdpr/blocks/gdpr_cookie_consent/4fbe573f-a377-4fea-9801-3ee0858cae41",
+        "disabled": false,
+        "settings": {}
+      },
+      "6628239160433917566": {
+        "type": "shopify://apps/littledata-revenue-tracking/blocks/LittledataLayer/45a35ed8-a2b2-46c3-84fa-6f58497c5345",
+        "disabled": false,
+        "settings": {}
+      },
+      "9005256451184024879": {
+        "type": "shopify://apps/uppromote-affiliate/blocks/customer-referral/64c32457-930d-4cb9-9641-e24c0d9cf1f4",
+        "disabled": false,
+        "settings": {}
+      },
+      "1996061711396120121": {
+        "type": "shopify://apps/uppromote-affiliate/blocks/message-bar/64c32457-930d-4cb9-9641-e24c0d9cf1f4",
+        "disabled": false,
+        "settings": {}
+      },
+      "3138269044488530766": {
+        "type": "shopify://apps/uppromote-affiliate/blocks/core-script/64c32457-930d-4cb9-9641-e24c0d9cf1f4",
+        "disabled": false,
+        "settings": {}
+      },
+      "12120936241911852800": {
+        "type": "shopify://apps/judge-me-reviews/blocks/reviews_tab/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": true,
+        "settings": {
+          "position": "right"
+        }
+      },
+      "15181020662106344915": {
+        "type": "shopify://apps/judge-me-reviews/blocks/popup_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": true,
+        "settings": {}
+      },
+      "15313946438125251499": {
+        "type": "shopify://apps/restock-rooster/blocks/restock-rooster-button/2f682ae2-c8b5-4598-a3ae-4cf8e3ce00af",
+        "disabled": false,
+        "settings": {}
+      },
+      "15683396631634586217": {
+        "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
+        "disabled": true,
+        "settings": {
+          "greeting_message": "",
+          "button_color": "#212121",
+          "button_icon": "chat_bubble",
+          "button_text": "no_text",
+          "button_horizontal_position": "bottom_right",
+          "button_vertical_position": "lowest"
+        }
+      },
+      "2567389343055140935": {
+        "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
+        "disabled": false,
+        "settings": {}
+      },
+      "2200952712151285029": {
+        "type": "shopify://apps/microsoft-clarity/blocks/brandAgents_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
+        "disabled": false,
+        "settings": {}
+      },
+      "10840395464443086010": {
+        "type": "shopify://apps/alia/blocks/customer-app-frame/51f1d398-3e41-44da-b81e-defd5804b292",
+        "disabled": false,
+        "settings": {}
+      },
+      "3915993389370480168": {
+        "type": "shopify://apps/swish-wishlist-king/blocks/wishlist-link-floating/194f5011-a43c-4b22-b12e-eaf20dc4506a",
+        "disabled": true,
+        "settings": {
+          "button_style": "solid_accent_1",
+          "button_mode": "always_show",
+          "button_position": "bottom-end",
+          "button_offset_horizontal": 10,
+          "button_offset_vertical": 20,
+          "button_size": 56,
+          "button_border_width": 2,
+          "button_border_radius": 40,
+          "show_shadow": true,
+          "icon_size": 24,
+          "icon_stroke_width": 2,
+          "counter_style": "outline_accent_1",
+          "counter_mode": "always_show",
+          "counter_position": "bottom-end",
+          "counter_offset_vertical": -5,
+          "counter_offset_horizontal": 0,
+          "counter_size": 16,
+          "counter_border_width": 1
+        }
+      },
+      "14197025361042770389": {
+        "type": "shopify://apps/swish-wishlist-king/blocks/app-settings-main/194f5011-a43c-4b22-b12e-eaf20dc4506a",
+        "disabled": true,
+        "settings": {
+          "theme_preset": "custom",
+          "color_accent_1": "#000000",
+          "color_accent_2": "#000000",
+          "color_solid_button_label": "#ffffff",
+          "color_outline_button_label": "#000000",
+          "color_background_1": "#ffffff",
+          "color_background_2": "#ffffff",
+          "color_text": "#000000",
+          "button_min_height": 45,
+          "button_border_width": 1,
+          "button_border_radius": 0,
+          "input_min_height": 45,
+          "input_border_width": 1,
+          "input_border_radius": 0,
+          "shadow_opacity": 15,
+          "shadow_horizontal_offset": 0,
+          "shadow_vertical_offset": 2,
+          "shadow_blur": 4,
+          "font_text_scale": 100,
+          "access_mode": "UNRESTRICTED",
+          "wishlist_mode": "PRODUCT",
+          "wishlist_path": "/apps/wishlist",
+          "money_show_currency_code": false
+        }
+      },
+      "4139971114690857691": {
+        "type": "shopify://apps/swish-wishlist-king/blocks/wishlist-button-collection/194f5011-a43c-4b22-b12e-eaf20dc4506a",
+        "disabled": true,
+        "settings": {
+          "button_style": "plain_accent_1",
+          "button_placement": "top-end",
+          "button_offset_horizontal": 0,
+          "button_offset_vertical": 0,
+          "button_background_opacity": 85,
+          "button_background_size": 34,
+          "button_background_border_radius": 24,
+          "button_border_width": 1,
+          "show_shadow": false,
+          "icon_size": 18,
+          "icon_stroke_width": 1,
+          "app_integration_preset": "none",
+          "product_link_selector": "",
+          "floating_reference_js": ""
+        }
+      },
+      "6680288666557934739": {
+        "type": "shopify://apps/swish-wishlist-king/blocks/wishlist-page/194f5011-a43c-4b22-b12e-eaf20dc4506a",
+        "disabled": true,
+        "settings": {
+          "column_width": "lg",
+          "wishlist_empty_link": "shopify://collections/all",
+          "page_max_width": 1200,
+          "page_padding_top": 30,
+          "page_padding_bottom": 80,
+          "show_share_button": true,
+          "show_buy_all_button": false,
+          "show_clear_wishlist_button": false,
+          "add_to_cart_remove_from_wishlist": false,
+          "remove_button_style": "icon",
+          "product_options": "dropdowns",
+          "cta_button": "add_to_cart",
+          "cta_button_style": "solid_accent_1",
+          "alignment": "left",
+          "image_aspect_ratio": "2/3",
+          "image_object_fit": "cover",
+          "show_vendor": false,
+          "show_product_title": true,
+          "show_price": true,
+          "show_variant_input_label": false
+        }
+      },
+      "13655089695959051254": {
+        "type": "shopify://apps/swish-wishlist-king/blocks/code-access/194f5011-a43c-4b22-b12e-eaf20dc4506a",
+        "disabled": true,
+        "settings": {
+          "version": "main"
+        }
+      },
+      "10064406189584688687": {
+        "type": "shopify://apps/swish-wishlist-king/blocks/swish-embed/194f5011-a43c-4b22-b12e-eaf20dc4506a",
+        "disabled": false,
+        "settings": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,68 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "178481624778021ee6": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_4b18ef5_VxqbdQ": {
+          "type": "ai_gen_block_4b18ef5",
+          "settings": {
+            "heading": "Wholesale Gym Equipment for Commercial Gyms & Studios",
+            "subheading": "",
+            "desktop_width_percent": 100,
+            "max_width": 1400,
+            "text_alignment": "center",
+            "padding_top": 40,
+            "padding_bottom": 40,
+            "padding_horizontal": 20,
+            "subheading_spacing": 12,
+            "heading_size": 30,
+            "heading_color": "#000000",
+            "heading_weight": "400",
+            "subheading_size": 16,
+            "subheading_color": "#666666",
+            "background_color": "#ffffff"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_4b18ef5_VxqbdQ"
+      ],
+      "settings": {}
+    },
+    "1748808989bfd10d94": {
+      "type": "apps",
+      "blocks": {
+        "klaviyo_email_marketing_sms_form_embed_block_4Yq7iq": {
+          "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/form-embed-block/2632fe16-c075-4321-a88b-50b567f42507",
+          "settings": {
+            "formId": "Yn49GX"
+          }
+        }
+      },
+      "block_order": [
+        "klaviyo_email_marketing_sms_form_embed_block_4Yq7iq"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "178481624778021ee6",
+    "1748808989bfd10d94"
+  ]
+}

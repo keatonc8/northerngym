@@ -1,0 +1,323 @@
+{% comment %}
+  ============================================================
+  NORTHERN GYM EQUIPMENT - WALKING PAD CALORIE CALCULATOR
+  Section: section-walking-pad-calories
+  ------------------------------------------------------------
+  Estimates the extra calories burned per day on the walking
+  pad versus sitting, at walking pace on the incline setting.
+  Built to match section-reformer-payback.
+
+  Maths (ACSM walking equation):
+    VO2 (ml/kg/min) = 3.5 + 0.1 x speed + 1.8 x speed x grade
+    speed in metres/min, grade as a decimal (4.5% = 0.045)
+    Extra = (VO2 - sitting VO2) x kg / 1000 x 5 kcal x minutes
+    Sitting VO2 = baseline METs (default 1.3) x 3.5
+
+  Walking speed is a fixed setting (default 5 km/h). Height is
+  not used: it has no term in the equation and only a negligible
+  effect on pace.
+  ============================================================
+{% endcomment %}
+
+{% assign section_id = 'walking-pad-calories-' | append: section.id %}
+
+{% if section.settings.show_calculator %}
+  <section
+    id="{{ section_id }}"
+    class="overflow-hidden"
+    style="
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    "
+  >
+    <div class="container-sm">
+      <div
+        class="wp-calc"
+        data-wp
+        data-units="{{ section.settings.default_units }}"
+        data-incline="{{ section.settings.incline_percent }}"
+        data-speed="{{ section.settings.walking_speed }}"
+        data-bar-max="{{ section.settings.bar_max_kcal }}"
+        data-baseline-met="{{ section.settings.baseline_met }}"
+        data-locale="{{ request.locale.iso_code | default: 'en-GB' }}"
+        style="--wp-accent: {{ section.settings.accent_color }}; --wp-surface: {{ section.settings.surface_color }};"
+      >
+        <div class="wp-head">
+          {% if section.settings.calc_eyebrow != blank %}<p class="wp-eyebrow">{{ section.settings.calc_eyebrow }}</p>{% endif %}
+          {% if section.settings.calc_heading != blank %}<h2 class="wp-title heading-03">{{ section.settings.calc_heading }}</h2>{% endif %}
+          {% if section.settings.calc_text != blank %}<div class="wp-intro{% if section.settings.hide_intro_mobile %} wp-hide-mobile{% endif %}">{{ section.settings.calc_text }}</div>{% endif %}
+        </div>
+
+        <div class="wp-grid">
+          <div class="wp-inputs">
+            <div class="wp-field">
+              <div class="wp-label-row">
+                <span class="wp-label" id="wp-weight-label-{{ section.id }}">Your weight</span>
+                <div class="wp-tabs" role="group" aria-label="Units">
+                  <button type="button" class="wp-tab" data-wp-units="metric" aria-pressed="false">kg</button>
+                  <button type="button" class="wp-tab" data-wp-units="imperial" aria-pressed="false">st/lb</button>
+                </div>
+              </div>
+              <div class="wp-input-row" data-wp-metric>
+                <div class="wp-input">
+                  <input class="wp-num" type="number" inputmode="decimal" data-wp-kg min="35" max="250" step="any"
+                    value="{{ section.settings.default_weight_kg }}" aria-labelledby="wp-weight-label-{{ section.id }}">
+                  <span class="wp-affix wp-affix--suffix">kg</span>
+                </div>
+              </div>
+              <div class="wp-input-row wp-input-row--split" data-wp-imperial hidden>
+                <div class="wp-input">
+                  <input class="wp-num" type="number" inputmode="numeric" data-wp-st min="5" max="40" step="1" aria-label="Weight, stone">
+                  <span class="wp-affix wp-affix--suffix">st</span>
+                </div>
+                <div class="wp-input">
+                  <input class="wp-num" type="number" inputmode="numeric" data-wp-lb min="0" max="13" step="1" aria-label="Weight, pounds">
+                  <span class="wp-affix wp-affix--suffix">lb</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="wp-field">
+              <label class="wp-label" for="wp-mins-{{ section.id }}">Time on the pad</label>
+              <div class="wp-input">
+                <input id="wp-mins-{{ section.id }}" class="wp-num" type="number" inputmode="numeric" data-wp-mins
+                  min="5" max="{{ section.settings.minutes_max }}" step="5"
+                  value="{{ section.settings.default_minutes }}" aria-label="Minutes per day">
+                <span class="wp-affix wp-affix--suffix">minutes a day</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wp-results" aria-live="polite">
+            <div class="wp-result-main">
+              <span class="wp-result-k">{{ section.settings.result_label }}</span>
+              <span class="wp-result-big"><span data-wp-kcal>--</span> <span class="wp-unit">kcal a day</span></span>
+            </div>
+            <div class="wp-result-sub">
+              that's around <span class="wp-hl" data-wp-week>--</span> kcal every week
+            </div>
+
+            <div class="wp-bar" aria-hidden="true">
+              <div class="wp-bar-fill" data-wp-fill style="width:0%"></div>
+              <span class="wp-bar-marker" data-wp-marker style="left:0%"></span>
+            </div>
+            <div class="wp-bar-legend">
+              <span><i class="wp-dot wp-dot--accent"></i> {{ section.settings.bar_label }}</span>
+            </div>
+
+            {% if section.settings.cta_label != blank %}
+              <a class="wp-cta" href="{{ section.settings.cta_link | default: '#' }}">{{ section.settings.cta_label }}</a>
+            {% endif %}
+
+            <p class="wp-disclaimer">Estimate only, based on {{ section.settings.walking_speed }} km/h at +{{ section.settings.incline_percent }}% incline, compared with sitting.{% if section.settings.disclaimer_note != blank %} {{ section.settings.disclaimer_note }}{% endif %}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      #{{ section_id }} .wp-calc { --wp-ink: #111111; --wp-muted: #737373; --wp-line: #e5e5e5; position: relative; margin-bottom: 3.5rem; padding: clamp(1.75rem, 4vw, 3.25rem); border: 1px solid var(--wp-line); border-radius: 1rem; background: var(--wp-surface); color: var(--wp-ink); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; }
+      #{{ section_id }} .wp-eyebrow { margin: 0 0 .9rem; font-size: 12px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--wp-muted); }
+      #{{ section_id }} .wp-title { margin: 0; color: var(--wp-ink); }
+      #{{ section_id }} .wp-intro { margin: 1rem 0 0; max-width: 48ch; color: var(--wp-muted); font-size: 1.02rem; line-height: 1.6; }
+      #{{ section_id }} .wp-intro p { margin: 0; }
+      #{{ section_id }} .wp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); margin-top: 2.5rem; align-items: start; }
+      #{{ section_id }} .wp-field { margin-bottom: 1.8rem; }
+      #{{ section_id }} .wp-field:last-child { margin-bottom: 0; }
+      #{{ section_id }} .wp-label { display: block; font-size: .95rem; color: var(--wp-ink); margin-bottom: .6rem; }
+      #{{ section_id }} .wp-label-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .6rem; }
+      #{{ section_id }} .wp-label-row .wp-label { margin-bottom: 0; }
+      #{{ section_id }} .wp-input-row[hidden] { display: none; }
+      #{{ section_id }} .wp-input-row--split { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+      #{{ section_id }} .wp-input { display: flex; align-items: center; gap: .5rem; border: 1px solid var(--wp-line); border-radius: 10px; padding: .35rem .95rem; background: #fff; transition: border-color .15s ease, box-shadow .15s ease; }
+      #{{ section_id }} .wp-input:focus-within { border-color: var(--wp-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--wp-accent) 18%, transparent); }
+      #{{ section_id }} .wp-affix { color: var(--wp-muted); font-size: 1.05rem; white-space: nowrap; flex-shrink: 0; }
+      #{{ section_id }} .wp-affix--suffix { font-size: .95rem; }
+      #{{ section_id }} .wp-num { flex: 1 1 auto; width: 100%; min-width: 0; border: 0; outline: none; background: transparent; color: var(--wp-ink); font-family: inherit; font-size: 1.35rem; font-weight: 600; padding: .5rem 0; -moz-appearance: textfield; }
+      #{{ section_id }} .wp-num::-webkit-outer-spin-button, #{{ section_id }} .wp-num::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+      #{{ section_id }} .wp-tabs { display: inline-flex; gap: .25rem; }
+      #{{ section_id }} .wp-tab { font-size: .9rem; padding: .2rem .1rem; margin-left: .8rem; background: transparent; color: var(--wp-muted); border: 0; border-bottom: 2px solid transparent; cursor: pointer; transition: color .15s ease, border-color .15s ease; }
+      #{{ section_id }} .wp-tab[aria-pressed="true"] { color: var(--wp-ink); border-bottom-color: var(--wp-accent); }
+      #{{ section_id }} .wp-results { border-left: 1px solid var(--wp-line); padding-left: clamp(1.5rem, 4vw, 3rem); }
+      #{{ section_id }} .wp-result-k { display: block; font-size: .9rem; color: var(--wp-muted); margin-bottom: .5rem; }
+      #{{ section_id }} .wp-result-big { font-family: 'Aktiv Grotesk Ex', 'Arial Narrow', sans-serif; font-weight: 400; letter-spacing: -.01em; font-size: clamp(44px, 8vw, 72px); line-height: 1; color: var(--wp-accent); display: block; }
+      #{{ section_id }} .wp-result-big .wp-unit { font-family: 'Inter', sans-serif; font-size: .3em; font-weight: 500; color: var(--wp-ink); letter-spacing: 0; }
+      #{{ section_id }} .wp-result-sub { margin-top: 1.1rem; color: var(--wp-ink); font-size: 1.05rem; }
+      #{{ section_id }} .wp-hl { font-weight: 600; }
+      #{{ section_id }} .wp-bar { position: relative; height: 6px; border-radius: 999px; background: var(--wp-line); margin-top: 1.8rem; }
+      #{{ section_id }} .wp-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--wp-accent); border-radius: 999px; transition: width .6s cubic-bezier(.22,.61,.36,1); }
+      #{{ section_id }} .wp-bar-marker { position: absolute; top: 50%; width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 2px solid var(--wp-accent); transform: translate(-50%, -50%); transition: left .6s cubic-bezier(.22,.61,.36,1); }
+      #{{ section_id }} .wp-bar-legend { display: flex; gap: 1.4rem; margin-top: .9rem; font-size: .8rem; color: var(--wp-muted); flex-wrap: wrap; }
+      #{{ section_id }} .wp-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+      #{{ section_id }} .wp-dot--accent { background: var(--wp-accent); }
+      #{{ section_id }} .wp-dot--muted { background: var(--wp-line); }
+      #{{ section_id }} .wp-cta { display: inline-block; margin-top: 1.8rem; font-size: .95rem; letter-spacing: .01em; text-decoration: none; padding: 13px 28px; border-radius: 10px; background: var(--wp-ink); color: #fff; border: 1px solid var(--wp-ink); transition: opacity .15s ease; }
+      #{{ section_id }} .wp-cta:hover { opacity: .85; }
+      #{{ section_id }} .wp-disclaimer { margin: 1.4rem 0 0; font-size: .74rem; color: var(--wp-muted); }
+      @media (max-width: 749px) {
+        #{{ section_id }} .wp-calc { padding: 1.5rem 1.35rem; margin-bottom: 2rem; }
+        #{{ section_id }} .wp-intro { margin-top: .7rem; font-size: .97rem; }
+        #{{ section_id }} .wp-hide-mobile { display: none; }
+        #{{ section_id }} .wp-grid { grid-template-columns: 1fr; gap: 1.6rem; margin-top: 1.6rem; }
+        #{{ section_id }} .wp-field { margin-bottom: 1.3rem; }
+        #{{ section_id }} .wp-results { border-left: 0; border-top: 1px solid var(--wp-line); padding-left: 0; padding-top: 1.6rem; }
+        #{{ section_id }} .wp-result-big { font-size: 40px; }
+        #{{ section_id }} .wp-result-sub { font-size: 1rem; margin-top: .9rem; }
+        #{{ section_id }} .wp-bar { margin-top: 1.4rem; }
+        #{{ section_id }} .wp-cta { display: block; width: 100%; text-align: center; }
+        #{{ section_id }} .wp-disclaimer { margin-top: 1rem; }
+      }
+      @media (prefers-reduced-motion: reduce) { #{{ section_id }} .wp-bar-fill, #{{ section_id }} .wp-bar-marker, #{{ section_id }} .wp-input { transition: none; } }
+    </style>
+  </section>
+
+  <script>
+    (() => {
+      const root = document.querySelector('#{{ section_id }} [data-wp]');
+      if (!root) return;
+      if (root.dataset.wpInit === 'true') return;
+      root.dataset.wpInit = 'true';
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const locale = root.dataset.locale || 'en-GB';
+      const grade = (parseFloat(root.dataset.incline) || 0) / 100;
+      const kmh = parseFloat(root.dataset.speed) || 5;
+      const baselineMet = parseFloat(root.dataset.baselineMet) || 1.3;
+      const barMax = parseFloat(root.dataset.barMax) || 600;
+
+      const $ = (s) => root.querySelector(s);
+      const kgIn = $('[data-wp-kg]'), stIn = $('[data-wp-st]'), lbIn = $('[data-wp-lb]');
+      const minsIn = $('[data-wp-mins]');
+      const kcalEl = $('[data-wp-kcal]'), weekEl = $('[data-wp-week]');
+      const fill = $('[data-wp-fill]'), marker = $('[data-wp-marker]');
+      const metricRows = Array.from(root.querySelectorAll('[data-wp-metric]'));
+      const imperialRows = Array.from(root.querySelectorAll('[data-wp-imperial]'));
+      const unitBtns = Array.from(root.querySelectorAll('[data-wp-units]'));
+      let units = root.dataset.units === 'imperial' ? 'imperial' : 'metric';
+
+      const num0 = new Intl.NumberFormat(locale, { maximumFractionDigits: 0 });
+      const v = (el) => parseFloat(el && el.value) || 0;
+
+      function weightKg() {
+        return units === 'metric' ? v(kgIn) : (v(stIn) * 14 + v(lbIn)) * 0.45359237;
+      }
+
+      function syncImperialFromMetric() {
+        const totalLb = v(kgIn) / 0.45359237;
+        let st = Math.floor(totalLb / 14), lb = Math.round(totalLb - st * 14);
+        if (lb === 14) { st += 1; lb = 0; }
+        stIn.value = st || ''; lbIn.value = kgIn.value ? lb : '';
+      }
+      function syncMetricFromImperial() {
+        const kg = weightKg();
+        kgIn.value = kg ? Math.round(kg) : '';
+      }
+
+      const anims = new WeakMap();
+      function animateNumber(el, to, fmt) {
+        if (!el) return;
+        const from = anims.get(el) != null ? anims.get(el) : to;
+        anims.set(el, to);
+        if (reduceMotion || from === to) { el.textContent = fmt(to); return; }
+        const start = performance.now();
+        const dur = 450;
+        function step(now) {
+          const t = Math.min((now - start) / dur, 1);
+          const eased = 1 - Math.pow(1 - t, 3);
+          el.textContent = fmt(from + (to - from) * eased);
+          if (t < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+
+      function reset() {
+        kcalEl.textContent = '--'; weekEl.textContent = '--';
+        fill.style.width = '0%'; marker.style.left = '0%';
+        anims.delete(kcalEl); anims.delete(weekEl);
+      }
+
+      function compute() {
+        const kg = weightKg(), mins = v(minsIn);
+        if (kg < 30 || kg > 300 || mins <= 0) { reset(); return; }
+
+        const mPerMin = kmh * 1000 / 60;
+        const vo2 = 3.5 + 0.1 * mPerMin + 1.8 * mPerMin * grade;
+        const sittingVo2 = baselineMet * 3.5;
+        const total = Math.max(0, (vo2 - sittingVo2) * kg / 1000 * 5 * mins);
+        const rounded = Math.round(total / 5) * 5;
+
+        animateNumber(kcalEl, rounded, (x) => num0.format(Math.round(x / 5) * 5));
+        animateNumber(weekEl, rounded * 7, (x) => num0.format(Math.round(x / 10) * 10));
+
+        const pct = total > 0 ? Math.max(2, Math.min(100, (total / barMax) * 100)) : 0;
+        fill.style.width = pct + '%';
+        marker.style.left = pct + '%';
+      }
+
+      function setUnits(next) {
+        if (next !== units) {
+          if (next === 'imperial') syncImperialFromMetric(); else syncMetricFromImperial();
+        }
+        units = next;
+        unitBtns.forEach((b) => b.setAttribute('aria-pressed', b.dataset.wpUnits === next ? 'true' : 'false'));
+        metricRows.forEach((r) => { r.hidden = next !== 'metric'; });
+        imperialRows.forEach((r) => { r.hidden = next !== 'imperial'; });
+        compute();
+      }
+
+      const inputs = [kgIn, stIn, lbIn, minsIn];
+      inputs.forEach((el) => {
+        if (!el) return;
+        el.addEventListener('input', compute);
+        el.addEventListener('wheel', (e) => { if (document.activeElement === el) e.preventDefault(); }, { passive: false });
+      });
+      unitBtns.forEach((b) => b.addEventListener('click', () => setUnits(b.dataset.wpUnits)));
+
+      syncImperialFromMetric();
+      const start = units;
+      units = 'metric';
+      setUnits(start);
+    })();
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Walking pad calories",
+  "tag": "section",
+  "class": "section section-walking-pad-calories",
+  "settings": [
+    { "type": "header", "content": "Calorie calculator" },
+    { "type": "checkbox", "id": "show_calculator", "label": "Show calorie calculator", "default": true },
+    { "type": "text", "id": "calc_eyebrow", "label": "Eyebrow", "default": "How it adds up" },
+    { "type": "text", "id": "calc_heading", "label": "Heading", "default": "What could you burn while you work?" },
+    { "type": "richtext", "id": "calc_text", "label": "Intro text", "default": "<p>Swap some desk time for pad time. Enter your weight and how long you'll walk each day, and see roughly how many extra calories you'll burn compared with sitting.</p>" },
+    { "type": "checkbox", "id": "hide_intro_mobile", "label": "Hide intro text on mobile", "default": true },
+    { "type": "text", "id": "result_label", "label": "Result label", "default": "You could burn an extra" },
+    { "type": "select", "id": "default_units", "label": "Default units", "options": [ { "value": "metric", "label": "Metric (kg)" }, { "value": "imperial", "label": "Imperial (st/lb)" } ], "default": "metric" },
+    { "type": "number", "id": "default_weight_kg", "label": "Default weight (kg)", "default": 75 },
+    { "type": "number", "id": "default_minutes", "label": "Default minutes per day", "default": 60 },
+    { "type": "number", "id": "minutes_max", "label": "Maximum minutes per day", "default": 480 },
+    { "type": "header", "content": "Calculation" },
+    { "type": "number", "id": "incline_percent", "label": "Incline (%)", "default": 4.5 },
+    { "type": "number", "id": "walking_speed", "label": "Walking speed (km/h)", "info": "Pace used for the estimate.", "default": 5 },
+    { "type": "number", "id": "baseline_met", "label": "Sitting baseline (METs)", "info": "What the pad is compared against. 1.3 is typical desk sitting.", "default": 1.3 },
+    { "type": "text", "id": "bar_label", "label": "Bar label", "default": "Extra calories burned" },
+    { "type": "number", "id": "bar_max_kcal", "label": "Full bar (kcal)", "info": "Daily burn that fills the bar completely.", "default": 600 },
+    { "type": "text", "id": "cta_label", "label": "Button label (optional)" },
+    { "type": "url", "id": "cta_link", "label": "Button link (optional)" },
+    { "type": "text", "id": "disclaimer_note", "label": "Disclaimer note", "info": "Shown after the automatic speed and incline line.", "default": "Actual burn varies with fitness, pace and body composition." },
+    { "type": "header", "content": "Appearance" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#111111" },
+    { "type": "color", "id": "surface_color", "label": "Panel background", "default": "#f5f5f5" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "default": 0, "unit": "px" },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "default": 0, "unit": "px" },
+    { "type": "range", "id": "margin_top", "label": "Margin top", "min": 0, "max": 120, "step": 4, "default": 0, "unit": "px" },
+    { "type": "range", "id": "margin_bottom", "label": "Margin bottom", "min": 0, "max": 120, "step": 4, "default": 0, "unit": "px" }
+  ],
+  "presets": [ { "name": "Walking pad calories" } ]
+}
+{% endschema %}

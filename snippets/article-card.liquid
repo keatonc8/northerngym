@@ -1,0 +1,39 @@
+   {%- if cardArticle and cardArticle != empty -%}
+      {% assign title = cardArticle.title %}
+      {% assign description = cardArticle.excerpt | strip_html | truncatewords: 30 %}
+      {% assign cardImage = cardArticle.image %}
+      {% assign cardLink = cardArticle.url %}
+      {% assign cardTag = cardArticle.tags | first %}
+
+      <a href="{{ cardLink }}" class="flex flex-col {% if first_on_page == true %}lg:flex-row lg:gap-8{% else %}{% endif %} justify-between h-full p-3 group cursor-pointer">
+         <div class="aspect-w-8 aspect-h-7 {% if first_on_page %}lg:pb-0 lg:flex-1{% endif %} overflow-hidden relative">
+            <img src="{{ cardImage | img_url:'800x' }}" alt="" class="object-cover w-full h-full group-hover:scale-105 duration-300">
+         </div>
+         {% if cardTag != blank %}
+            <span class="absolute top-0 left-0 px-3.5 py-1.5 text-12 duration-300">
+               {{ cardTag }}
+            </span>
+         {% endif %}
+         <div class="flex flex-col justify-between body-03 pt-6 pb-4 h-full text-center {% if first_on_page == true %}lg:flex-1 lg:text-left lg:pt-10 lg:pb-8{% endif %}">
+            <div class="mb-8">
+               {% if title != blank %}
+                  <h3 class="heading-05 mb-4">
+                     {{ title }}
+                  </h3>
+               {% endif %}
+               {% if description != blank %}
+                  <p>
+                     {{ description }}
+                  </p>
+               {% endif %}
+            </div>
+            <div>
+               <p class="body font-bold underline underline-offset-2">
+                  Read More
+               </p>
+            </div>
+         </div>
+      </a>
+   {%- endif -%}
+
+

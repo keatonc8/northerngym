@@ -1,0 +1,143 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "Based In Failsworth, Manchester",
+            "title": "Bio",
+            "text": "<p>I'm the owner of WOWS Studio. During my childhood, I always loved being active, with my favourite subject is PE. I then studied Sport at College and later went on to study Sport Rehabilitation at University; therefore, it was inevitable that my career would involve being within the fitness industry.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_7WcBXp": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "title": "",
+            "text": "<p>After a couple of redirections, I decided to pursue a career as a Personal Trainer. I’ve been doing this for the last 5 years. I built a successful business within 3 months of Personal Training which has now led to opening my very own female fitness studio in September 2025.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_WGq8f8": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "title": "",
+            "text": "<p>The joy of witnessing an individual grow, overcome challenges, become stronger, fitter and unlock their true potential is incomparable and the satisfaction it brings after changing someone’s life for the better is unmatched.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_wgaqTH": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "title": "",
+            "text": "<p>My approach to training clients is to provide a range of services to help suit different people’s needs, it’s not always a one size fits all.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ",
+        "item_7WcBXp",
+        "item_WGq8f8",
+        "item_wgaqTH"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Sophie Lomax",
+        "text": "<p>Enjoys Hybrid Training, loves a mix of strength and cardio including running, Hyrox, and HIIT Workouts. Main focus at the moment is strength after reoccurring running injury. But will return to hybrid training hopefully soon.</p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_QUBYg8": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_LebtEX": {
+          "type": "card",
+          "settings": {
+            "title": "Favourite Northern Product",
+            "image": "shopify://shop_images/Northern_15kg_Olympic_Bumper_Plates.jpg",
+            "text": "<p>Bumper Plates - <em>\"They look so sleek and are easy to hold and grip. The quality and look of them is what I believe sets us apart and makes us look smart.”</em></p>",
+            "button_label": "Shop Now",
+            "button_link": "https://northerngymequipment.com/products/northern-olympic-bumper-plates-15kg"
+          }
+        },
+        "card_cEmc7P": {
+          "type": "card",
+          "settings": {
+            "title": "What does being part of Northern mean to you?",
+            "text": "<p>It means being part of something much greater. It’s about belonging to a community of like-minded coaches, gym owners, and fitness professionals. With community and quality being our main focus at WOWS Studio, it felt right to accept a partnership with a brand that holds the same values.<br/><br/></p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "card_mNhWg4": {
+          "type": "card",
+          "settings": {
+            "title": "Follow Sophie's Journey",
+            "text": "<p>Check out Sophie's social here.</p>",
+            "button_label": "Follow",
+            "button_link": "https://www.instagram.com/workoutwithsoph/"
+          }
+        }
+      },
+      "block_order": [
+        "card_LebtEX",
+        "card_cEmc7P",
+        "card_mNhWg4"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_QUBYg8"
+  ]
+}

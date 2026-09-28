@@ -1,0 +1,279 @@
+{% comment %}
+  Section: Countdown Bar (3 for 2 Offer)
+  Desktop: fixed at top, hides on scroll down, shows on scroll up.
+          z-index 55 — above header (z-50) but below cart drawer (z-60).
+  Mobile:  fixed below the sticky header, z-index 49 so cart drawer covers it.
+           Uses --mobile-header-h CSS var set by JS after paint.
+  Deadline: 29 June 2026, 4pm BST (15:00 UTC)
+  Auto-hides server-side at midnight BST on 28 June 2026 (23:00 UTC).
+{% endcomment %}
+
+{%- assign promo_end = '2026-06-28 23:00:00' | date: '%s' | plus: 0 -%}
+{%- assign now_ts = 'now' | date: '%s' | plus: 0 -%}
+{%- if now_ts < promo_end -%}
+
+<style>
+  /* ---- Shared ---- */
+  .countdown-bar {
+    width: 100%;
+    background: #000;
+    color: #fff;
+    padding: 6px 0;
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+    letter-spacing: 0.05em;
+    font-size: 12px;
+  }
+  .countdown-bar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .countdown-bar__label {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: #ffffff;
+    opacity: 1;
+  }
+  .countdown-bar__timer {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .countdown-bar__unit {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+  }
+  .countdown-bar__digits {
+    color: #ffc30b;
+    font-size: 14px;
+    font-weight: 700;
+    min-width: 28px;
+    display: inline-block;
+    text-align: right;
+    line-height: 1;
+  }
+  .countdown-bar__unit-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.6;
+    padding-left: 1px;
+  }
+  .countdown-bar__sep {
+    color: #ffc30b;
+    font-size: 14px;
+    font-weight: 700;
+    opacity: 0.5;
+    padding: 0 1px;
+    line-height: 1;
+  }
+
+  /* ---- Mobile (<768px) ----
+     sticky fails when any ancestor has overflow != visible (body has overflow-auto).
+     Fixed + top offset is the reliable alternative.
+  ---- */
+  @media (max-width: 767px) {
+    #cd-bar-spacer { display: none; }
+
+    /* Mobile content spacer -- pushes page content below the fixed bar */
+    #cd-bar-spacer-mobile {
+      display: block;
+      height: var(--cd-bar-h-mobile, 32px);
+    }
+
+    .countdown-bar {
+      position: fixed;
+      top: var(--mobile-header-h, 69px);
+      left: 0;
+      right: 0;
+      z-index: 49;
+    }
+    .countdown-bar__inner { gap: 8px; }
+    .countdown-bar__label { font-size: 10px; }
+    .countdown-bar__digits { font-size: 13px; }
+  }
+
+  /* ---- Desktop (768px+) ---- */
+  @media (min-width: 768px) {
+    #cd-bar-spacer-mobile { display: none; }
+    :root { --cd-bar-h: 32px; }
+
+    #cd-bar-spacer { display: block; height: var(--cd-bar-h); }
+
+    .countdown-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 55;
+      transform: translateY(0);
+      transition: transform 0.3s ease;
+      will-change: transform;
+    }
+    .countdown-bar.cd-hidden {
+      transform: translateY(-100%);
+    }
+
+    header {
+      position: sticky !important;
+      top: var(--cd-bar-h) !important;
+      transition: top 0.3s ease;
+      z-index: 50;
+    }
+  }
+</style>
+
+<div class="countdown-bar" id="countdown-bar">
+  <div class="countdown-bar__inner">
+    <span class="countdown-bar__label">3 for 2 ends in</span>
+    <div class="countdown-bar__timer">
+      <div class="countdown-bar__unit">
+        <span class="countdown-bar__digits" id="cd-days">00</span>
+        <span class="countdown-bar__unit-label">d</span>
+      </div>
+      <span class="countdown-bar__sep">:</span>
+      <div class="countdown-bar__unit">
+        <span class="countdown-bar__digits" id="cd-hours">00</span>
+        <span class="countdown-bar__unit-label">h</span>
+      </div>
+      <span class="countdown-bar__sep">:</span>
+      <div class="countdown-bar__unit">
+        <span class="countdown-bar__digits" id="cd-mins">00</span>
+        <span class="countdown-bar__unit-label">m</span>
+      </div>
+      <span class="countdown-bar__sep">:</span>
+      <div class="countdown-bar__unit">
+        <span class="countdown-bar__digits" id="cd-secs">00</span>
+        <span class="countdown-bar__unit-label">s</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile content spacer: reserves space below the fixed bar so content doesn't hide under it -->
+<div id="cd-bar-spacer-mobile"></div>
+
+<script>
+(function () {
+  var MOBILE_BP = 768;
+  var deadline  = new Date('2026-06-29T15:00:00Z').getTime();
+
+  /* ---- Countdown tick ---- */
+  function pad(n) { return n < 10 ? '0' + n : String(n); }
+  function tick() {
+    var s = Math.floor(Math.max(0, deadline - Date.now()) / 1000);
+    document.getElementById('cd-days').textContent  = pad(Math.floor(s / 86400));
+    document.getElementById('cd-hours').textContent = pad(Math.floor((s % 86400) / 3600));
+    document.getElementById('cd-mins').textContent  = pad(Math.floor((s % 3600) / 60));
+    document.getElementById('cd-secs').textContent  = pad(s % 60);
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  function init() {
+    var bar       = document.getElementById('countdown-bar');
+    var spacer    = document.getElementById('cd-bar-spacer');
+    var spacerMob = document.getElementById('cd-bar-spacer-mobile');
+    if (!bar) return;
+
+    var barH = bar.getBoundingClientRect().height || 32;
+
+    function measureMobileHeader() {
+      var header = document.querySelector('header');
+      if (header) {
+        document.documentElement.style.setProperty(
+          '--mobile-header-h',
+          header.getBoundingClientRect().height + 'px'
+        );
+      }
+    }
+
+    function setDesktopBarH(visible) {
+      var h = visible ? barH : 0;
+      document.documentElement.style.setProperty('--cd-bar-h', h + 'px');
+      if (spacer) spacer.style.height = h + 'px';
+    }
+
+    function setMobileBarH() {
+      document.documentElement.style.setProperty('--cd-bar-h-mobile', barH + 'px');
+      if (spacerMob) spacerMob.style.height = barH + 'px';
+    }
+
+    if (window.innerWidth >= MOBILE_BP) {
+      setDesktopBarH(true);
+    } else {
+      setMobileBarH();
+    }
+
+    measureMobileHeader();
+
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        barH = bar.getBoundingClientRect().height || barH;
+        measureMobileHeader();
+        if (window.innerWidth >= MOBILE_BP) {
+          var hidden = bar.classList.contains('cd-hidden');
+          setDesktopBarH(!hidden);
+        } else {
+          setMobileBarH();
+        }
+      }, 100);
+    }, { passive: true });
+
+    /* ---- Scroll hide/show (desktop only) ---- */
+    var lastScrollY  = window.scrollY;
+    var barVisible   = true;
+    var rafScheduled = false;
+
+    window.addEventListener('scroll', function () {
+      if (window.innerWidth < MOBILE_BP) return;
+      if (rafScheduled) return;
+      rafScheduled = true;
+
+      window.requestAnimationFrame(function () {
+        rafScheduled = false;
+        var y   = window.scrollY;
+        var dir = y > lastScrollY ? 1 : (y < lastScrollY ? -1 : 0);
+
+        if (dir !== 0) {
+          if (dir === 1 && y > barH && barVisible) {
+            bar.classList.add('cd-hidden');
+            setDesktopBarH(false);
+            barVisible = false;
+          } else if (dir === -1 && !barVisible) {
+            bar.classList.remove('cd-hidden');
+            setDesktopBarH(true);
+            barVisible = true;
+          }
+        }
+
+        lastScrollY = y;
+      });
+    }, { passive: true });
+  }
+
+  if (document.readyState === 'complete') {
+    window.requestAnimationFrame(function () { window.requestAnimationFrame(init); });
+  } else {
+    window.addEventListener('load', function () {
+      window.requestAnimationFrame(function () { window.requestAnimationFrame(init); });
+    });
+  }
+})();
+</script>
+
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Countdown Bar",
+  "settings": [],
+  "blocks": []
+}
+{% endschema %}

@@ -1,0 +1,244 @@
+{% comment %}
+  Weight Nav Section
+  Shows clickable weight-variant tiles on Kettlebell, Dumbbell, and Weight Plates collection pages.
+  Active tile is highlighted based on current collection handle.
+{% endcomment %}
+
+{% assign show_nav = false %}
+{% assign nav_type = '' %}
+
+{% comment %} Check parent collection handles {% endcomment %}
+{% if collection.handle == 'kettlebells' %}
+  {% assign show_nav = true %}
+  {% assign nav_type = 'kettlebell' %}
+{% endif %}
+
+{% if collection.handle == 'dumbbells' %}
+  {% assign show_nav = true %}
+  {% assign nav_type = 'dumbbell' %}
+{% endif %}
+
+{% if collection.handle == 'weight-plates' %}
+  {% assign show_nav = true %}
+  {% assign nav_type = 'plates' %}
+{% endif %}
+
+{% comment %} Check individual kettlebell weight pages {% endcomment %}
+{% assign kb_tiles = section.settings.kettlebell_tiles | split: '|' %}
+{% for tile in kb_tiles %}
+  {% assign parts = tile | split: ':' %}
+  {% assign h = parts[1] %}
+  {% if collection.handle == h %}
+    {% assign show_nav = true %}
+    {% assign nav_type = 'kettlebell' %}
+  {% endif %}
+{% endfor %}
+
+{% comment %} Check individual dumbbell weight pages {% endcomment %}
+{% assign db_tiles = section.settings.dumbbell_tiles | split: '|' %}
+{% for tile in db_tiles %}
+  {% assign parts = tile | split: ':' %}
+  {% assign h = parts[1] %}
+  {% if collection.handle == h %}
+    {% assign show_nav = true %}
+    {% assign nav_type = 'dumbbell' %}
+  {% endif %}
+{% endfor %}
+
+{% comment %} Check individual plates weight pages {% endcomment %}
+{% assign pl_tiles = section.settings.plates_tiles | split: '|' %}
+{% for tile in pl_tiles %}
+  {% assign parts = tile | split: ':' %}
+  {% assign h = parts[1] %}
+  {% if collection.handle == h %}
+    {% assign show_nav = true %}
+    {% assign nav_type = 'plates' %}
+  {% endif %}
+{% endfor %}
+
+{% if show_nav %}
+<div class="weight-nav-outer">
+
+  {% if section.settings.heading != blank %}
+    <p class="weight-nav-heading">{{ section.settings.heading }}</p>
+  {% endif %}
+
+  <div class="weight-nav-scroll-wrapper">
+    <div class="weight-nav" role="navigation" aria-label="Shop by weight">
+
+      {% if nav_type == 'kettlebell' %}
+        {% assign tiles = section.settings.kettlebell_tiles | split: '|' %}
+      {% elsif nav_type == 'dumbbell' %}
+        {% assign tiles = section.settings.dumbbell_tiles | split: '|' %}
+      {% elsif nav_type == 'plates' %}
+        {% assign tiles = section.settings.plates_tiles | split: '|' %}
+      {% endif %}
+
+      {% for tile in tiles %}
+        {% assign parts = tile | split: ':' %}
+        {% assign label = parts[0] %}
+        {% assign handle = parts[1] %}
+        {% assign is_active = false %}
+        {% if collection.handle == handle %}{% assign is_active = true %}{% endif %}
+        <a href="/collections/{{ handle }}"
+           class="weight-tile{% if is_active %} weight-tile--active{% endif %}"
+           {% if is_active %}aria-current="page"{% endif %}>
+          {{ label }}
+        </a>
+      {% endfor %}
+
+    </div>
+    <div class="weight-nav-fade" aria-hidden="true"></div>
+  </div>
+</div>
+
+<style>
+  .weight-nav-outer {
+    padding: 20px var(--grid-margin, 20px) 0;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .weight-nav-heading {
+    margin: 0 0 12px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #757575;
+    text-align: center;
+  }
+  .weight-nav-scroll-wrapper {
+    position: relative;
+  }
+  .weight-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding-bottom: 20px;
+  }
+  .weight-nav-fade {
+    display: none;
+  }
+  .weight-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 20px;
+    border: 1px solid #d1d1d1;
+    border-radius: 2px;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #111;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+    font-family: inherit;
+  }
+  .weight-tile:hover {
+    border-color: #111;
+  }
+  .weight-tile--active {
+    background: #e8e8e8;
+    color: #111;
+    border-color: #999;
+  }
+
+  @media (max-width: 749px) {
+    .weight-nav-outer {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .weight-nav-heading {
+      text-align: left;
+      padding-left: 16px;
+    }
+    .weight-nav-scroll-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+    .weight-nav {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-left: 16px;
+      padding-right: 48px;
+      padding-bottom: 20px;
+    }
+    .weight-nav::-webkit-scrollbar {
+      display: none;
+    }
+    .weight-nav-fade {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 56px;
+      height: calc(100% - 20px);
+      background: linear-gradient(to right, transparent, #ffffff 80%);
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  var nav = document.querySelector('.weight-nav');
+  var fade = document.querySelector('.weight-nav-fade');
+  if (!nav || !fade) return;
+  function updateFade() {
+    var atEnd = nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 4;
+    fade.style.opacity = atEnd ? '0' : '1';
+  }
+  nav.addEventListener('scroll', updateFade, { passive: true });
+  updateFade();
+})();
+</script>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "Weight Nav",
+  "tag": "div",
+  "class": "weight-nav-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Popular Weights"
+    },
+    {
+      "type": "paragraph",
+      "content": "Each tile is defined as Label:collection-handle, separate tiles with a pipe | character. The nav shows on the parent collection and on each weight collection listed here."
+    },
+    {
+      "type": "text",
+      "id": "kettlebell_tiles",
+      "label": "Kettlebell weight tiles",
+      "default": "12kg:12kg-kettlebells|16kg:16kg-kettlebells|24kg:24kg-kettlebells"
+    },
+    {
+      "type": "text",
+      "id": "dumbbell_tiles",
+      "label": "Dumbbell weight tiles",
+      "default": "10kg:10kg-dumbbells|12.5kg:12-5kg-dumbbells|15kg:15kg-dumbbells|20kg:20kg-dumbbells|30kg:30kg-dumbbells"
+    },
+    {
+      "type": "text",
+      "id": "plates_tiles",
+      "label": "Weight plates tiles",
+      "default": "5kg:5kg-weight-plates|10kg:10kg-weight-plates|15kg:15kg-weight-plates|20kg:20kg-weight-plates|Fractional:fractional-plates"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Weight Nav"
+    }
+  ]
+}
+{% endschema %}

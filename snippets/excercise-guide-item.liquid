@@ -1,0 +1,64 @@
+{% if index < 10 %}
+   {% assign index = index | prepend: "0" %}
+{% endif %}
+
+{% if block != blank %}
+   {% assign heading = block.settings.heading %}
+   {% assign main_image = block.settings.image %}
+   {% assign url = block.settings.link %}
+   {% assign link_text = block.settings.link_text | default: 'Find Out More' %}
+{% else %}
+   {% assign article_handle = article_handle | strip %}
+   {% unless article_handle contains 'news/' %}
+      {% assign article_handle = article_handle | prepend: 'news/' %}
+   {% endunless %}
+   {% assign article = articles[article_handle] %}
+   {% assign heading = article.title %}
+   {% assign main_image = article.image %}
+   {% assign url = article.url %}
+   {% assign link_text = 'Find Out More' %}
+{% endif %}
+
+{% assign outer_classes = 'flex flex-col gap-3' %}
+{% capture inner_content %}
+   {% if index != blank %}
+      <p class="heading-05 text-yellow">
+         {{ index }}
+      </p>
+   {% endif %}
+   <div class="aspect-w-16 aspect-h-9 overflow-hidden">
+      {% if main_image != blank %}
+         {% render 'responsive-image',
+            image_object: main_image,
+            size: 'mobile',
+            class: 'group-hover:scale-105 duration-300'
+         %}
+      {% else %}
+         <div class="bg-white text-black p-8 flex justify-center items-center group-hover:scale-105 duration-300">
+            <span class="opacity-30">
+               {% render 'icons', icon: 'logo', class: 'w-full' %}
+            </span>
+         </div>
+      {% endif %}
+   </div>
+   {% if heading != blank %}
+      <p class="body-01 group-hover:text-yellow duration-300">
+         {{ heading }}
+      </p>
+   {% endif %}
+   {% if url != blank %}
+      <p class="link group-hover:text-yellow duration-300">
+         {{ link_text }}
+      </p>
+   {% endif %}
+{% endcapture %}
+
+{% if url != blank %}
+   <a href="{{ url }}" class="{{ outer_classes }} group">
+      {{ inner_content }}
+   </a>
+{% else %}
+   <div class="{{ outer_classes }}">
+      {{ inner_content }}
+   </div>
+{% endif %}

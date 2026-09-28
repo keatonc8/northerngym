@@ -1,0 +1,122 @@
+{% assign product_level_images = product.metafields.northerngym.image_gallery_all_variants.value %}
+{% assign fallback_media = product.media %}
+
+{% assign show_default_products = true %}
+{% if product_level_images != blank %}
+   {% assign show_default_products = false %}
+{% endif %}
+
+{% assign has_no_variant_images = true %}
+{% assign img_index = 0 %}
+
+{%- comment -%}
+   Work out which grid slot the video should sit in by reading its position in
+   the product media list in admin. Reordering media in admin therefore moves
+   the video in the gallery, the same as reordering an image would.
+
+   999 means there is no video, so no image gets shifted.
+{%- endcomment -%}
+{%- assign video_slot = 0 -%}
+{%- for media in product.media -%}
+   {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+      {%- if video_slot == 0 -%}
+         {%- assign video_slot = forloop.index -%}
+      {%- endif -%}
+   {%- endif -%}
+{%- endfor -%}
+{%- if video_slot == 0 -%}
+   {%- assign video_slot = 999 -%}
+{%- endif -%}
+
+<ul class="grid gap-2 md:!grid-cols-2">
+   {%- for variant in product.variants -%}
+      {%- assign variant_images = variant.metafields.northerngym.image_gallery_variant_level.value -%}
+      {%- if variant_images != blank -%}
+         {%- for image in variant_images -%}
+            {%- comment -%}
+               Only one variant's images are visible at a time, so ordering by
+               position within the variant is what the customer actually sees.
+               Images at or past the video's slot shift down one to make room.
+            {%- endcomment -%}
+            {%- assign slot = forloop.index -%}
+            {%- if slot >= video_slot -%}
+               {%- assign slot = slot | plus: 1 -%}
+            {%- endif -%}
+            <li 
+               class=""
+               style="order: {{ slot }};"
+               x-show="selectedVariant.id == {{ variant.id }}"
+               x-cloak
+            >
+               {% if img_index == 0 %}
+                  {% render 'product-images-image', image_object: image, loading: 'eager' %}
+               {% else %}
+                  {% render 'product-images-image', image_object: image, loading: 'lazy' %}
+               {% endif %}
+            </li>
+            {% assign img_index = img_index | plus: 1 %}
+            {% assign has_no_variant_images = false %}
+            {% assign show_default_products = false %}
+         {%- endfor -%}
+      {%- endif -%}
+   {%- endfor -%}
+
+   {% if product_level_images != blank %}
+      {% for image in product_level_images %}
+         {%- assign slot = forloop.index -%}
+         {%- if slot >= video_slot -%}
+            {%- assign slot = slot | plus: 1 -%}
+         {%- endif -%}
+         <li
+            class="{% if has_no_variant_images and forloop.first %}md:col-span-2{% endif %}"
+            style="order: {{ slot }};"
+         >
+            {% if img_index == 0 %}
+               {% render 'product-images-image', image_object: image, loading: 'eager' %}
+            {% else %}
+               {% render 'product-images-image', image_object: image, loading: 'lazy' %}
+            {% endif %}
+         </li>
+         {% assign img_index = img_index | plus: 1 %}
+      {% endfor %}
+   {% endif %}
+
+   {%- comment -%}
+      Fallback walks product.media rather than product.images so video media
+      is included. product.images silently excludes videos. Media order here
+      already matches admin, so no ordering override is needed.
+   {%- endcomment -%}
+   {%- if show_default_products -%}
+      {%- for media in fallback_media -%}
+         <li class="{% if forloop.index == 3 and media.media_type == 'image' %}md:col-span-2{% endif %}">
+            {% if img_index == 0 %}
+               {% render 'product-media-item', media_object: media, size: 'half', loading: 'eager' %}
+            {% else %}
+               {% render 'product-media-item', media_object: media, size: 'half', loading: 'lazy' %}
+            {% endif %}
+         </li>
+         {% assign img_index = img_index | plus: 1 %}
+      {%- endfor -%}
+   {%- else -%}
+      {%- comment -%}
+         The northerngym image metafields can only hold images, so when either
+         of those galleries is in use the fallback above never runs and any
+         video on the product would be dropped. Placed with CSS order so it
+         sits in the right slot visually while staying a single element in the
+         DOM rather than one copy per variant.
+
+         No x-show: video is product-level, not variant-specific. x-cloak IS
+         needed, otherwise the video paints before Alpine boots and reveals
+         the cloaked variant images, leaving a flash of video on its own.
+      {%- endcomment -%}
+      {%- assign this_video_slot = video_slot -%}
+      {%- for media in product.media -%}
+         {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+            <li style="order: {{ this_video_slot }};" x-cloak>
+               {% render 'product-media-item', media_object: media, size: 'half', loading: 'lazy' %}
+            </li>
+            {%- assign this_video_slot = this_video_slot | plus: 1 -%}
+         {%- endif -%}
+      {%- endfor -%}
+   {%- endif -%}
+</ul>

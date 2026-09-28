@@ -1,0 +1,160 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "block_shop_by_training_wGAzBw": {
+      "type": "block-shop-by-training",
+      "blocks": {
+        "item_UhVejQ": {
+          "type": "item",
+          "settings": {
+            "number": "Based In Washington Tyne & Wear",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-04-22_at_16.23.47.jpg",
+            "title": "Bio",
+            "text": "<p>My training has evolved massively over the years. I originally came from cardio in my early 20’s in my 30’s took up yoga, then I gravitated to strength and conditioning in my 40’s I decided to take up running having never ran the famous Great North Run </p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_7WcBXp": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-04-22_at_16.26.29.jpg",
+            "title": "",
+            "text": "<p>Strength training has always been the foundation and support for my training. Strength work made a huge difference, not just in how I performed when running, but in how my body felt overall. </p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_WGq8f8": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-04-21_at_11.38.38.jpg",
+            "title": "",
+            "text": "<p>Through my running I am more resilient, through my strength training I am stronger, more capable and less at risk of injuries and helped recovery better between sessions. My current approach allows me to move well and cope with the demands of both training and everyday life.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_wgaqTH": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-04-22_at_16.25.29.jpg",
+            "title": "",
+            "text": "<p>Today, my approach to training is centred around longevity, consistency, and lifestyle. For me, fitness is about staying in peak condition, maintaining health as I age, and embracing the discipline and enjoyment that training brings every day.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "item_7QWPHG": {
+          "type": "item",
+          "settings": {
+            "number": "",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-04-21_at_11.38.38_1.jpg",
+            "title": "",
+            "text": "<p>As an online coach working with women aged 20–65, I encourage clients to build strength to support whatever their goals are, whether that’s running, keeping up with busy lifestyles or simply wanting to feel stronger and more capable day to day.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_UhVejQ",
+        "item_7WcBXp",
+        "item_WGq8f8",
+        "item_wgaqTH",
+        "item_7QWPHG"
+      ],
+      "name": "Block - Shop By Training",
+      "settings": {
+        "heading": "Gemma Jane",
+        "text": "<p>Hybrid/ Strength and Conditioning that supports performance in and out of gym.</p>",
+        "button_label": "",
+        "button_link": "",
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#212121",
+        "body_text_color": "#a3a3a3",
+        "meta_text_color": "#a3a3a3",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "block_columns_text_QUBYg8": {
+      "type": "block-columns-text",
+      "blocks": {
+        "card_LebtEX": {
+          "type": "card",
+          "settings": {
+            "title": "Favourite Northern Product",
+            "text": "",
+            "button_label": "Shop Now",
+            "button_link": ""
+          }
+        },
+        "card_cEmc7P": {
+          "type": "card",
+          "settings": {
+            "title": "What does being part of Northern mean to you?",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-04-22_at_16.26.32.jpg",
+            "text": "",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "card_mNhWg4": {
+          "type": "card",
+          "settings": {
+            "title": "Follow Gemma's Journey",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-04-22_at_16.23.46.jpg",
+            "text": "<p>Check out Gemma's social here.</p>",
+            "button_label": "Follow",
+            "button_link": "https://www.instagram.com/gj_bodyconditioning_/"
+          }
+        }
+      },
+      "block_order": [
+        "card_LebtEX",
+        "card_cEmc7P",
+        "card_mNhWg4"
+      ],
+      "name": "Block - Columns with Text",
+      "settings": {
+        "section_bg_color": "#ffffff",
+        "section_bg_opacity": 100,
+        "heading_color": "#111111",
+        "body_text_color": "#737373",
+        "button_bg_color": "#f5f5f5",
+        "button_text_color": "#111111",
+        "margin_top": 80,
+        "margin_bottom": 80,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "block_shop_by_training_wGAzBw",
+    "block_columns_text_QUBYg8"
+  ]
+}

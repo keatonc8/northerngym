@@ -1,0 +1,24 @@
+<div class="bg-black text-white flex flex-col {% if is_odd %}md:flex-row-reverse{% else %}md:flex-row{% endif %}">
+   {% if block_image != blank %}
+      <div class="flex-2">
+         <div class="aspect-w-1 aspect-h-1">
+            {% render 'responsive-image',
+               image_object: block_image,
+               size: 'half',
+               class: ''
+            %}
+         </div>
+      </div>
+   {% endif %}
+   {% if heading != blank or content != blank %}
+      <div class="flex-3 p-8 flex flex-col justify-between gap-20 relative">
+         <p class="heading-04 relative z-2">
+            {{ heading }}
+         </p>
+         <p class="md:max-w-140 relative z-2">
+            {{ content }}
+         </p>
+         {% render 'arrow-gradient' %}
+      </div>
+   {% endif %}
+</div>

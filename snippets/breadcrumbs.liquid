@@ -1,0 +1,117 @@
+{% comment %}
+    
+{% unless template == 'index' or template == '404' %}
+
+    {% assign t = template | split: '.' | first  %}
+    {% assign hoverColor = hoverColor | default: 'text-yellow' %}
+
+    <nav class="breadcrumbs body" aria-label="breadcrumbs">
+        <ol>
+            <li class="hidden md:inline-block">
+                <a href="/" title="Home" class="hover:{{ hoverColor }} duration-300 {% if isBranded %}text-accent-custom-hover{% endif %}">Home</a>
+            </li>
+
+            {% case t %}
+            {% when 'page' %}
+
+                <li class="inline-block">
+                    <a href="{{ page.url }}" aria-current="page" class="hover:{{ hoverColor }} duration-300">{{ page.title }}</a>
+                </li>
+                
+            {% when 'product' %}
+
+                {% if collection.url %}
+                    <li class="hidden md:inline-block">
+                        <a href="/collections" class="hover:{{ hoverColor }} duration-300">
+                            Collections
+                        </a>
+                    </li>
+                    <li class="hover:{{ hoverColor }} duration-300 inline-block" data-breadcrumb="collection">
+                        {% if collection.metafields.my_fields.alternate_name != blank %}
+                            {% assign collectionName = collection.metafields.my_fields.alternate_name %}
+                        {% else %}
+                            {% assign collectionName = collection.title %}
+                        {% endif %}
+                        <a href="{{collection.url}}">
+                            <span class="md:hidden">Back to </span>
+                            <span>{{ collectionName }}</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                <li class="hidden md:inline-block">
+                    {{ product.title }}
+                </li>
+
+            {% when 'collection' and collection.handle %}
+
+                {% if current_tags %}
+                    <li class="inline-block hover:{{ hoverColor }} duration-300 {% if isBranded %}text-accent-custom-hover{% endif %}">
+                        {{ collection.title | link_to: collection.url }}
+                    </li>
+                    <li class="inline-block">
+                        {% capture tag_url %}{{ collection.url }}/{{ current_tags | join: "+"}}{% endcapture %}
+                        <a href="{{ tag_url }}" aria-current="page" class="hover:{{ hoverColor }} duration-300 {% if isBranded %}text-accent-custom-hover{% endif %}">{{ current_tags | join: " + "}}</a>
+                    </li>
+                {% else %}
+                    {% assign isBrandedCollection = false %}
+                    {% for link in linklists['collection-brands'].links %}
+                        {% if link.current %}
+                            {% assign isBrandedCollection = true %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if isBrandedCollection %}
+                        <li class="inline-block">
+                            <a href="/collections" class="hover:{{ hoverColor }} duration-300 {% if isBranded %}text-accent-custom-hover{% endif %}">Collections</a>
+                        </li>
+                    {% endif %}
+                    <li class="inline-block">
+                        <a href="{{ collection.url }}" aria-current="page" class="hover:{{ hoverColor }} duration-300 {% if isBranded %}text-accent-custom-hover{% endif %}">
+                            {% if collection.metafields.my_fields.alternate_name != blank %}
+                                {% assign collectionName = collection.metafields.my_fields.alternate_name %}
+                            {% else %}
+                                {% assign collectionName = collection.title %}
+                            {% endif %}
+                            {{ collectionName }}
+                        </a>
+                    </li>
+                {% endif %}
+
+            {% when 'blog' %}
+
+                {% if current_tags %}
+                    <li class="hover:{{ hoverColor }} duration-300 inline-block">
+                        {{ blog.title | link_to: blog.url }}
+                    </li>
+                    <li class="inline-block">
+                        {% capture tag_url %}{{blog.url}}/tagged/{{ current_tags | join: "+" }}{% endcapture %}
+                        <a href="{{ tag_url }}" aria-current="page" class="hover:{{ hoverColor }} duration-300">{{ current_tags | join: " + " }}</a>
+                    </li>
+                {% else %}
+                    <li class="inline-block">
+                        <a href="{{ blog.url }}" aria-current="page" class="hover:{{ hoverColor }} duration-300">{{ blog.title }}</a>
+                    </li>
+                {% endif %}
+
+            {% when 'article' %}
+
+                <li class="hover:{{ hoverColor }} duration-300 inline-block">
+                    {{ blog.title | link_to: blog.url }}
+                </li>
+                <li class="inline-block">
+                    <a href="{{ article.url }}" aria-current="page" class="hover:{{ hoverColor }} duration-300">{{ article.title }}</a>
+                </li>
+
+            {% else %}
+
+                <li class="inline-block" aria-current="page">
+                    <a href="{{ request.path }}" aria-current="page" class="hover:{{ hoverColor }} duration-300">{{ page_title }}</a>
+                </li>
+
+            {% endcase %}
+
+        </ol>
+    </nav>
+
+{% endunless %}
+{% endcomment %}

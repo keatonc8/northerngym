@@ -1,0 +1,24 @@
+{% render 'abu-styles' %}
+<div class="abu-scope">
+  <div class="abu-container abu-rhythm" style="text-align:center;">
+    <h2 class="abu-h02">{{ section.settings.heading }}</h2>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Block - About Closer",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Bold a word to highlight it.",
+      "default": "<p>Northern. <strong>Built to Work.</strong></p>"
+    }
+  ],
+  "presets": [
+    { "name": "Block - About Closer" }
+  ]
+}
+{% endschema %}

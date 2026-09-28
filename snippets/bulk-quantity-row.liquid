@@ -1,0 +1,69 @@
+<div
+  class="grid min-h-20 grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 rounded-2xl border p-3 transition-colors sm:grid-cols-[minmax(0,1.2fr)_minmax(6.5rem,0.7fr)_minmax(10rem,auto)] sm:px-5{% unless variant.available %} border-silver bg-white opacity-50{% endunless %}"
+  {% if variant.available %}
+    :class="bulkQuantity({{ variant.id }}) > 0 ? 'border-green-bright bg-green-bright/10' : 'border-silver bg-white'"
+  {% endif %}
+  data-bulk-variant-id="{{ variant.id }}"
+>
+  <div class="col-start-1 row-start-1 flex min-w-0 items-center gap-x-4 sm:contents">
+    <p class="min-w-0 font-mono text-14 leading-tight sm:col-start-1 sm:row-start-1 sm:text-16">
+      {{ variant_label | escape }}
+    </p>
+
+    <div class="flex shrink-0 flex-col items-end leading-tight sm:col-start-2 sm:row-start-1 sm:flex-row sm:items-baseline sm:gap-x-2">
+      <span class="font-bold">{{ variant.price | money }}</span>
+      {% if variant.compare_at_price > variant.price %}
+        <span class="text-12 text-red line-through sm:text-14">
+          {{ variant.compare_at_price | money }}
+        </span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="col-start-2 row-start-1 flex items-center justify-end gap-2 sm:col-start-3 sm:gap-3">
+    {% if variant.available %}
+      <div class="flex h-11 w-28 shrink-0 items-center justify-between overflow-hidden rounded-full border border-silver bg-white sm:h-12 sm:w-36">
+        <button
+          type="button"
+          class="flex h-full w-10 shrink-0 items-center justify-center hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-30 sm:w-12"
+          @click="changeBulkQuantity({{ variant.id }}, -1, {{ bulk_max_quantity }})"
+          :disabled="bulkQuantity({{ variant.id }}) < 1"
+          aria-label="Decrease {{ variant_label | escape }} quantity"
+        >
+          {% render 'icons', icon: 'minus', class: 'w-3.5' %}
+        </button>
+
+        <span
+          class="min-w-5 text-center font-mono text-14 tabular-nums sm:text-16"
+          x-text="bulkQuantity({{ variant.id }})"
+          aria-live="polite"
+        ></span>
+
+        <button
+          type="button"
+          class="flex h-full w-10 shrink-0 items-center justify-center hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-30 sm:w-12"
+          @click="changeBulkQuantity({{ variant.id }}, 1, {{ bulk_max_quantity }})"
+          :disabled="bulkQuantity({{ variant.id }}) >= {{ bulk_max_quantity }}"
+          aria-label="Increase {{ variant_label | escape }} quantity"
+        >
+          {% render 'icons', icon: 'plus', class: 'w-3.5' %}
+        </button>
+      </div>
+
+      <span
+        class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-bright text-white opacity-0 transition-opacity sm:h-7 sm:w-7"
+        :class="bulkQuantity({{ variant.id }}) > 0 ? 'opacity-100' : 'opacity-0'"
+        aria-hidden="true"
+      >
+        <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none">
+          <path d="m5 10 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </span>
+    {% else %}
+      <span class="w-28 text-center font-mono text-10 font-bold uppercase text-grey sm:w-36 sm:text-12">
+        Out of stock
+      </span>
+      <span class="h-6 w-6 shrink-0 sm:h-7 sm:w-7" aria-hidden="true"></span>
+    {% endif %}
+  </div>
+</div>

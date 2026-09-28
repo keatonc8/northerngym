@@ -1,0 +1,66 @@
+{% liquid
+  assign image = image
+  assign logo = logo
+  assign text = text
+  assign author = author
+  assign role = role
+  assign stars = stars | default: 5
+%}
+
+<div class="relative overflow-hidden rounded-3xl text-white w-full h-auto aspect-[2/3]">
+  {% if image != blank %}
+    {{
+      image
+      | image_url: width: 900
+      | image_tag:
+        class: "absolute inset-0 h-full w-full object-cover",
+        loading: "lazy",
+        alt: image.alt | default: author
+    }}
+  {% endif %}
+
+  <!-- Overlays -->
+  <div class="absolute inset-0 bg-black/55"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-black/40"></div>
+
+  <div class="relative z-10 flex h-full flex-col p-3 lg:p-6">
+    {% if logo != blank %}
+      <div class="flex items-center gap-3">
+        {{
+          logo
+          | image_url: width: 160
+          | image_tag:
+            class: "h-auto w-full max-w-[100px] lg:max-w-[200px]",
+            loading: "lazy",
+            alt: logo.alt | default: "Logo"
+        }}
+      </div>
+    {% endif %}
+
+    <div class="mt-auto space-y-2 lg:space-y-4">
+      <!-- Stars -->
+      <div class="flex items-center gap-1">
+        {% for i in (1..5) %}
+          <svg class="h-3 w-3 lg:h-6 lg:w-6 {% if i <= stars %}text-white{% else %}text-white/40{% endif %}" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 17.27l5.18 3.73-1.64-6.03L20.5 10.9l-6.19-.3L12 4.8l-2.31 5.8-6.19.3 4.96 4.07L6.82 21z"/>
+          </svg>
+        {% endfor %}
+      </div>
+
+      {% if text != blank %}
+        <p class="text-xs md:text-base lg:text-lg leading-snug">
+          “{{ text }}”
+        </p>
+      {% endif %}
+
+      <div class="pt-2">
+        {% if author != blank %}
+          <div class="text-xs md:text-base font-normal">{{ author }}</div>
+        {% endif %}
+        {% if role != blank %}
+          <div class="text-xs md:text-base text-white/75">{{ role }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

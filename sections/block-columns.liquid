@@ -1,0 +1,291 @@
+{% assign card_blocks = section.blocks | where: 'type', 'card' %}
+{% assign has_card_blocks = card_blocks.size | plus: 0 %}
+
+{% assign has_product_columns = false %}
+
+{%- comment -%}
+  Pull metafields safely for both contexts
+{%- endcomment -%}
+{% assign mf_columns = blank %}
+
+{% if product != blank %}
+  {% assign mf_columns = product.metafields.custom.product_columns %}
+{% endif %}
+
+{% if collection != blank %}
+  {%- comment -%}
+    Collection fallback if product metafield is empty
+  {%- endcomment -%}
+  {% if mf_columns == blank or mf_columns.value == blank or mf_columns.value.size == 0 %}
+    {% assign mf_columns = collection.metafields.custom.product_columns %}
+  {% endif %}
+{% endif %}
+
+{%- comment -%}
+  Determine if we have anything to show
+{%- endcomment -%}
+{% if mf_columns != blank and mf_columns.value != blank and mf_columns.value.size != 0 %}
+  {% assign has_product_columns = true %}
+{% endif %}
+
+{% if has_card_blocks > 0 or has_product_columns %}
+
+<style>
+  .{{ section.id }}.block-columns {
+    /* Background (color + opacity) */
+    {% assign bg = section.settings.section_bg_color %}
+    {% assign a  = section.settings.section_bg_opacity | divided_by: 100.0 %}
+    {% assign r = bg | color_extract: 'red' %}
+    {% assign g = bg | color_extract: 'green' %}
+    {% assign b = bg | color_extract: 'blue' %}
+
+    --section-bg: rgba({{ r }}, {{ g }}, {{ b }}, {{ a }});
+    background-color: var(--section-bg);
+
+    /* Spacing */
+    margin-top: {{ section.settings.margin_top }}px;
+    margin-bottom: {{ section.settings.margin_bottom }}px;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+
+    /* Button colors (optional but handy) */
+    --btn-bg: {{ section.settings.button_bg_color }};
+    --btn-text: {{ section.settings.button_text_color }};
+  }
+
+  .{{ section.id }}.block-columns .columns-btn {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+  }
+
+  /* Hide scrollbar for the carousel track */
+  #campaignTrack-{{ section.id }}::-webkit-scrollbar { display: none; }
+  #campaignTrack-{{ section.id }} { scrollbar-width: none; -ms-overflow-style: none; }
+</style>
+
+<section class="{{ section.id }} block-columns">
+  <div class="mx-auto container-limited px-6">
+
+    <!-- Mobile carousel / Desktop grid -->
+    <div class="relative">
+      <div
+        id="campaignTrack-{{ section.id }}"
+        data-snap-carousel
+        data-snap-breakpoint="md"
+        data-snap-start-index="0"
+        class="
+          -mx-6 flex gap-6 overflow-x-auto px-6 pb-3
+          snap-x snap-mandatory scroll-px-6
+          md:mx-0 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible md:px-0 md:pb-0
+        "
+      >
+        {% for block in section.blocks %}
+          {% assign img = block.settings.image %}
+          {% assign title = block.settings.title %}
+          {% assign link = block.settings.link %}
+
+          <a
+            href="{{ link | default: '#' }}"
+            class="
+              group relative shrink-0 overflow-hidden rounded-3xl bg-zinc-200 ring-1 ring-black/5
+              w-[95%] sm:w-[70%] md:w-auto md:shrink
+              snap-start
+            "
+            {{ block.shopify_attributes }}
+          >
+            <div class="aspect-[4/5] w-full overflow-hidden">
+              {% if img != blank %}
+                {{
+                  img
+                  | image_url: width: 1600
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '375, 550, 750, 1100, 1500, 2000',
+                    sizes: '(min-width: 768px) 33vw, 85vw',
+                    class: 'h-full w-full object-cover transition-transform duration-[4000ms] ease-out group-hover:scale-110',
+                    alt: img.alt | default: title
+                }}
+              {% else %}
+                <div class="h-full w-full bg-zinc-200"></div>
+              {% endif %}
+            </div>
+
+            <div class="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/55 to-transparent"></div>
+
+            <div class="absolute inset-x-0 top-0 flex items-start justify-between p-6">
+              {% if title != blank %}
+                <h3 class="text-2xl font-normal tracking-tight text-white">{{ title }}</h3>
+              {% endif %}
+
+              <span class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-white/10 text-white backdrop-blur-sm transition group-hover:bg-white/20">
+                <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+                  <path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- CTA -->
+    {% if section.settings.button_label != blank %}
+      <div class="mt-8 sm:mt-10 flex justify-center">
+        <a
+          href="{{ section.settings.button_link | default: '#' }}"
+          class="columns-btn inline-flex items-center rounded-full px-6 py-3 text-base font-medium"
+        >
+          {{ section.settings.button_label }}
+        </a>
+      </div>
+    {% endif %}
+
+    <!-- Pagination (mobile only) -->
+    <div
+      class="mt-8 flex items-center justify-center gap-2 md:hidden"
+      data-snap-dots
+      aria-label="Carousel pagination"
+    ></div>
+  </div>
+</section>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "Block - Columns",
+  "tag": "section",
+  "class": "section section-block-columns",
+  "settings": [
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Explore the campaign"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "section_bg_opacity",
+      "label": "Background Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+
+    {
+      "type": "header",
+      "content": "Button Colours"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#111111"
+    },
+
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Enter title here"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Block - Columns",
+      "blocks": [
+        { "type": "card" },
+        { "type": "card" },
+        { "type": "card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

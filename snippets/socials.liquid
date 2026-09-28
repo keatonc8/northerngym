@@ -1,0 +1,50 @@
+{% assign hoverClass = '' %}
+
+{% if hoverColour != blank and hoverColour == '' %}
+   {% assign hoverClass = '' %}
+{% endif %}
+
+<ul class="flex -mx-2 -my-1">
+   {% if settings.social_twitter_link != blank %}
+      <li class="flex justify-center items-center px-2 py-1">
+         <a href="{{ settings.social_twitter_link }}" target="_blank" rel="noopener noreferrer" class="{{ hoverClass }} mx-auto">
+            {% render 'icons', icon: 'twitter', class: 'w-full max-h-6 max-w-[21px]' %}
+         </a>
+      </li>
+   {% endif %}
+   {% if settings.social_youtube_link != blank %}
+      <li class="flex justify-center items-center px-2 py-1">
+         <a href="{{ settings.social_youtube_link }}" target="_blank" rel="noopener noreferrer" class="{{ hoverClass }} mx-auto">
+            {% render 'icons', icon: 'youtube', class: 'w-full max-h-6 max-w-[20px]' %}
+         </a>
+      </li>
+   {% endif %}
+   {% if settings.social_facebook_link != blank %}
+      <li class="flex justify-center items-center px-2 py-1">
+         <a href="{{ settings.social_facebook_link }}" target="_blank" rel="noopener noreferrer" class="{{ hoverClass }} mx-auto">
+            {% render 'icons', icon: 'facebook', class: 'w-full max-h-6 max-w-[16px]' %}
+         </a>
+      </li>
+   {% endif %}
+   {% if settings.social_instagram_link != blank %}
+      <li class="flex justify-center items-center px-2 py-1">
+         <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noopener noreferrer" class="{{ hoverClass }} mx-auto">
+            {% render 'icons', icon: 'instagram', class: 'w-full max-h-6 max-w-[24px]' %}
+         </a>
+      </li>
+   {% endif %}
+   {% if settings.social_linkedin_link != blank %}
+      <li class="flex justify-center items-center px-2 py-1">
+         <a href="{{ settings.social_linkedin_link }}" target="_blank" rel="noopener noreferrer" class="{{ hoverClass }} mx-auto">
+            {% render 'icons', icon: 'linkedin', class: 'w-full max-h-6 max-w-[21px]' %}
+         </a>
+      </li>
+   {% endif %}
+   {% if settings.social_tiktok_link != blank %}
+      <li class="flex justify-center items-center px-2 py-1">
+         <a href="{{ settings.social_tiktok_link }}" target="_blank" rel="noopener noreferrer" class="{{ hoverClass }} mx-auto">
+            {% render 'icons', icon: 'tiktok', class: 'w-full max-h-6 max-w-[21px]' %}
+         </a>
+      </li>
+   {% endif %}
+</ul>
