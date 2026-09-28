@@ -1,0 +1,892 @@
+
+@import "tailwindcss"; 
+
+@source "../**/*.{liquid,json,js,ts}";
+
+@import '@glidejs/glide/dist/css/glide.core.min.css';
+@import '@glidejs/glide/dist/css/glide.theme.min.css';
+
+@plugin '@tailwindcss/aspect-ratio';
+@plugin '@tailwindcss/typography';
+
+@theme {
+   --color-transparent: transparent;
+   --color-current: currentColor;
+   --color-white: #ffffff;
+   --color-black: #212121;
+   --color-charcoal: #414141;
+   --color-yellow: #ffc30b;
+   --color-red: #be0707;
+   --color-green: #0BCE1A;
+   --color-green-bright: #6bea63;
+   --color-grey: #747474;
+   --color-silver: #f3f3f3;
+
+   --text-10: 0.625rem;
+   --text-12: 0.75rem;
+   --text-14: 0.875rem;
+   --text-16: 1rem;
+   --text-24: 1.5rem;
+   --text-34: 2.125rem;
+   --text-44: 2.75rem;
+   --text-66: 4.125rem;
+   --text-102: 6.375rem;
+
+   --breakpoint-*: initial;
+   --breakpoint-xs: 370px;
+   --breakpoint-sm: 640px;
+   --breakpoint-md: 768px;
+   --breakpoint-lg: 1024px;
+   --breakpoint-xl: 1280px;
+   --breakpoint-2xl: 1536px;
+
+   --font-heading: 'Aktiv Grotesk Ex', sans-serif;
+   --font-heading-alt: 'Aktiv Grotesk Ex Black', 'Aktiv Grotesk Ex', sans-serif;
+   --font-body: 'Inter', sans-serif;
+   --font-mono: 'Roboto Mono', monospace;
+
+   --container-container-xs: 650px;
+   --container-container-sm: 996px;
+   --container-container: 1604px;
+   --container-container-lg: 1664px;
+   --container-container-full: 1920px;
+
+   --z-index-1: 1;
+   --z-index-2: 2;
+
+   --tracking-wider: 0em;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+   *,
+   ::after,
+   ::before,
+   ::backdrop,
+   ::file-selector-button {
+      border-color: var(--color-silver, currentcolor);
+   }
+
+   h1 {
+      @apply heading-01;
+   }
+
+   h2 {
+      @apply heading-02;
+   }
+
+   h3 {
+      @apply heading-03;
+   }
+
+   h4 {
+      @apply heading-04;
+   }
+
+   h5 {
+      @apply heading-05;
+   }
+
+   h6 {
+      @apply heading;
+   }
+}
+
+@utility hide-scrollbar {
+   &::-webkit-scrollbar {
+      @apply hidden;
+   }
+}
+
+@utility safari-border-radius-fix {
+   -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+@utility container-limited {
+  max-width:1400px;
+}
+
+/****************************************
+**************** Spacing ****************
+****************************************/
+@utility container-base {
+   @apply px-4 md:px-8 lg:px-8 xl:px-10 mx-auto w-full max-w-container-full;
+}
+
+@utility container {
+   @apply container-base;
+}
+
+@utility container-full {
+   @apply mx-auto w-full max-w-container-full;
+}
+
+@utility container-sm {
+   @apply container-base lg:px-24 xl:px-32 2xl:px-50;
+}
+
+@utility container-offset__mobile-only {
+   @apply -mx-4 md:-mx-8 lg:mx-0;
+}
+
+@utility vertical-spacing {
+   @apply my-16 md:my-25;
+}
+
+@utility vertical-spacing-lg {
+   @apply vertical-spacing xl:my-40;
+}
+
+@utility vertical-spacing-sm {
+   @apply mt-12 mb-16;
+}
+
+@utility vertical-padding {
+   @apply py-16 md:py-28;
+}
+
+@utility vertical-padding-sm {
+   @apply pt-12 pb-16;
+}
+
+.shopify-section > .shopify-app-block {
+   @apply container;
+}
+
+/****************************************
+************** Typography ***************
+****************************************/
+@utility heading-base {
+   @apply font-heading leading-tight font-normal tracking-wider;
+}
+
+@utility heading-01 {
+   @apply heading-base text-66 lg:text-102 tracking-normal leading-none;
+}
+
+@utility heading-02 {
+   @apply heading-base text-44;
+}
+
+@utility heading-03 {
+   @apply heading-base text-34;
+}
+
+@utility heading-04 {
+   @apply heading-base text-24;
+}
+
+@utility heading-05 {
+   @apply heading-base text-16;
+}
+
+@utility heading {
+   @apply heading-02;
+}
+
+@utility heading-alt {
+   @apply font-heading-alt;
+}
+
+@utility mono-font {
+   @apply font-mono;
+}
+
+@utility body-base {
+   @apply font-body font-normal leading-normal;
+}
+
+@utility body-01 {
+   @apply body-base text-16;
+}
+
+@utility body-02 {
+   @apply body-base text-14;
+}
+
+@utility body-03 {
+   @apply body-base text-12;
+}
+
+@utility body {
+   @apply body-02;
+}
+
+/****************************************
+***************** Prose *****************
+****************************************/
+@utility prose {
+   @apply max-w-none body;
+
+   & .lead {
+      @apply text-current;
+   }
+
+   & blockquote {
+      @apply text-current;
+   }
+
+   & * {
+      @apply text-current;
+   }
+
+   & code {
+      @apply text-black;
+   }
+
+   & pre code {
+      @apply text-white;
+   }
+
+   & ul li::marker {
+      @apply text-current;
+   }
+
+   & ol li::marker {
+      @apply text-current;
+   }
+
+   & a {
+      @apply link;
+   }
+
+   & .metafield-rich_text_field {
+      @apply -my-[1.25em] text-14;
+   }
+}
+
+@utility prose--blog {
+   @apply text-grey;
+
+   & p {
+      @apply first:text-24 first:leading-[1.33] first:text-black;
+   }
+
+   & :not(.prevent-prose) p {
+      @apply first:text-current my-0 body;
+   }
+
+   & :not(.prevent-prose) p.font-bold {
+      @apply font-bold;
+   }
+
+   & :not(.prevent-prose) a {
+      @apply no-underline;
+   }
+
+   & strong {
+      @apply text-black;
+   }
+
+   & ul {
+      @apply max-w-160;
+   }
+}
+
+@utility lead {
+   .prose & {
+      @apply text-current;
+   }
+}
+
+/****************************************
+**************** Buttons ****************
+****************************************/
+@utility button {
+   @apply inline-block capitalize text-14 font-bold text-center px-6 sm:px-10 pt-3 pb-3 rounded-full border duration-300 cursor-pointer disabled:opacity-50 disabled:pointer-events-none;
+}
+
+@utility button--min-width {
+   @apply md:min-w-[300px];
+}
+
+@utility button-yellow-base {
+   @apply bg-yellow text-black hover:text-white border-yellow;
+}
+
+@utility button-yellow {
+   @apply button-yellow-base hover:bg-black hover:border-black;
+
+   &.button-transparent {
+      @apply bg-transparent text-yellow hover:bg-yellow hover:text-black hover:border-yellow;
+   }
+}
+
+@utility button-yellow-alt {
+   @apply button-yellow-base hover:bg-white hover:border-white hover:text-black;
+}
+
+@utility button-yellow-transparent {
+   @apply button-yellow-base hover:bg-transparent hover:text-yellow;
+}
+
+@utility button-black-base {
+   @apply bg-black text-white border-black hover:text-black;
+}
+
+@utility button-black {
+   @apply button-black-base hover:bg-yellow hover:border-yellow;
+
+   &.button-transparent {
+      @apply bg-transparent text-black hover:bg-black hover:text-white hover:border-black;
+   }
+}
+
+@utility button-black-alt {
+   @apply button-black-base hover:bg-white hover:border-white;
+}
+
+@utility button-black-transparent {
+   @apply button-black-base hover:bg-transparent hover:text-black;
+}
+
+@utility button-white-base {
+   @apply bg-white text-black border-white hover:text-white;
+}
+
+@utility button-white {
+   @apply button-white-base hover:bg-black hover:border-black;
+
+   &.button-transparent {
+      @apply bg-transparent text-white hover:bg-white hover:text-black hover:border-white;
+   }
+}
+
+@utility button-white-alt {
+   @apply button-white-base hover:bg-yellow hover:text-black hover:border-yellow;
+}
+
+@utility button-white-transparent {
+   @apply button-white-base hover:bg-transparent hover:text-white;
+}
+
+@utility link {
+   @apply font-bold hover:text-yellow underline underline-offset-2;
+}
+
+/****************************************
+************** Temp Files ***************
+****************************************/
+@utility temp-containers__item {
+   @apply bg-black text-white p-12 w-full flex flex-col gap-4;
+}
+@utility temp-buttons__item {
+   @apply flex flex-col gap-2;
+}
+
+@utility account-form-input {
+   @apply p-4 pt-3 body border w-full block rounded-lg placeholder:opacity-70;
+}
+
+/****************************************
+**************** Header *****************
+****************************************/
+@utility header-parent {
+   @apply px-4;
+}
+
+@utility header-parent-link {
+   @apply body-01 relative;
+   &.header-active-link {
+      @apply after:h-1;
+   }
+}
+
+@utility header-active-link {
+   &.header-parent-link {
+      @apply after:h-1;
+   }
+}
+
+@utility menu-active-link {
+   @apply border-b-2;
+}
+
+/****************************************
+************** Mobile Menu **************
+****************************************/
+@utility mobile-menu-primary-container {
+   @apply flex justify-between items-center border-b relative;
+}
+
+@utility mobile-menu-primary-link {
+   @apply w-full py-6 heading-04 duration-300 inline-flex items-center;
+}
+
+/****************************************
+************** Burger Menu **************
+****************************************/
+@utility burger-line {
+   @apply bg-current w-5 rounded-full h-0.5 my-0.5 opacity-100 duration-300;
+}
+
+@utility burger--cross {
+   & .burger-line--top {
+      @apply rotate-45;
+   }
+
+   & .burger-line--middle {
+      @apply opacity-0;
+   }
+
+   & .burger-line--bottom {
+      @apply -rotate-45 -mt-2.5;
+   }
+}
+
+@utility burger-line--top {
+   .burger--cross & {
+      @apply rotate-45;
+   }
+}
+
+@utility burger-line--middle {
+   .burger--cross & {
+      @apply opacity-0;
+   }
+}
+
+@utility burger-line--bottom {
+   .burger--cross & {
+      @apply -rotate-45 -mt-2.5;
+   }
+}
+
+/****************************************
+***************** Footer ****************
+****************************************/
+@utility footer {
+   & .footer-form {
+      @apply flex flex-col gap-2;
+   }
+   & .footer-form__input {
+      @apply bg-white text-black py-3 px-6 rounded-full w-full;
+   }
+
+   & .footer-form__label {
+      @apply sr-only;
+   }
+
+   & .footer-form__errors {
+      @apply text-red mt-2;
+   }
+
+   & .footer-form__success {
+      @apply text-yellow mt-2;
+   }
+}
+
+@utility product-qty__wrapper {
+   @apply flex justify-between w-full border text-center border-black rounded-full bg-white mr-auto overflow-hidden;
+
+   & button {
+      @apply h-12 w-12 flex items-center justify-center cursor-pointer hover:bg-black hover:text-white;
+   }
+
+   & input::-webkit-outer-spin-button,
+   & input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+   }
+
+   & input[type=number] {
+      @apply text-center border-0 px-3 pointer-events-none;
+
+      -moz-appearance: textfield;
+   }
+}
+
+@utility product-qty__wrapper--small {
+   & button {
+      @apply h-10 w-10;
+   }
+
+   & input[type=number] {
+      @apply px-1.5;
+   }
+}
+
+/****************************************
+***************** Glide *****************
+****************************************/
+@utility glide__track {
+   transition: height 250ms ease-in-out;
+}
+
+@utility glide__slides {
+   @apply whitespace-normal;
+}
+
+@utility glide__bullet {
+   @apply bg-black opacity-50;
+
+   &:hover {
+      @apply bg-black opacity-100;
+   }
+
+   &:focus {
+      @apply bg-black opacity-100;
+   }
+
+   &--active {
+      @apply opacity-100;
+   }
+}
+
+@utility glide__bullets--quote-block {
+   @apply !-bottom-19;
+
+   & .glide__bullet {
+      @apply !bg-silver !opacity-100 !mx-1.5 !w-2.5 !h-2.5 hover:!bg-yellow focus:!bg-yellow !border-0 hover:!border-0;
+   }
+
+   & .glide__bullet--active {
+      @apply !bg-yellow;
+   }
+}
+
+@utility glide__arrow {
+   @apply rounded-full text-white bg-black border-2 border-black hover:bg-white hover:text-black hover:border-black duration-300! py-2.5 px-3 pointer-events-auto;
+
+   transition: inherit;
+}
+
+@utility glide__arrow--disabled {
+   @apply hidden;
+}
+
+@utility carousel__arrow {
+   @apply px-2 py-3 border border-silver rounded-md hover:bg-black hover:text-white cursor-pointer;
+
+   &.carousel__arrow--overlay-position {
+      @apply absolute top-1/2 -translate-y-1/2 z-2 block bg-white text-black border-black hover:bg-yellow;
+   }
+
+   &.carousel__arrow--overlay-position.carousel__arrow--left {
+      @apply left-6;
+   }
+
+   &.carousel__arrow--overlay-position.carousel__arrow--right {
+      @apply right-6;
+   }
+}
+
+@utility carousel__arrow--northern {
+   @apply text-grey hover:text-yellow cursor-pointer;
+
+   &.carousel__arrow--overlay-position {
+      @apply absolute top-1/2 -translate-y-1/2 z-2 block text-white;
+   }
+
+   &.carousel__arrow--overlay-position.carousel__arrow--left {
+      @apply left-6;
+   }
+
+   &.carousel__arrow--overlay-position.carousel__arrow--right {
+      @apply right-6;
+   }
+}
+
+/****************************************
+************ Homepage Banner ************
+****************************************/
+@utility homepage-banner__video {
+   & video {
+      @apply absolute w-full h-full inset-0 object-cover;
+   }
+
+   &.homepage-banner__video--mobile.object-center video {
+      @apply object-center;
+   }
+
+   &.homepage-banner__video--mobile.object-bottom video {
+      @apply object-bottom;
+   }
+
+   &.homepage-banner__video--mobile.object-top video {
+      @apply object-top;
+   }
+
+   &.homepage-banner__video--desktop.object-center video {
+      @apply object-center;
+   }
+
+   &.homepage-banner__video--desktop.object-bottom video {
+      @apply object-bottom;
+   }
+
+   &.homepage-banner__video--desktop.object-top video {
+      @apply object-top;
+   }
+}
+
+
+@utility heading-text__heading {
+   @apply max-w-168;
+
+   & * {
+      @apply heading;
+   }
+
+   & strong {
+      @apply text-transparent;
+      -webkit-text-stroke: 2px #212121;
+   }
+}
+
+@utility faq__item {
+   & .faq__chevron {
+      @apply block duration-300;
+   }
+
+   &.faq__item--open .faq__chevron {
+      @apply rotate-180;
+   }
+}
+
+/****************************************
+************* Image Tooltip *************
+****************************************/
+@utility tooltip-arrow {
+   &::after {
+      @apply content-[''] w-4 h-4 absolute bg-white rotate-45;
+   }
+
+   &.tooltip-arrow--left::after {
+      @apply left-2.5;
+   }
+
+   &.tooltip-arrow--right::after {
+      @apply right-2.5;
+   }
+
+   &.tooltip-arrow--bottom::after {
+      @apply bottom-2;
+   }
+
+   &.tooltip-arrow--top::after {
+      @apply top-2;
+   }
+}
+
+/****************************************
+************* Contact Form **************
+****************************************/
+@utility contact-field {
+   @apply flex flex-col gap-1 w-full;
+
+   & .contact-field__label {
+      @apply body-03 font-bold;
+   }
+
+   & .contact-field__input {
+      @apply bg-white text-black rounded-3xl px-5 pt-3 pb-2 w-full;
+   }
+}
+
+/****************************************
+************** Pagination ***************
+****************************************/
+@utility pagination-link {
+   @apply underline underline-offset-2 p-2 hover:text-yellow;
+
+   &.pagination-link--active {
+      @apply no-underline text-grey pointer-events-none;
+   }
+}
+
+/****************************************
+************** Blog Navigation ***************
+****************************************/
+@utility blog-nav {
+   @apply text-grey flex gap-y-3 lg:flex-wrap -mx-4 w-max lg:w-full;
+
+   & .blog-nav__item {
+      @apply border-grey relative hover:text-black;
+   }
+
+   & .blog-nav__item--border {
+      @apply border-l ml-4 pl-4;
+   }
+
+   & .blog-nav__link {
+      @apply px-4 block cursor-pointer;
+   }
+
+   & .blog-nav__item--active {
+      @apply text-black font-bold;
+   }
+
+   & .blog-nav__text {
+      @apply relative;
+   }
+
+   & .blog-nav__item--active .blog-nav__text::after {
+      @apply content-[''] bg-black h-1 w-full left-0 -bottom-0 absolute;
+   }
+}
+
+/****************************************
+**************** Filters ****************
+****************************************/
+@utility active-filter__clear-all {
+   .active-filter__heading + & {
+      @apply hidden;
+   }
+}
+
+@utility facet-checkbox {
+   @apply flex items-center gap-2 cursor-pointer -ml-2;
+
+   & input[type="checkbox"] {
+      @apply appearance-none m-0;
+   }
+
+   & input[type="checkbox"] + span.custom-checkbox {
+      @apply w-5 h-5 border border-black rounded-sm relative align-middle flex justify-center items-center;
+   }
+
+   & input[type="checkbox"] + span.custom-checkbox .checkbox-tick {
+      @apply hidden;
+   }
+
+   & input[type="checkbox"]:checked + span.custom-checkbox {
+      @apply bg-black text-yellow;
+   }
+
+   & input[type="checkbox"]:checked + span.custom-checkbox .checkbox-tick {
+      @apply block;
+   }
+}
+
+@utility price-slider {
+   & .noUi-base {
+      @apply !bg-silver !rounded-full;
+   }
+
+   &.noUi-horizontal {
+      @apply !h-2 !border-0;
+   }
+
+   & .noUi-connect {
+      @apply !bg-black;
+   }
+
+   & .noUi-handle {
+      @apply !rounded-full !w-4 !h-4 !-right-2 !-top-1 !border-black hover:!bg-yellow !duration-300 !shadow-none !cursor-grab;
+   }
+
+   & .noUi-handle::before,
+   & .noUi-handle::after {
+      @apply !hidden;
+   }
+}
+
+/****************************************
+**************** Search *****************
+****************************************/
+@utility search__tab-link {
+   @apply hover:text-yellow border-black hover:border-yellow;
+
+   &.search__tab-link--active {
+      @apply font-bold border-b-4;
+   }
+}
+
+@utility search__grid {
+   @apply grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4;
+}
+
+/****************************************
+*********** Predictive Search ***********
+****************************************/
+@utility  predictive-search__results-groups-wrapper {
+   @apply flex flex-col md:flex-row gap-8;
+}
+
+@utility predictive-search__result-group {
+   @apply flex flex-col gap-4 flex-3 first:flex-1 md:pt-8 md:pb-12;
+   
+   & + .predictive-search__result-group {
+      & .predictive-search__results-list--products {
+         @apply grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+      }
+   }
+}
+
+@utility predictive-search__heading {
+   @apply body-01 font-bold mb-2;
+}
+
+@utility predictive-search__results-list {
+   @apply flex flex-col gap-1;
+}
+
+@utility predictive-search__results-list--products {
+   @apply !grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 !gap-x-6 !gap-y-4;
+}
+
+@utility predictive-search__item {
+   @apply flex py-1 text-grey;
+
+   & mark {
+      @apply bg-transparent font-bold text-grey;
+   }
+
+   &:hover {
+      & .predictive-search__item-content,
+      & mark {
+         @apply text-yellow duration-300;
+      }
+   }
+}
+
+/****************************************
+*************** Utilities ***************
+****************************************/
+@layer utilities {
+   html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      scroll-padding-top: 160px;
+   }
+}
+
+@layer components {
+
+   /****************************************
+   **************** Generic ****************
+   ****************************************/
+   html {
+      @apply body text-black bg-white relative;
+   }
+
+   a,
+   button {
+      @apply duration-300 cursor-pointer;
+   }
+
+   b,
+   strong {
+      @apply font-bold;
+   }
+
+   [x-cloak] {
+      @apply !hidden;
+   }
+
+   body:not(.alpine-loaded) [x-cloak] {
+      @apply hidden;
+   }
+
+   .shopify-section#shopify-section-header {
+      @apply sticky top-0 z-2;
+   }
+}
